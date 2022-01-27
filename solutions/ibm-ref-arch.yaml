@@ -1,0 +1,33 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: Solution
+metadata:
+  name: ibm-ref-arch
+  annotations:
+    displayName: "IBM Cloud for Financial Services Reference Architecture"
+    description: "IBM Cloud for Financial Services environment reference architecture for VPC or VPC with OpenShift"
+    platforms: "ibm"
+    base: "ibm-ref-arch" #root for the solution boms in the ../boms folder
+    diagram: "diagram.png" # filename (from files below, default diagram.png)
+    readme: "README.md" # filename (from files below, default README.md)
+
+spec:
+  boms:
+    #corresponds to name inside of bom yaml
+    - name: "000-account-setup"   
+    - name: "100-shared-services"
+    - name: "110-edge-vpc.yaml" 
+    - name: "120-management-vpc.yaml"
+    - name: "130-management-vpc-openshift.yaml"
+    - name: "140-workload-vpc.yaml"
+    - name: "150-workload-vpc-openshift.yaml"
+    - name: "160-openshift-dev-tools.yaml"
+    - name: "165-openshift-workload.yaml"
+    - name: "170-openshift-argocd.yaml"
+                              
+
+  files:
+    # everything in common files gets copied over automatically
+    # everything in base/files gets copied over automatically (if it exists)
+
+
+
