@@ -1,0 +1,11 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: setup-gitops
+spec:
+  modules:
+    - name: ocp-login
+    - name: openshift-cicd
+    - name: console-link-job
+    - name: cluster-config
+      alias: config
