@@ -6,42 +6,42 @@ spec:
   # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
     # do we need a reference to the cluster?  need to agree on multi-cloud approach
-    - name: gitops-cp-maximo
-    - name: gitops-bootstrap
     - name: ocp-login
     - name: gitops-repo
+    - name: gitops-bootstrap
 
-    # these should all be in dependencies, but are not yet
-    
-    # STORAGE 
-    # portworx module only supports ibm cloud
-    - name: ibm-portworx 
-      optional: true
-    # ocs on ibm cloud has a very specific install
-    - name: gitops-ibm-ocs
-      optional: true
-    # supports ocs on other providers 
-    - name: gitops-ocs-operator
-      optional: true
-
-    - name: gitops-cp-sls
-    - name: gitops-cp-bas
-
-    # do we need ibm-cert manager for ROKS?
-    - name: gitops-cert-manager-jetstack 
-
-    
-    - name: gitops-cp-db2wh
-    # db2wh should have all of these as dependencies when complete
-    - name: gitops-db2
+    # Cloud Pak Base
     - name: gitops-cp-catalogs
     - name: gitops-cp-platform-navigator
-    - name: gitops-cp4d-operator
-    #- name: cp4d instance?
-    #- name: cp foundation?
+#    - name: gitops-cp4d-operator
+##    - name: gitops-cp-truststore
 
+#    - name: gitops-cp4d-instance
 
+    # STORAGE 
+    # portworx module only supports ibm cloud
+#    - name: ibm-portworx 
 
-    
+    # ocs on ibm cloud has a very specific install
+#    - name: gitops-ibm-ocs 
+
+    # supports ocs on other providers 
+##    - name: gitops-ocs-operator
+
+#    - name: gitops-cp-sls
+
     # not in https://modules.cloudnativetoolkit.dev/ yet
-    - name: gitops-mongodb
+#    - name: gitops-cp-event-streams
+#    - name: gitops-mongo-ce
+#    - name: gitops-cp-bas
+
+    # do we need ibm-cert manager for ROKS?
+##    - name: gitops-cert-manager-jetstack 
+   
+    # db2wh should have all of these as dependencies when complete
+##   - name: gitops-db2
+
+#    - name: gitops-cp-db2wh
+
+#    - name: gitops-cp-maximo
+    
