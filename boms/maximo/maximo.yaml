@@ -13,8 +13,8 @@ spec:
     # Cloud Pak Base
     - name: gitops-cp-catalogs
     - name: gitops-cp-platform-navigator
-    - name: gitops-cp4d-operator
-    - name: gitops-cp-truststore
+#    - name: gitops-cp4d-operator
+##    - name: gitops-cp-truststore
 
 #    - name: gitops-cp4d-instance
 
@@ -26,9 +26,9 @@ spec:
 #    - name: gitops-ibm-ocs 
 
     # supports ocs on other providers 
-    - name: gitops-ocs-operator
+##    - name: gitops-ocs-operator
 
-    - name: gitops-cp-sls
+#    - name: gitops-cp-sls
 
     # not in https://modules.cloudnativetoolkit.dev/ yet
 #    - name: gitops-cp-event-streams
@@ -36,11 +36,11 @@ spec:
 #    - name: gitops-cp-bas
 
     # do we need ibm-cert manager for ROKS?
-    - name: gitops-cert-manager-jetstack 
-    
-
+##    - name: gitops-cert-manager-jetstack 
+   
     # db2wh should have all of these as dependencies when complete
-    - name: gitops-db2
+##   - name: gitops-db2
+
 #    - name: gitops-cp-db2wh
 
 #    - name: gitops-cp-maximo
