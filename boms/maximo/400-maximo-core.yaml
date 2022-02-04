@@ -13,7 +13,7 @@ spec:
     # Cloud Pak Base
     - name: gitops-cp-catalogs
     - name: gitops-cp-platform-navigator
-#    - name: gitops-cp4d-operator
+    - name: gitops-cp4d-operator
 ##    - name: gitops-cp-truststore
 
 #    - name: gitops-cp4d-instance
@@ -26,7 +26,7 @@ spec:
 #    - name: gitops-ibm-ocs 
 
     # supports ocs on other providers 
-##    - name: gitops-ocs-operator
+#    - name: gitops-ocs-operator
 
 #    - name: gitops-cp-sls
 
