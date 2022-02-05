@@ -5,7 +5,8 @@ metadata:
 spec:
   # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
-    # do we need a reference to the cluster?  need to agree on multi-cloud approach
+
+    # Login into Azure, AWS and IBM Cloud Clusters setup GitOps
     - name: ocp-login
     - name: gitops-repo
     - name: gitops-bootstrap
@@ -13,35 +14,31 @@ spec:
     # Cloud Pak Base
     - name: gitops-cp-catalogs
     - name: gitops-cp-platform-navigator
+    
+    # Cloud Pak for Database Base
     - name: gitops-cp4d-operator
-##    - name: gitops-cp-truststore
+    - name: gitops-cp4d-instance
 
-#    - name: gitops-cp4d-instance
+    - name: gitops-cp-truststore
 
-    # STORAGE 
-    # portworx module only supports ibm cloud
+    # STORAGE Azure, AWS
+    - name: gitops-ocs-operator
+
+    # IBM Cloud
 #    - name: ibm-portworx 
-
-    # ocs on ibm cloud has a very specific install
 #    - name: gitops-ibm-ocs 
 
-    # supports ocs on other providers 
-#    - name: gitops-ocs-operator
+    # Maximo BAS
+    - name: gitops-cp-sls
+    - name: gitops-cp-event-streams
+    - name: gitops-mongo-ce
+    - name: gitops-cp-bas
 
-#    - name: gitops-cp-sls
+    - name: gitops-cert-manager-jetstack 
 
-    # not in https://modules.cloudnativetoolkit.dev/ yet
-#    - name: gitops-cp-event-streams
-#    - name: gitops-mongo-ce
-#    - name: gitops-cp-bas
+    # DB2 and DB2 Warehouse   
+    - name: gitops-db2
+    - name: gitops-cp-db2wh
 
-    # do we need ibm-cert manager for ROKS?
-##    - name: gitops-cert-manager-jetstack 
-   
-    # db2wh should have all of these as dependencies when complete
-##   - name: gitops-db2
-
-#    - name: gitops-cp-db2wh
-
-#    - name: gitops-cp-maximo
-    
+    # Maximo Core
+    - name: gitops-cp-maximo
