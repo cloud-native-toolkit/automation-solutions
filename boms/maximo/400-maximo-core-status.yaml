@@ -16,23 +16,23 @@ spec:
     - name: gitops-cp4d-operator
 ##    - name: gitops-cp4d-instance
 
-##    - name: gitops-cp-truststore
+    - name: gitops-cp-truststore
+#    - name: gitops-cp-sls
+##    - name: gitops-cert-manager-jetstack 
 
     # STORAGE 
     # portworx module only supports ibm cloud
-#    - name: ibm-portworx 
-#    - name: gitops-ibm-ocs 
+    - name: ibm-portworx 
+    - name: gitops-ibm-ocs 
 
 ##    - name: gitops-ocs-operator
 
-##    - name: gitops-cp-sls
 ##    - name: gitops-cp-event-streams
 ##    - name: gitops-mongo-ce
+    - name: MongoDB
 ##    - name: gitops-cp-bas
-
-##    - name: gitops-cert-manager-jetstack 
    
-##    - name: gitops-db2
+    - name: gitops-db2
 ##    - name: gitops-cp-db2wh
 
 ##    - name: gitops-cp-maximo

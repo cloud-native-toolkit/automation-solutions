@@ -5,8 +5,6 @@ metadata:
 spec:
   modules:
     - name: ocp-login
-    - name: sealed-secret-cert
-    - name: gitops-repo
     - name: argocd-bootstrap
     - name: gitops-console-link-job
     - name: gitops-namespace
