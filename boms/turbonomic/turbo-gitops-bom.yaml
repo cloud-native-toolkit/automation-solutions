@@ -6,6 +6,9 @@ spec:
   modules:
     - name: gitops-ocp-turbonomic
     - name: gitops-bootstrap
+      variables:
+        - name: create_webhook
+          value: true
     - name: ocp-login
     - name: gitops-repo
     - name: gitops-namespace
