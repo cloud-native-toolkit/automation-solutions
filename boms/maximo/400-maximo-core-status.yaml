@@ -14,11 +14,11 @@ spec:
     - name: gitops-cp-catalogs
     - name: gitops-cp-platform-navigator
     - name: gitops-cp4d-operator
-##    - name: gitops-cp4d-instance
+    - name: gitops-cp4d-instance
 
     - name: gitops-cp-truststore
-#    - name: gitops-cp-sls
-##    - name: gitops-cert-manager-jetstack 
+##    - name: gitops-cp-sls 
+    - name: gitops-cert-manager-jetstack 
 
     # STORAGE 
     # portworx module only supports ibm cloud
@@ -27,10 +27,8 @@ spec:
 
 ##    - name: gitops-ocs-operator
 
-##    - name: gitops-cp-event-streams
 ##    - name: gitops-mongo-ce
-    - name: MongoDB
-##    - name: gitops-cp-bas
+    - name: gitops-cp-bas
    
     - name: gitops-db2
 ##    - name: gitops-cp-db2wh

@@ -15,3 +15,4 @@ spec:
     - name: gitops-cp-mq
     - name: gitops-cp-ace
     - name: gitops-cp-apic
+    - name: gitops-cp-eventstreams
