@@ -37,3 +37,6 @@ spec:
 
     # Maximo Core
     - name: gitops-cp-maximo
+    - name: gitops-pull-secret
+    - name: gitops-namespace
+    - name: gitops-cert-manager-jetstack
