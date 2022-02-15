@@ -17,7 +17,7 @@
 **Open Hybrid Cloud Platform / Ecosystem**
     Gain a single point of control across networks, apps, devices and data
 
-![IBM Telco Cloud](../files/IBM_Cloud_For_Telco.jpeg)
+![IBM Telco Cloud](../files/telco-cloud/IBM_Cloud_For_Telco.jpeg)
 
 
 ## Pre Reqs 
