@@ -5,17 +5,17 @@
 
 ### IBM Cloud for Telecommunications 
 
-- **Edge & 5G Service Acceleration: **
-    Speed Delivery of new services in order to monetize 5G and edge
+- **Edge & 5G Service Acceleration:**
+        Speed Delivery of new services in order to monetize 5G and edge
 
-- **Zero-touch Service Automation: **
-    Orchestrate telco network cloud across code and edge networks
+- **Zero-touch Service Automation:**
+        Orchestrate telco network cloud across code and edge networks
 
-- **AI & Ecosystem Modernization: **
-    Optimize business processes with AI driven engagement
+- **AI & Ecosystem Modernization:**
+        Optimize business processes with AI driven engagement
 
-- **Open Hybrid Cloud Platform / Ecosystem: **
-    Gain a single point of control across networks, apps, devices and data
+- **Open Hybrid Cloud Platform / Ecosystem:**
+        Gain a single point of control across networks, apps, devices and data
 
 ![IBM Telco Cloud](/boms/telco-cloud/files/IBM_Cloud_For_Telco.jpeg)
 
