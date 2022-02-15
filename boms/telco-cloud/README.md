@@ -27,3 +27,6 @@
 - [Cloud Pak for Data](https://www.ibm.com/products/cloud-pak-for-data)
 - [Sterling Order Management](https://www.ibm.com/docs/en/order-management?topic=overview-product)
 - [Cloud Pak for Network Automation](https://www.ibm.com/cloud/cloud-pak-for-network-automation)
+
+## Reference
+- [Introducing IBM Cloud for Telecommunications with 35+ Partners](https://newsroom.ibm.com/Introducing-IBM-Cloud-for-Telecommunications-with-35-Partners-Committed-to-Join-IBMs-Ecosystem-and-Help-Drive-Business-Transformation)
