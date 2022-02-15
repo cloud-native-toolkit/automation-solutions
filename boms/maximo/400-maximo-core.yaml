@@ -19,8 +19,6 @@ spec:
     - name: gitops-cp4d-operator
     - name: gitops-cp4d-instance
 
-    - name: gitops-cp-truststore
-
     # STORAGE Azure, AWS
     - name: gitops-ocs-operator
 
@@ -28,17 +26,17 @@ spec:
 #    - name: ibm-portworx 
 #    - name: gitops-ibm-ocs 
 
-    # Maximo BAS
+    # Maximo Supporting Modules
     - name: gitops-cp-sls
-    - name: gitops-cp-event-streams
     - name: gitops-mongo-ce
     - name: gitops-cp-bas
 
-    - name: gitops-cert-manager-jetstack 
-
     # DB2 and DB2 Warehouse   
     - name: gitops-db2
-    - name: gitops-cp-db2wh
+    #- name: gitops-cp-db2wh
 
     # Maximo Core
     - name: gitops-cp-maximo
+    - name: gitops-pull-secret
+    - name: gitops-namespace
+    - name: gitops-cert-manager-jetstack
