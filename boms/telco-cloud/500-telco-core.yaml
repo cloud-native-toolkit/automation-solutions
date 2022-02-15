@@ -1,0 +1,50 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: gitops-telco-cloud
+spec:
+  # assumes cluster already exists, is this enough for bootstrapping gitops?
+  modules:
+
+    # Login into IBM Cloud Clusters setup GitOps
+    - name: ocp-login
+    - name: gitops-repo
+    - name: gitops-bootstrap
+
+    # Cloud Pak Base
+    - name: gitops-cp-catalogs
+    - name: gitops-cp-platform-navigator
+    
+    # Cloud Pak for Database Base
+    - name: gitops-cp4d-operator
+    - name: gitops-cp4d-instance
+
+    # IBM Cloud
+#    - name: ibm-portworx 
+#    - name: gitops-ibm-ocs 
+
+    # DB2 and DB2 Warehouse   
+    - name: gitops-db2
+    #- name: gitops-cp-db2wh
+
+    # Cloud Pak for Integration
+#   - name: gitops-console-link-job
+    - name: cp4i-dependency-management
+#   - name: gitops-namespace
+#      variables:
+#        - name: name
+#          alias: tools
+#          value: tools
+    - name: gitops-cp-mq
+    - name: gitops-cp-ace
+    - name: gitops-cp-apic
+
+    # Cloud Pak for Automation
+
+    # Sterling Manager
+#  - name: gitops-cp-sterling-oms
+
+# Will be replaced by CP ODM
+#  - name: odm 
+
+
