@@ -28,7 +28,7 @@ spec:
     #- name: gitops-cp-db2wh
 
     # Cloud Pak for Integration
-#   - name: gitops-console-link-job
+    - name: gitops-console-link-job
     - name: cp4i-dependency-management
 #   - name: gitops-namespace
 #      variables:
@@ -40,11 +40,13 @@ spec:
     - name: gitops-cp-apic
 
     # Cloud Pak for Automation
+    
+# Will be replaced by CP ODM
+#  - name: odm 
+
 
     # Sterling Manager
 #  - name: gitops-cp-sterling-oms
 
-# Will be replaced by CP ODM
-#  - name: odm 
 
 
