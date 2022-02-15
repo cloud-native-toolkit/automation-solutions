@@ -14,10 +14,10 @@ spec:
     - name: gitops-cp-catalogs
     - name: gitops-cp-platform-navigator
     - name: gitops-cp4d-operator
-    - name: gitops-cp4d-instance
+##    - name: gitops-cp4d-instance
 
     - name: gitops-cp-truststore
-##    - name: gitops-cp-sls 
+    - name: gitops-cp-sls 
     - name: gitops-cert-manager-jetstack 
 
     # STORAGE 
@@ -27,10 +27,10 @@ spec:
 
 ##    - name: gitops-ocs-operator
 
-##    - name: gitops-mongo-ce
+    - name: gitops-mongo-ce
     - name: gitops-cp-bas
    
     - name: gitops-db2
 ##    - name: gitops-cp-db2wh
 
-##    - name: gitops-cp-maximo
+    - name: gitops-cp-maximo
