@@ -1,6 +1,6 @@
 # IBM Cloud OpenShift Reference Architectures
 
-The reference architectures are provided in three different forms, with increasing security and associated complexity.
+The reference architectures are provided in three different forms, with increasing security and associated complexity. The source of these reference architecture diagrams can be found [here](https://github.com/cloud-native-toolkit/automation-solutions/blob/main/architectures/ibm-cloud-architecture.drawio)
 
 ## Quick Start
 
