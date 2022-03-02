@@ -1,0 +1,76 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: gitops-cp-maximo
+spec:
+  # assumes cluster already exists, is this enough for bootstrapping gitops?
+  modules:
+
+    # Login into Azure, AWS and IBM Cloud Clusters setup GitOps
+    - name: ocp-login
+    - name: gitops-repo
+    - name: gitops-bootstrap
+
+    # Cloud Pak Base - under development
+#    - name: gitops-cp-platform-navigator
+    
+    # Cloud Pak for Database Base - under development
+#    - name: gitops-cp4d-operator
+#    - name: gitops-cp4d-instance
+
+    # DB2 and DB2 Warehouse - under development
+#    - name: gitops-db2
+#    - name: gitops-cp-db2wh
+
+    # Maximo Supporting Modules
+    
+    # IBM Suite License Service
+    - name: gitops-namespace
+      alias: sls-namespace
+    - name: gitops-cp-sls
+      dependencies:
+        - name: namespace
+          ref: sls-namespace
+      variables:
+        - name: namespace
+          value: ibm-sls           
+        - name: cluster_ingress
+          scope: global
+          
+    # Mongo CE
+    - name: gitops-namespace
+      alias: mongo-namespace
+    - name: gitops-mongo-ce-operator
+      dependencies:
+        - name: namespace
+          ref: mongo-namespace
+      variables: 
+        - name: namespace
+          value: mongo            
+
+    - name: gitops-mongo-ce
+      dependencies:
+        - name: namespace
+          ref: mongo-namespace    
+      variables:
+        - name: namespace
+          value: mongo
+
+    # IBM Behavior Analysis Service       
+    - name: gitops-namespace
+      alias: bas-namespace
+    - name: gitops-cp-bas
+      dependencies:
+        - name: namespace
+          ref: bas-namespace
+      variables:
+        - name: namespace
+          value: masbas 
+
+    # Maximo Core
+    - name: gitops-cp-maximo
+      variables:
+        - name: instanceid
+          ref: mas8
+        - name: cluster_ingress
+          scope: global
