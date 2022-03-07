@@ -2,6 +2,12 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: 100-aws-ec2-insatnce
+  labels:
+    platform: aws
+    code: '100'
+  annotations:
+    displayName: AWS EC2 Instance
+    description: EC2 instance in VPC in AWS
 spec:
   modules:
     - name: aws-vpc

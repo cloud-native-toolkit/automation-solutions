@@ -2,6 +2,9 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: gitops-ocp-turbonomic
+  annotations:
+    displayName: Turbonomic on OpenShift
+    description: GitOps deployment of Turbonomic on Azure, AWS and IBM Cloud
 spec:
   modules:
     - name: gitops-ocp-turbonomic

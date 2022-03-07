@@ -1,7 +1,12 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: gitops-cp-maximo
+  name: 400-gitops-cp-maximo
+  labels:
+    code: '400'
+  annotations:
+    displayName: Maximo
+    description: GitOps deployment of Maximo on OpenShift
 spec:
   # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
