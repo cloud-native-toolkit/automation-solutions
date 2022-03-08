@@ -2,6 +2,11 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: new-gitops-testing-cluster
+  labels:
+    platform: ibm
+  annotations:
+    displayName: New OpenShift Cluster
+    description: OpenShift Cluster on IBM Cloud with Portworx
 spec:
   modules:
     - name: ibm-resource-group

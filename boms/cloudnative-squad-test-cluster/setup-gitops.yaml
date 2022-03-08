@@ -2,6 +2,9 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: setup-gitops
+  annotations:
+    displayName: Setup GitOps
+    description: Setup GitOps in an OpenShift cluster
 spec:
   modules:
     - name: ocp-login

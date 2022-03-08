@@ -2,6 +2,11 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: gitops-telco-cloud
+  labels:
+    code: '500'
+  annotations:
+    displayName: Telco Core
+    description: Telco Core on OpenShift
 spec:
   # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
