@@ -13,16 +13,61 @@ spec:
 
     # Login into IBM Cloud Clusters setup GitOps
     - name: ocp-login
+      alias: cp4i
     - name: gitops-repo
+      alias: cp4i-repo
+      variables:
+        - name: server_name
+          value: telco-cp4i
     - name: gitops-bootstrap
+      alias: cp4i-gitops
+      dependencies:
+        - id: cluster
+          ref: cp4i
+        - id: gitops
+          ref: cp4i-repo
+
+    - name: ocp-login
+      alias: cp4d
+    - name: gitops-repo
+      alias: cp4d-repo
+      variables:
+        - name: server_name
+          value: telco-cp4d
+    - name: gitops-bootstrap
+      alias: cp4d-gitops
+      dependencies:
+        - id: cluster
+          ref: cp4d
+        - id: gitops
+          ref: cp4d-repo
 
     # Cloud Pak Base
     - name: gitops-cp-catalogs
+      alias: cp4i-catalogs
+      dependencies:
+        - id: gitops
+          ref: cp4i-repo
+    - name: gitops-cp-catalogs
+      alias: cp4d-catalogs
+      dependencies:
+        - id: gitops
+          ref: cp4d-repo
+
     - name: gitops-cp-platform-navigator
-    
+      dependencies:
+        - id: gitops
+          ref: cp4i-repo
+
     # Cloud Pak for Database Base
     - name: gitops-cp4d-operator
+      dependencies:
+        - id: gitops
+          ref: cp4d-repo
     - name: gitops-cp4d-instance
+      dependencies:
+        - id: gitops
+          ref: cp4d-repo
 
     # IBM Cloud
 #    - name: ibm-portworx 
@@ -30,6 +75,9 @@ spec:
 
     # DB2 and DB2 Warehouse   
     - name: gitops-db2
+      dependencies:
+        - id: gitops
+          ref: cp4d-repo
     #- name: gitops-cp-db2wh
 
     # Cloud Pak for Integration
