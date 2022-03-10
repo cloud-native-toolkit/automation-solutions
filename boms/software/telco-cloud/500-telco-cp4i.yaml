@@ -33,8 +33,8 @@ spec:
 #          alias: tools
 #          value: tools
     - name: gitops-cp-mq
-    - name: gitops-cp-ace
-    - name: gitops-cp-apic
+    - name: gitops-cp-queue-manager
+
 
     # Cloud Pak for Automation
     
