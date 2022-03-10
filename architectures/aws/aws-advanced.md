@@ -2,4 +2,4 @@
 
 The Advanced architecture provides a secure OpenShift architecture with network isolation between several VPC segments and subnets.
 
-![Production](../aws-cloud-architecture-production.png)
+![Advanced](./aws-advanced.png)
