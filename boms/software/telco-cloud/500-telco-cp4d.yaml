@@ -39,12 +39,3 @@ spec:
 #          alias: tools
 #          value: tools
 
-    # Cloud Pak for Automation
-    
-# Will be replaced by CP ODM
-#  - name: odm 
-
-
-    # Sterling Manager
-#  - name: gitops-cp-sterling-oms
-
