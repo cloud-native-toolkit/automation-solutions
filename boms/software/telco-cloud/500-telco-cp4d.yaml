@@ -19,9 +19,10 @@ spec:
     # Cloud Pak Base
     - name: gitops-cp-catalogs
 
+#   Cloud Native Test Cluster already have operators.
     # Cloud Pak for Database Base
-    - name: gitops-cp4d-operator
-    - name: gitops-cp4d-instance
+#    - name: gitops-cp4d-operator
+#    - name: gitops-cp4d-instance
 
     # IBM Cloud
 #    - name: ibm-portworx 
@@ -31,11 +32,4 @@ spec:
     - name: gitops-db2
     #- name: gitops-cp-db2wh
 
-    # Cloud Pak for Integration
-    - name: gitops-console-link-job
-#   - name: gitops-namespace
-#      variables:
-#        - name: name
-#          alias: tools
-#          value: tools
 
