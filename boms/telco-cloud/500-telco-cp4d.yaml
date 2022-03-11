@@ -1,0 +1,41 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: gitops-telco-cloud-cp4d
+  labels:
+    code: '500'
+  annotations:
+    displayName: Telco Core
+    description: Telco Core on OpenShift
+spec:
+  # assumes cluster already exists, is this enough for bootstrapping gitops?
+  modules:
+
+    # Login into IBM Cloud Clusters setup GitOps
+    - name: ocp-login
+    - name: gitops-repo
+    - name: gitops-bootstrap
+
+    # Cloud Pak Base
+    - name: gitops-cp-catalogs
+
+    # Cloud Pak for Database Base
+    - name: gitops-cp4d-operator
+    - name: gitops-cp4d-instance
+
+    # IBM Cloud
+#    - name: ibm-portworx 
+#    - name: gitops-ibm-ocs 
+
+    # DB2 and DB2 Warehouse   
+    - name: gitops-db2
+    #- name: gitops-cp-db2wh
+
+    # Cloud Pak for Integration
+    - name: gitops-console-link-job
+#   - name: gitops-namespace
+#      variables:
+#        - name: name
+#          alias: tools
+#          value: tools
+
