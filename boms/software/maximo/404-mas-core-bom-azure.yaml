@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 400-gitops-cp-maximo
+  name: 404-gitops-cp-maximo
   labels:
     code: '400'
   annotations:
