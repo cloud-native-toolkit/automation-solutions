@@ -1,0 +1,25 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 400-gitops-ocp-turbonomic
+  labels:
+    code: '400'
+  annotations:
+    displayName: Turbonomic on OpenShift - Azure
+    description: GitOps deployment of Turbonomic on Azure
+spec:
+  modules:
+    - name: gitops-ocp-turbonomic
+      variables:
+        - name: storage_class_name
+          value: managed-premium
+    - name: gitops-bootstrap
+      variables:
+        - name: create_webhook
+          value: true
+    - name: ocp-login
+    - name: gitops-repo
+    - name: gitops-namespace
+      variables:
+        - name: name
+          value: turbonomic
