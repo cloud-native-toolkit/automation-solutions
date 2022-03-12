@@ -37,8 +37,8 @@ spec:
         - name: namespace
           ref: sls-namespace
       variables:
-        - name: namespace
-          value: ibm-sls           
+        - name: sls_storageClass
+          value: portworx-rwx-gp3-sc
         - name: cluster_ingress
           scope: global
           
@@ -50,16 +50,16 @@ spec:
         - name: namespace
           ref: mongo-namespace
       variables: 
-        - name: namespace
-          value: mongo            
+        - name: mongo_storageclass
+          value: ibmc-vpc-block-10iops-tier
 
     - name: gitops-mongo-ce
       dependencies:
         - name: namespace
           ref: mongo-namespace    
       variables:
-        - name: namespace
-          value: mongo
+        - name: storage_class_name
+          value: ibmc-vpc-block-10iops-tier
 
     # IBM Behavior Analysis Service       
     - name: gitops-namespace
@@ -69,8 +69,16 @@ spec:
         - name: namespace
           ref: bas-namespace
       variables:
-        - name: namespace
-          value: masbas 
+        - name: db_archive_storage_class
+          value: portworx-rwx-gp3-sc
+        - name: postgres_storage_class
+          value: ibmc-vpc-block-10iops-tier
+        - name: kafka_storage_class
+          value: ibmc-vpc-block-10iops-tier
+        - name: zookeeper_storage_class
+          value: ibmc-vpc-block-10iops-tier
+        - name: default_storage_class
+          value: ibmc-vpc-block-10iops-tier
 
     # Maximo Core
     - name: gitops-cp-maximo
