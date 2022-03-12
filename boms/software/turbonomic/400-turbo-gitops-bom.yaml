@@ -6,7 +6,7 @@ metadata:
     code: '400'
   annotations:
     displayName: Turbonomic on OpenShift
-    description: GitOps deployment of Turbonomic on Azure, AWS
+    description: GitOps deployment of Turbonomic
 spec:
   modules:
     - name: gitops-ocp-turbonomic
