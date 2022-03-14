@@ -16,3 +16,6 @@ spec:
     - name: ibm-vpc-gateways
     - name: ibm-vpc-subnets
     - name: ibm-ocp-vpc
+    - name: ibm-logdna-bind
+    - name: sysdig-bind
+    - name: argocd-bootstrap

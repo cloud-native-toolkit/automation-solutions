@@ -51,16 +51,6 @@ spec:
           scope: module
         - name: provision
           value: true
-    - name: ibm-onboard-fs-account
-      variables:
-        - name: action
-          value: enable
-        - name: mfa
-          value: TOTP4ALL
-        - name: restrict_create_service_id
-          value: RESTRICTED
-        - name: restrict_create_platform_apikey
-          value: RESTRICTED
   variables:
     - name: at_resource_group_provision
     - name: at_resource_group_name
