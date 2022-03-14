@@ -2,6 +2,11 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: 300-cp-integration
+  labels:
+    code: '300'
+  annotations:
+    displayName: Cloud Pak for Integration
+    description: GitOps deployment of Cloud Pak for Integration on OpenShift  
 spec:
   modules:
     - name: ocp-login
@@ -11,6 +16,8 @@ spec:
     - name: gitops-repo
     - name: argocd-bootstrap
     - name: gitops-console-link-job
+
+    
     # # CP4i Operators
     - name: gitops-cp-mq
     - name: gitops-cp-ace
