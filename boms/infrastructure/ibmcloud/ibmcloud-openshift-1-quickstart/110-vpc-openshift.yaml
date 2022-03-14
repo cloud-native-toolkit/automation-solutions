@@ -19,3 +19,19 @@ spec:
     - name: ibm-logdna-bind
     - name: sysdig-bind
     - name: argocd-bootstrap
+    - name: gitops-namespace
+      alias: cntk
+      variables:
+        - name: name
+          value: cntk
+    - name: gitops-console-link-job
+      dependencies:
+        - name: namespace
+          ref: cntk
+    - name: gitops-cluster-config
+      dependencies:
+        - name: namespace
+          ref: cntk
+      variables:
+        - name: banner_text
+          value: Management
