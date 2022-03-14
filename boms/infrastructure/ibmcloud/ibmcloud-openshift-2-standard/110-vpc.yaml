@@ -237,6 +237,22 @@ spec:
       dependencies:
         - name: subnets
           ref: bastion-subnets
+    - name: gitops-namespace
+      alias: cntk
+      variables:
+        - name: name
+          value: cntk
+    - name: gitops-console-link-job
+      dependencies:
+        - name: namespace
+          ref: cntk
+    - name: gitops-cluster-config
+      dependencies:
+        - name: namespace
+          ref: cntk
+      variables:
+        - name: banner_text
+          value: Management
   variables:
     - name: vpc_resource_group_name
     - name: vpc_resource_group_provision

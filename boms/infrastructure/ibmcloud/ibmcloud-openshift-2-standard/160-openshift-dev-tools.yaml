@@ -15,10 +15,6 @@ spec:
       variables:
         - name: name
           value: tools
-    - name: gitops-cluster-config
-      variables:
-        - name: banner_text
-          value: Management
     - name: gitops-dashboard
     - name: gitops-pact-broker
     - name: gitops-artifactory
