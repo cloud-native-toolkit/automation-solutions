@@ -17,6 +17,14 @@ For each of these reference architecture forms, we have provided a detailed refe
 
 ## Architectures
 
+### QuickStart
+
+![QuickStart](./ref-arch-software-everywhere-QuickStart.png)
+
+### Standard
+
+![Standard](./ref-arch-software-everywhere-Standard.png)
+
 ### Advanced
 
-![Advanced](./ref-arch-software-everywhere.png)
+![Advanced](./ref-arch-software-everywhere-Advanced.png)
