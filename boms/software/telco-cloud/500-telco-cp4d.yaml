@@ -22,7 +22,7 @@ spec:
 #   Cloud Native Test Cluster already have operators.
     # Cloud Pak for Database Base
     - name: gitops-cp4d-operator
-    - name: gitops-cp4d-instance
+#    - name: gitops-cp4d-instance
 
     # IBM Cloud
 #    - name: ibm-portworx 
