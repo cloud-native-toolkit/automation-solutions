@@ -1,0 +1,84 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 404-gitops-cp-maximo
+  labels:
+    code: '400'
+  annotations:
+    displayName: Maximo
+    description: GitOps deployment of Maximo Core on OpenShift - Azure
+spec:
+  modules:
+
+    # Login into Azure, AWS and IBM Cloud Clusters setup GitOps
+    - name: ocp-login
+    - name: gitops-repo
+    - name: gitops-bootstrap
+
+    # Cloud Pak Base
+#    - name: gitops-cp-platform-navigator
+    
+    # Cloud Pak for Database Base
+#    - name: gitops-cp4d-operator
+#    - name: gitops-cp4d-instance
+
+    # DB2 and DB2 Warehouse   
+#    - name: gitops-db2
+#    - name: gitops-cp-db2wh
+
+    # Maximo Supporting Modules
+    - name: gitops-namespace
+      alias: sls-namespace
+    - name: gitops-cp-sls
+      dependencies:
+        - name: namespace
+          ref: sls-namespace
+      variables:
+        - name: sls_storageClass
+          value: portworx-rwx-gp3-sc
+        - name: cluster_ingress
+          scope: global
+
+    - name: gitops-namespace
+      alias: mongo-namespace
+    - name: gitops-mongo-ce-operator
+      dependencies:
+        - name: namespace
+          ref: mongo-namespace
+      variables: 
+        - name: mongo_storageclass
+          value: managed-premium
+
+    - name: gitops-mongo-ce
+      dependencies:
+        - name: namespace
+          ref: mongo-namespace    
+      variables:
+        - name: storage_class_name
+          value: managed-premium  
+
+    - name: gitops-namespace
+      alias: bas-namespace
+    - name: gitops-cp-bas
+      dependencies:
+        - name: namespace
+          ref: bas-namespace
+      variables:
+        - name: db_archive_storage_class
+          value: portworx-rwx-gp3-sc    
+        - name: postgres_storage_class
+          value: managed-premium  
+        - name: kafka_storage_class
+          value: managed-premium  
+        - name: zookeeper_storage_class
+          value: managed-premium
+        - name: default_storage_class
+          value: managed-premium
+
+    # Maximo Core
+    - name: gitops-cp-maximo
+      variables:
+        - name: instanceid
+          ref: mas8
+        - name: cluster_ingress
+          scope: global
