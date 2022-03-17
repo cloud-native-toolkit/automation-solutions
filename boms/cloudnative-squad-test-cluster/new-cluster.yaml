@@ -15,7 +15,7 @@ spec:
     - name: ibm-vpc-subnets
       alias: vpc-subnets
 
-    - name: ibm-vpc-vpn-gateway
+    - name: ibm-vpc-gateways
       dependencies:
         - name: subnets
           ref: vpc-subnets
@@ -54,11 +54,15 @@ spec:
     - name: ibm-logdna-bind
     - name: sysdig-bind
 
-    - name: ibm-portworx
-      dependencies:
-        - name: ibm-ocp-vpc
-      variables:
-        - name: provision
-          value: false
+
+    - name: openshift-cicd
+    - name: console-link-job
+    - name: cluster-config
+      alias: config
+
+      
   variables:
     - name: config_banner_text
+
+
+    
