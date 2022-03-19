@@ -42,16 +42,21 @@ To generate from a BOM , clone this repository onto your machines or trusted env
 
 > We assuming you have installed [brew]() for MacOS at this point 
 
-Run the following commands to turn the BOM into Automation.
+Run the following commands to turn the BOM into Automation. install a simple `tree` tool and create your output directory.
 
 ```shell
 brew install tree
 mkdir ~/automation
+```
+
+Pick the BOM you want to generate for the platform you are targeting.
+```
 cd boms/software/turbonomic
 iascable build -i ./400-400-turbo-bom.yaml -o ~/automation
-Name: 400-gitops-ocp-turbonomic
-Loading catalog from url: https://modules.cloudnativetoolkit.dev/index.yaml
-Writing output to: ~/automation
+
+    Name: 400-gitops-ocp-turbonomic
+    Loading catalog from url: https://modules.cloudnativetoolkit.dev/index.yaml
+    Writing output to: ~/automation
 ```
 
 You can see the output of the generation 
