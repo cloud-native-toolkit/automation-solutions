@@ -1,25 +1,35 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 404-gitops-ocp-turbonomic
+  name: 404-gitops-ocp-turbonomic-azure
   labels:
-    code: '400'
+    code: '404'
   annotations:
     displayName: Turbonomic on OpenShift - Azure
     description: GitOps deployment of Turbonomic on Azure
 spec:
   modules:
-    - name: gitops-ocp-turbonomic
-      variables:
-        - name: storage_class_name
-          value: managed-premium
-    - name: gitops-bootstrap
+    # Login to existing OpenShift cluster
+    - name: ocp-login
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
+    - name: argocd-bootstrap
       variables:
         - name: create_webhook
           value: true
-    - name: ocp-login
-    - name: gitops-repo
+
+    # Create Name Space for Turbonomic
     - name: gitops-namespace
       variables:
         - name: name
           value: turbonomic
+
+    # Define Turbonomic GitOps resources for OpenShift GitOps to install
+    - name: gitops-ocp-turbonomic
+      variables:
+      - name: storage_class_name
+        value: managed-premium
+
