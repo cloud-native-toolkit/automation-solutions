@@ -21,9 +21,9 @@ List of BOMs for Turbonomic, there is a generic one for on premise. You will nee
 Before you attempt to generate and modify your BOM content,  if you want a tested and validated version you can go directly to the Open-Source release of the generated content. 
 - [Turbonomic for AWS, Azure and IBM Cloud](https://github.com/IBM/automation-turbonomic) 
 
-Follow the installation instructions from the above link to deploy using a package version of **Terraform**
+Follow the installation instructions from the above link to deploy using a package version of the **Terraform** automation.
 
-If you want to download the latest version from the *Solution Builder* use the [Ascent](https://ascent.openfn.co) tool login with your IBM ID. Navigate to Solution view and click *Download* on the *Turbonomic for AWS, Azure and IBM Cloud* tile. 
+If you want to download the latest version from the *Solution Builder* use the [Ascent](https://ascent.openfn.co) tool and  login with your IBM ID. Navigate to Solution view and click *Download* on the *Turbonomic for AWS, Azure and IBM Cloud* tile. 
 
 ## Generating Automation
 
@@ -31,14 +31,18 @@ If you want to get the latest upstream content you can generate the latest autom
 
 ### Install IasCable
 
-To install the latest version of [iascable](https://github.com/cloud-native-toolkit/iascable/blob/main/README.md) into `/usr/local/bin`, run the following:
+First you will need to install the latest version of [iascable](https://github.com/cloud-native-toolkit/iascable/blob/main/README.md) into your `/usr/local/bin` folder, you can do this by running the following cli command. This tools converts BOMs into automation.
 
 ```shell
 curl -sL https://raw.githubusercontent.com/cloud-native-toolkit/iascable/main/install.sh | sh
 ```
 ### Generate Command
 
-To generate from this cloned repository to a folder called `boms` in your root directory use the following command. We are assuming you have installed `brew` for MacOS at this point. 
+To generate from a BOM , clone this repository onto your machines or trusted environment. You will create and `automation` folder to store the output of the generation. Use the the following commands.
+
+> We assuming you have installed [brew]() for MacOS at this point 
+
+Run the following commands to turn the BOM into Automation.
 
 ```shell
 brew install tree
