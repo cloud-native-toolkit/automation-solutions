@@ -42,7 +42,7 @@ To generate from a BOM , clone this repository onto your machines or trusted env
 
 > We assuming you have installed [brew]() for MacOS at this point 
 
-Run the following commands to turn the BOM into Automation.
+Run the following commands to turn the BOM into Automation. install a simple `tree` tool and create your output directory.
 
 ```shell
 brew install tree
