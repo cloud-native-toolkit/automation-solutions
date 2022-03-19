@@ -21,9 +21,13 @@ List of BOMs for Turbonomic, there is a generic one for on premise. You will nee
 Before you attempt to generate and modify your BOM content,  if you want a tested and validated version you can go directly to the Open-Source release of the generated content. 
 - [Turbonomic for AWS, Azure and IBM Cloud](https://github.com/IBM/automation-turbonomic) 
 
-Follow the installation instructions if you want to start from **Terraform**
+Follow the installation instructions from the above link to deploy using a package version of **Terraform**
+
+If you want to download the latest version from the *Solution Builder* use the [Ascent](https://ascent.openfn.co) tool login with your IBM ID. Navigate to Solution view and click *Download* on the *Turbonomic for AWS, Azure and IBM Cloud* tile. 
 
 ## Generating Automation
+
+If you want to get the latest upstream content you can generate the latest automation using the steps below:
 
 ### Install IasCable
 
@@ -79,6 +83,6 @@ You will see this generated content. You can use the [README.md](./files/README.
 
 ### How to run the generated automation for Turbonomic
 
-Firstly read the instructions for configuring your automation from this [README.md](./files/README.md). Then navigation to your output directory `~/automation/400-gitops-ocp-turbonomic` and follow those instructions.  
+To start read the instructions for configuring your automation from this [README.md](./files/README.md). Then navigation to your output directory `~/automation/400-gitops-ocp-turbonomic` and follow those instructions.  
 
-``
+
