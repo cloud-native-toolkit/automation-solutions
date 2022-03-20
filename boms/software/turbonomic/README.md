@@ -1,11 +1,17 @@
 # Turbonomic - Bill of Materials
 
-The folder contains the BOMs for the Turbonomic Automation for AWS, Azure and IBM Cloud solutions.
+This folder contains the Bill of Materials (*BOMs*) for the Turbonomic Automation for AWS, Azure and IBM Cloud multi cloud deployments.
+
+Below you can see how Turbonomic can help your organisation introspect the costs and resources of your complex cloud enviroments.
 
 ![Turbonimic Architecture](./files/turbonomic-arch.png)
 
 ## Overview
-Bill of Materials is the raw ingredients for building the automation. This is the `YAML` documentation that enables automation to be created to deploy the modules using GitOps within an AWS ROSA, Azure ARO, IBM Cloud ROKS cluster.
+
+BOMs are the raw ingredients for building automation for complex cloud installations. They are described in `YAML` and  enables automation to be created to deploy infrastructure and software into cloud environments.
+
+
+GitOps within an AWS ROSA, Azure ARO, IBM Cloud ROKS cluster.
 
 ## Bill of Materials
 
