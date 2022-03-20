@@ -4,7 +4,7 @@
 
 - **03/2022** - Initial Release
 
-> This collection of Turbonomic IBM Cloud terraform automation bundles has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Suktha** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
+> This collection of Turbonomic IBM Cloud terraform automation bundles has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Suktha** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Andrew Trice** _amtrice@us.ibm.com_, or **Tom Skill** _tskill@us.ibm.com_ for more details or raise an issue on the repository.
 
 
 The automation supports three reference architectures to establish a secure cloud environment that will enable the deployment and management of secure workloads.
