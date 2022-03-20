@@ -6,17 +6,26 @@ metadata:
     code: '400'
   annotations:
     displayName: Turbonomic on OpenShift
-    description: GitOps deployment of Turbonomic
+    description: GitOps deployment of Turbonomic on an existing OpenShift deployment
 spec:
   modules:
-    - name: gitops-ocp-turbonomic
-    - name: gitops-bootstrap
+    # Login to existing OpenShift cluster
+    - name: ocp-login
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
+    - name: argocd-bootstrap
       variables:
         - name: create_webhook
           value: true
-    - name: ocp-login
-    - name: gitops-repo
+
+    # Create Name Space for Turbonomic
     - name: gitops-namespace
       variables:
         - name: name
           value: turbonomic
+
+    # Define Turbonomic GitOps resources for OpenShift GitOps to install
+    - name: gitops-ocp-turbonomic
