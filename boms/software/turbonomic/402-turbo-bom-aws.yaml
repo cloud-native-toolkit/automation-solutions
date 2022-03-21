@@ -3,6 +3,8 @@ kind: BillOfMaterial
 metadata:
   name: 402-gitops-ocp-turbonomic-aws
   labels:
+    type: software
+    platform: aws
     code: '402'
   annotations:
     displayName: Turbonomic on OpenShift - AWS

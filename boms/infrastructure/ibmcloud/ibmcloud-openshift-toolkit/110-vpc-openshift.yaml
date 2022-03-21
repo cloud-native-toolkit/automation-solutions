@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: toolkit
   labels:
+    type: infrastructure
     platform: ibm
     code: 110
   annotations:

@@ -3,10 +3,11 @@ kind: BillOfMaterial
 metadata:
   name: gitops-telco-cloud-cp4d
   labels:
+    type: software
     code: '500'
   annotations:
-    displayName: Telco Core
-    description: Telco Core on OpenShift
+    displayName: Telco CP4D
+    description: Telco CP4D on OpenShift
 spec:
   # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:

@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 110-vpc-openshift
   labels:
+    type: infrastructure
     platform: azure
     code: 110
   annotations:

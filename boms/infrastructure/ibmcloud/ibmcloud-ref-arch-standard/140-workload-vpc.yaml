@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 140-workload-vpc
   labels:
+    type: infrastructure
     platform: ibm
     code: 140
   annotations:

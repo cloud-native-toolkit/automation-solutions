@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: new-gitops-testing-cluster
   labels:
+    type: infrastructure
     platform: ibm
   annotations:
     displayName: New OpenShift Cluster
