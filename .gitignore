@@ -30,3 +30,4 @@ override.tf.json
 
 .idea/
 output/
+.DS_Store
