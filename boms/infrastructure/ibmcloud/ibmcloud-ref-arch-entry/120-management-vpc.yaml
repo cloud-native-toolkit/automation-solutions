@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 120-management-vpc
   labels:
+    type: infrastructure
     platform: ibm
     code: 120
   annotations:

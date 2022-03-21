@@ -3,6 +3,8 @@ kind: BillOfMaterial
 metadata:
   name: 402-gitops-cp-maximo
   labels:
+    type: software
+    platform: aws
     code: '400'
   annotations:
     displayName: Maximo

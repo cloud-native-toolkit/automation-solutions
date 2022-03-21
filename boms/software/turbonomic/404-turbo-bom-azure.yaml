@@ -3,6 +3,8 @@ kind: BillOfMaterial
 metadata:
   name: 404-gitops-ocp-turbonomic-azure
   labels:
+    type: software
+    platform: azure
     code: '404'
   annotations:
     displayName: Turbonomic on OpenShift - Azure

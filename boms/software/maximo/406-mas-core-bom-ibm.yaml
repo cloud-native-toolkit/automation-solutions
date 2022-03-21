@@ -3,6 +3,8 @@ kind: BillOfMaterial
 metadata:
   name: 406-gitops-cp-maximo
   labels:
+    type: software
+    platform: ibm
     code: '400'
   annotations:
     displayName: Maximo

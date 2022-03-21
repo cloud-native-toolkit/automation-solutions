@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 300-cp-integration
   labels:
+    type: software
     code: '300'
   annotations:
     displayName: Cloud Pak for Integration

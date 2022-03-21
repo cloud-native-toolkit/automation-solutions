@@ -3,6 +3,8 @@ kind: BillOfMaterial
 metadata:
   name: 406-gitops-ocp-turbonomic-ibmcloud
   labels:
+    type: software
+    platform: ibm
     code: '406'
   annotations:
     displayName: Turbonomic on OpenShift - IBM Cloud

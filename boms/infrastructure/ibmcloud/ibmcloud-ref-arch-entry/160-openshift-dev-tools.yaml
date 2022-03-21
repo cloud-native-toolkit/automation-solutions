@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 160-openshift-dev-tools
   labels:
+    type: infrastructure
     platform: ibm
     code: '160'
   annotations:

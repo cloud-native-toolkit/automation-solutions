@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 110-edge-vpc
   labels:
+    type: infrastructure
     platform: ibm
     code: 110
   annotations:

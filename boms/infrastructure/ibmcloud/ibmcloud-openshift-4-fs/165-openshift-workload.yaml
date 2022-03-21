@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 165-openshift-workload
   labels:
+    type: infrastructure
     platform: ibm
     code: '165'
   annotations:

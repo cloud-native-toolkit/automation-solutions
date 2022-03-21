@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 100-shared-services
   labels:
+    type: infrastructure
     platform: ibm
     code: 100
   annotations:

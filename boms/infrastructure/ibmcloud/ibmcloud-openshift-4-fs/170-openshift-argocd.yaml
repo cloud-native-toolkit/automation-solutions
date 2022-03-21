@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 170-openshift-argocd
   labels:
+    type: infrastructure
     code: '170'
   annotations:
     displayName: OpenShift ArgoCD
