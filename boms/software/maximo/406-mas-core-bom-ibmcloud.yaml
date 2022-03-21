@@ -7,10 +7,9 @@ metadata:
     platform: ibm
     code: '400'
   annotations:
-    displayName: Maximo
-    description: GitOps deployment of Maximo on OpenShift
+    displayName: Maximo Application Suite - IBM Cloud
+    description: GitOps deployment of Maximo for OpenShift on IBM Cloud
 spec:
-  # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
 
     # Login into Azure, AWS and IBM Cloud Clusters setup GitOps
@@ -18,19 +17,14 @@ spec:
     - name: gitops-repo
     - name: gitops-bootstrap
 
-    # Cloud Pak Base - under development
-#    - name: gitops-cp-platform-navigator
+    # MAS Supporting Modules
     
-    # Cloud Pak for Database Base - under development
-#    - name: gitops-cp4d-operator
-#    - name: gitops-cp4d-instance
+    # Add IBM OpenShift Catalog
+    - name: gitops-cp-catalogs
+      variables:
+        - name: entitlement_key
+          scope: global     
 
-    # DB2 and DB2 Warehouse - under development
-#    - name: gitops-db2
-#    - name: gitops-cp-db2wh
-
-    # Maximo Supporting Modules
-    
     # IBM Suite License Service
     - name: gitops-namespace
       alias: sls-namespace
@@ -39,10 +33,10 @@ spec:
         - name: namespace
           ref: sls-namespace
       variables:
-        - name: sls_storageClass
-          value: portworx-rwx-gp3-sc
         - name: cluster_ingress
           scope: global
+        - name: entitlement_key
+          scope: global  
           
     # Mongo CE
     - name: gitops-namespace
@@ -54,7 +48,8 @@ spec:
       variables: 
         - name: mongo_storageclass
           value: ibmc-vpc-block-10iops-tier
-
+          
+    # Mongo CE Instance
     - name: gitops-mongo-ce
       dependencies:
         - name: namespace
@@ -67,6 +62,7 @@ spec:
     - name: gitops-namespace
       alias: bas-namespace
     - name: gitops-cp-bas
+      version: v1.0.1
       dependencies:
         - name: namespace
           ref: bas-namespace
@@ -89,3 +85,5 @@ spec:
           ref: mas8
         - name: cluster_ingress
           scope: global
+        - name: entitlement_key
+          scope: global 
