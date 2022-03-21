@@ -37,7 +37,7 @@ Here's the schema of how a bill of materals `bom.yaml` should be constructed:
 
 ### Examples
 
-## Infrastructure
+#### Infrastructure
 
 Example of a valid Infrastructure BOM:
 
