@@ -63,7 +63,7 @@ The following are variables that you will be prompted for and some suggested val
 
 At this point the install will automatically progress.  When complete you will see a message that the Apply is complete with approximately 64 resources added, 0 changed, 0 destroyed.  This will take approximately 5-10 minutes.
 
-The Maximo Application Suite will continue for approximately another 20 minutes while it sets up MAS and all the components for MAS-Core.  From this point you can skip to the MAS suite setup steps in the [READme](./README.md#setup) below.
+The Maximo Application Suite will continue for approximately another 20 minutes while it sets up MAS and all the components for MAS-Core.  From this point you can skip to the MAS suite setup steps in the [README](./README.md#setup) below.
 
 ## Standard / Advanced
 
@@ -96,7 +96,7 @@ For a Standard or Advanced setup, you may want to edit the pre-configured variab
 │       └── variables.tf
 │       └── version.tf
 └── launch.sh
-`
+
 ```
 
 Also if you are familiar with terraform and would like to more control over the automation you can start and run the automation by editing the `400-gitops-ocp-maximo.auto.tfvars` and directly invoking terraform such as:
@@ -116,7 +116,7 @@ terraform apply -auto-approve
 
 At this point the install will automatically progress.  When complete you will see a message that the Apply is complete with approximately 64 resources added, 0 changed, 0 destroyed.  This will take approximately 5-10 minutes.
 
-The Maximo Application Suite will continue for approximately another 20 minutes while it sets up MAS and all the components for MAS-Core.  From this point you can skip to the MAS suite setup steps in the [READme](./README.md#setup) below.
+The Maximo Application Suite will continue for approximately another 20 minutes while it sets up MAS and all the components for MAS-Core.  From this point you can skip to the MAS suite setup steps in the [README](./README.md#setup) below.
 
 ## Setup
 
