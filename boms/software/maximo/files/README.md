@@ -15,6 +15,7 @@ Ensure the following before continuing
 - Github account exists
 - A Github [token](https://docs.github.com/en/enterprise-server@3.3/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) is available with permissions set to create and remove repositories
 - You are able to login to the OpenShift cluster and obtain an OpenShift login token
+- Cloud Pak entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary)
 
 ## Quick Start
 
@@ -43,14 +44,24 @@ The following are variables that you will be prompted for and some suggested val
 | Variable      | Description  | Suggested Value | 
 | -----------   | ------------ | ---------------
 | gitops-repo_host | The host for the git repository.  | github.com    |
+| gitops-repo_type | The type of the hosted git repository (github or gitlab). | github |
+| gitops-repo_org | The org/group where the git repository exists | <github userid> |
+| gitops-repo_repo | The short name of the repository to create | gitops-mas-ibmcloud |
+| gitops-repo_username | The username of the user with access to the repository | <github userid> |
+| gitops-repo_token | The git personal access token | BFe4k0MFK9s5RGIt... |
+| bas_dbpassword | Password for BAS database | password |
+| bas_grafanapassword | Password for BAS grafana database | password |
+| entitlement_key | CloudPak Entitlement Key | eyJhbGciOiJIUzI1NiJ9.eyJpc3... |
+| cluster_ingress | Ingress of the Cluster | masdemo.us-east-container.appdomain.cloud |
+| gitops-cp-maximo_instanceid | Instance name for MAS - for example: masdemo or mas8 | mas8 |
+| sls-namespace_name | Namespace for IBM SLS | ibm-sls |
+| mongo-namespace_name | Namespace for Mongo | mongo |
+| bas-namespace_name | Namespace for BAS | masbas |
+| server_url | Url fo the OpenShift cluster | https://c100-e.us-east.containers.cloud.ibm.com:32346 |
+| cluster_login_token | OpenShift cluster login token | sha256~nlXiXCYO_kEydz36B... |
 
 
 
-BOMs are the raw ingredients for building automation for complex cloud installations. They are described in `YAML` and  enables automation to be created to deploy infrastructure and software into cloud environments.
-
-
-GitOps within an AWS ROSA, Azure ARO, IBM Cloud ROKS cluster.
 
 ## Standard / Advanced
 
-List of BOMs for Maximo, there is a generic one for full customization. The others have specific setting to enable install into the cloud platform with default storage classes for that platform.  Note that customization is still possible even after the automation is generated.
