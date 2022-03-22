@@ -16,23 +16,25 @@ spec:
     - name: ibm-vpc
     - name: ibm-vpc-gateways
     - name: ibm-vpc-subnets
+      default: true
+      alias: cluster_subnets
     - name: ibm-ocp-vpc
     - name: ibm-logdna-bind
     - name: sysdig-bind
     - name: argocd-bootstrap
     - name: gitops-namespace
-      alias: cntk
+      alias: toolkit
       variables:
         - name: name
-          value: cntk
+          value: toolkit
     - name: gitops-console-link-job
       dependencies:
         - name: namespace
-          ref: cntk
+          ref: toolkit
     - name: gitops-cluster-config
       dependencies:
         - name: namespace
-          ref: cntk
+          ref: toolkit
       variables:
         - name: banner_text
           value: Management
