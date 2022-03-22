@@ -45,9 +45,9 @@ The following are variables that you will be prompted for and some suggested val
 | -----------   | ------------ | ---------------
 | gitops-repo_host | The host for the git repository.  | github.com    |
 | gitops-repo_type | The type of the hosted git repository (github or gitlab). | github |
-| gitops-repo_org | The org/group where the git repository exists | <github userid> |
+| gitops-repo_org | The org/group where the git repository exists | github userid or org |
 | gitops-repo_repo | The short name of the repository to create | gitops-mas-ibmcloud |
-| gitops-repo_username | The username of the user with access to the repository | <github userid> |
+| gitops-repo_username | The username of the user with access to the repository | github userid |
 | gitops-repo_token | The git personal access token | BFe4k0MFK9s5RGIt... |
 | bas_dbpassword | Password for BAS database | password |
 | bas_grafanapassword | Password for BAS grafana database | password |
@@ -58,10 +58,73 @@ The following are variables that you will be prompted for and some suggested val
 | mongo-namespace_name | Namespace for Mongo | mongo |
 | bas-namespace_name | Namespace for BAS | masbas |
 | server_url | Url fo the OpenShift cluster | https://c100-e.us-east.containers.cloud.ibm.com:32346 |
-| cluster_login_token | OpenShift cluster login token | sha256~nlXiXCYO_kEydz36B... |
+| cluster_login_token | OpenShift cluster login token | sha256~nlXiXCYO_kEydz36B88y0reQ... |
 
 
+At this point the install will automatically progress.  When complete you will see a message that the Apply is complete with approximately 64 resources added, 0 changed, 0 destroyed.  This will take approximately 5-10 minutes.
 
+The Maximo Application Suite will continue for approximately another 20 minutes while it sets up MAS and all the components for MAS-Core.  From this point you can skip to the MAS suite setup steps in the [READme](./README.md#setup) below.
 
 ## Standard / Advanced
+
+For a Standard or Advanced setup, you may want to edit the pre-configured variables to fit your own customized environment.  To do this you can find the pre-configured variables in the `variables.tf` file located in the directory tree below:
+
+```bash
+~/automation/
+├── 400-gitops-ocp-maximo
+│   ├── apply.sh
+│   ├── bom.yaml
+│   ├── dependencies.dot
+│   ├── destroy.sh
+│   └── terraform
+│       ├── 400-gitops-ocp-maximo.auto.tfvars
+│       ├── docs
+│       │   ├── gitops-bootstrap.md
+│       │   ├── gitops-cp-bas.md
+│       │   ├── gitops-cp-catalogs.md
+│       │   ├── gitops-cp-maximo.md
+│       │   ├── gitops-cp-sls.md
+│       │   ├── gitops-cp-mongo-ce-operator.md
+│       │   ├── gitops-cp-mongo-ce.md
+│       │   ├── gitops-namespace.md
+│       │   ├── gitops-repo.md
+│       │   ├── ocp-login.md
+│       │   └── sealed-secret-cert.md
+│       │   └── util-clis.md
+│       ├── main.tf
+│       ├── providers.tf
+│       └── variables.tf
+│       └── version.tf
+└── launch.sh
+`
+```
+
+Also if you are familiar with terraform and would like to more control over the automation you can start and run the automation by editing the `400-gitops-ocp-maximo.auto.tfvars` and directly invoking terraform such as:
+
+```shell
+cd ~/automation/
+./launch.sh
+```
+
+From the container that is started change into the directory where the automation variables are and run terraform as you would like such as:
+
+```shell
+cd /400-gitops-ocp-maximo/terraform
+terraform init
+terraform apply -auto-approve
+```
+
+At this point the install will automatically progress.  When complete you will see a message that the Apply is complete with approximately 64 resources added, 0 changed, 0 destroyed.  This will take approximately 5-10 minutes.
+
+The Maximo Application Suite will continue for approximately another 20 minutes while it sets up MAS and all the components for MAS-Core.  From this point you can skip to the MAS suite setup steps in the [READme](./README.md#setup) below.
+
+## Setup
+
+The initial setup for MAS is done through the web console and can be found in the location:
+
+https://admin.${YourDomainURL}/initialsetup
+
+NOTE: Depending on the browser you may have to import the self-signed certificate into your keystore (if on a mac)
+
+Login as super user with credential found in the secret named: `{masInstanceID}-credentials-superuser` in the OpenShift project named: `mas-{masInstanceID}-core`  
 
