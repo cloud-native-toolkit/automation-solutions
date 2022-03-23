@@ -21,10 +21,62 @@ For each of these reference architecture forms, we have provided a detailed refe
 
 ![QuickStart](./ref-arch-software-everywhere-QuickStart.png)
 
+#### Requirements/Features
+
+- Single VPC/Vnet
+    - Minimal subnets to support the OpenShift cluster (one or two depending on the requirements of the cloud provider)
+    - Outbound access to the public internet
+- OpenShift cluster
+    - Default worker node sized to support Cloud Pak deployments (16x64)
+    - Default to multi-zone deployments
+    - Default to one node per zone
+- Shared services for Log Aggregation, Monitoring, and Object Storage
+
 ### Standard
 
 ![Standard](./ref-arch-software-everywhere-Standard.png)
 
+#### Requirements/Features
+
+- Single VPC/Vnet
+- Isolate network traffic in different subnets
+    - Management ingress subnet with VPN/secure access to separate network
+    - Bastion subnets with access to the public internet(?)
+    - Egress subnets with access to the public internet and proxy servers
+    - Consumer ingress subnet with public endpoints to allow access to cluster endpoints
+    - OpenShift cluster subnets with no direct access to the internet
+    - Private Endpoint subnets that connect the VPC network to the shared services
+- OpenShift cluster with private endpoints and cluster-wide proxy configured
+    - Default worker node sized to support Cloud Pak deployments (16x64)
+    - Default to multi-zone deployments
+    - Default to two nodes per zone
+- Support for multiple clusters if necessary (to support isolated Cloud Pak deployments)
+- Key Management provisioned and encryption provided for all services
+- Shared services for Log Aggregation, Monitoring, and Object Storage via private endpoints
+
 ### Advanced
 
 ![Advanced](./ref-arch-software-everywhere-Advanced.png)
+
+#### Requirements/Features
+
+- Multiple VPC/Vnets to isolate network traffic
+    - Internal DMZ (for management traffic)
+    - External DMZ (for consumer access)
+    - Development network
+    - Production network(s)
+- Transit gateway to navigate between VPCs
+- Isolate network traffic in different subnets, distributed across the VPCs
+    - Management ingress subnet with VPN/secure access to separate network
+    - Bastion subnets with access to the public internet(?)
+    - Egress subnets with access to the public internet and proxy servers
+    - Consumer ingress subnet with public endpoints to allow access to cluster endpoints
+    - OpenShift cluster subnets with no direct access to the internet
+    - Private Endpoint subnets that connect the VPC network to the shared services
+- OpenShift cluster with private endpoints and cluster-wide proxy configured
+    - Default worker node sized to support Cloud Pak deployments (16x64)
+    - Default to multi-zone deployments
+    - Default to two nodes per zone
+- Additional clusters are provisioned in their own VPC
+- Key Management provisioned and encryption provided for all services
+- Shared services for Log Aggregation, Monitoring, and Object Storage via private endpoints
