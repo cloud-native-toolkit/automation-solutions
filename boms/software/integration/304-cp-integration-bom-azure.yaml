@@ -1,12 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 304-cp-integration
-  labels:
-    code: '300'
-  annotations:
-    displayName: Cloud Pak for Integration
-    description: GitOps deployment of Cloud Pak for Integration on OpenShift  
+  name: 300-cp-integration
 spec:
   modules:
     - name: ocp-login
@@ -16,13 +11,12 @@ spec:
     - name: gitops-repo
     - name: argocd-bootstrap
     - name: gitops-console-link-job
-
-    
     # # CP4i Operators
     - name: gitops-cp-mq
     - name: gitops-cp-ace
     - name: gitops-cp-apic-opearator
     - name: gitops-cp-eventstreams
+    # PlatformNavigator is provided below as it contains operator as well as instance
 
     # To create dedicated namespace for PN, MQ , Uniform-Cluster,ACE-Designer
     - name: gitops-namespace  
@@ -38,7 +32,7 @@ spec:
         - name: name
           value: cp4i-apic    
 
-    # To Override the Storage Class for PlatformNavigator
+    # To Override the Storage Class for PlatformNavigator. Require RWX storage Class
     - name: gitops-cp-platform-navigator
       dependencies:
         - name: namespace
@@ -57,7 +51,7 @@ spec:
         - name: storageclass
           value: portworx-db2-rwo-sc
 
-    # To Override the Storage Class for ACE Designer
+    # To Override the Storage Class for ACE Designer. Require RWX storage Class if we enable MapAssist feature
     - name: gitops-cp-ace-designer
       dependencies:
         - name: namespace
@@ -69,6 +63,15 @@ spec:
           value: portworx-rwx-gp-sc
         - name: is_map_assist_required
           value: false
+
+    # # To Override the Storage Class for ACE Dashboard
+    # - name: gitops-cp-ace-dashboard
+    #   dependencies:
+    #     - name: namespace
+    #       ref: cp4i-ace    
+    #   variables:
+    #     - name: storage_class_name
+    #       value: portworx-db2-rwo-sc
 
     # To Override the Storage Class for MQ Queue Manager Instance
     - name: gitops-cp-queue-manager
@@ -82,13 +85,14 @@ spec:
           value: telco-cloud
         - name: config_map
           value: oms-queue-config
+        - name: storageclass
+          value: portworx-db2-rwo-sc
 
-    # # To Override the Storage Class for APIC  Instance
-    # # The Current status of this module is : NOT RELEASED. Hence commented out
-    # - name: gitops-cp-apic
-    #   dependencies:
-    #     - name: namespace
-    #       ref: cp4i-apic    
-    #   variables:
-    #     - name: storage_class_name
-    #       value: portworx-db2-rwo-sc
+    # To Override the Storage Class for APIC  Instance
+    - name: gitops-cp-apic
+      dependencies:
+        - name: namespace
+          ref: cp4i-apic    
+      variables:
+        - name: storage_class
+          value: portworx-db2-rwo-sc
