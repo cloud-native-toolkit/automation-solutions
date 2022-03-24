@@ -1,0 +1,53 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 215-portworx-storage
+  labels:
+    type: infrastructure
+  annotations:
+    displayName: Cluster Storage
+    description: Installs portworx in cluster
+spec:
+  modules:
+    - name: ibm-portworx
+      variables:
+        - name: etcd_secret_name
+          optional: true
+          value: "px-etcd-certs"
+    - name: ibm-ocp-vpc
+      dependencies:
+        - name: cos
+          optional: true
+        - name: subnets
+          optional: true
+      variables:
+        - name: exists
+          value: true
+        - name: name
+          important: true
+          description: "The cluster where Portworx storage will be deployed."
+        - name: flavor
+          important: false
+          optional: true
+          value: ""
+        - name: vpc_name
+          value: ""
+          important: false
+          optional: true
+        - name: vpc_subnet_count
+          important: false
+          optional: true
+          value: 0
+        - name: vpc_subnets
+          important: false
+          optional: true
+          value: []
+
+        - name: cos_id
+          important: false
+          optional: true
+          value: ""
+        - name: worker_count
+          important: false
+          optional: true
+
