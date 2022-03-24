@@ -5,8 +5,8 @@ metadata:
   labels:
     type: infrastructure
   annotations:
-    displayName: Cluster Storage
-    description: Installs portworx in cluster
+    displayName: IBM - ODF Cluster Storage
+    description: Installs OpenShift Data Foundation in cluster
 spec:
   modules:
     # Login to existing OpenShift cluster

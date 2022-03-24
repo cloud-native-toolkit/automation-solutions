@@ -5,8 +5,8 @@ metadata:
   labels:
     type: infrastructure
   annotations:
-    displayName: Cluster Storage
-    description: Installs portworx in cluster
+    displayName: IBM - Portworx Cluster Storage
+    description: Installs Portworx in cluster
 spec:
   modules:
     - name: ibm-portworx
