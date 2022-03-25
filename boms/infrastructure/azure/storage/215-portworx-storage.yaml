@@ -1,0 +1,13 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 215-portworx-storage
+  labels:
+    type: infrastructure
+  annotations:
+    displayName: Azure - Portworx Cluster Storage
+    description: Installs Portworx into an OCP cluster on Azure
+spec:
+  modules:
+    - name: azure-portworx
+
