@@ -1,0 +1,22 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: cluster-storage
+  labels:
+    type: infrastructure
+  annotations:
+    displayName: Cluster Storage
+    description: Installs portworx in cluster
+spec:
+  modules:
+    - name: ibm-portworx
+      variables:
+        - name: provision
+          value: true
+        - name: install_storage
+          value: true
+
+    #- name: gitops-ibm-ocs
+    #- name: aws-portworx
+
+

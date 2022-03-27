@@ -1,0 +1,23 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 100-shared-services
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: 100
+  annotations:
+    displayName: Shared services
+    description: Managed services that are shared across the management and workload networks
+spec:
+  modules:
+    - name: ibm-resource-group
+      alias: cs_resource_group
+      default: true
+    - name: ibm-access-group
+    - name: ibm-object-storage
+    - name: sysdig
+    - name: logdna
+  variables:
+    - name: name_prefix
+      alias: cs_name_prefix

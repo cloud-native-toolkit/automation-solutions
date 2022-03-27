@@ -1,0 +1,89 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 406-gitops-cp-maximo
+  labels:
+    type: software
+    platform: ibm
+    code: '400'
+  annotations:
+    displayName: Maximo Application Suite - IBM Cloud
+    description: GitOps deployment of Maximo for OpenShift on IBM Cloud
+spec:
+  modules:
+
+    # Login into Azure, AWS and IBM Cloud Clusters setup GitOps
+    - name: ocp-login
+    - name: gitops-repo
+    - name: gitops-bootstrap
+
+    # MAS Supporting Modules
+    
+    # Add IBM OpenShift Catalog
+    - name: gitops-cp-catalogs
+      variables:
+        - name: entitlement_key
+          scope: global     
+
+    # IBM Suite License Service
+    - name: gitops-namespace
+      alias: sls-namespace
+    - name: gitops-cp-sls
+      dependencies:
+        - name: namespace
+          ref: sls-namespace
+      variables:
+        - name: cluster_ingress
+          scope: global
+        - name: entitlement_key
+          scope: global  
+          
+    # Mongo CE
+    - name: gitops-namespace
+      alias: mongo-namespace
+    - name: gitops-mongo-ce-operator
+      dependencies:
+        - name: namespace
+          ref: mongo-namespace
+      variables: 
+        - name: mongo_storageclass
+          value: ibmc-vpc-block-10iops-tier
+          
+    # Mongo CE Instance
+    - name: gitops-mongo-ce
+      dependencies:
+        - name: namespace
+          ref: mongo-namespace    
+      variables:
+        - name: storage_class_name
+          value: ibmc-vpc-block-10iops-tier
+
+    # IBM Behavior Analysis Service       
+    - name: gitops-namespace
+      alias: bas-namespace
+    - name: gitops-cp-bas
+      version: v1.0.1
+      dependencies:
+        - name: namespace
+          ref: bas-namespace
+      variables:
+        - name: db_archive_storage_class
+          value: portworx-rwx-gp3-sc
+        - name: postgres_storage_class
+          value: ibmc-vpc-block-10iops-tier
+        - name: kafka_storage_class
+          value: ibmc-vpc-block-10iops-tier
+        - name: zookeeper_storage_class
+          value: ibmc-vpc-block-10iops-tier
+        - name: default_storage_class
+          value: ibmc-vpc-block-10iops-tier
+
+    # Maximo Core
+    - name: gitops-cp-maximo
+      variables:
+        - name: instanceid
+          ref: mas8
+        - name: cluster_ingress
+          scope: global
+        - name: entitlement_key
+          scope: global 

@@ -3,10 +3,12 @@ kind: BillOfMaterial
 metadata:
   name: 402-gitops-cp-maximo
   labels:
+    type: software
+    platform: aws
     code: '400'
   annotations:
-    displayName: Maximo
-    description: GitOps deployment of Maximo Core on OpenShift-AWS
+    displayName: Maximo Application Suite - AWS
+    description: GitOps deployment of Maximo for OpenShift on AWS
 spec:
   modules:
 
@@ -15,18 +17,15 @@ spec:
     - name: gitops-repo
     - name: gitops-bootstrap
 
-    # Cloud Pak Base
-#    - name: gitops-cp-platform-navigator
+    # MAS Supporting Modules
     
-    # Cloud Pak for Database Base
-#    - name: gitops-cp4d-operator
-#    - name: gitops-cp4d-instance
+    # Add IBM OpenShift Catalog
+    - name: gitops-cp-catalogs
+      variables:
+        - name: entitlement_key
+          scope: global     
 
-    # DB2 and DB2 Warehouse   
-#    - name: gitops-db2
-#    - name: gitops-cp-db2wh
-
-    # Maximo Supporting Modules
+    # IBM Suite License Service
     - name: gitops-namespace
       alias: sls-namespace
     - name: gitops-cp-sls
@@ -34,11 +33,12 @@ spec:
         - name: namespace
           ref: sls-namespace
       variables:
-        - name: sls_storageClass
-          value: portworx-rwx-gp3-sc
         - name: cluster_ingress
           scope: global
-
+        - name: entitlement_key
+          scope: global  
+          
+    # Mongo CE Operator
     - name: gitops-namespace
       alias: mongo-namespace
     - name: gitops-mongo-ce-operator
@@ -48,28 +48,31 @@ spec:
       variables: 
         - name: mongo_storageclass
           value: gp2
-
+          
+    # Mongo CE Instance
     - name: gitops-mongo-ce
       dependencies:
         - name: namespace
           ref: mongo-namespace    
       variables:
         - name: storage_class_name
-          value: gp2  
+          value: gp2
 
+    # IBM Behavior Analysis Service       
     - name: gitops-namespace
       alias: bas-namespace
     - name: gitops-cp-bas
+      version: v1.0.1
       dependencies:
         - name: namespace
           ref: bas-namespace
       variables:
         - name: db_archive_storage_class
-          value: portworx-rwx-gp3-sc    
+          value: portworx-rwx-gp3-sc
         - name: postgres_storage_class
-          value: gp2  
+          value: gp2
         - name: kafka_storage_class
-          value: gp2  
+          value: gp2
         - name: zookeeper_storage_class
           value: gp2
         - name: default_storage_class
@@ -82,3 +85,5 @@ spec:
           ref: mas8
         - name: cluster_ingress
           scope: global
+        - name: entitlement_key
+          scope: global 

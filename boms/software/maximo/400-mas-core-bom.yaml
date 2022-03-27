@@ -3,12 +3,12 @@ kind: BillOfMaterial
 metadata:
   name: 400-gitops-cp-maximo
   labels:
+    type: software
     code: '400'
   annotations:
-    displayName: Maximo
-    description: GitOps deployment of Maximo Core on OpenShift
+    displayName: Maximo Application Suite
+    description: GitOps deployment of Maximo for OpenShift
 spec:
-  # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
 
     # Login into Azure, AWS and IBM Cloud Clusters setup GitOps
@@ -16,19 +16,14 @@ spec:
     - name: gitops-repo
     - name: gitops-bootstrap
 
-    # Cloud Pak Base - under development
-#    - name: gitops-cp-platform-navigator
+    # MAS Supporting Modules
     
-    # Cloud Pak for Database Base - under development
-#    - name: gitops-cp4d-operator
-#    - name: gitops-cp4d-instance
+    # Add IBM OpenShift Catalog
+    - name: gitops-cp-catalogs
+      variables:
+        - name: entitlement_key
+          scope: global     
 
-    # DB2 and DB2 Warehouse - under development
-#    - name: gitops-db2
-#    - name: gitops-cp-db2wh
-
-    # Maximo Supporting Modules
-    
     # IBM Suite License Service
     - name: gitops-namespace
       alias: sls-namespace
@@ -37,40 +32,33 @@ spec:
         - name: namespace
           ref: sls-namespace
       variables:
-        - name: namespace
-          value: ibm-sls           
         - name: cluster_ingress
           scope: global
+        - name: entitlement_key
+          scope: global  
           
-    # Mongo CE
+    # Mongo CE Operator
     - name: gitops-namespace
       alias: mongo-namespace
     - name: gitops-mongo-ce-operator
       dependencies:
         - name: namespace
           ref: mongo-namespace
-      variables: 
-        - name: namespace
-          value: mongo            
-
+          
+    # Mongo CE Instance
     - name: gitops-mongo-ce
       dependencies:
         - name: namespace
           ref: mongo-namespace    
-      variables:
-        - name: namespace
-          value: mongo
 
     # IBM Behavior Analysis Service       
     - name: gitops-namespace
       alias: bas-namespace
     - name: gitops-cp-bas
+      version: v1.0.1
       dependencies:
         - name: namespace
           ref: bas-namespace
-      variables:
-        - name: namespace
-          value: masbas 
 
     # Maximo Core
     - name: gitops-cp-maximo
@@ -79,4 +67,5 @@ spec:
           ref: mas8
         - name: cluster_ingress
           scope: global
-          
+        - name: entitlement_key
+          scope: global 

@@ -1,0 +1,74 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: new-gitops-testing-cluster
+  labels:
+    type: infrastructure
+    platform: ibm
+  annotations:
+    displayName: New OpenShift Cluster
+    description: OpenShift Cluster on IBM Cloud with Portworx
+spec:
+  modules:
+    - name: ibm-resource-group
+      alias: resource_group
+      variables:
+        - name: provision
+          value: false
+          
+    - name: ibm-vpc
+
+    - name: ibm-vpc-subnets
+      alias: vpc-subnets
+
+    - name: ibm-vpc-gateways
+      dependencies:
+        - name: subnets
+          ref: vpc-subnets
+
+    - name: ibm-ocp-vpc
+      dependencies:
+        - name: subnets
+          ref: vpc-subnets
+        - name: vpc 
+          ref: ibm-vpc
+        - name: name_prefix
+          scope: global
+      variables:
+        - name: ocp_version
+          value: 4.8
+
+
+    - name: logdna
+      variables:
+        - name: provision
+          value: true
+        - name: name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: resource_group
+    - name: sysdig
+      variables:
+        - name: provision
+          value: true
+        - name: name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: resource_group
+    - name: ibm-logdna-bind
+    - name: sysdig-bind
+
+
+    - name: openshift-cicd
+    - name: console-link-job
+    - name: cluster-config
+      alias: config
+
+      
+  variables:
+    - name: config_banner_text
+
+
+    

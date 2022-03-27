@@ -1,0 +1,15 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: toolkit
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: 110
+  annotations:
+    displayName: IBM VPC OpenShift
+    description: IBM VPC and Red Hat OpenShift servers
+spec:
+  modules:
+    - name: ocp-login
+    - name: openshift-cicd

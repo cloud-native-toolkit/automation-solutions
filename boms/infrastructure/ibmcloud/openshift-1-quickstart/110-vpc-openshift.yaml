@@ -1,0 +1,40 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 110-vpc-openshift
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: 110
+  annotations:
+    displayName: IBM VPC OpenShift
+    description: IBM VPC and Red Hat OpenShift servers
+spec:
+  modules:
+    - name: ibm-resource-group
+    - name: ibm-access-group
+    - name: ibm-vpc
+    - name: ibm-vpc-gateways
+    - name: ibm-vpc-subnets
+      default: true
+      alias: cluster_subnets
+    - name: ibm-ocp-vpc
+    - name: ibm-logdna-bind
+    - name: sysdig-bind
+    - name: argocd-bootstrap
+    - name: gitops-namespace
+      alias: toolkit
+      variables:
+        - name: name
+          value: toolkit
+    - name: gitops-console-link-job
+      dependencies:
+        - name: namespace
+          ref: toolkit
+    - name: gitops-cluster-config
+      dependencies:
+        - name: namespace
+          ref: toolkit
+      variables:
+        - name: banner_text
+          value: Management
