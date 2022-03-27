@@ -4,89 +4,56 @@
 
 - **03/2022** - Initial Release
 
-> This collection of Turbonomic IBM Cloud terraform automation bundles has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Suktha** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Andrew Trice** _amtrice@us.ibm.com_, or **Tom Skill** _tskill@us.ibm.com_ for more details or raise an issue on the repository.
+> This collection of Turbonomic IBM Cloud terraform automation bundles has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Suktha** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
+The automation bundles supports three cloud platforms (AWS, Azure and IBM Cloud) and a generic scenario for on premise.
 
-The automation supports three reference architectures to establish a secure cloud environment that will enable the deployment and management of secure workloads.
+The automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
-Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning and configuring cloud resources in an IBM Cloud cloud account. We recommend using this with an IBM Cloud [Enterprise sub-account](https://cloud.ibm.com/docs/account?topic=account-what-is-enterprise).
+> There are links to how to configure a cloud infrastructure further down the installation instructions.
 
-This `README.md` describes the SRE steps required to provision an environment that will scan cleanly with the Security and Compliance Centers NIST based profiles.
+Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning Turbonomic in multiple cloud environments. This `README.md` describes the SRE steps required to provision the software 
 
-> The Security and Compliance scan currently has a set of known [exceptions](#exceptions) see below.
+This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. 
 
-This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. The base environment provides a collection of shared services, an edge network, a management network, and a workload network. This automation contains includes OpenShift Developer Tools from the [Cloud-Native Toolkit project](https://cloudnativetoolkit.dev/)
-
-
-**Shared services**
-
-- IBM Key Protect _- For the highest level of security, you can also use a Hyper Protect Crypto Service_ instance
-- IBM Log Analysis
-- IBM Monitoring
-- Activity Tracker
-- Certificate Manager
-
-**Edge network**
-
-- Client to Site VPN server or Site to Site VPN Gateway
-- Bastion server(s)
-
-**Management network**
-
-- Red Hat OpenShift cluster with SDLC tools provided from the [Cloud-Native Toolkit](https://cloudnativetoolkit.dev/)
-
-**Workload network**
-
-- Red Hat OpenShift cluster
-
-**Developer Tools installed into OpenShift**
-
-- OpenShift Pipelines (Tekton)
-- OpenShift GitOps (ArgoCD)
-- Artifactory
-- SonarQube
-- Swagger Editor
-- Developer Dashboard ( Starter Kits Code Samples )
-- Pre-validated Tekton Pipelines and Tasks
-- CLI Tools to assit pipeline creation
-
-This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/ibmcloud-ref-arch-fs) file to describe your IBM Cloud architecture, which it then generates the terraform modules into a package of infrastructure as code that you can use to accelerate the configuration of your IBM Cloud environment. Iascable generates standard terraform templates that can be executed from any terraform environment.
+This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want uppstream releases or versions you can use `iascable` to generate the terraform templates tyou require.
 
 > The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.
 
-The following diagram gives a visual representation of the what your IBM Cloud account will contain after the automation has been successfully executed.
+## Turbonomic Architecture
 
-## Reference Architecture
+The following reference architecture represents the logical view of how Turbonomic works after its is installed. After you have obtained a license key you will need to register you data sources. They can range from other Kubernetes environments to VMWare and Virtual Machines. 
 
-![Reference Architecture](./images/ibm-cloud-architecture.png)
+![Reference Architecture](./turbonomic-arch.png)
 
-Automation is provided in following Terraform packages that will need to be run in order. The bundles have been created this way to give the SRE team the most flexibility possible when building infrastructure for a project.
+Automation is provided in following Terraform bundles. You need to decide which cloud platform you are targeting for your installation. The bundles have been created this way to give the SRE team the most flexibility possible when building infrastructure for a project.
 
-## Automation Stages
+## Deploying Turbonomic
+
+
+
+### Obtaining License Key
+
+
+### Cloud Infrastructure 
+
+
+### Configuring GitOps
+
+
+
+### Cloning Automation Repository
 
 Clone this repository to access the automation to provision this reference architecture on the IBM Cloud. This repo contains the following defined _Bill of Materials_ or **BOMS** for short. They logically build up to deliver a set of IBM Cloud best practices. The reason for having them separate at this stage is to enable a layered approach to success. This enables SREs to use them in logical blocks. One set for Shared Services for a collection of **Edge**, **Management** and **Workload** VPCs or a number of **Workload** VPCs that maybe installed in separate regions.
 
 ### VPC with VSIs
 
 | BOM ID | Name                                           | Description                                                                                                           | Run Time |
-| ------ | ---------------------------------------------- |-----------------------------------------------------------------------------------------------------------------------| -------- |
-| 000    | [000 - Account Setup](./000-account-setup)     | Set up account and provision a set of account-wide services. This is intended to only be run one time in an account | 5 Mins   |
-| 100    | [100 - Shared Services](./100-shared-services) | Provision a set of common cloud managed services that can be shared with a Edge, **Management** and **Workload** VPCs | 5 Mins   |
-| 110    | [110 - Edge VPC](./110-edge-vpc)               | Provision an **Edge VPC** with Client to Site VPN & Bastion                                                           | 10 Mins  |
-| 120    | [120 - Management VPC](./120-management-vpc)   | Provision a **Management VPC** and connect to Transit Gateway                                                         | 10 mins  |
-| 140    | [140 - Workload VPC](./140-workload-vpc)       | Provision a **Workload VPC** and connect to Transit Gateway                                                           | 10 mins  |
-
-### VPC with Red Hat OpenShift
-
-| BOM ID | Name                                                                       | Description                                                                                                                                                                   | Run Time |
-| ------ | -------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| 000    | [000 - Account Setup](./000-account-setup)                                 | Set up account and provision a set of account-wide services. This is intended to only be run one time in an account                                           | 5 Mins   |
-| 100    | [100 - Shared Services](./100-shared-services)                             | Provision a set of common cloud managed services that can be shared with a Edge, **Management** and **Workload** VPCs                                                         | 5 Mins   |
-| 110    | [110 - Edge VPC](./110-edge-vpc)                                           | Provision an **Edge VPC** with Client to Site VPN & Bastion                                                                                                                   | 10 Mins  |
-| 130    | [130 - Management + OpenShift Cluster](./130-management-vpc-openshift)     | Provision a **Management VPC** with and Red Hat OpenShift Cluster and connect to Transit Gateway                                                                              | 45 mins  |
-| 150    | [150 - Workload + OpenShift Cluster](./150-workload-vpc-openshift)         | Provision a **Workload VPC** with Red Hat OpenShift Cluster and connect to Transit Gateway                                                                                    | 45 mins  |
-| 160    | [160 - Developer Tools into Management Cluster](./160-openshift-dev-tools) | Provision a set of common CNCF developer tools into Red Hat OpenShift to provide a DevSecOps SDLC that support industry common best practices for CI/CD                       | 20 mins  |
-| 165    | [165 - Workload Cluster setup](./165-openshift-workload)                   | Binds the cluster to the IBM Logging and IBM Monitoring instances in shared services, sets up some basic cluster configuration, and provisions ArgoCD into the cluster for CD | 10 mins  |
+|--------| ---------------------------------------------- |-----------------------------------------------------------------------------------------------------------------------| -------- |
+| 400    | [000 - Account Setup](./000-account-setup)     | Set up account and provision a set of account-wide services. This is intended to only be run one time in an account | 5 Mins   |
+| 402    | [100 - Shared Services](./100-shared-services) | Provision a set of common cloud managed services that can be shared with a Edge, **Management** and **Workload** VPCs | 5 Mins   |
+| 404    | [110 - Edge VPC](./110-edge-vpc)               | Provision an **Edge VPC** with Client to Site VPN & Bastion                                                           | 10 Mins  |
+| 406    | [120 - Management VPC](./120-management-vpc)   | Provision a **Management VPC** and connect to Transit Gateway                                                         | 10 mins  |
 
 ### Configuration guidance
 
@@ -109,22 +76,197 @@ If you are planning to create multiple instances of the Management or Workload a
 
 ## Setup
 
-### Key Management
 
-The first step in this automation is to provision a Key Management service instance.  By default, this Terraform automation will provision an instance of the Key Protect key management service.  Optionally, you can provision a Hyper Protect Crypto Services instance into the nominated account and initialise the key ceronmony by changing the `kms_service` tfvar value to `hpcs`. You can do this with the following automation. We recommend to follow the product docs to perform the quick initialization.
+![](images/IBM_Software_Everywhere.png)
+# Software Everywhere Turbonomics BEGINNER Set-Up Tutorial
 
-[Hyper Protect Cyrpto Service Documentation](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-get-started)
 
-For proof of technology environments we recommend using the `auto-init` feature. [Auto Init Documentation](https://cloud.ibm.com/docs/hs-crypto?topic=hs-crypto-initialize-hsm-recovery-crypto-unit)
+Hello! Welcome to Caroline Ehler's documentation/tutorial I've compiled for the Software Everywhere project!
+This tutorial is specific to Turbonomic.
 
-#### <a name="enable-financial-services-validated-account-flag"></a> Enable the account to use Financial Services Validated products
+**Contact**
 
-Enable your IBM Cloud account to use Financial Services Validated Products
+Should there be any issues with this tutorial, please contact caroline.ehler@ibm.com. Thanks!
 
-1. Open the IBM Cloud console and click on **Manage** down arrow and select **Account** - https://cloud.ibm.com/account
-2. After selecting **Account**,select **Account settings** from the left side menu - https://cloud.ibm.com/account/settings
-3. Click **On** for the Financial Services Validated option.
-4. Read the information about enabling the setting, and select **I understand and agree to these terms**. Click **On**.
+## Tutorial
+### Set-Up
+To begin, you'll need to be sure to have all of these things installed on your machine: Docker & Node.js
+
+If you don't, follow these steps:
+
+A. Download Homebrew: https://sourabhbajaj.com/mac-setup/Homebrew/
+Follow the Homebrew setup tutorial.
+
+B. Download Homebrew's Node.js: https://sourabhbajaj.com/mac-setup/Node.js/
+
+C. Download Homebrew's Docker: https://sourabhbajaj.com/mac-setup/Docker/
+
+From the Homebrew tutorial:
+
+Docker for Mac can be downloaded here: https://docs.docker.com/desktop/mac/install/
+```bash
+brew install cask
+brew install --cask docker
+```
+
+### Begin Tutorial
+1. Create a cluster on Red Hat Openshift using IBM Cloud. https://cloud.ibm.com/
+
+<img src="images/ibmcloudss.png" width="500">
+
+2. Clone the iascable repo here: https://github.com/cloud-native-toolkit/iascable
+```bash
+git clone https://github.com/cloud-native-toolkit/iascable.git
+```
+
+3. Inside the iascable directory, install node.js
+```bash 
+npm install
+```
+
+4. Create a Bill of Materials (BOM) called ```gitopsbootstrap-bom.yaml``` in iascalbe.
+
+```python
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: multicloud-cluster
+spec:
+  modules:
+    - name: ocp-login
+    - name: olm
+    - name: gitops-namespace
+    - name: argocd-bootstrap
+    - name: gitops-console-link-job
+    - name: gitops-cluster-config
+      alias: config
+      variables:
+        - name: banner_text
+          important: true
+  ```
+
+5. Run the BOM to generate the terraform file:
+
+./iascable build -i <location_of_gitopsbootstrap-bom.yaml_file> -o <location_for_output>
+```bash 
+./iascable build -i gitopsbootstrap-bom.yaml -o ./myFolder
+```
+
+6. Accessing the generated folder from the above command, cd into myFolder --> multicloud-cluster --> terraform
+
+7. Edit the file ```multicloud-cluster.auto.tfvars```. Uncomment the last line of each section to add your modifications.
+
+**7A.** Banner Text: The title of the top banner in the cluster
+
+```config_banner_text="Turbonomics Tutorial"```
+
+**7B.** Namespace Name = The value that should be used for the namespace
+
+```namespace_name="gitops-tools"```
+
+**7C.** Server URL: The url for the OpenShift api
+
+```server_url="https://c100-e.us-east.containers.cloud.ibm.com:31361"```
+
+To access this, go to the OpenShift console from your cluster.
+
+![](images/osconsole.png)
+
+Click the dropdown from your username.
+
+Click "Copy login command".
+
+![](images/loginos.png)
+
+Hit display token.
+
+Use the URL that follows ```--server=``` from the Login with this Token ```oc login``` line.
+
+![](images/token.png)
+
+**7D.** Cluster Login Token:
+
+```cluster_login_token="sha256....."```
+
+Following the same steps as above for the Server URL, go to the same page with your OpenShift token login.
+
+Use the API token as the Cluster Login Token.
+**NOTE: The Cluster Login Token will time-out after about an hour.** You will have to modify the terraform file again if you cannot get to step 9 within an hour of generating this Login Token.
+
+**7E.** Gitops-repo_host: The host for the git repository. (Use github.com)
+
+```gitops-repo_host="github.com"```
+
+**7F.** Gitops-repo_type: The type of the hosted git repository (github or gitlab).
+
+```gitops-repo_type="github"```
+
+**7G.** Gitops-repo_org: The org/group where the git repository exists/will be provisioned. (Your Github username)
+
+```gitops-repo_org="cee7zm"```
+
+**7H.** Gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name) (The name for the repo the terraform will generate. Be sure the name you choose is not one of your existing repositories already).
+
+```gitops-repo_repo="my_turbo_repo"```
+
+**7I.** Fitops-repo_username: The username of the user with access to the repository (your github username)
+
+```gitops-repo_username="cee7zm"```
+
+**7J.** Gitops-repo_token: The personal access token used to access the repository
+
+```gitops-repo_token="...[your generated token]..."```
+
+To access your Github-generated token, go to Github.com.
+
+Login and select your profile menu.
+
+<img src="images/settingsmenu.png" width="300">
+
+Go to Settings --> Developer Settings (bottom of left-side menu list) --> Personal Access Tokens (again, bottom of left-side menu)
+
+Generate a new token. **MAKE NOTE OF THIS TOKEN. IT WILL DISAPPEAR AFTER YOU VIEW IT.**
+
+Select the permissions for the token to be at least the bolded repo and delete_repo boxes.
+
+Hit Generate Token. MAKE NOTE OF THIS TOKEN. Hit the copy button and store it somewhere for future reference.
+
+![](images/terraform.png)
+
+
+8. Open up Docker to run. In the terraform directory, run the following commands.
+
+Set the environment variable GITTOKEN to your **generated Github token.**
+
+```export GITTOKEN="3792a189....." ```
+
+```docker run -it -e TF_VAR_gitops-repo_token=$GITTOKEN -v ${PWD}:/terraform -w /terraform quay.io/ibmgaragecloud/cli-tools:v0.15```
+
+Terraform will begin running. Now run:
+
+```$ terraform init``` This will take a minute to run.
+
+```$ terraform apply -auto-approve```
+This will take 10-15 minutes to compelte if this is your first-time running this setup.
+
+10. Check to see if everything downloaded correctly and you can access Turbonomic.
+
+**10A.** In the OpenShift Console, go to **Networking --> Routes**
+![](images/tutorial1a.png)
+
+**10B.** Verify thtat you are in the proper namespace you established earlier.
+![](images/tut1b.png)
+
+**10C.** Visit the location link to go to Turbonomic.
+![](images/tut1c.png)
+
+**10D.** You should be taken to the Turbonomic login page! If you made it here, congrats! You are finished with the tutorial. Go ahead and login, provide your license, and get started!
+![](images/tut2.png)
+
+
+**Tutorial Complete. If you have any concerns, questions, or feedback, please email caroline.ehler@ibm.com. Thanks!**
+
+
 
 ### Terraform IasC Automation
 
@@ -149,6 +291,196 @@ Enable your IBM Cloud account to use Financial Services Validated Products
 1. Copy `credentials.template` to `credentials.properties`.
 2. Provide your IBM Cloud API key as the value for the `ibmcloud.api.key` variable in `credentials.properties` (**Note:** `*.properties` has been added to `.gitignore` to ensure that the file containing the apikey cannot be checked into Git.)
 
+![](images/IBM_Software_Everywhere.png)
+# Software Everywhere Turbonomics BEGINNER Set-Up Tutorial
+
+
+Hello! Welcome to Caroline Ehler's documentation/tutorial I've compiled for the Software Everywhere project!
+This tutorial is specific to Turbonomic.
+
+**Contact**
+
+Should there be any issues with this tutorial, please contact caroline.ehler@ibm.com. Thanks!
+
+## Tutorial
+### Set-Up
+To begin, you'll need to be sure to have all of these things installed on your machine: Docker & Node.js
+
+If you don't, follow these steps:
+
+A. Download Homebrew: https://sourabhbajaj.com/mac-setup/Homebrew/
+Follow the Homebrew setup tutorial.
+
+B. Download Homebrew's Node.js: https://sourabhbajaj.com/mac-setup/Node.js/
+
+C. Download Homebrew's Docker: https://sourabhbajaj.com/mac-setup/Docker/
+
+From the Homebrew tutorial:
+
+Docker for Mac can be downloaded here: https://docs.docker.com/desktop/mac/install/
+```bash
+brew install cask
+brew install --cask docker
+```
+
+### Begin Tutorial
+1. Create a cluster on Red Hat Openshift using IBM Cloud. https://cloud.ibm.com/
+
+<img src="images/ibmcloudss.png" width="500">
+
+2. Clone the iascable repo here: https://github.com/cloud-native-toolkit/iascable
+```bash
+git clone https://github.com/cloud-native-toolkit/iascable.git
+```
+
+3. Inside the iascable directory, install node.js
+```bash 
+npm install
+```
+
+4. Create a Bill of Materials (BOM) called ```gitopsbootstrap-bom.yaml``` in iascalbe.
+
+```python
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: multicloud-cluster
+spec:
+  modules:
+    - name: ocp-login
+    - name: olm
+    - name: gitops-namespace
+    - name: argocd-bootstrap
+    - name: gitops-console-link-job
+    - name: gitops-cluster-config
+      alias: config
+      variables:
+        - name: banner_text
+          important: true
+  ```
+
+5. Run the BOM to generate the terraform file:
+
+./iascable build -i <location_of_gitopsbootstrap-bom.yaml_file> -o <location_for_output>
+```bash 
+./iascable build -i gitopsbootstrap-bom.yaml -o ./myFolder
+```
+
+6. Accessing the generated folder from the above command, cd into myFolder --> multicloud-cluster --> terraform
+
+7. Edit the file ```multicloud-cluster.auto.tfvars```. Uncomment the last line of each section to add your modifications.
+
+**7A.** Banner Text: The title of the top banner in the cluster
+
+```config_banner_text="Turbonomics Tutorial"```
+
+**7B.** Namespace Name = The value that should be used for the namespace
+
+```namespace_name="gitops-tools"```
+
+**7C.** Server URL: The url for the OpenShift api
+
+```server_url="https://c100-e.us-east.containers.cloud.ibm.com:31361"```
+
+To access this, go to the OpenShift console from your cluster.
+
+![](images/osconsole.png)
+
+Click the dropdown from your username.
+
+Click "Copy login command".
+
+![](images/loginos.png)
+
+Hit display token.
+
+Use the URL that follows ```--server=``` from the Login with this Token ```oc login``` line.
+
+![](images/token.png)
+
+**7D.** Cluster Login Token:
+
+```cluster_login_token="sha256....."```
+
+Following the same steps as above for the Server URL, go to the same page with your OpenShift token login.
+
+Use the API token as the Cluster Login Token.
+**NOTE: The Cluster Login Token will time-out after about an hour.** You will have to modify the terraform file again if you cannot get to step 9 within an hour of generating this Login Token.
+
+**7E.** Gitops-repo_host: The host for the git repository. (Use github.com)
+
+```gitops-repo_host="github.com"```
+
+**7F.** Gitops-repo_type: The type of the hosted git repository (github or gitlab).
+
+```gitops-repo_type="github"```
+
+**7G.** Gitops-repo_org: The org/group where the git repository exists/will be provisioned. (Your Github username)
+
+```gitops-repo_org="cee7zm"```
+
+**7H.** Gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name) (The name for the repo the terraform will generate. Be sure the name you choose is not one of your existing repositories already).
+
+```gitops-repo_repo="my_turbo_repo"```
+
+**7I.** Fitops-repo_username: The username of the user with access to the repository (your github username)
+
+```gitops-repo_username="cee7zm"```
+
+**7J.** Gitops-repo_token: The personal access token used to access the repository
+
+```gitops-repo_token="...[your generated token]..."```
+
+To access your Github-generated token, go to Github.com.
+
+Login and select your profile menu.
+
+<img src="images/settingsmenu.png" width="300">
+
+Go to Settings --> Developer Settings (bottom of left-side menu list) --> Personal Access Tokens (again, bottom of left-side menu)
+
+Generate a new token. **MAKE NOTE OF THIS TOKEN. IT WILL DISAPPEAR AFTER YOU VIEW IT.**
+
+Select the permissions for the token to be at least the bolded repo and delete_repo boxes.
+
+Hit Generate Token. MAKE NOTE OF THIS TOKEN. Hit the copy button and store it somewhere for future reference.
+
+![](images/terraform.png)
+
+
+8. Open up Docker to run. In the terraform directory, run the following commands.
+
+Set the environment variable GITTOKEN to your **generated Github token.**
+
+```export GITTOKEN="3792a189....." ```
+
+```docker run -it -e TF_VAR_gitops-repo_token=$GITTOKEN -v ${PWD}:/terraform -w /terraform quay.io/ibmgaragecloud/cli-tools:v0.15```
+
+Terraform will begin running. Now run:
+
+```$ terraform init``` This will take a minute to run.
+
+```$ terraform apply -auto-approve```
+This will take 10-15 minutes to compelte if this is your first-time running this setup.
+
+10. Check to see if everything downloaded correctly and you can access Turbonomic.
+
+**10A.** In the OpenShift Console, go to **Networking --> Routes**
+![](images/tutorial1a.png)
+
+**10B.** Verify thtat you are in the proper namespace you established earlier.
+![](images/tut1b.png)
+
+**10C.** Visit the location link to go to Turbonomic.
+![](images/tut1c.png)
+
+**10D.** You should be taken to the Turbonomic login page! If you made it here, congrats! You are finished with the tutorial. Go ahead and login, provide your license, and get started!
+![](images/tut2.png)
+
+
+**Tutorial Complete. If you have any concerns, questions, or feedback, please email caroline.ehler@ibm.com. Thanks!**
+
+
 
 ### Apply each architecture in the solution
 
@@ -169,245 +501,14 @@ Enable your IBM Cloud account to use Financial Services Validated Products
    - `160`
    - `165`
 
-> **⚠️ Warning**: You will receive errors when executing `160` and `165` if you do not connect to the VPN. The error message will be similar to:
->
-> ```
-> Error: Error downloading the cluster config [mgmt-cluster]: Get "https://c109-e.private.us-east.containers.cloud.ibm.com:30613/.well-known/oauth-authorization-server": dial tcp 166.9.24.91:30613: i/o timeout
-> ```
->
-> If you then connect to the VPN and attempt to re-run the terraform template, you will then receive an error similar to:
->
-> ```
-> Error: Kubernetes cluster unreachable: invalid configuration: no configuration has been provided, try setting KUBERNETES_MASTER environment variable
-> ```
->
-> To get around this issue:
->
-> 1. Make sure you are connected to the VPN
-> 2. Delete the `terraform.tfstate` file
-> 3. Re-run the `terraform apply` command
+## Configurating Data Sources
 
-> We are working on an air gapped install of developer tools from within the private VPC network for Management Cluster.
 
-## Configure VPN
+## Summary
 
-The following steps will help you setup the VPN server.
 
-1. Import the generated ovpn file from the `110-edge-vpc` step into your OpenVPN client and start the VPN connection. You should now have connectivity into the private VPC network and access to the edge VPC. This file will be located in `./workspace/110-edge-vpc`.
-
-## Post Install of SCC Collectors
-
-> **Limitations**: Currently, the managed SCC collector cannot be installed and configured using automation. As the APIs become available these steps will be updated.
-
-The following post installation steps are required to enable scans of the infrastructure using the Security and Compliance Center. This configuration must only be performed one time.
-
-1. Register the API key with [Security and Compliance Console](#register-scc-api-key) console.
-
-2. [Create an IBM-managed collector with private endpoints](#generate-ssc-collector) by following the instructions below.
-
-3. [Install the SCC collector](#install-scc-collector) into the already provisioned VSI's within the collector.
-
-4. Once installed into the **Management** and **Workload** remember to activate them to start collecting compliance evidence for you Virtual Private Cloud configurations.
-
-5. Review the scan results in the [Security and Compliance Center](https://cloud.ibm.com/security-compliance/overview)
-
-### <a name="register-scc-apikey"></a> Register an API key with SCC
-
-Set API Key for Security and compliance
-
-1. Open the IBM Cloud console to the **Security and Compliance** tool - https://cloud.ibm.com/security-compliance/overview
-2. Under **Manage Posture**, click **Configure** > **Settings**.
-3. Open the **Credentials** tab and click **Create** to create a new credential. Provide the following values:
-   - **Name**: Provide a descriptive name for the credential
-   - **Purpose**: `Discovery/Collection`
-4. Click **Next** to advance to the next page. Provide the following values:
-   - **Credential type**: `IBM Cloud`
-   - **IBM API key**: Enter your IBM Cloud API key
-5. Press **Create** to register the API key.
-
-### <a name="generate-ssc-collector"></a> Generate an IBM-managed SCC collector with private endpoints
-
-An SCC collector is required to scan the infrastructure within the account for vulnerabilities.
-
-1. Open the IBM Cloud console to the **Security and Compliance** tool - https://cloud.ibm.com/security-compliance/overview.
-2. Under **Manage Posture**, click **Configure** > **Settings**.
-3. On the **Collectors** tab, click **Create**. Provide `ibm-managed` for the collector **name** and press **Next**.
-4. On the **Configuration** tab, provide the following values:
-   - **Managed by**: `IBM`
-   - **Endpoint type**: `Private`
-5. Click **Create** to define the collector instance.
-6. From the **Collectors** tab you will see the collector provisioning. It will take several minutes for the collector to be available.
-
-## Configure Security and Compliance for an SCC scan
-
-The following steps are required to set up an SCC scan of the environment after the SCC collectors have been installed. All of the following steps will be performed within the Security and Compliance center - https://cloud.ibm.com/security-compliance/overview
-
-### 1. Create an inventory
-
-1. Open the SCC inventory page - https://cloud.ibm.com/security-compliance/inventory
-2. Click **Create** to create a new inventory
-3. Provide a **name** for the inventory. Provide a name that identifies the environment you are scanning.
-4. Press **Next**.
-5. Check the collector(s) that have been registered for the environment. If the SCC collector steps have been performed successfully the collectors should be in **Ready** state.
-6. Click "Save" to create the inventory.
-
-### 2. Create a scope
-
-A scope will define the collection of resources upon which the scan will be performed. Multiple scopes can be created for the same resources so how these scopes are defined is up to you. For now it is assumed you will have one scope per environment (i.e. one for management and one for workload).
-
-1. Open the SCC scope page - https://cloud.ibm.com/security-compliance/scopes
-2. Click **Create** to create a new scope
-3. Provide a **name** for the scope (e.g. management).
-4. Click **Next**
-5. If you have previously created a scope and provided IBM Cloud credentials you can pick it from the list. If not click **Create +** to add a new one.
-   1. Provide a name for the credential that will identify it for later use
-   2. Select `Both` for the **Purpose**
-   3. Press **Next**
-   4. Pick `IBM Cloud` for the **Credential type**
-   5. Provide your **IBM API key** for the account
-   6. Press **Create** to create the credential
-   7. Make sure the newly created credential is selected in the **Credentials** field of Scope dialog
-6. Press **Next** on the Scope page to proceed to the "Collectors" pane
-7. Select the collector(s) that will be used for the environment
-8. Click **Next**
-9. Click **Create** to create the scope
-
-Creating the scope should kick off the Discovery scan which will take 10-30 minutes depending upon how many resources are in the environment.
-
-### 3. Scope the inventory to the desired resources
-
-After the initial Discovery scan, the scope will include **all** of the resources in the account. In most cases you will want to restrict the resources in the scope to those that are related to the particular environment.
-
-1. Open the SCC scope page - https://cloud.ibm.com/security-compliance/scopes
-2. Click on the name of the scope that you want to update.
-3. In the "Inventory" section of the Scope page, click the **Edit** button.
-4. Select/deselect the resources that should be included in the scope. Likely you will want to select just the resource group(s) that make up the environment. (Be sure to include the HPCS resource group, shared services, and environment resource group in scope.)
-5. Click \*_Save_ to update the scope.
-
-**Note:** An on-demand Discovery scan can be triggered if you need to update the inventory after changes in the environment. (See next step)
-
-### 4. Run an on-demand scan
-
-Now that the scope is set up, on-demand scans can be performed to get the validation results and update the inventory.
-
-1. Open the SCC scope page - https://cloud.ibm.com/security-compliance/scopes
-2. Find the scope against which you want to run a scan in the table.
-3. Click the action menu on the right-hand side of the row (the vertical three dots) and select **On-demand scan**
-4. Select `Validation` to run a validation scan. (This will also trigger a Discovery scan that runs before the validation.)
-5. Select `IBM Cloud for Financial Services v0.1` for the **Profile**
-6. Click **Create** to start the scan.
-
-Depending on the number of resources in the scope, the scan will take 20-40 minutes.
-
-### 5. View the scan results
-
-1. Open the SCC scans page - https://cloud.ibm.com/security-compliance/scans
-2. Once the scan is completed you will see an entry for the scan result in the page.
-3. Click on the scan to see the results
-
-### 6. Schedule regular scans of the environment
-
-On-demand scans can be run at any point but you can also schedule scans to be regularly run against the environment.
-
-1. Open the SCC scans page - https://cloud.ibm.com/security-compliance/scans
-2. Click the **Scheduled scans** tab
-3. Click **Schedule** to create a scheduled scan
-4. Provide a **name** for the scan
-5. Select `Validation` for the **Scan type**
-6. Select the scope from the previous step for the **Scope**
-7. Select `IBM Cloud for Financial Services v0.1` for the **Profile**
-8. Click **Next**
-9. Provide the schedule information for how frequently and for what duration the scan should run.
-10. Click **Create** to create the scheduled scan
-
-## Known Exceptions
-
-The following exceptions are know when an SCC scan is performed on the reference architecure. These will need to be resolved for a production deployment. They are linked to the VPN client configuration.
-
-### <a name="exceptions"></a> SCC Scan Exceptions
-
-| Goal ID | Goal Description                                                                                                              | Severity | Exception description                                                                                                                                                                                                 |
-| ------- | ----------------------------------------------------------------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 3000404 | Check that the inbound rules in a VPC security group do not contain any rules that specify source IP 0.0.0.0/0 to SSH port 22 | Critical | The VPN security group requires access on port 22 from 0.0.0.0/0                                                                                                                                                      |
-| 3000410 | Check that no VPC security groups have inbound ports open to the internet (0.0.0.0/0)                                         | Critical | The OpenVPN server requires access to the internet                                                                                                                                                                    |
-| 3000411 | Check that no VPC security groups have outbound ports open to the internet (0.0.0.0/0)                                        | Critical | The SCC collector currently requires access to the internet                                                                                                                                                           |
-| 3000441 | Check whether no VPC access control lists allow ingress from 0.0.0.0/0 to port 22                                             | Critical | VPC access control list does not restrict ingress from 0.0.0.0/0 to port 22                                                                                                                                           |
-| 3000452 | Check whether no VPC network access control lists allow egress to 0.0.0.0/0 to any port                                       | Critical | The SCC collector and OpenShift cluster require egress to 0.0.0.0/0                                                                                                                                                   |
-| 3000451 | Check whether no VPC network access control lists allow ingress from 0.0.0.0/0 to any port                                    | Critical | The VPN server requires ingress from 0.0.0.0/0                                                                                                                                                                        |
-| 3000448 | Check whether Virtual Private Cloud (VPC) has no public gateways attached at the time of provisioning                         | High     | Public gateways give the subnets access to the internet. In the POT environment public gateways are currently needed for the SCC collector and for pipeline in the OpenShift cluster to access development resources. |
-| 3000449 | Check whether Virtual Private Cloud (VPC) has no public gateways attached                                                     | High     | Same as previous                                                                                                                                                                                                      |
-| 3000467 | Check whether subnet does not have public gateway attached.                                                                   | High     | Same as previous                                                                                                                                                                                                      |
-| 3000454 | Check whether virtual server does not have a Floating IP                                                                      | High     | The OpenVPN virtual server instance uses a floating IP so that it can be accessed outside the private network for both SSH (port 22) access to configure VPN and VPN (port 1194) access.                              |
-| 3000116 | Check whether Cloud Object Storage bucket resiliency is set to cross region                                                   | Medium   | Current conflict between encrypted buckets and cross-region buckets                                                                                                                                                   |
-| 3000234 | Check whether Hyper Protect Crypto Services instance is enabled with a dual authorization deletion policy                     | Low      | For the POT environment, requireing dual authorization to delete a key would make cleanup and management much more difficult                                                                                          |
-
-## Deploy First Application into Red Hat OpenShift
-
-IBM is a multi-cloud company and we fully embrace consistent development tooling across cloud enviroments including IBM Cloud.
-
-We recommend using the RedHat OpenShift developer tools for container based development. The Cloud-Native Toolkit gives a consistent developer experience and a set of SDLC tools (Software Delivery LifeCycle) that run inside on any OpenShift environment. These tools are installed as part of `160` and `170`. You can find more information about the toolkit here. [Cloud-Native Toolkit](https://cloudnativetoolkit.dev/)
-
-**Prerequisites**
-
-1. Ensure VPN is on
-2. Follow the [Cloud Native Toolkit Dev-Setup guide](https://cloudnativetoolkit.dev/learning/dev-setup/) to configure dependencies.
-3. Create your first application pipeline using OpenShift Pipelines (Tekton) using the [Cloud Native Toolkit Continuous Integration Fast-start tutorial](https://cloudnativetoolkit.dev/learning/fast-ci/).
-4. Configure your first Continuous Delivery application using OpenShift GitOps (ArgoCD) by following the [Cloud Native Toolkit Countinuous Delivery Fast-start tutorial](https://cloudnativetoolkit.dev/learning/fast-cd/).
-
-## (Optional) Cloud Satellite Setup & OpenShift Marketplace Add
-
-Cloud Satellite can be used to deploy your application to a managed OpenShift environment anywhere on prem, on the Edge, or other Cloud providers.
-
-Deploying Satellite involves the following steps:
-
-1. Creating a Satellite location
-2. Attach hosts to your location
-3. Assigning hosts to the Satellite control plane
-
-Detailed instructions for this can be found here in the [Satellite docs](https://cloud.ibm.com/docs/satellite?topic=satellite-getting-started)
-
-## Adding RedHat Marketplace to a ROKS Satellite Cluster
-
-Post installation of Cloud Satellite, the RedHat Marketplace is not added automatically within the OpenShift Cluster. This needs to be setup manually.
-
-If you try and install one of the Red Hat Marketplace operators though you’ll find a problem with being unable to pull the operator image.
-
-You must register your ROKS on Satellite cluster with the Red Hat Marketplace following instructions here: https://marketplace.redhat.com/en-us/workspace/clusters/add/register.
-
-**NOTE**: Registering for the marketplace right now is currently only supported with a US based email address. After registering the marketplace will be available to all users of the cluster regardless of location.
-
-This will create a new namespace `openshift-redhat-marketplace` and a global pull secret.
-
-After step 5 in the Red Hat Marketplace instructions above, you need to restart your workers manually as the update pull secret script doesn’t get applied immediately.
-
-**Prerequisite**
-
-`oc cli version 4.6.23+`
-available here: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/4.6.23/
-
-1.  List your satellite clusters you have access to:
-    `ibmcloud ks cluster ls`
-
-2.  List workers for your satellite cluster:
-    `ibmcloud oc worker ls -c <cluster name from list above>`
-
-3.  Restart each of the workers (**Note** this could potentially cause an application outage if done all at once)
-    `ibmcloud oc worker reload -c gp-satellite-openshift-cluster -w <workerID>`
-
-## Reference
-
-### <a name="generate-ssh-keys"></a> Generate SSH Keys
-
-You need to create a set of unique keys that will be configured for the various components that are provisioned by the Terraform automation.
-
-1. The command to generate the ssh keys is `ssh-keygen -t rsa -b 3072 -N "" -f {name}`
-
-2. You will want to run the command 6 times to generate the keys. If you are keeping with the names in the **terraform.tfvars** file then run the following:
-
-   ```shell
-   ssh-keygen -t rsa -b 3072 -N "" -f ssh-edge-bastion -q
-   ssh-keygen -t rsa -b 3072 -N "" -f ssh-mgmt-scc -q
-   ssh-keygen -t rsa -b 3072 -N "" -f ssh-workload-scc -q
-   ```
+   
 
 ## Troubleshooting
+
+There are currently no troubleshooting topics at this point. 

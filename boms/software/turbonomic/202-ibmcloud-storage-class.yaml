@@ -1,27 +1,17 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 406-gitops-ocp-turbonomic-ibmcloud
+  name: 202-ibmcloud-storage-class
   labels:
-    type: software
-    platform: ibm
-    code: '406'
+    code: '202'
   annotations:
-    displayName: Turbonomic on OpenShift - IBM Cloud
-    description: GitOps deployment of Turbonomic on IBM Cloud
+    displayName: Turbonomic Storage Class - IBM Cloud
+    description: GitOps deployment of Storage Class for IBM Cloud OpenShift environment
 spec:
   modules:
-    # Login to existing OpenShift cluster
-    - name: ocp-login
 
     # Create the GitOps Repo
     - name: gitops-repo
-
-    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
-    - name: argocd-bootstrap
-      variables:
-        - name: create_webhook
-          value: true
 
     # Create Name Space for Turbonomic
     - name: gitops-namespace
@@ -39,8 +29,3 @@ spec:
           value: vpc.block.csi.ibm.io
         - name: parameter_list
           value: [{key : "classVersion",value : "1"},{key : "csi.storage.k8s.io/fstype", value : "ext4"}, {key : "encrypted",value : "false"},{key : "profile",value : "10iops-tier"},{key : "sizeRange",value : "[10-2000]GiB]"}]
-
-    - name: gitops-ocp-turbonomic
-      dependencies:
-        - name: storage_class_name
-          ref: storage
