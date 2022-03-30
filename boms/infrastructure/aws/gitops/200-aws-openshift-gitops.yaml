@@ -1,0 +1,35 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 200-aws-openshift-gitops
+  labels:
+    type: software
+    platform: aws
+    code: '200'
+  annotations:
+    displayName: AWS OpenShift GitOps Bootstrap
+    description: Provisions OpenShift GitOps into an existing AWS cluster and bootstraps it to a gitops repository
+spec:
+  modules:
+    # Login to existing OpenShift cluster
+    - name: ocp-login
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
+    - name: argocd-bootstrap
+      variables:
+        - name: create_webhook
+          value: true
+
+    - name: gitops-namespace
+      alias: toolkit_namespace
+      default: true
+      variables:
+        - name: name
+          value: toolkit
+
+    - name: gitops-cluster-config
+      alias: config
+    - name: gitops-console-link-job

@@ -1,14 +1,14 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 150-ibm-production-vpc-openshift
+  name: 130-ibm-development-vpc-openshift
   labels:
     type: infrastructure
     platform: ibm
-    code: '150'
+    code: '130'
   annotations:
-    displayName: IBM Production VPC OpenShift
-    description: IBM VPC with Red Hat OpenShift cluster for production and VPC Transit Gateway to development VPC
+    displayName: IBM Development VPC OpenShift
+    description: IBM VPC and Red Hat OpenShift server for development environment
 spec:
   modules:
     - name: ibm-resource-group
@@ -28,17 +28,18 @@ spec:
         - name: resource_group
           ref: kms_resource_group
     - name: ibm-resource-group
-      alias: integration_resource_group
+      alias: dev_resource_group
       default: true
+    - name: ibm-access-group
     - name: ibm-vpc
       variables:
         - name: address_prefix_count
           value: 3
         - name: address_prefixes
           value:
-            - 10.40.0.0/18
-            - 10.50.0.0/18
-            - 10.60.0.0/18
+            - 10.10.0.0/18
+            - 10.20.0.0/18
+            - 10.30.0.0/18
     - name: ibm-flow-logs
       dependencies:
         - name: target
@@ -50,28 +51,29 @@ spec:
       alias: worker-subnets
       variables:
         - name: _count
-          alias: workload_worker_subnet_count
+          alias: mgmt_worker_subnet_count
           scope: global
           value: 3
         - name: label
           value: worker
         - name: ipv4_cidr_blocks
           value:
-            - 10.40.10.0/24
-            - 10.50.10.0/24
-            - 10.60.10.0/24
+            - 10.10.10.0/24
+            - 10.20.10.0/24
+            - 10.30.10.0/24
       dependencies:
         - name: gateways
           ref: ibm-vpc-gateways
     - name: ibm-ocp-vpc
-      alias: integration_cluster
+      alias: dev_cluster
+      default: true
       variables:
         - name: disable_public_endpoint
           value: true
         - name: kms_enabled
           value: true
         - name: worker_count
-          alias: integration_worker_count
+          alias: dev_worker_count
         - name: ocp_version
           value: 4.8
       dependencies:
@@ -88,9 +90,9 @@ spec:
           value: vpe
         - name: ipv4_cidr_blocks
           value:
-            - 10.40.20.0/24
-            - 10.50.20.0/24
-            - 10.60.20.0/24
+            - 10.10.20.0/24
+            - 10.20.20.0/24
+            - 10.30.20.0/24
     - name: ibm-vpc-subnets
       alias: ingress-subnets
       variables:
@@ -100,9 +102,13 @@ spec:
           value: ingress
         - name: ipv4_cidr_blocks
           value:
-            - 10.40.30.0/24
-            - 10.50.30.0/24
-            - 10.60.30.0/24
+            - 10.10.30.0/24
+            - 10.20.30.0/24
+            - 10.30.30.0/24
+    - name: ibm-vpc-vpn-gateway
+      dependencies:
+        - name: subnets
+          ref: vpn-subnets
     - name: ibm-resource-group
       alias: cs_resource_group
     - name: ibm-object-storage
@@ -124,19 +130,6 @@ spec:
         - name: kms
           ref: kms
     - name: ibm-activity-tracker
-      dependencies:
-        - name: resource_group
-          ref: cs_resource_group
-    - name: ibm-cloud-monitoring
-      variables:
-        - name: provision
-          value: false
-        - name: name_prefix
-          alias: cs_name_prefix
-          scope: global
-      dependencies:
-        - name: resource_group
-          ref: cs_resource_group
     - name: ibm-object-storage-bucket
       alias: flow_log_bucket
       variables:
@@ -153,7 +146,7 @@ spec:
         - name: subnets
           ref: vpe-subnets
         - name: sync
-          ref: integration_cluster
+          ref: dev_cluster
     - name: ibm-transit-gateway
       variables:
         - name: provision
@@ -164,9 +157,17 @@ spec:
       dependencies:
         - name: resource-group
           ref: cs_resource_group
-        - name: connections
-          ref: ibm-vpc
     - name: ibm-log-analysis
+      variables:
+        - name: provision
+          value: false
+        - name: name_prefix
+          alias: cs_name_prefix
+          scope: global
+      dependencies:
+        - name: resource_group
+          ref: cs_resource_group
+    - name: ibm-cloud-monitoring
       variables:
         - name: provision
           value: false
@@ -178,3 +179,15 @@ spec:
           ref: cs_resource_group
     - name: ibm-log-analysis-bind
     - name: ibm-cloud-monitoring-bind
+  variables:
+    - name: mgmt_resource_group_name
+    - name: mgmt_resource_group_provision
+    - name: region
+    - name: ibmcloud_api_key
+    - name: name_prefix
+      alias: mgmt_name_prefix
+      required: true
+    - name: cs_resource_group_name
+    - name: cs_name_prefix
+    - name: worker_count
+    - name: kms_service
