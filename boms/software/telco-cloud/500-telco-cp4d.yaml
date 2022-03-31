@@ -22,8 +22,9 @@ spec:
 #   Cloud Native Test Cluster already have operators.
     # Cloud Pak for Database Base
 #    - name: gitops-cp4d-operator
-    - name: gitops-db2u
+#    - name: gitops-db2u
 #    - name: gitops-cp4d-instance
+     - name: ibm-common-services
 
 
 

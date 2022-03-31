@@ -5,8 +5,8 @@ metadata:
   labels:
     code: '500'
   annotations:
-    displayName: Telco Core
-    description: Telco Core on OpenShift
+    displayName: Telco - CP4I Component
+    description: Telco - CP4I Component on OpenShift
 spec:
   # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
