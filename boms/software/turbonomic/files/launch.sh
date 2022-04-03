@@ -5,10 +5,14 @@ function prop {
     grep "${1}" ${ENV}.properties | grep -vE "^#" | cut -d'=' -f2 | sed 's/"//g'
 }
 
+TF_VAR_gitops_repo_username=""
+TF_VAR_gitops_repo_token=""
+TF_VAR_cluster_login_token=""
+
 if [[ -f "${ENV}.properties" ]]; then
     # Load the credentials
-    IBMCLOUD_API_KEY=$(prop 'ibmcloud.api.key')
-    CLASSIC_API_KEY=$(prop 'classic.api.key')
+    GITOPS_REPO_USERNAME=$(prop '_gitops_repo_username')
+    GITOPS_REP_TOKENCLASSIC_API_KEY=$(prop 'classic.api.key')
     CLASSIC_USERNAME=$(prop 'classic.username')
     LOGIN_USER=$(prop 'login.user')
     LOGIN_PASSWORD=$(prop 'login.password')
