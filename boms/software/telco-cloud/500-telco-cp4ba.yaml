@@ -15,20 +15,26 @@ spec:
     - name: ocp-login
     - name: gitops-repo
     - name: gitops-bootstrap
+    - name: olm
+
+    # if we install on brand new cluster
+    #- name: sealed-secret-cert
+    
+    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
+    #- name: argocd-bootstrap
 
     # Cloud Pak Base
   #  - name: gitops-cp-catalogs
   #  - name: gitops-cp-platform-navigator
     # Dependency
-    - name: gitops-pull-secret
-    - name: gitops-namespace
-    - name: ibm-portworx
+  #  - name: gitops-pull-secret
+  #  - name: gitops-namespace
+  #  - name: ibm-portworx
   # 
-  #  - name: iaf-operator
 
     # Cloud Pak Automation
     # https://github.com/cloud-native-toolkit/terraform-gitops-cp-cp4ba-operator
-  #  - name: gitops-cp-cp4ba-operator
+    - name: cp4ba-operator
   # Variable: namespace
   # variable: storageclass_operator
 

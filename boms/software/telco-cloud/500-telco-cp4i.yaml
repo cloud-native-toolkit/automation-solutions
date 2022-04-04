@@ -15,6 +15,15 @@ spec:
     - name: ocp-login
     - name: gitops-repo
     - name: gitops-bootstrap
+    # Switch to brand new cluster 
+    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
+    #- name: argocd-bootstrap
+
+    # Installs OLM
+    - name: olm
+
+    # Creates cert for sealed-secret
+    - name: sealed-secret-cert
 
     # Cloud Pak Base
     - name: gitops-cp-catalogs
