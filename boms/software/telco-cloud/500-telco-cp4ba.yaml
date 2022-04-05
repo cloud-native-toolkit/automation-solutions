@@ -29,7 +29,7 @@ spec:
     # Dependency
   #  - name: gitops-pull-secret
   #  - name: gitops-namespace
-  #  - name: ibm-portworx
+    - name: ibm-portworx
   # 
 
     # Cloud Pak Automation
