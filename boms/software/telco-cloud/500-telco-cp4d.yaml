@@ -5,8 +5,8 @@ metadata:
   labels:
     code: '500'
   annotations:
-    displayName: Telco Core
-    description: Telco Core on OpenShift
+    displayName: Cloud Pak for Data - DB2 modules
+    description: Cloud Pak for Data - DB2 modules
 spec:
   # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
@@ -15,17 +15,58 @@ spec:
     - name: ocp-login
     - name: gitops-repo
     - name: gitops-bootstrap
+    - name: olm
+    - name: sealed-secret-cert
 
-    # Cloud Pak Base
+    # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
+    - name: gitops-namespace
+      variables:
+        - name: cs-namespace
+          value: ibm-common-services 
+        - name: operator_namespace
+          value: cpd-operators   
+        - name: cpd_namespace
+          value: gitops-cp4d-instance  
+
+    - name: gitops-pull-secret  # Global pull secret is required. This is temprary
+      dependencies:
+        - name: cs-namespace
+          ref: ibm-common-services
+        - name: operator_namespace
+          ref: cpd-operators 
+        - name: cpd_namespace
+          ref: gitops-cp4d-instance 
+
+    # CatalogSources ibm-operator-catalog & ibm-db2uoperator-catalog
     - name: gitops-cp-catalogs
+      dependencies:
+        - name: cs-namespace
+          ref: ibm-common-services
 
-#   Cloud Native Test Cluster already have operators.
-    # Cloud Pak for Database Base
-#    - name: gitops-cp4d-operator
-#    - name: gitops-db2u
-#    - name: gitops-cp4d-instance
-     - name: ibm-common-services
+    # CP4D platform Foundational Services
+    - name: ibm-common-service
+      dependencies:
+        - name: cs-namespace
+          ref: ibm-common-services  
 
+    # CP4D Operator
+    - name: gitops-cp4d-operator
+      dependencies:
+        - name: operator_namespace
+          ref: cpd-operators 
+
+    # CP4D Instance
+    - name: cp4d-instance
+      dependencies:
+        - name: cpd_namespace
+          ref: gitops-cp4d-instance
+      variables:
+        - name: storage_vendor
+          value: portworx
+
+    # CP4D OLTP (WIP)
+
+    # CP4D Schema (WIP)
 
 
 
