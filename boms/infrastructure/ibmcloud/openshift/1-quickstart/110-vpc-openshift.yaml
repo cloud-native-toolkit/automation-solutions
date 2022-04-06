@@ -19,9 +19,16 @@ spec:
       default: true
       alias: cluster_subnets
     - name: ibm-ocp-vpc
+      variables:
+        - name: flavor
+          value: bx2.16x64
+        - name: worker_count
+          value: 1
     - name: ibm-logdna-bind
     - name: sysdig-bind
     - name: argocd-bootstrap
+    - name: gitops-repo
+      alias: gitops_repo
     - name: gitops-namespace
       alias: toolkit
       variables:
