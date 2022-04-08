@@ -4,7 +4,7 @@
 
 - **03/2022** - Initial Release
 
-> This collection of Turbonomic IBM Cloud terraform automation bundles has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Suktha** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
+> This collection of Turbonomic IBM Cloud terraform automation bundles has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Sukthankar** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
 The automation will support the installation of Turbonomic on three cloud platforms (AWS, Azure and IBM Cloud).
 
@@ -23,27 +23,21 @@ The reference architectures are provided in three different forms, with increasi
 - **Standard** - a standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, etc
 - **Advanced** - a more advanced deployment that employs network isolation to securely route traffic between the different layers.
 
-For each of these reference architecture forms, we have provided a detailed reference architecture on the different hyper-scalers.
+For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned please use one of these. They are optimised for the installation of this solution.
 
-|                        | Quick Start                                              | Standard                                            | Advanced                                            | Source diagram                                           | 
-|------------------------|----------------------------------------------------------|-----------------------------------------------------|-----------------------------------------------------|----------------------------------------------------------|
-| [IBM Cloud](ibmcloud/) | [IBM Cloud Quick Start](ibmcloud/ibmcloud-quickstart.md) | [IBM Cloud Standard](ibmcloud/ibmcloud-standard.md) | [IBM Cloud Advanced](ibmcloud/ibmcloud-advanced.md) | [IBM Cloud arch](ibmcloud/ibm-cloud-architecture.drawio) |
-| [AWS](aws/)            | [AWS Quick Start](aws/aws-quickstart.md)                 | [AWS Standard](aws/aws-standard.md)                 | [AWS Advanced](aws/aws-advanced.md)                 | [AWS arch](aws/aws-cloud-architecture-0.7.drawio)        |
-| [Azure](azure/)        | [Azure Quick Start](azure/azure-quickstart.md)           | [Azure Standard](azure/azure-standard.md)           | [Azure Advanced](azure/azure-advanced.md)           | [Azure arch](azure/azure-ref-arch.drawio)                |
-           |
+| Cloud Platform                                                 | Automation and Documentation                                                                                                                                                                                  |   
+|----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [IBM Cloud](https://cloud.ibm.com)                             | [IBM Cloud Quick Start](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/initial-version) </br> [IBM Cloud Standard](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/standard) |  
+| [AWS](https://aws.amazon.com/)                                 | [AWS Quick Start](https://github.com/IBM/automation-aws-infra-openshift/tree/1-quick-start) </br> [AWS Standard - Coming soon]()                                                                              |
+| [Azure](https://portal.azure.com/#home)                        | [Azure Quick Start- Coming soon]()                                                                                                                                                                            |                                                   
+| Bring You Own Infrastructure | You will need to setup GitOps and Storage details on these steps below  | 
 
-
-
-> There are links to how to configure a cloud infrastructure further down the installation instructions.
-
-### Getting Started
-
-Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning Turbonomic in multiple cloud environments. This `README.md` describes the SRE steps required to provision the software 
 ### Getting Started
 
 Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning Turbonomic in multiple cloud environments. This `README.md` describes the SRE steps required to provision the software. 
 
 This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. 
+
 
 ## Turbonomic Architecture
 
