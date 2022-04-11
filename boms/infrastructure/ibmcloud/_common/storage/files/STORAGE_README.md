@@ -19,8 +19,8 @@ Portworx-Enterprise is a widely-used and reliable cloud-native storage solution 
 
 To deploy Portworx storage:
 
-- `cd` into the `215-portworx-storage` folder.
-- Modify the `terraform/215-portworx-storage.auto.tfvars` file to point at your cluster and include a valid API Key:
+- `cd` into the `210-ibm-portworx-storage` folder.
+- Modify the `terraform/210-ibm-portworx-storage.auto.tfvars` file to point at your cluster and include a valid API Key:
 
   ```
   ## region: The IBM Cloud region where the cluster will be/has been installed.
@@ -45,8 +45,8 @@ Red Hat® OpenShift® Data Foundation—previously Red Hat OpenShift Container S
 
 To deploy ODF storage:
 
-- `cd` into the `216-odf-storage` folder.
-- Modify the `terraform/216-odf-storage.auto.tfvars` file to point at your cluster and include a valid API Key:
+- `cd` into the `210-ibm-odf-storage` folder.
+- Modify the `terraform/210-ibm-odf-storage.auto.tfvars` file to point at your cluster and include a valid API Key:
 
   ```
   ## region: The IBM Cloud region where the cluster will be/has been installed.

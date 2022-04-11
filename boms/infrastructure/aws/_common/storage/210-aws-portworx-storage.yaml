@@ -1,10 +1,10 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 205-aws-portworx-storage
+  name: 210-aws-portworx-storage
   labels:
     type: infrastructure
-    code: '205'
+    code: '210'
     platform: aws
   annotations:
     displayName: AWS - Portworx Cluster Storage
