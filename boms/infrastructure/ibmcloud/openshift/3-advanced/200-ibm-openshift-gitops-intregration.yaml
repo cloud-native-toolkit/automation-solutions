@@ -1,0 +1,80 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 200-ibm-openshift-gitops-dev
+  labels:
+    type: software
+    platform: ibm
+    code: '200'
+  annotations:
+    displayName: IBM OpenShift GitOps Developemnt Bootstrap
+    description: Provisions OpenShift GitOps into the existing development IBM-managed cluster and bootstraps it to a gitops repository
+spec:
+  modules:
+    # Login to existing OpenShift cluster
+    - name: ibm-resource-group
+      alias: integration_resource_group
+      default: true
+    - name: ibm-ocp-vpc
+      alias: integration_cluster
+      default: true
+      dependencies:
+        - name: cos
+          optional: true
+        - name: subnets
+          optional: true
+      variables:
+        - name: exists
+          value: true
+        - name: name_prefix
+          important: true
+        - name: name
+          important: true
+        - name: flavor
+          important: false
+          optional: true
+          value: ""
+        - name: vpc_name
+          value: ""
+          important: false
+          optional: true
+        - name: vpc_subnet_count
+          important: false
+          optional: true
+          value: 0
+        - name: vpc_subnets
+          important: false
+          optional: true
+          value: []
+        - name: cos_id
+          important: false
+          optional: true
+          value: ""
+        - name: worker_count
+          important: false
+          optional: true
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+      variables:
+        - name: server_name
+          alias: integration_server_name
+          default: integration
+          important: true
+
+    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
+    - name: argocd-bootstrap
+      variables:
+        - name: create_webhook
+          value: true
+
+    - name: gitops-namespace
+      alias: toolkit_namespace
+      default: true
+      variables:
+        - name: name
+          value: toolkit
+
+    - name: gitops-cluster-config
+      alias: integration_config
+    - name: gitops-console-link-job

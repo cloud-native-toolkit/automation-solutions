@@ -33,8 +33,8 @@ Instructions for obtaining your portworx configuration are available at:
 
 To deploy Portworx storage:
 
-- `cd` into the `215-portworx-storage` folder.
-- Modify the `terraform/215-portworx-storage.auto.tfvars` file to include a cluster login url and token, and a valid portworx configuration (including `px_generated_cluster_id`, `user_id` and `osb_endpoint` from the Portworx configurator):
+- `cd` into the `205-aws-portworx-storage` folder.
+- Modify the `terraform/205-aws-portworx-storage.auto.tfvars` file to include a cluster login url and token, and a valid portworx configuration (including `px_generated_cluster_id`, `user_id` and `osb_endpoint` from the Portworx configurator):
 
   ```
   ## region: AWS Region the cluster is deployed in

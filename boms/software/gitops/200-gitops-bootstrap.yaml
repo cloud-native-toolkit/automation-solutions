@@ -1,0 +1,23 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 201-gitops-bootstrap
+  labels:
+    type: software
+    code: '201'
+  annotations:
+    displayName: Gitops Bootstrap
+    description: Bootstraps a gitops repo to a cluster on which OpenShift Gitops, OpenShift Pipelines, and Kube Seal have aleady been installed
+spec:
+  modules:
+    # Login to existing OpenShift cluster
+    - name: ocp-login
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    # Bootstrap GitOps repo (aka. ArgoCD)
+    - name: gitops-bootstrap
+      variables:
+        - name: create_webhook
+          value: true

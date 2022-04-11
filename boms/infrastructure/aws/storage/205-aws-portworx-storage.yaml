@@ -1,0 +1,15 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 205-aws-portworx-storage
+  labels:
+    type: infrastructure
+    code: '205'
+    platform: aws
+  annotations:
+    displayName: AWS - Portworx Cluster Storage
+    description: Installs Portworx in and OCP cluster on AWS
+spec:
+  modules:
+    - name: aws-portworx
+
