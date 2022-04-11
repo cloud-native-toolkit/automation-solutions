@@ -1,33 +1,29 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 404-gitops-cp-maximo
+  name: 400-mas-core
   labels:
     type: software
-    platform: azure
     code: '400'
   annotations:
-    displayName: Maximo Application Suite - Azure
-    description: GitOps deployment of Maximo for OpenShift on Azure
+    displayName: Maximo Application Suite Core
+    description: GitOps deployment of Maximo Application Suite Core for OpenShift
 spec:
   modules:
-
-    # Login into Azure, AWS and IBM Cloud Clusters setup GitOps
-    - name: ocp-login
     - name: gitops-repo
-    - name: gitops-bootstrap
 
-    # MAS Supporting Modules
-    
     # Add IBM OpenShift Catalog
     - name: gitops-cp-catalogs
       variables:
         - name: entitlement_key
-          scope: global     
+          scope: global
 
     # IBM Suite License Service
     - name: gitops-namespace
       alias: sls-namespace
+      variables:
+        - name: name
+          value: sls
     - name: gitops-cp-sls
       dependencies:
         - name: namespace
@@ -36,31 +32,39 @@ spec:
         - name: cluster_ingress
           scope: global
         - name: entitlement_key
-          scope: global  
-          
+          scope: global
+
     # Mongo CE Operator
     - name: gitops-namespace
       alias: mongo-namespace
+      variables:
+        - name: name
+          value: mongo
     - name: gitops-mongo-ce-operator
       dependencies:
         - name: namespace
           ref: mongo-namespace
-      variables: 
+      variables:
         - name: mongo_storageclass
-          value: managed-premium
-          
+          alias: rwo_storage_class
+          scope: global
+
     # Mongo CE Instance
     - name: gitops-mongo-ce
       dependencies:
         - name: namespace
-          ref: mongo-namespace    
+          ref: mongo-namespace
       variables:
         - name: storage_class_name
-          value: managed-premium
+          alias: rwo_storage_class
+          scope: global
 
-    # IBM Behavior Analysis Service       
+    # IBM Behavior Analysis Service
     - name: gitops-namespace
       alias: bas-namespace
+      variables:
+        - name: name
+          value: bas
     - name: gitops-cp-bas
       version: v1.0.1
       dependencies:
@@ -68,17 +72,27 @@ spec:
           ref: bas-namespace
       variables:
         - name: db_archive_storage_class
-          value: portworx-rwx-gp3-sc
+          alias: rwx_storage_class
+          scope: global
         - name: postgres_storage_class
-          value: managed-premium
+          alias: rwo_storage_class
+          scope: global
         - name: kafka_storage_class
-          value: managed-premium
+          alias: rwo_storage_class
+          scope: global
         - name: zookeeper_storage_class
-          value: managed-premium
+          alias: rwo_storage_class
+          scope: global
         - name: default_storage_class
-          value: managed-premium
+          alias: rwo_storage_class
+          scope: global
 
     # Maximo Core
+    - name: gitops-namespace
+      alias: maximo-namespace
+      variables:
+        - name: name
+          value: maximo
     - name: gitops-cp-maximo
       variables:
         - name: instanceid
@@ -86,4 +100,7 @@ spec:
         - name: cluster_ingress
           scope: global
         - name: entitlement_key
-          scope: global 
+          scope: global
+      dependencies:
+        - name: namespace
+          ref: maximo-namespace
