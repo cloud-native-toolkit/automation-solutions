@@ -1,11 +1,11 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 205-ibm-portworx-storage
+  name: 210-ibm-portworx-storage
   labels:
     type: infrastructure
     platform: ibm
-    code: '205'
+    code: '210'
   annotations:
     displayName: IBM - Portworx Cluster Storage
     description: Installs Portworx in an IBM cluster

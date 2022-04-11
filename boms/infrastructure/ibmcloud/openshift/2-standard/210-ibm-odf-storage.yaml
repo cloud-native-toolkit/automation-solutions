@@ -1,11 +1,11 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 205-ibm-odf-storage
+  name: 210-ibm-odf-storage
   labels:
     type: infrastructure
     platform: ibm
-    code: '205'
+    code: '210'
   annotations:
     displayName: IBM - ODF Cluster Storage
     description: Installs OpenShift Data Foundation in an IBM cluster
