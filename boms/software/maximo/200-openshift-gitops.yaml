@@ -6,8 +6,8 @@ metadata:
     type: software
     code: '200'
   annotations:
-    displayName: ArgoCD Bootstrap
-    description: Provisions OpenShift GitOps(ArgoCD) into an existing cluster and bootstraps it to a gitops repository
+    displayName: OpenShift GitOps Bootstrap
+    description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
 spec:
   modules:
     # Login to existing OpenShift cluster
@@ -22,5 +22,14 @@ spec:
         - name: create_webhook
           value: true
         - name: prefix
-          value: turbo
+          value: maximo
 
+    - name: gitops-namespace
+      alias: toolkit_namespace
+      default: true
+      variables:
+        - name: name
+          value: toolkit
+
+    - name: gitops-cluster-config
+    - name: gitops-console-link-job

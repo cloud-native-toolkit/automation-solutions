@@ -15,6 +15,8 @@ spec:
 
     # Create Name Space for Turbonomic
     - name: gitops-namespace
+      alias: turbo_namespace
+      default: true
       variables:
         - name: name
           value: turbonomic
