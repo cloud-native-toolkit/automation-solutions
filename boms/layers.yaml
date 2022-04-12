@@ -1,0 +1,9 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: Layers
+metadata:
+spec:
+  infrastructure:
+    aws:
+      id: aws
+      description : Some text
+      module : 100-bom-id

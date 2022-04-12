@@ -39,7 +39,17 @@ files="/aws/_common/gitops/200-aws-openshift-gitops.yaml \
 /ibmcloud/openshift/3-advanced/200-ibm-openshift-gitops-integration.yaml \
 /ibmcloud/openshift/3-advanced/210-ibm-odf-storage.yaml \
 /ibmcloud/openshift/3-advanced/210-ibm-portworx-storage.yaml \
-/ibmcloud/openshift/3-advanced/220-dev-tools.yaml"
+/ibmcloud/openshift/3-advanced/220-dev-tools.yaml \
+/ibmcloud/openshift-fs/000-ibm-fs-account-setup.yaml \
+/ibmcloud/openshift-fs/100-ibm-fs-shared-services.yaml \
+/ibmcloud/openshift-fs/110-ibm-fs-edge-vpc.yaml \
+/ibmcloud/openshift-fs/120-ibm-fs-management-vpc.yaml \
+/ibmcloud/openshift-fs/130-ibm-fs-management-vpc-openshift.yaml \
+/ibmcloud/openshift-fs/140-ibm-fs-workload-vpc.yaml \
+/ibmcloud/openshift-fs/150-ibm-fs-workload-vpc-openshift.yaml \
+/ibmcloud/openshift-fs/160-ibm-fs-openshift-dev-tools.yaml \
+/ibmcloud/openshift-fs/165-ibm-fs-openshift-workload.yaml \
+/ibmcloud/openshift-fs/170-ibm-fs-openshift-gitops.yaml "
 
 for loadfile in ${files[@]}; do
   echo $str

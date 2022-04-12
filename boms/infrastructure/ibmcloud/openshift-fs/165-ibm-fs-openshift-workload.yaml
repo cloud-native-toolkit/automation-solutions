@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 165-openshift-workload
+  name: 165-ibm-fs-openshift-workload
   labels:
     type: infrastructure
     platform: ibm
