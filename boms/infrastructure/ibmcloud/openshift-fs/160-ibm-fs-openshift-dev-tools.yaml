@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 160-openshift-dev-tools
+  name: 160-ibm-fs-openshift-dev-tools
   labels:
     type: infrastructure
     platform: ibm
