@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 000-account-setup
+  name: 000-ibm-fs-account-setup
   labels:
     type: infrastructure
     platform: ibm

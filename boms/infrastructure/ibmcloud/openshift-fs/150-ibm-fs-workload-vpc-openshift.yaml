@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 150-workload-vpc-openshift
+  name: 150-ibm-fs-workload-vpc-openshift
   labels:
     type: infrastructure
     platform: ibm

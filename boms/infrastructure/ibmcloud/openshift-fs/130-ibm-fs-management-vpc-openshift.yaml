@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 130-management-vpc-openshift
+  name: 130-ibm-fs-management-vpc-openshift
   labels:
     type: infrastructure
     platform: ibm

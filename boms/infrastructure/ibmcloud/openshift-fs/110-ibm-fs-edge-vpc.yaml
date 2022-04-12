@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 110-edge-vpc
+  name: 110-ibm-fs-edge-vpc
   labels:
     type: infrastructure
     platform: ibm

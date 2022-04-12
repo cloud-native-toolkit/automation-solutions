@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 170-openshift-argocd
+  name: 170-ibm-fs-openshift-gitops
   labels:
     type: infrastructure
     code: '170'
   annotations:
-    displayName: OpenShift ArgoCD
-    description: Provision ArgoCD on OpenShift
+    displayName: OpenShift GitOps (ArgoCD)
+    description: Provision GitOps (ArgoCD) on OpenShift
 spec:
   modules:
     - name: ocp-login

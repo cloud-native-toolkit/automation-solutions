@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 100-shared-services
+  name: 100-ibm-fs-shared-services
   labels:
     type: infrastructure
     platform: ibm
