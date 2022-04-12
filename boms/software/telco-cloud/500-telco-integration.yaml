@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: gitops-telco-cloud-cp4d
+  name: gitops-telco-cloud-integration
   labels:
     type: software
     code: '500'
   annotations:
-    displayName: Telco CP4D
-    description: Telco CP4D on OpenShift
+    displayName: Telco Integration Tools
+    description: Telco Integration Tools on OpenShift
 spec:
   # assumes cluster already exists, is this enough for bootstrapping gitops?
   modules:
@@ -19,24 +19,32 @@ spec:
 
     # Cloud Pak Base
     - name: gitops-cp-catalogs
-
-    # Cloud Pak for Database Base
-    - name: gitops-cp4d-operator
-    - name: gitops-cp4d-instance
+    - name: gitops-cp-platform-navigator
 
     # IBM Cloud
-#    - name: ibm-portworx 
-#    - name: gitops-ibm-ocs 
-
-    # DB2 and DB2 Warehouse   
-    - name: gitops-db2
-    #- name: gitops-cp-db2wh
+#    - name: ibm-portworx
+#    - name: gitops-ibm-ocs
 
     # Cloud Pak for Integration
     - name: gitops-console-link-job
+    - name: cp4i-dependency-management
 #   - name: gitops-namespace
 #      variables:
 #        - name: name
 #          alias: tools
 #          value: tools
+    - name: gitops-cp-mq
+    - name: gitops-cp-queue-manager
+
+
+    # Cloud Pak for Automation
+
+# Will be replaced by CP ODM
+#  - name: odm
+
+
+    # Sterling Manager
+#  - name: gitops-cp-sterling-oms
+
+
 

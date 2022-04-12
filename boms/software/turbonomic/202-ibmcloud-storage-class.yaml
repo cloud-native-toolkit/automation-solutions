@@ -3,6 +3,7 @@ kind: BillOfMaterial
 metadata:
   name: 202-ibmcloud-storage-class
   labels:
+    type: software
     code: '202'
   annotations:
     displayName: Turbonomic Storage Class - IBM Cloud
