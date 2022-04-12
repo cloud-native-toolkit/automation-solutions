@@ -3,8 +3,8 @@ kind: BillOfMaterial
 metadata:
   name: 250-gitops-turbonomic-multicloud
   labels:
-    code: '250'
     type: software
+    code: '250'
   annotations:
     displayName: Turbonomic on OpenShift - Multi Cloud
     description: GitOps deployment of Turbonomic on Multi Cloud environments AWS, Azure and IBM Cloud
