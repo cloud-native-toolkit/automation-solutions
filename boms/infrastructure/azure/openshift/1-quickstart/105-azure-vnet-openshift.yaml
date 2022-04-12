@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 105-azure-vpc-openshift
+  name: 105-azure-vnet-openshift
   labels:
     type: infrastructure
     platform: azure

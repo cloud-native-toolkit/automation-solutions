@@ -21,3 +21,13 @@ These same three reference architectures are provided for each of the hyperscale
 - [AWS](aws)
 - [Azure](azure)
 - [IBM Cloud](ibmcloud)
+
+### Loading Files into Ascent
+
+To auto load all the BOMs into the Ascent tool run the following command
+
+```bash
+./load-ascent.sh <ASCENT_API_TOKEN> <URL TO API>
+```
+
+This will auto ingest the Infrastructure Bill of Materials into the Ascent Tool

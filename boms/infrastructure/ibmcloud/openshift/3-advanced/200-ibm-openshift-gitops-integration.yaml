@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 200-ibm-openshift-gitops-dev
+  name: 200-ibm-openshift-gitops-integration
   labels:
     type: software
     platform: ibm
     code: '200'
   annotations:
-    displayName: IBM OpenShift GitOps Developemnt Bootstrap
+    displayName: IBM OpenShift GitOps Development Bootstrap
     description: Provisions OpenShift GitOps into the existing development IBM-managed cluster and bootstraps it to a gitops repository
 spec:
   modules:
