@@ -20,6 +20,8 @@ spec:
           alias: ibmcloud_api_key
           scope: global
     - name: namespace
+      alias: tools_namespace
+      default: true
       variables:
         - name: name
           value: tools

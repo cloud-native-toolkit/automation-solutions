@@ -17,6 +17,9 @@ spec:
         - name: resource_group_name
           alias: at_resource_group_name
           scope: global
+      dependencies:
+        - name: sync
+          ref: kms_resource_group
     - name: ibm-resource-group
       variables:
         - name: resource_group_name
@@ -33,7 +36,7 @@ spec:
           ref: resource_group
     - name: ibm-activity-tracker
       variables:
-        - name: rescource_location
+        - name: resource_location
           alias: region
     - name: ibm-activity-tracker
       alias: at-ibm-activity-tracker

@@ -47,6 +47,8 @@ spec:
         - name: provision
           value: false
     - name: namespace
+      alias: tools_namespace
+      default: true
       variables:
         - name: name
           value: tools
