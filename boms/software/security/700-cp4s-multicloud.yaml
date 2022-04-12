@@ -1,14 +1,14 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 700-gitops-ocp-cp4s-ibmcloud
+  name: 700-cloudpak-security
   labels:
     type: software
     platform: ibm
     code: '700'
   annotations:
-    displayName: CP4S on OpenShift - IBM Cloud
-    description: GitOps deployment of CP4S on IBM Cloud
+    displayName: IBM Cloud Pak for Security
+    description: Populates a GitOps repository with the components of IBM Cloud Pak for Security
 spec:
   modules:
     # Create the GitOps Repo
