@@ -16,7 +16,7 @@ spec:
 
     # Creates IBM Cloud Pak Operator Catalog
     - name: gitops-cp-catalogs
-      variable: 
+      variables: 
         - name: entitlement_key
           scope: global
 
