@@ -1,0 +1,43 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 700-gitops-ocp-cp4s-ibmcloud
+  labels:
+    type: software
+    platform: ibm
+    code: '700'
+  annotations:
+    displayName: CP4S on OpenShift - IBM Cloud
+    description: GitOps deployment of CP4S on IBM Cloud
+spec:
+  modules:
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    # Creates IBM Cloud Pak Operator Catalog
+    - name: gitops-cp-catalogs
+      variable: 
+        - name: entitlement_key
+          scope: global
+
+    # Creates namespace required for CP4S
+    - name: gitops-namespace
+      alias: cp4s-namespace
+      variables:
+        - name: name
+          value: cp4s
+
+    # Installs CP4S operator and instance
+    - name: gitops-cp4s
+      dependencies: 
+        - name: namespace
+          ref: cp4s-namespace
+      variables:
+        - name: storage_class
+          alias: rwo_storage_class
+          scope: global
+        - name: backup_storage_class
+          alias: rwo_storage_class
+          scope: global
+        - name: roks_auth
+          value: false
