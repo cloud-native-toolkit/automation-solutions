@@ -12,12 +12,15 @@ metadata:
 spec:
   modules:
     - name: ibm-resource-group
+      alias: at_resource_group
+      variables:
+        - name: resource_group_name
+          alias: at_resource_group_name
+          scope: global
+    - name: ibm-resource-group
       variables:
         - name: resource_group_name
           alias: cs_resource_group_name
-          scope: global
-        - name: provision
-          alias: cs_resource_group_provision
           scope: global
     - name: ibm-resource-group
       alias: kms_resource_group
@@ -25,13 +28,21 @@ spec:
         - name: resource_group_name
           alias: kms_resource_group_name
           scope: global
-        - name: provision
-          alias: kms_resource_group_provision
-          scope: global
-          value: true
       dependencies:
         - name: sync
           ref: resource_group
+    - name: ibm-activity-tracker
+      variables:
+        - name: rescource_location
+          alias: region
+    - name: ibm-activity-tracker
+      alias: at-ibm-activity-tracker
+      variables:
+        - name: resource_location
+          alias: kms_region
+      dependencies:
+        - name: sync
+          ref: ibm-activity-tracker
     - name: ibm-kms
       alias: kms
       variables:
@@ -47,8 +58,8 @@ spec:
           ref: kms_resource_group
     - name: ibm-access-group
     - name: ibm-object-storage
-    - name: sysdig
-    - name: logdna
+    - name: ibm-cloud-monitoring
+    - name: ibm-log-analysis
     - name: ibm-iam-service-authorization
       alias: vsi-encrypt-auth
       variables:
@@ -139,10 +150,9 @@ spec:
         - name: target_service_name
           value: cloudcerts
   variables:
-    - name: kms_resource_group_provision
-    - name: cs_resource_group_provision
     - name: name_prefix
       alias: cs_name_prefix
     - name: region
     - name: cs_resource_group_name
     - name: kms_service
+    - name: at_resource_group_name

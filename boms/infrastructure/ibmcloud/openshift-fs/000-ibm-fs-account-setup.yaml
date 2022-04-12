@@ -1,0 +1,23 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 000-account-setup
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: 000
+  annotations:
+    displayName: Account setup
+    description: Sets up an IBM Cloud account with required Financial Services reference architecture settings
+spec:
+  modules:
+    - name: ibm-onboard-fs-account
+      variables:
+        - name: action
+          value: enable
+        - name: mfa
+          value: TOTP4ALL
+        - name: restrict_create_service_id
+          value: RESTRICTED
+        - name: restrict_create_platform_apikey
+          value: RESTRICTED
