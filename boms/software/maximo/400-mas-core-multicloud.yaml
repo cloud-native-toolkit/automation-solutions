@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 400-mas-core
+  name: 400-mas-core-multicloud
   labels:
     type: software
     code: '400'

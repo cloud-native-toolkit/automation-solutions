@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 250-gitops-turbonomic-multicloud
+  name: 250-turbonomic-multicloud
   labels:
     type: software
     code: '250'
