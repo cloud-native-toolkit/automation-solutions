@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 200-argocd-bootstrap
+  name: 200-openshift-gitops
   labels:
     type: software
     code: '200'

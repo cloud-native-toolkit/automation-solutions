@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 300-integration-platform
+  name: 300-integration-platform-multicloud
   labels:
     type: software
     code: '300'
@@ -36,7 +36,7 @@ spec:
     - name: gitops-cp-platform-navigator
       dependencies:
         - name: namespace
-          ref: cp4i-pn    
+          ref: cp4i-pn
       variables:
         - name: storageclass
           alias: rwx_storage_class
@@ -68,7 +68,7 @@ spec:
     - name: gitops-cp-ace-designer
       dependencies:
         - name: namespace
-          ref: cp4i-ace    
+          ref: cp4i-ace
       variables:
         - name: storage_class_4_couchdb
           alias: rwo_storage_class
@@ -89,7 +89,7 @@ spec:
     - name: gitops-cp-queue-manager
       dependencies:
         - name: namespace
-          ref: cp4i-mq    
+          ref: cp4i-mq
       variables:
         - name: qmgr_name
           value: QM1
@@ -111,7 +111,7 @@ spec:
     - name: gitops-cp-apic
       dependencies:
         - name: namespace
-          ref: cp4i-apic    
+          ref: cp4i-apic
       variables:
         - name: storage_class
           alias: rwo_storage_class

@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 700-cloudpak-security
+  name: 700-cp4s-multicloud
   labels:
     type: software
     platform: ibm
@@ -16,7 +16,7 @@ spec:
 
     # Creates IBM Cloud Pak Operator Catalog
     - name: gitops-cp-catalogs
-      variables: 
+      variables:
         - name: entitlement_key
           scope: global
 
@@ -29,7 +29,7 @@ spec:
 
     # Installs CP4S operator and instance
     - name: gitops-cp4s
-      dependencies: 
+      dependencies:
         - name: namespace
           ref: cp4s-namespace
       variables:
