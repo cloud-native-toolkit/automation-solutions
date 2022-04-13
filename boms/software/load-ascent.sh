@@ -16,7 +16,7 @@ CURDIR=$(pwd)
 
 files="/datafabric/600-datafabric-multicloud.yaml \
 /devtools/220-dev-tools.yaml \
-/gitops/200-gitops-bootstrap.yaml \
+/gitops/201-gitops-bootstrap.yaml \
 /gitops/200-openshift-gitops-bootstrap.yaml \
 /integration/200-openshift-gitops.yaml \
 /integration/300-integration-platform-multicloud.yaml \
@@ -26,8 +26,9 @@ files="/datafabric/600-datafabric-multicloud.yaml \
 /telco-cloud/500-telco-core.yaml \
 /telco-cloud/500-telco-data.yaml \
 /telco-cloud/500-telco-integration.yaml \
+/security/700-cp4s-multicloud.yaml
 /turbonomic/200-openshift-gitops.yaml \
-/turbonomic/202-ibmcloud-storage-class.yaml \
+/turbonomic/202-turbonomic-ibmcloud-storage-class.yaml \
 /turbonomic/250-turbonomic-multicloud.yaml"
 
 for loadfile in ${files[@]}; do

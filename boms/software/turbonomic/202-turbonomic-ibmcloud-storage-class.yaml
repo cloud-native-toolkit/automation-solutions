@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 202-ibmcloud-storage-class
+  name: 202-turbonomic-ibmcloud-storage-class
   labels:
     type: software
     code: '202'
