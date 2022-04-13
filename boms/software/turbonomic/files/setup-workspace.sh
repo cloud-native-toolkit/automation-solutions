@@ -39,7 +39,7 @@ echo "*****"
 
 cp "../terraform.tfvars.template" ./terraform.tfvars
 
-ALL_ARCH="200|202|400"
+ALL_ARCH="200|202|250"
 
 find .. -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;
