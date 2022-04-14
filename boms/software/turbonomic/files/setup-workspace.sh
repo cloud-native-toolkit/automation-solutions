@@ -1,8 +1,4 @@
 #!/bin/bash
-
-TEMPLATE_FLAVOR=""
-REF_ARCH=""
-
 Usage()
 {
    echo "Creates a workspace folder and populates it with automation bundles you require."
@@ -14,7 +10,7 @@ Usage()
 }
 
 # Get the options
-while getopts ":p:" option; do
+while getopts ":h:" option; do
    case $option in
       h) # display Help
          Usage
@@ -26,10 +22,6 @@ while getopts ":p:" option; do
    esac
 done
 
-if [[ -z "${REF_ARCH}" ]] || [[ ! "${REF_ARCH}" =~ aws|azure|ibmcloud|all ]]; then
-  Usage
-  exit 1
-fi
 
 mkdir -p workspace
 cd workspace
@@ -39,7 +31,7 @@ echo "*****"
 
 cp "../terraform.tfvars.template" ./terraform.tfvars
 
-ALL_ARCH="200|202|400"
+ALL_ARCH="200|202|250"
 
 find .. -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;

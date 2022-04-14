@@ -4,21 +4,40 @@
 
 - **03/2022** - Initial Release
 
-> This collection of Turbonomic IBM Cloud terraform automation bundles has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Suktha** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
+> This collection of Turbonomic IBM Cloud terraform automation bundles has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Sukthankar** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
-The automation bundles supports three cloud platforms (AWS, Azure and IBM Cloud) and a generic scenario for on premise.
+The automation will support the installation of Turbonomic on three cloud platforms (AWS, Azure and IBM Cloud).
 
-The automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
+### Target Infrastructure 
 
-> There are links to how to configure a cloud infrastructure further down the installation instructions.
+The Turbonomic automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
-Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning Turbonomic in multiple cloud environments. This `README.md` describes the SRE steps required to provision the software 
+Before you start to install and configure Turbonomic you need to identify what your target infrastructure is going to be. You can start from scratch and use one of the predefined reference architectures from IBM or bring you own.  
+
+
+### Reference Architectures
+
+The reference architectures are provided in three different forms, with increasing security and associated sophistication to support production configuration. These three forms are:
+
+- **Quick Start** - a simple architecture to quickly get an OpenShift cluster provisioned
+- **Standard** - a standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, etc
+- **Advanced** - a more advanced deployment that employs network isolation to securely route traffic between the different layers.
+
+For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned please use one of these. They are optimised for the installation of this solution.
+
+| Cloud Platform                                                 | Automation and Documentation                                                                                                                                                                                  |   
+|----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [IBM Cloud](https://cloud.ibm.com)                             | [IBM Cloud Quick Start](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/initial-version) </br> [IBM Cloud Standard](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/standard) |  
+| [AWS](https://aws.amazon.com/)                                 | [AWS Quick Start](https://github.com/IBM/automation-aws-infra-openshift/tree/1-quick-start) </br> [AWS Standard - Coming soon]()                                                                              |
+| [Azure](https://portal.azure.com/#home)                        | [Azure Quick Start- Coming soon]()                                                                                                                                                                            |                                                   
+| Bring You Own Infrastructure | You will need to setup GitOps and Storage details on these steps below  | 
+
+### Getting Started
+
+Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning Turbonomic in multiple cloud environments. This `README.md` describes the SRE steps required to provision the software. 
 
 This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. 
 
-This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want uppstream releases or versions you can use `iascable` to generate the terraform templates tyou require.
-
-> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.
 
 ## Turbonomic Architecture
 
@@ -34,6 +53,24 @@ Automation is provided in following Terraform bundles. You need to decide which 
 
 ### Obtaining License Key
 
+For PoC/PoTs, Partners download packages from PW. They search and get “M04TYENIBM Turbonomic Application Resource Management On-Prem 8.4.3 for install on Kubernetes English”, This package contains license file for Turbonomic, with name similar to “CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic” “Turbonomic ARM P/N are currently available under IBM PPA terms and conditions”.
+
+
+
+
+
+05:19
+Attaching a lic file
+05:20
+Binary
+
+CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic
+BinaryDownload Binary
+
+
+
+VIJAY SUKTHANKAR  05:37
+For a real sale, we got this response from Turbonomic team,  “licenses are provided by the finance team on signing a deal or by the SE mgmt if it is part of a PoV that has been approved”
 
 ### Cloud Infrastructure 
 
@@ -46,14 +83,14 @@ Automation is provided in following Terraform bundles. You need to decide which 
 
 Clone this repository to access the automation to provision this reference architecture on the IBM Cloud. This repo contains the following defined _Bill of Materials_ or **BOMS** for short. They logically build up to deliver a set of IBM Cloud best practices. The reason for having them separate at this stage is to enable a layered approach to success. This enables SREs to use them in logical blocks. One set for Shared Services for a collection of **Edge**, **Management** and **Workload** VPCs or a number of **Workload** VPCs that maybe installed in separate regions.
 
-### VPC with VSIs
+### Turbonomic for Multi Cloud
 
-| BOM ID | Name                                           | Description                                                                                                           | Run Time |
-|--------| ---------------------------------------------- |-----------------------------------------------------------------------------------------------------------------------| -------- |
-| 400    | [000 - Account Setup](./000-account-setup)     | Set up account and provision a set of account-wide services. This is intended to only be run one time in an account | 5 Mins   |
-| 402    | [100 - Shared Services](./100-shared-services) | Provision a set of common cloud managed services that can be shared with a Edge, **Management** and **Workload** VPCs | 5 Mins   |
-| 404    | [110 - Edge VPC](./110-edge-vpc)               | Provision an **Edge VPC** with Client to Site VPN & Bastion                                                           | 10 Mins  |
-| 406    | [120 - Management VPC](./120-management-vpc)   | Provision a **Management VPC** and connect to Transit Gateway                                                         | 10 mins  |
+| BOM ID | Name                                                                    | Description                                                                                                                                                                                                                                   | Run Time |
+|--------|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| 200    | [200 - ArgoCD BootStrap](./200-argocd-bootstrap)                        | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 15 Mins  |
+| 202    | [202 - IBM Cloud Storage](./202-ibmcloud-storage-class)                 | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage before installing Turbonomic                                                                        | 15 Mins  |
+| 400    | [110 - Turbonomic Multi Cloud](./400-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
+
 
 ### Configuration guidance
 
@@ -512,3 +549,9 @@ This will take 10-15 minutes to compelte if this is your first-time running this
 ## Troubleshooting
 
 There are currently no troubleshooting topics at this point. 
+
+### How to Generate this repository from teh source Bill of Materials.
+
+This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want uppstream releases or versions you can use `iascable` to generate the terraform templates tyou require.
+
+> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.
