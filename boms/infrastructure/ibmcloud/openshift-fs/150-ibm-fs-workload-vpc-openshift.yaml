@@ -99,7 +99,7 @@ spec:
         - name: subnets
           ref: worker-subnets
         - name: kms_key
-          ref: kms_key
+          ref: kms-key
     - name: ibm-vpc-subnets
       alias: vpe-subnets
       variables:
