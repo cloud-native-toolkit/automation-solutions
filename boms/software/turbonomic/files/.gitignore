@@ -10,7 +10,6 @@ ssh-*
 terraform.tfvars
 *.iml
 
-
 workspace/*
 workspace-*/*
 credentials.properties
