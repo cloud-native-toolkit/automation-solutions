@@ -1,8 +1,5 @@
 #!/bin/bash
 
-TEMPLATE_FLAVOR=""
-REF_ARCH=""
-
 Usage()
 {
    echo "Creates a workspace folder and populates it with automation bundles you require."
@@ -14,7 +11,7 @@ Usage()
 }
 
 # Get the options
-while getopts ":p:" option; do
+while getopts ":h:" option; do
    case $option in
       h) # display Help
          Usage
@@ -26,10 +23,6 @@ while getopts ":p:" option; do
    esac
 done
 
-if [[ -z "${REF_ARCH}" ]] || [[ ! "${REF_ARCH}" =~ aws|azure|ibmcloud|all ]]; then
-  Usage
-  exit 1
-fi
 
 mkdir -p workspace
 cd workspace
