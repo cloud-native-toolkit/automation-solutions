@@ -19,10 +19,10 @@ gitops_repo_type="github"
 gitops_repo_org="<your git org username - most likely your username>"
 
 ## gitops_repo_repo: The short name of the repository (i.e. the part after the org/group name)
-gitops_repo_repo="<repo name to create for git ops configuration>-suffix-00X"
+gitops_repo_repo="<the name of the repo to storge the gitops configuration in>"
 
 ## server_url: The url for the OpenShift api
 server_url="<openshift target server url>"
 
 ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
-gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
+gitops-cluster-config_banner_text="Software Everywhere - Turbonomic"
