@@ -2,6 +2,16 @@
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
 
+FLAVORS=($(find "${SCRIPT_DIR}" -type d -maxdepth 1 | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | sort | sed -e "s/[0-9]-//g" | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
+
+PS3="Select the flavor: "
+
+select flavor in ${FLAVORS[@]}; do
+  if [[ -n "$flavor" ]]; then
+    break
+  fi
+done
+
 WORKSPACES_DIR="${SCRIPT_DIR}/../workspaces"
 
 WORKSPACE_DIR="${WORKSPACES_DIR}/current"
@@ -13,17 +23,7 @@ fi
 
 mkdir -p "${WORKSPACE_DIR}"
 
-FLAVORS=($(find "${SCRIPT_DIR}" -type d -maxdepth 1 | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | sort | sed -e "s/[0-9]-//g"))
-
-PS3="Select the flavor: "
-
-select flavor in ${FLAVORS[@]}; do
-  if [[ -n "$flavor" ]]; then
-    break
-  fi
-done
-
-FLAVOR_DIR="${REPLY}-${flavor}"
+FLAVOR_DIR="${REPLY}-${flavor,,}"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
