@@ -12,7 +12,7 @@ metadata:
 spec:
   modules:
     - name: ibm-resource-group
-      alias: kms_resource_grou
+      alias: kms_resource_group
     - name: ibm-resource-group
       alias: at_resource_group
     - name: ibm-kms
