@@ -11,136 +11,204 @@ metadata:
 spec:
   modules:
     # Login to OpenShift cluster
-    - name: ocp-login
-    - name: olm
-    - name: sealed-secret-cert
     # Create the GitOps Repo
     - name: gitops-repo
-    # Install ArgoCD
-    - name: argocd-bootstrap
-
 
     # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
     - name: gitops-namespace
+      alias: ibm_common_services_namespace
       variables:
-        - name: cs-namespace
+        - name: name
           value: ibm-common-services
-        - name: operator_namespace
+
+    - name: gitops-namespace
+      alias: cpd_operators_namespace
+      variables:
+        - name: name
           value: cpd-operators
-        - name: cpd_namespace
-          value: gitops-cp4d-instance
+
+    - name: gitops-namespace
+      alias: cp4d_namespace
+      variables:
+        - name: name
+          value: cp4d
+
+    - name: gitops-namespace
+      alias: data_fabric_namespace
+      variables:
+        - name: name
+          value: data-fabric
 
     - name: gitops-pull-secret  # Global pull secret is required. This is temprary
       dependencies:
-        - name: cs-namespace
-          ref: ibm-common-services
-        - name: operator_namespace
-          ref: cpd-operators
-        - name: cpd_namespace
-          ref: gitops-cp4d-instance
+        - name: namespace
+          ref: ibm_common_services_namespace
+      variables:
+        - name: docker_server
+          alias: cp_pull_secret_server
+          scope: global
+        - name: docker_username
+          alias: cp_pull_secret_username
+          scope: global
+        - name: docker_password
+          alias: cp_pull_secret_password
+          scope: global
+        - name: secret_name
+          alias: cp_pull_secret_name
+          scope: global
+
+    - name: gitops-pull-secret  # Global pull secret is required. This is temprary
+      dependencies:
+        - name: namespace
+          ref: cpd_operators_namespace
+      variables:
+        - name: docker_server
+          alias: cp_pull_secret_server
+          scope: global
+        - name: docker_username
+          alias: cp_pull_secret_username
+          scope: global
+        - name: docker_password
+          alias: cp_pull_secret_password
+          scope: global
+        - name: secret_name
+          alias: cp_pull_secret_name
+          scope: global
+
+    - name: gitops-pull-secret  # Global pull secret is required. This is temprary
+      dependencies:
+        - name: namespace
+          ref: cp4d_namespace
+      variables:
+        - name: docker_server
+          alias: cp_pull_secret_server
+          scope: global
+        - name: docker_username
+          alias: cp_pull_secret_username
+          scope: global
+        - name: docker_password
+          alias: cp_pull_secret_password
+          scope: global
+        - name: secret_name
+          alias: cp_pull_secret_name
+          scope: global
 
     # CatalogSources ibm-operator-catalog & ibm-db2uoperator-catalog
     - name: gitops-cp-catalogs
       dependencies:
-        - name: cs-namespace
-          ref: ibm-common-services
+        - name: namespace
+          ref: ibm_common_services_namespace
 
     # CP4D platform Foundational Services
     - name: ibm-common-service
       dependencies:
-        - name: cs-namespace
-          ref: ibm-common-services
+        - name: namespace
+          ref: ibm_common_services_namespace
 
     # CP4D Operator
     - name: gitops-cp4d-operator
       dependencies:
-        - name: operator_namespace
-          ref: cpd-operators
+        - name: namespace
+          ref: cpd_operators_namespace
 
     # CP4D Instance
-    - name: cp4d-instance
-      dependencies:
-        - name: cpd_namespace
-          ref: gitops-cp4d-instance
-      variables:
-        - name: storage_vendor
-          value: portworx
+    # Not in catalog
+#    - name: cp4d-instance
+#      dependencies:
+#        - name: namespace
+#          ref: cp4d_namespace
+#      variables:
+#        - name: storage_vendor
+#          value: portworx
 
     # Watson Knowledge Catalog
-    - name: gitops-cp-watson-knowledge-catalog
-      dependencies:
-        - name: operator_namespace
-          ref: cpd-operators
-        - name: cpd_namespace
-          ref: gitops-cp4d-instance
-      variables:
-        - name: storage_vendor
-          value: portworx
+    # Gives "The element does not exist" error
+#    - name: gitops-cp-watson-knowledge-catalog
+#      dependencies:
+#        - name: operator_namespace
+#          ref: cpd_operators_namespace
+#        - name: cpd_namespace
+#          ref: cp4d_namespace
+#      variables:
+#        - name: storage_vendor
+#          value: portworx
 
     # Watson Studio
     - name: gitops-cp-watson-studio
       dependencies:
         - name: operator_namespace
-          ref: cpd-operators
+          ref: cpd_operators_namespace
         - name: cpd_namespace
-          ref: gitops-cp4d-instance
-      variables:
-        - name: storage_vendor
-          value: portworx
-        - name: storageclass
-          value: portworx-shared-gp3
+          ref: cp4d_namespace
+        - name: namespace
+          ref: cp4d_namespace
 
     # Watson Machine Learning
     - name: gitops-cp-watson-machine-learning
       dependencies:
         - name: operator_namespace
-          ref: cpd-operators
+          ref: cpd_operators_namespace
         - name: cpd_namespace
-          ref: gitops-cp4d-instance
-      variables:
-        - name: storageclass
-          value: portworx-shared-gp3
+          ref: cp4d_namespace
+        - name: namespace
+          ref: cp4d_namespace
 
     # Data Virtualization Service
     - name: gitops-cp-data-virtualization-service
       dependencies:
         - name: operator_namespace
-          ref: cpd-operators
+          ref: cpd_operators_namespace
         - name: cpd_namespace
-          ref: gitops-cp4d-instance
+          ref: cp4d_namespace
+        - name: namespace
+          ref: cp4d_namespace
 
     # Provision Data Virtualization
-    - name: gitops-cp-data-virtualization
-      dependencies:
-        - name: operator_namespace
-          ref: cpd-operators
-        - name: cpd_namespace
-          ref: gitops-cp4d-instance
-      variables:
-        - name: storageclass
-          value: portworx-db2-rwx-sc
+    # Not in catalog
+#    - name: gitops-cp-data-virtualization
+#      dependencies:
+#        - name: operator_namespace
+#          ref: cpd_operators_namespace
+#        - name: cpd_namespace
+#          ref: cp4d_namespace
+#      variables:
+#        - name: storage_class
+#          value: portworx-db2-rwx-sc
 
     # Create AWS S3 Bucket instance
-    - name: aws-s3-instance
-      variables:
-        - name: bucket_prefix
-          value: datafabric
-        - name: region
-          value: ap-south-1
+    - name: aws-s3-instance
+      variables:
+        - name: bucket_prefix
+          value: datafabric
+        - name: region
+          scope: global
 
     # Upload Data files to AWS S3 Bucket
-    - name: aws-s3-bucket
-      variables:
-        - name: file_path
-          value: Datafiles/aws/ 
+    - name: aws-s3-bucket
+      variables:
+        - name: file_path
+          value: Datafiles/aws/
 
     # Data Fabric Configuration & Setup
     - name: gitops-cp-data-fabric
+      dependencies:
+        - name: namespace
+          ref: data_fabric_namespace
       variables:
-        - name: cpd_namespace
-          value: gitops-cp4d-instance
-        - name: bucket_id
-          value: dfabbucket
-        - name: region
-          value: ap-south-1
+        - name: cpd_namespace
+          value: cp4d_namespace
+        - name: bucket_id
+          value: dfabbucket
+        - name: s3_bucket_region
+          alias: region
+          scope: global
 
+  varables:
+    - name: cp_pull_secret_server
+      value: cp.icr.io
+    - name: cp_pull_secret_name
+      value: ibm-entitlement
+    - name: cp_pull_secret_username
+      value: cp
+    - name: region
+      value: ap-south-1
