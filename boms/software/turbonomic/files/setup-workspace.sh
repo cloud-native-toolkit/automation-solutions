@@ -53,6 +53,5 @@ do
 
   cp -R "../../${name}/terraform/"* .
   ln -s ../terraform.tfvars ./terraform.tfvars
-  ln -s ../ssh-* .
   cd - > /dev/null
 done
