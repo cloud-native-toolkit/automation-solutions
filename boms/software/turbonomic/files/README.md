@@ -8,11 +8,11 @@
 
 The automation will support the installation of Turbonomic on three cloud platforms (AWS, Azure and IBM Cloud).
 
-### Target Infrastructure
+### Target Infrastructure 
 
 The Turbonomic automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
-Before you start to install and configure Turbonomic you need to identify what your target infrastructure is going to be. You can start from scratch and use one of the predefined reference architectures from IBM or bring you own.
+Before you start to install and configure Turbonomic you need to identify what your target infrastructure is going to be. You can start from scratch and use one of the predefined reference architectures from IBM or bring you own.  
 
 
 ### Reference Architectures
@@ -34,14 +34,14 @@ For each of these reference architecture, we have provided a detailed set of aut
 
 ### Getting Started
 
-Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning Turbonomic in multiple cloud environments. This `README.md` describes the SRE steps required to provision the software.
+Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning Turbonomic in multiple cloud environments. This `README.md` describes the SRE steps required to provision the software. 
 
-This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment.
+This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. 
 
 
 ## Turbonomic Architecture
 
-The following reference architecture represents the logical view of how Turbonomic works after its is installed. After you have obtained a license key you will need to register you data sources. They can range from other Kubernetes environments to VMWare and Virtual Machines.
+The following reference architecture represents the logical view of how Turbonomic works after its is installed. After you have obtained a license key you will need to register you data sources. They can range from other Kubernetes environments to VMWare and Virtual Machines. 
 
 ![Reference Architecture](./turbonomic-arch.png)
 
@@ -72,7 +72,7 @@ BinaryDownload Binary
 VIJAY SUKTHANKAR  05:37
 For a real sale, we got this response from Turbonomic team,  “licenses are provided by the finance team on signing a deal or by the SE mgmt if it is part of a PoV that has been approved”
 
-### Cloud Infrastructure
+### Cloud Infrastructure 
 
 
 ### Configuring GitOps
@@ -544,11 +544,11 @@ This will take 10-15 minutes to compelte if this is your first-time running this
 ## Summary
 
 
-
+   
 
 ## Troubleshooting
 
-There are currently no troubleshooting topics at this point.
+There are currently no troubleshooting topics at this point. 
 
 ### How to Generate this repository from teh source Bill of Materials.
 
