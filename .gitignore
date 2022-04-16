@@ -1,6 +1,9 @@
 # Local .terraform directories
 **/.terraform/*
 
+# Do not allow license files
+**/turbonomic.lic
+
 # .tfstate files
 *.tfstate
 *.tfstate.*

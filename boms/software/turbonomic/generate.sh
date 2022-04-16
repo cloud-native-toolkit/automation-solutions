@@ -6,4 +6,4 @@
 iascable build -i ./200-openshift-gitops.yaml -o ../../../../automation-turbonomic
 iascable build -i ./202-turbonomic-ibmcloud-storage-class.yaml -o ../../../../automation-turbonomic
 iascable build -i ./250-turbonomic-multicloud.yaml -o ../../../../automation-turbonomic
-cp ./files/* ../../../../automation-turbonomic
+cp -R ./files/* ../../../../automation-turbonomic
