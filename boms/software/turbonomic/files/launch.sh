@@ -24,4 +24,3 @@ docker run -it \
   -v ${PWD}:/terraform \
   -w /terraform/workspace \
   quay.io/ibmgaragecloud/cli-tools:v1.1
-

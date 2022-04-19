@@ -38,7 +38,6 @@ Within this repository you will find a set of Terraform template bundles that em
 
 This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. 
 
-
 ## Turbonomic Architecture
 
 The following reference architecture represents the logical view of how Turbonomic works after its is installed. After you have obtained a license key you will need to register you data sources. They can range from other Kubernetes environments to VMWare and Virtual Machines. 
@@ -50,11 +49,16 @@ Automation is provided in following Terraform bundles. You need to decide which 
 ## Deploying Turbonomic
 
 
-
 ### Obtaining License Key
 
 For PoC/PoTs, Partners download packages from PW. They search and get “M04TYENIBM Turbonomic Application Resource Management On-Prem 8.4.3 for install on Kubernetes English”, This package contains license file for Turbonomic, with name similar to “CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic” “Turbonomic ARM P/N are currently available under IBM PPA terms and conditions”.
 
+
+Go to https://w3-03.ibm.com/software/xl/download/ticket.wss
+search with keyword: turbonomic
+Select the package “M04TYENIBM Turbonomic Application Resource Management On-Prem 8.4.3 for install on Kubernetes English” and download
+4. Extract this download package to get the turbonomic license key (edited)
+   This package contains license file for turbonomic, with name similar to “CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic
 
 
 
