@@ -32,6 +32,10 @@ spec:
           value: Workload
         - name: banner_background_color
           value: red
-    - name: argocd
+    - name: openshift-cicd
   variables:
     - name: config_banner_text
+    - name: tools_name
+      value: tools
+    - name: sealed-secret_name
+      value: sealed-secrets

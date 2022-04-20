@@ -63,7 +63,7 @@ spec:
           value: Workload
         - name: banner_background_color
           value: red
-    - name: argocd
+    - name: openshift-cicd
   variables:
     - name: resource_group_name
     - name: region
@@ -74,3 +74,7 @@ spec:
     - name: name_prefix
       required: true
       alias: workload_name_prefix
+    - name: tools_name
+      value: tools
+    - name: sealed-secret_name
+      value: sealed-secrets
