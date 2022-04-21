@@ -89,8 +89,4 @@ spec:
     - name: tools_name
       value: tools
     - name: sealed-secret_name
-<<<<<<< HEAD
       value: sealed-secrets
-=======
-      value: sealed-secrets
->>>>>>> 281b158bb3a233a07289acf09120b10f0cf11c2a
