@@ -55,6 +55,11 @@ spec:
       variables:
         - name: name
           value: tools
+    - name: namespace
+      alias: openshift-gitops
+      variables:
+        - name: name
+          value: openshift-gitops
     - name: ibm-image-registry
       variables:
         - name: registry_namespace
@@ -64,12 +69,11 @@ spec:
       variables:
         - name: banner_text
           value: Management
-    - name: argocd
+    - name: openshift-cicd
     - name: dashboard
     - name: pactbroker
     - name: artifactory
     - name: sonarqube
-    - name: tekton
     - name: tekton-resources
     - name: source-control
   variables:
@@ -82,3 +86,7 @@ spec:
     - name: name_prefix
       alias: mgmt_name_prefix
       required: true
+    - name: tools_name
+      value: tools
+    - name: sealed-secret_name
+      value: sealed-secrets
