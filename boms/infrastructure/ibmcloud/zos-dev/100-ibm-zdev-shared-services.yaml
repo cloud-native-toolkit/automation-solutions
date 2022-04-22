@@ -1,0 +1,161 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 100-ibm-zdev-shared-services
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: 100
+  annotations:
+    displayName: Shared services
+    description: Managed services that are shared across the development networks
+spec:
+  modules:
+    - name: ibm-resource-group
+      alias: at_resource_group
+      variables:
+        - name: resource_group_name
+          alias: at_resource_group_name
+          scope: global
+      dependencies:
+        - name: sync
+          ref: kms_resource_group
+    - name: ibm-resource-group
+      variables:
+        - name: resource_group_name
+          alias: cs_resource_group_name
+          scope: global
+    - name: ibm-resource-group
+      alias: kms_resource_group
+      variables:
+        - name: resource_group_name
+          alias: kms_resource_group_name
+          scope: global
+      dependencies:
+        - name: sync
+          ref: resource_group
+    - name: ibm-activity-tracker
+      variables:
+        - name: resource_location
+          alias: region
+    - name: ibm-activity-tracker
+      alias: at-ibm-activity-tracker
+      variables:
+        - name: resource_location
+          alias: kms_region
+      dependencies:
+        - name: sync
+          ref: ibm-activity-tracker
+    - name: ibm-kms
+      alias: kms
+      variables:
+        - name: region
+          alias: kms_region
+        - name: name_prefix
+          alias: kms_name_prefix
+          scope: global
+        - name: name
+          required: true
+      dependencies:
+        - name: resource_group
+          ref: kms_resource_group
+    - name: ibm-access-group
+    - name: ibm-object-storage
+    - name: ibm-cloud-monitoring
+    - name: ibm-log-analysis
+    - name: ibm-iam-service-authorization
+      alias: vsi-encrypt-auth
+      variables:
+        - name: source_service_name
+          value: server-protect
+        - name: roles
+          value:
+            - Reader
+      dependencies:
+        - name: target_resource_group
+          ref: kms_resource_group
+        - name: target_resource
+          ref: kms
+    - name: ibm-iam-service-authorization
+      alias: cos-encrypt-auth
+      variables:
+        - name: roles
+          value:
+            - Reader
+      dependencies:
+        - name: target_resource_group
+          ref: kms_resource_group
+        - name: target_resource
+          ref: kms
+        - name: source_resource
+          ref: cos
+    - name: ibm-iam-service-authorization
+      alias: flow-log-auth
+      variables:
+        - name: source_service_name
+          value: is
+        - name: source_resource_type
+          value: flow-log-collector
+        - name: roles
+          value:
+            - Writer
+      dependencies:
+        - name: target_resource_group
+          ref: resource_group
+        - name: target_resource
+          ref: cos
+    - name: ibm-iam-service-authorization
+      alias: vsi-encrypt-auth
+      variables:
+        - name: source_service_name
+          value: server-protect
+        - name: roles
+          value:
+            - Reader
+      dependencies:
+        - name: source_resource_group
+          ref: resource_group
+        - name: target_resource_group
+          ref: kms_resource_group
+        - name: target_resource
+          ref: kms
+    - name: ibm-iam-service-authorization
+      alias: kube-encrypt-auth
+      variables:
+        - name: source_service_name
+          value: containers-kubernetes
+        - name: roles
+          value:
+            - Reader
+      dependencies:
+        - name: source_resource_group
+          ref: resource_group
+        - name: target_resource_group
+          ref: kms_resource_group
+        - name: target_resource
+          ref: kms
+    - name: ibm-cert-manager
+      variables:
+        - name: private_endpoint
+          value: false
+      dependencies:
+        - name: resource_group
+    - name: ibm-iam-service-authorization
+      alias: vpn-cert-manager-auth
+      variables:
+        - name: source_service_name
+          value: is
+        - name: source_resource_type
+          value: vpn-server
+        - name: roles
+          value:
+            - Writer
+        - name: target_service_name
+          value: cloudcerts
+  variables:
+    - name: name_prefix
+      alias: cs_name_prefix
+    - name: region
+    - name: cs_resource_group_name
+    - name: kms_service
+    - name: at_resource_group_name
