@@ -84,6 +84,36 @@ spec:
           value:
             - {"name":"allow-vpn-ingress","action":"allow","direction":"inbound","source":"0.0.0.0/0", "destination":"10.0.0.0/8"}
             - {"name":"allow-vpn-egress","action":"allow","direction":"inbound","source":"10.0.0.0/8", "destination":"0.0.0.0/0"}
+            - 
+              action: allow
+              destination: 10.0.0.0/8
+              direction: inbound
+              source: 0.0.0.0/0
+              tcp:
+                port_max: 23
+                port_min: 22
+                source_port_max: 23
+                source_port_min: 22
+              udp:
+                port_max: 23
+                port_min: 22
+                source_port_max: 23
+                source_port_min: 22
+            - 
+              action: allow
+              destination: 0.0.0.0/0
+              direction: outbound
+              source: 10.0.0.0/8
+              tcp:
+                port_max: 23
+                port_min: 22
+                source_port_max: 23
+                source_port_min: 22
+              udp:
+                port_max: 23
+                port_min: 22
+                source_port_max: 23
+                source_port_min: 22
       dependencies:
         - name: gateways
           ref: ibm-vpc-gateways
