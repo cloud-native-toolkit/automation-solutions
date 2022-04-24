@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 TEMPLATE_FLAVOR=""
 REF_ARCH=""
