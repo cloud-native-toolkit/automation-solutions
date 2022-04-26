@@ -27,8 +27,20 @@ FLAVOR_DIR="${REPLY}-${flavor,,}"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
+STORAGE_OPTIONS=($(find "${SCRIPT_DIR}/${FLAVOR_DIR}" -type d -maxdepth 1 -name "210-*" | grep "${SCRIPT_DIR}/${FLAVOR_DIR}/" | sed -E "s~${SCRIPT_DIR}/${FLAVOR_DIR}/~~g" | sort))
+
+PS3="Select the storage: "
+
+select storage in ${STORAGE_OPTIONS[@]}; do
+  if [[ -n "${storage}" ]]; then
+    break
+  fi
+done
+
 echo "Setting up automation for ${flavor} in ${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/"* "${WORKSPACE_DIR}"
+rm -rf "${WORKSPACE_DIR}/"210-*
+cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${storage}" "${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terraform.tfvars-template" "${WORKSPACE_DIR}/terraform.tfvars"
 
 find "${WORKSPACE_DIR}" -name main.tf | while read file; do
