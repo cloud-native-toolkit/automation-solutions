@@ -11,9 +11,11 @@ metadata:
     description: Installs Portworx in an IBM cluster
 spec:
   modules:
+    - name: gitops-namespace
+      alias: portworx_namespace
+      default: true
+      variables:
+        - name: name
+          value: portworx
     - name: gitops-ibm-portworx
     - name: ibm-resource-group
-      variables:
-        - name: provision
-          value: false
-    - name: gitops-ibm-portworx
