@@ -17,10 +17,9 @@ GitOps within an AWS ROSA, Azure ARO, IBM Cloud ROKS cluster.
 
 List of BOMs for Turbonomic, there is a generic one for on premise. You will need to make sure the Storage classes are defined. The others have specific setting to enable install into the cloud platform with the correctly specified storage classes.
 
-- [Turbonomics for Generic Install](./400-turbo-bom.yaml)
-- [Turbonomics for AWS](./400-turbo-bom.yaml)
-- [Turbonomics for Azure](./400-turbo-bom.yaml)
-- [Turbonomics for IBM Cloud](./400-turbo-bom.yaml)
+- [200 OpenShift GitOps](./200-openshift-gitops.yaml)
+- [202 IBM Cloud Storage Ckass](./202-turbonomic-ibmcloud-storage-class.yaml)
+- [250 Turbonomic for Multi Cloud](./250-turbonomic-multicloud.yaml)
 
 ### Validated Open-Source Release
 
@@ -58,9 +57,9 @@ mkdir ~/automation
 Pick the BOM you want to generate for the platform you are targeting.
 ```
 cd boms/software/turbonomic
-iascable build -i ./400-400-turbo-bom.yaml -o ~/automation
+iascable build -i ./250-turbonomic-multicloud.yaml.yaml -o ~/automation
 
-    Name: 400-gitops-ocp-turbonomic
+    Name: 250-turbonomic-multicloud
     Loading catalog from url: https://modules.cloudnativetoolkit.dev/index.yaml
     Writing output to: ~/automation
 ```
@@ -75,13 +74,13 @@ You will see this generated content. You can use the [README.md](./files/README.
 
 ```bash
 ~/automation/
-├── 400-gitops-ocp-turbonomic
+├── 250-turbonomic-multicloud.yaml
 │   ├── apply.sh
 │   ├── bom.yaml
 │   ├── dependencies.dot
 │   ├── destroy.sh
 │   └── terraform
-│       ├── 400-gitops-ocp-turbonomic.auto.tfvars
+│       ├── 250-turbonomic-multicloud.auto.tfvars
 │       ├── docs
 │       │   ├── argocd-bootstrap.md
 │       │   ├── gitops-namespace.md
