@@ -52,6 +52,11 @@ spec:
       variables:
         - name: name
           value: tools
+    - name: namespace
+      alias: openshift-gitops
+      variables:
+        - name: name
+          value: openshift-gitops
     - name: ibm-image-registry
       variables:
         - name: registry_namespace
