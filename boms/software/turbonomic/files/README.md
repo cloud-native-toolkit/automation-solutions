@@ -56,7 +56,7 @@ To use Turbonimic you are required to install a license key. For Proof of Concep
 
 For Partners follow these steps:
 
-1. For PoCs/PoTs, Partners can download a license key from [Partner World Software Catalog]https://www.ibm.com/partnerworld/program/benefits/software-access-catalog)
+1. For PoCs/PoTs, Partners can download a license key from [Partner World Software Catalog](https://www.ibm.com/partnerworld/program/benefits/software-access-catalog)
 2. You can search the software catalog for  **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English**,
 3. Download the package which contains license file for Turbonomic, with a name similar to `CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic`
 5. This file is covered by **Turbonomic ARM P/N are currently available under IBM PPA terms and conditions**
@@ -77,9 +77,10 @@ The turbonomic automation is broken into what we call layers of automation or bu
 
 | BOM ID | Name                                                           | Description                                                                                                                                                                                                                                   | Run Time |
 |--------|----------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| 200    | [200 - ArgoCD BootStrap](./200-argocd-bootstrap)               | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only, you can use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 10 Mins  |
-| 202    | [202 - IBM Cloud Storage](./202-ibmcloud-storage-class)        | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage class before installing Turbonomic                                                                  | 10 Mins |
-| 250 | [250 - Turbonomic Multi Cloud](./250-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure, and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
+| 200    | [200 - OpenShift Gitops](./200-openshift-gitops)               | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 10 Mins  |
+| 202    | [202 - IBM Cloud Storage](./202-turbonomic-ibmcloud-storage-class)        | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage class before installing Turbonomic                                                                  | 10 Mins |
+| 250 | [250 - Turbonomic Multi Cloud](./250-turbonomic-multicloud) | Provision Turbonomic into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                          | 10 Mins  |
+
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
 
@@ -275,6 +276,6 @@ Currently there are no troubleshooting topics.
 
 ## How to Generate this repository from teh source Bill of Materials.
 
-This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate the terraform templates you may require.
+This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.
 
 > The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.
