@@ -54,7 +54,7 @@ This suite of automation can be used for a Proof of Technology environment, or u
 
 This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/ibmcloud-ref-arch-fs) file to describe your IBM Cloud architecture, which it then generates the terraform modules into a package of infrastructure as code that you can use to accelerate the configuration of your IBM Cloud environment. Iascable generates standard terraform templates that can be executed from any terraform environment.
 
-> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects. 
+> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.
 
 The following diagram gives a visual representation of the what your IBM Cloud account will contain after the automation has been successfully executed.
 
@@ -167,7 +167,7 @@ Enable your IBM Cloud account to use Financial Services Validated Products
 
 1. From the root of the cloned repository directory, run `./launch.sh`. This will start a docker container that contains the required libraries to run the terraform scripts.
 
-   > This `launch.sh` currently has a dependency on Docker Desktop we are working on alternative solution. 
+   > This `launch.sh` currently has a dependency on Docker Desktop we are working on alternative solution.
 
 2. The container should have opened in the `/terraform/workspace` as the working directory which should be mounted from repository directory on the host.
 3. Change directory to the terraform directory that will be applied (e.g. `000-account-setup` and `100-common-services`)
@@ -200,13 +200,16 @@ Enable your IBM Cloud account to use Financial Services Validated Products
 > 2. Delete the `terraform.tfstate` file
 > 3. Re-run the `terraform apply` command
 
-> We are working on an air gapped install of developer tools from within the private VPC network for Management Cluster. 
+> We are working on an air gapped install of developer tools from within the private VPC network for Management Cluster.
 
 ## Configure VPN
 
 The following steps will help you setup the VPN server.
 
-1. Import the generated ovpn file from the `110-edge-vpc` step into your OpenVPN client and start the VPN connection. You should now have connectivity into the private VPC network and access to the edge VPC. This file will be located in `./workspace/110-edge-vpc`.
+1. Copy the .ovpn profile that was generated from the `110-ibm-fs-edge-vpc` module to your local desktop.
+   - If you are using `colima`, copy it from `/workspaces/current/110-ibm-fs-edge-vpc` to the `/terraform` directory and you will see it in your local operating system's file system.
+   - If you are using `docker`, you can access it directly in the `workspace/110-ibm-fs-edge-vpc` folder.
+2. Import the generated ovpn file from the `110-edge-vpc` step into your OpenVPN client and start the VPN connection. You should now have connectivity into the private VPC network and access to the edge VPC.
 
 ## Post Install of SCC Collectors
 
@@ -358,7 +361,7 @@ The following exceptions are know when an SCC scan is performed on the reference
 
 IBM is a multi-cloud company and we fully embrace consistent development tooling across cloud enviroments including IBM Cloud.
 
-We recommend using the RedHat OpenShift developer tools for container based development. The Cloud-Native Toolkit gives a consistent developer experience and a set of SDLC tools (Software Delivery LifeCycle) that run inside on any OpenShift environment. These tools are installed as part of `160` and `170`. You can find more information about the toolkit here. [Cloud-Native Toolkit](https://cloudnativetoolkit.dev/)  
+We recommend using the RedHat OpenShift developer tools for container based development. The Cloud-Native Toolkit gives a consistent developer experience and a set of SDLC tools (Software Delivery LifeCycle) that run inside on any OpenShift environment. These tools are installed as part of `160` and `170`. You can find more information about the toolkit here. [Cloud-Native Toolkit](https://cloudnativetoolkit.dev/)
 
 **Prerequisites**
 
@@ -422,5 +425,3 @@ You need to create a set of unique keys that will be configured for the various 
    ssh-keygen -t rsa -b 3072 -N "" -f ssh-mgmt-scc -q
    ssh-keygen -t rsa -b 3072 -N "" -f ssh-workload-scc -q
    ```
-
-## Troubleshooting
