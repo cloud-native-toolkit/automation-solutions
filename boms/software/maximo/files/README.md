@@ -115,6 +115,12 @@ Pre-requisites:
    brew install colima
    ```
 
+Ensure the following before continuing
+- Github account exists
+- A Github [token](https://docs.github.com/en/enterprise-server@3.3/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) is available with permissions set to create and remove repositories
+- You are able to login to the OpenShift cluster and obtain an OpenShift login token
+- Cloud Pak entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary)
+
 ### Installing Maximo Core
 
 The installation process will use a standard GitOps repository that has been built using the Modules to support Maximo Core installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.
