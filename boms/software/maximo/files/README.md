@@ -122,7 +122,7 @@ The Maximo Application Suite will continue for approximately another 20 minutes 
 
 The initial setup for MAS is done through the web console and can be found in the location:
 
-https://admin.${YourDomainURL}/initialsetup
+`https://admin.${YourDomainURL}/initialsetup`
 
 NOTE: Depending on the browser you may have to import the self-signed certificate into your keystore (if on a mac)
 

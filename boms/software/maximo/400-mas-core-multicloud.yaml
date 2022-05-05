@@ -14,6 +14,7 @@ spec:
 
     # Add IBM OpenShift Catalog
     - name: gitops-cp-catalogs
+      version: v1.2.1
       variables:
         - name: entitlement_key
           scope: global
