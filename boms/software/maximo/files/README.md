@@ -180,32 +180,26 @@ Steps:
 13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
 14. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.
 
+The following are variables that you will be prompted for and some suggested values.
 
-⚠️ todo: update for mas core
-      ```
-      ########################################################
-      # Name: Maximo Core Terraform Variable File
-      # Desc: Initial input variables to support installation of Turbonomic into the cloud provider of your choice
-      ########################################################
-      
-      ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
-      gitops-ocp-turbonomic_storage_class_name="<your block storage on aws: gp2, on azure: managed-premium>"
-      
-      ## gitops-repo_host: The host for the git repository.
-      gitops_repo_host="github.com"
-      
-      ## gitops-repo_type: The type of the hosted git repository (github or gitlab).
-      gitops_repo_type="github"
-      
-      ## gitops-repo_org: The org/group where the git repository exists/will be provisioned.
-      gitops_repo_org="<your gitorg - most likely your username>"
-      
-      ## gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name)
-      gitops_repo_repo="<repo name to create for git ops configuration>"
-      
-      ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
-      gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
-      ```
+| Variable      | Description  | Suggested Value | 
+| -----------   | ------------ | ---------------
+| gitops-repo_host | The host for the git repository.  | github.com    |
+| gitops-repo_type | The type of the hosted git repository (github or gitlab). | github |
+| gitops-repo_org | The org/group where the git repository exists | github userid or org |
+| gitops-repo_repo | The short name of the repository to create | gitops-mas-ibmcloud |
+| gitops-repo_username | The username of the user with access to the repository | github userid |
+| gitops-repo_token | The git personal access token | BFe4k0MFK9s5RGIt... |
+| bas_dbpassword | Password for BAS database | password |
+| bas_grafanapassword | Password for BAS grafana database | password |
+| entitlement_key | CloudPak Entitlement Key | eyJhbGciOiJIUzI1NiJ9.eyJpc3... |
+| cluster_ingress | Ingress of the Cluster | masdemo.us-east-container.appdomain.cloud |
+| gitops-cp-maximo_instanceid | Instance name for MAS - for example: masdemo or mas8 | mas8 |
+| sls-namespace_name | Namespace for IBM SLS | ibm-sls |
+| mongo-namespace_name | Namespace for Mongo | mongo |
+| bas-namespace_name | Namespace for BAS | masbas |
+| server_url | Url fo the OpenShift cluster | https://c100-e.us-east.containers.cloud.ibm.com:32346 |
+| cluster_login_token | OpenShift cluster login token | sha256~nlXiXCYO_kEydz36B88y0reQ... |
 
 15. Change the `storage_class_name` value to `managed_premium` for **Azure** and other values for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment.
 16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
@@ -252,46 +246,52 @@ Steps:
 27. Once the installation has finished you will see a message from Terraform defining the state of the environment.
 28. You will see the first change as a purple banner describing what was installed
 
-29. The next step is to validate if everything has installed correctly. Open your git repository where your git ops configuration was defined.
+[//]: # (29. The next step is to validate if everything has installed correctly. Open your git repository where your git ops configuration was defined.)
 
-30. Check if the payload folder has been created with the correct definitions for GitOps. Navigate to the `payload/2-services/namespace/turbonomic` folder and look at the content of the installation YAML files. You should see the Operator CR definitions
+[//]: # ()
+[//]: # (30. Check if the payload folder has been created with the correct definitions for GitOps. Navigate to the `payload/2-services/namespace/turbonomic` folder and look at the content of the installation YAML files. You should see the Operator CR definitions)
 
-⚠️ todo: update for mas core
+[//]: # ()
+[//]: # (⚠️ todo: update for mas core)
 
-31. Final Step is to Open up Argo CD (OpenShift GitOps) check it is correctly configured, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.
+[//]: # ()
+[//]: # (31. Final Step is to Open up Argo CD &#40;OpenShift GitOps&#41; check it is correctly configured, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
-32. Complete the authorization with OpenShift, and, then narrow the filters by selecting the **turbonomic namespace**.
+[//]: # ()
+[//]: # (32. Complete the authorization with OpenShift, and, then narrow the filters by selecting the **turbonomic namespace**.)
 
-⚠️ todo: update for mas core
+[//]: # ()
+[//]: # (⚠️ todo: update for mas core)
 
-33. This will show you the GitOps dashboard of the software you have installed using GitOps techniques
-34. Click on **turbonomic-turboinst** tile
-35.
-⚠️ todo: update for mas core
+[//]: # ()
+[//]: # (33. This will show you the GitOps dashboard of the software you have installed using GitOps techniques)
 
-36. You will see all the microservices that Turbonomic uses to install with their enablement state
+[//]: # (34. Click on **turbonomic-turboinst** tile)
+
+[//]: # (35.)
+
+[//]: # (⚠️ todo: update for mas core)
+
+[//]: # ()
+[//]: # (36. You will see all the microservices that Turbonomic uses to install with their enablement state)
+
+
+
+At this point the install will automatically progress.  When complete you will see a message that the Apply is complete with approximately 64 resources added, 0 changed, 0 destroyed.  This will take approximately 5-10 minutes.
+
+The Maximo Application Suite will continue for approximately another 20 minutes while it sets up MAS and all the components for MAS-Core.  From this point you can skip to the MAS suite setup steps in the [README](./README.md#setup) below.
 
 
 ### Setup Maximo Core after installation
 
+The initial setup for MAS is done through the web console and can be found in the location:
 
-⚠️ todo: update for mas core
+`https://admin.${YourDomainURL}/initialsetup`
 
-Configuring Turbonomic after installation into your cluster. Now that the installation process is complete,  it is time to configure Turbonomic and load your downloaded license key.
+NOTE: Depending on the browser you may have to import the self-signed certificate into your keystore (if on a mac)
 
-Steps:
+Login as super user with credential found in the secret named: `{masInstanceID}-credentials-superuser` in the OpenShift project named: `mas-{masInstanceID}-core`
 
-1. In the OpenShift console navigate to the **Networking->Routes** and change the project from to **turbonomic** you will see the route to launch dashboard for Turbonomic. Click on the Location URL to open Turbonomic
-2. The first time you will launch the dashboard it will ask you to define an Administration password. Enter your new password and confirm it.
-   > Don’t forget to store it in your password manager
-3. Once the account has been created you will be greeted with the default screen.
-4. Make sure you have downloaded the license key following the instructions in the pre-requisites section at the front of this document.
-5. Click on Settings on left menu, then click on **License** icon, click **Import license**
-6. Drag you license key into the drop area and you will get a screen stating it has been added
-7. Now we need to point Turbonomic at an environment for it to monitor ,
-8. Click on the **Add Targets** button.
-9. Click on `Kubernetes-Turbonomic` then **Validate** button to complete the validation
-10. Then click on the **On** icon at the top of the left menu to see a monitor view of Turbonomic
 
 ## Summary
 
