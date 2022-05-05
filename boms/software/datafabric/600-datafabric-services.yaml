@@ -1,0 +1,76 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: cp-data-fabric
+  labels:
+    type: software
+    code: '600'
+  annotations:
+    displayName: Data Fabric Solution on Cloud pak for Data
+    description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
+spec:
+  modules:
+
+
+    # Watson Knowledge Catalog
+    # Gives "The element does not exist" error
+    #    - name: gitops-cp-watson-knowledge-catalog
+    #      dependencies:
+    #        - name: operator_namespace
+    #          ref: cpd_operators_namespace
+    #        - name: cpd_namespace
+    #          ref: cp4d_namespace
+    #      variables:
+    #        - name: storage_vendor
+    #          value: portworx
+    -
+    # Watson Studio
+    - name: gitops-cp-watson-studio
+      dependencies:
+        - name: operator_namespace
+          ref: cpd_operators_namespace
+        - name: cpd_namespace
+          ref: cp4d_namespace
+        - name: namespace
+          ref: cp4d_namespace
+
+    # Watson Machine Learning
+    - name: gitops-cp-watson-machine-learning
+      dependencies:
+        - name: operator_namespace
+          ref: cpd_operators_namespace
+        - name: cpd_namespace
+          ref: cp4d_namespace
+        - name: namespace
+          ref: cp4d_namespace
+
+    # Data Virtualization Service
+    - name: gitops-cp-data-virtualization-service
+      dependencies:
+        - name: operator_namespace
+          ref: cpd_operators_namespace
+        - name: cpd_namespace
+          ref: cp4d_namespace
+        - name: namespace
+          ref: cp4d_namespace
+
+    # Provision Data Virtualization
+    # Not in catalog
+#    - name: gitops-cp-data-virtualization
+#      dependencies:
+#        - name: operator_namespace
+#          ref: cpd_operators_namespace
+#        - name: cpd_namespace
+#          ref: cp4d_namespace
+#      variables:
+#        - name: storage_class
+#          value: portworx-db2-rwx-sc
+
+
+  varables:
+    - name: cp_pull_secret_server
+      value: cp.icr.io
+    - name: cp_pull_secret_name
+      value: ibm-entitlement
+    - name: cp_pull_secret_username
+      value: cp

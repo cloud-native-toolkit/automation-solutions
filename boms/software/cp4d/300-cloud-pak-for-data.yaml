@@ -10,9 +10,6 @@ metadata:
     description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
 spec:
   modules:
-    # Login to OpenShift cluster
-    # Create the GitOps Repo
-    - name: gitops-repo
 
     # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
     - name: gitops-namespace
@@ -121,88 +118,6 @@ spec:
 #        - name: storage_vendor
 #          value: portworx
 
-    # Watson Knowledge Catalog
-    # Gives "The element does not exist" error
-#    - name: gitops-cp-watson-knowledge-catalog
-#      dependencies:
-#        - name: operator_namespace
-#          ref: cpd_operators_namespace
-#        - name: cpd_namespace
-#          ref: cp4d_namespace
-#      variables:
-#        - name: storage_vendor
-#          value: portworx
-
-    # Watson Studio
-    - name: gitops-cp-watson-studio
-      dependencies:
-        - name: operator_namespace
-          ref: cpd_operators_namespace
-        - name: cpd_namespace
-          ref: cp4d_namespace
-        - name: namespace
-          ref: cp4d_namespace
-
-    # Watson Machine Learning
-    - name: gitops-cp-watson-machine-learning
-      dependencies:
-        - name: operator_namespace
-          ref: cpd_operators_namespace
-        - name: cpd_namespace
-          ref: cp4d_namespace
-        - name: namespace
-          ref: cp4d_namespace
-
-    # Data Virtualization Service
-    - name: gitops-cp-data-virtualization-service
-      dependencies:
-        - name: operator_namespace
-          ref: cpd_operators_namespace
-        - name: cpd_namespace
-          ref: cp4d_namespace
-        - name: namespace
-          ref: cp4d_namespace
-
-    # Provision Data Virtualization
-    # Not in catalog
-#    - name: gitops-cp-data-virtualization
-#      dependencies:
-#        - name: operator_namespace
-#          ref: cpd_operators_namespace
-#        - name: cpd_namespace
-#          ref: cp4d_namespace
-#      variables:
-#        - name: storage_class
-#          value: portworx-db2-rwx-sc
-
-    # Create AWS S3 Bucket instance
-    - name: aws-s3-instance
-      variables:
-        - name: bucket_prefix
-          value: datafabric
-        - name: region
-          scope: global
-
-    # Upload Data files to AWS S3 Bucket
-    - name: aws-s3-bucket
-      variables:
-        - name: file_path
-          value: Datafiles/aws/
-
-    # Data Fabric Configuration & Setup
-    - name: gitops-cp-data-fabric
-      dependencies:
-        - name: namespace
-          ref: data_fabric_namespace
-      variables:
-        - name: cpd_namespace
-          value: cp4d_namespace
-        - name: bucket_id
-          value: dfabbucket
-        - name: s3_bucket_region
-          alias: region
-          scope: global
-
   varables:
     - name: cp_pull_secret_server
       value: cp.icr.io
@@ -210,5 +125,3 @@ spec:
       value: ibm-entitlement
     - name: cp_pull_secret_username
       value: cp
-    - name: region
-      value: ap-south-1
