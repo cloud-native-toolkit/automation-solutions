@@ -12,6 +12,12 @@ spec:
   modules:
 
 
+    - name: gitops-namespace
+      alias: data_fabric_namespace
+      variables:
+        - name: name
+          value: data-fabric
+
     # Watson Knowledge Catalog
     # Gives "The element does not exist" error
     #    - name: gitops-cp-watson-knowledge-catalog
