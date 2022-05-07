@@ -1,0 +1,45 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: cp-data-fabric
+  labels:
+    type: software
+    code: '600'
+  annotations:
+    displayName: Data Fabric Solution on Cloud pak for Data
+    description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
+spec:
+  modules:
+
+    # Create AWS S3 Bucket instance
+    - name: aws-s3-instance
+      variables:
+        - name: bucket_prefix
+          value: datafabric
+        - name: region
+          scope: global
+
+    # Upload Data files to AWS S3 Bucket
+    - name: aws-s3-bucket
+      variables:
+        - name: file_path
+          value: Datafiles/aws/
+
+    # Data Fabric Configuration & Setup
+    - name: gitops-cp-data-fabric
+      dependencies:
+        - name: namespace
+          ref: data_fabric_namespace
+      variables:
+        - name: cpd_namespace
+          value: cp4d_namespace
+        - name: bucket_id
+          value: dfabbucket
+        - name: s3_bucket_region
+          alias: region
+          scope: global
+
+  varables:
+      value: cp
+    - name: region
+      value: ap-south-1

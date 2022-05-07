@@ -12,5 +12,7 @@ metadata:
 spec:
   modules:
     - name: azure-resource-group
-    - name: azure-vpc
-    - name: azure-vpc-subnets
+    - name: azure-vnet
+    - name: azure-subnets
+    - name: azure-lb
+    - name: azure-ocp-ipi

@@ -14,6 +14,7 @@ spec:
 
     # Add IBM OpenShift Catalog
     - name: gitops-cp-catalogs
+      version: v1.2.1
       variables:
         - name: entitlement_key
           scope: global
@@ -34,6 +35,18 @@ spec:
         - name: entitlement_key
           scope: global
 
+    # Storage Class Manager
+    - name: util-storage-class-manager
+      variables:
+        - name: rwx_storage_class
+          scope: global
+        - name: rwo_storage_class
+          scope: global
+        - name: file_storage_class
+          scope: global
+        - name: block_storage_class
+          scope: global
+
     # Mongo CE Operator
     - name: gitops-namespace
       alias: mongo-namespace
@@ -44,20 +57,12 @@ spec:
       dependencies:
         - name: namespace
           ref: mongo-namespace
-      variables:
-        - name: mongo_storageclass
-          alias: rwo_storage_class
-          scope: global
 
     # Mongo CE Instance
     - name: gitops-mongo-ce
       dependencies:
         - name: namespace
           ref: mongo-namespace
-      variables:
-        - name: storage_class_name
-          alias: rwo_storage_class
-          scope: global
 
     # IBM Behavior Analysis Service
     - name: gitops-namespace
@@ -66,26 +71,9 @@ spec:
         - name: name
           value: bas
     - name: gitops-cp-bas
-      version: v1.0.1
       dependencies:
         - name: namespace
           ref: bas-namespace
-      variables:
-        - name: db_archive_storage_class
-          alias: rwx_storage_class
-          scope: global
-        - name: postgres_storage_class
-          alias: rwo_storage_class
-          scope: global
-        - name: kafka_storage_class
-          alias: rwo_storage_class
-          scope: global
-        - name: zookeeper_storage_class
-          alias: rwo_storage_class
-          scope: global
-        - name: default_storage_class
-          alias: rwo_storage_class
-          scope: global
 
     # Maximo Core
     - name: gitops-namespace
