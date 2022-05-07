@@ -278,7 +278,7 @@ terraform destroy --auto-approve
 
 ## Summary
 
-This concludes the instructions for installing **Turbonomic* on AWS, Azure, and IBM Cloud
+This concludes the instructions for installing **Turbonomic** on AWS, Azure, and IBM Cloud
 
 ## Troubleshooting
 
