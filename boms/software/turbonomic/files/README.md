@@ -26,7 +26,7 @@ For each of these reference architecture, we have provided a detailed set of aut
 
 | Cloud Platform                                                                                                            | Automation and Documentation                                                                                                                                                                                  |   
 |---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [TechZone for IBMers and Partners](https://techzone.ibm.com/collection/turbonomic-automation-for-azure-aws-and-ibm-cloud) | You can provision ARO, ROSA and ROKS through IBM TechZone. This is only supported for IBMers and IBM Partners
+| [TechZone for IBMers and Partners](https://techzone.ibm.com/collection/turbonomic-automation-multicloud) | You can provision ARO, ROSA and ROKS through IBM TechZone. This is only supported for IBMers and IBM Partners
 | [IBM Cloud](https://cloud.ibm.com)                                                                                        | [IBM Cloud Quick Start](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/initial-version) </br> [IBM Cloud Standard](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/standard) |  
 | [AWS](https://aws.amazon.com/)                                                                                            | [AWS Quick Start](https://github.com/IBM/automation-aws-infra-openshift/tree/1-quick-start) </br> [AWS Standard - Coming soon]()                                                                              |
 | [Azure](https://portal.azure.com/#home)                                                                                   | [Azure Quick Start - Coming soon]()                                                                                 |                                                                                             | 
@@ -266,15 +266,35 @@ Steps:
 9. Click on `Kubernetes-Turbonomic` then **Validate** button to complete the validation
 10. Then click on the **On** icon at the top of the left menu to see a monitor view of Turbonomic
 
+## Uninstalling
+
+You can uninstall Turbonomic by running the Automation layers in reverse order for example :
+
+```
+cd 200-bootstrap-gitops
+terraform destroy --auto-approve
+...
+
+```
+
 ## Summary
 
-This concludes the instructions for installing **Turbonomic* on AWS, Azure, and IBM Cloud
+This concludes the instructions for installing **Turbonomic** on AWS, Azure, and IBM Cloud
 
 ## Troubleshooting
 
-Currently there are no troubleshooting topics.
+If you find that **OpenShift GitOps (ArgoCD)** or a `terraform destroy --auto-approve` is leaving your environment in an inconsistent state
+state you can use these steps to clean up your cluster.
 
-## How to Generate this repository from teh source Bill of Materials.
+Follow these steps:
+- run `oc get namespace turbonomic -o yaml` on the CLI  to get the details for the namespace. 
+- If you see that the `turbonomic` namespace has not completed terminating you can clean this up with the following steps
+- Get the details of the remaining resource `oc get xl xl-release -n turbonomic -o json`
+- Patch it to remove the stuck finalizer: `oc patch XL xl-release -p '{"metadata": {"finalizers": []}}' --type merge`
+- Delete the resource that was stuck: `oc delete xl xl-release -n turbonomic`
+- Go into **ArgoCD** instance and deleted the remaining argo applications
+
+## How to Generate this repository from the source Bill of Materials.
 
 This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/turbonomic) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.
 
