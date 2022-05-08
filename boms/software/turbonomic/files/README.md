@@ -12,7 +12,7 @@ The automation will support the installation of Turbonomic on three cloud platfo
 
 The Turbonomic automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
-Before you start to install and configure Turbonomic, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
+Before you start to install and configure Turbonomic, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own. It is recommended to install this on a `4cpu x 16gb x 2 worker nodes` **OpenShift Cluster**
 
 ### Reference Architectures
 
@@ -58,7 +58,7 @@ For Partners follow these steps:
 
 1. For PoCs/PoTs, Partners can download a license key from [Partner World Software Catalog](https://www.ibm.com/partnerworld/program/benefits/software-access-catalog)
 2. You can search the software catalog for  **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English**,
-3. Download the package which contains license file for Turbonomic, with a name similar to `CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic`
+3. Download the package it is 11gb in size and unzip the contents. Look for the client license file for Turbonomic, with a name similar to `CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic`
 5. This file is covered by **Turbonomic ARM P/N are currently available under IBM PPA terms and conditions**
 
 #### IBMers
@@ -67,7 +67,7 @@ For IBMers you can download a license key using these steps:
 
 1. Go to [XL Leverage](https://w3-03.ibm.com/software/xl/download/ticket.wss)
 2. Search with keyword: turbonomic
-3. Select the package **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English** and download
+3. Select the package **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English** and download, this file is 11gb in size, once downloaded unzip to find the license key
 4. Extract this download package to get the turbonomic license key
    This package contains license file for turbonomic, with a name similar to “CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic
 
@@ -177,6 +177,9 @@ Steps:
       ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
       gitops-ocp-turbonomic_storage_class_name="<your block storage on aws: gp2, on azure: managed-premium>"
       
+    ## gitops-ocp-turbonomic_storage_class_name: for IBM Cloud run 202 automation and uncomment this value and comment the line above
+    #gitops-ocp-turbonomic_storage_class_name="ibmc-vpc-block-10iops-tier"
+
       ## gitops-repo_host: The host for the git repository.
       gitops_repo_host="github.com"
       
@@ -213,25 +216,26 @@ Steps:
 
 23. This will kick off the automation for setting up the GitOps Operator into your cluster.
 
-24.	You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Turbonomic install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
+24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Turbonomic install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
-25.	If you are using IBM Cloud, navigate into the 202 folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
-
- ```
- cd 202-turbonomic-ibmcloud-storage-class
- terraform init
- terraform apply --auto-approve
- ```
+25. If you are using IBM Cloud, you need to configure the storage class and  navigate into the 202 folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
+26. For IBM Cloud uncomment the line `gitops-ocp-turbonomic_storage_class_name="ibmc-vpc-block-10iops-tier"` and comment out the line above which sets the Azure and AWS storage class name. You can then run the commands below.
+`
+     ```
+     cd 202-turbonomic-ibmcloud-storage-class
+     terraform init
+     terraform apply --auto-approve
+     ```
 
 26.	Now that the GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that cause OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
 
- ```
- cd 250-turbonomic-multicloud
- terraform init
- terraform apply --auto-approve
- ………
- Apply complete! Resources: 38 added, 0 changed, 0 destroyed.
- ```
+     ```
+     cd 250-turbonomic-multicloud
+     terraform init
+     terraform apply --auto-approve
+     ………
+     Apply complete! Resources: 38 added, 0 changed, 0 destroyed.
+     ```
 
 27.	Once the installation has finished you will see a message from Terraform defining the state of the environment.
 28.	You will see the first change as a purple banner describing what was installed
