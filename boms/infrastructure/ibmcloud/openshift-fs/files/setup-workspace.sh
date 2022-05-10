@@ -1,22 +1,28 @@
 #!/usr/bin/env bash
 
+# IBM GSI Ecosystem Lab
+
 TEMPLATE_FLAVOR=""
 REF_ARCH=""
+PREFIX_NAME=""
+REGION="us-east"
 
 Usage()
 {
    echo "Creates a workspace folder and populates it with architectures."
    echo
-   echo "Usage: setup-workspace.sh -t TEMPLATE_FLAVOR -a REF_ARCH"
+   echo "Usage: setup-workspace.sh -t TEMPLATE_FLAVOR -a REF_ARCH [-n PREFIX_NAME] [-r REGION]"
    echo "  options:"
    echo "  t     the template to use for the deployment (small or full)"
-   echo "  a     the reference architecture to deploy (vpc or ocp or all)"
+   echo "  a     the reference architecture to deploy (vpc or ocp-base or ocp or all)"
+   echo "  n     (optional) prefix that should be used for all variables"
+   echo "  r     (optional) the region where the infrastructure will be provisioned"
    echo "  h     Print this help"
    echo
 }
 
 # Get the options
-while getopts ":a:t:" option; do
+while getopts ":a:t:n:r:" option; do
    case $option in
       h) # display Help
          Usage
@@ -25,6 +31,10 @@ while getopts ":a:t:" option; do
          TEMPLATE_FLAVOR=$OPTARG;;
       a) # Enter a name
          REF_ARCH=$OPTARG;;
+      n) # Enter a name
+         PREFIX_NAME=$OPTARG;;
+      r) # Enter a name
+         REGION=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -32,7 +42,7 @@ while getopts ":a:t:" option; do
    esac
 done
 
-if [[ -z "${TEMPLATE_FLAVOR}" ]] || [[ ! "${TEMPLATE_FLAVOR}" =~ small|full ]] || [[ -z "${REF_ARCH}" ]] || [[ ! "${REF_ARCH}" =~ ocp|vpc|all ]]; then
+if [[ -z "${TEMPLATE_FLAVOR}" ]] || [[ ! "${TEMPLATE_FLAVOR}" =~ small|full ]] || [[ -z "${REF_ARCH}" ]] || [[ ! "${REF_ARCH}" =~ ^ocp$|^ocp-base$|^vpc$|^all$ ]]; then
   Usage
   exit 1
 fi
@@ -54,14 +64,25 @@ cd "${WORKSPACE_DIR}"
 echo "Setting up workspace in '${WORKSPACE_DIR}'"
 echo "*****"
 
-/terraform/create-ssh-keys.sh
-cp "/terraform/terraform.tfvars.template-${TEMPLATE_FLAVOR}" ./terraform.tfvars
+if [[ -n "${PREFIX_NAME}" ]]; then
+  PREFIX_NAME="${PREFIX_NAME}-"
+fi
+
+"${SCRIPT_DIR}/create-ssh-keys.sh"
+cat "${SCRIPT_DIR}/terraform.tfvars.template-${TEMPLATE_FLAVOR}" | \
+  sed "s/PREFIX/${PREFIX_NAME}/g"  | \
+  sed "s/REGION/${REGION}/g" \
+  > ./terraform.tfvars
 
 # append random string into suffix variable in tfvars  to prevent name collisions in object storage buckets
 if command -v openssl &> /dev/null
 then
     printf "\n\nsuffix=\"$(openssl rand -hex 4)\"\n" >> "${WORKSPACE_DIR}"/terraform.tfvars
 fi
+
+# Help Scripts for applying and destroying
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 
 ALL_ARCH="000|100|110|120|130|140|150|160|165|170"
 
@@ -72,16 +93,21 @@ WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
 VPC_ARCH="000|100|110|120|140"
 OCP_ARCH="000|100|110|130|150|160|165|170"
+OCP_BASE_ARCH="000|100|110|130|150"
 
 echo "Setting up automation  ${WORKSPACE_DIR}"
 
-find /terraform/. -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
+find "${SCRIPT_DIR}/." -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;
 do
 
   name=$(echo "$dir" | sed -E "s/.*\///")
 
   if [[ ! -d "${SCRIPT_DIR}/${name}/terraform" ]]; then
+    continue
+  fi
+
+  if [[ "${REF_ARCH}" == "ocp-base" ]] && [[ ! "${name}" =~ ${OCP_BASE_ARCH} ]]; then
     continue
   fi
 
@@ -105,6 +131,8 @@ do
   cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
   ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
   ln -s "${WORKSPACE_DIR}"/ssh-* .
+  ln -s "${SCRIPT_DIR}/apply.sh" ./apply.sh
+  ln -s "${SCRIPT_DIR}/destroy.sh" ./destroy.sh
   cd - > /dev/null
 done
 
