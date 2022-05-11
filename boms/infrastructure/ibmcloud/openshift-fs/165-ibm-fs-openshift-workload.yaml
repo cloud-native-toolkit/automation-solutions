@@ -9,6 +9,7 @@ metadata:
   annotations:
     displayName: OpenShift Workload
     description: Configures workload cluster
+    vpn/required: "true"
 spec:
   modules:
     - name: ibm-resource-group
