@@ -9,6 +9,7 @@ metadata:
     displayName: OpenShift GitOps (ArgoCD)
     description: Provision GitOps (ArgoCD) on OpenShift
     vpn/required: "true"
+    destroy/ignore-error: "true"
 spec:
   modules:
     - name: ocp-login
