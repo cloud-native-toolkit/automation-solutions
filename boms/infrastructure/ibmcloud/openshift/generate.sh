@@ -9,6 +9,21 @@ if [[ -z "${TARGET_DIR}" ]]; then
   exit 1
 fi
 
+if ! command -v iascable 1> /dev/null 2> /dev/null; then
+  echo "iascable cli not found" >&2
+  echo "  Install iascable with this command: curl -sL https://raw.githubusercontent.com/cloud-native-toolkit/iascable/main/install.sh | sh" >&2
+  exit 1
+fi
+
+IASCABLE_MAJOR_VERSION=$(iascable --version | sed -E "s/^([0-9]+)[.][0-9]+[.][0-9]+/\1/g")
+IASCABLE_MINOR_VERSION=$(iascable --version | sed -E "s/^[0-9]+[.]([0-9]+)[.][0-9]+/\1/g")
+
+if [[ "${IASCABLE_MAJOR_VERSION}" -le 2 ]] && [[ "${IASCABLE_MINOR_VERSION}" -le 11 ]]; then
+  echo "Installed iascable cli is backlevel version"
+  echo "  Update iascable with this command: curl -sL https://raw.githubusercontent.com/cloud-native-toolkit/iascable/main/install.sh | sh" >&2
+  exit 1
+fi
+
 cp -R "${SCRIPT_DIR}/files/"* "${TARGET_DIR}"
 
 for dir in 1-quickstart 2-standard 3-advanced; do
@@ -25,9 +40,12 @@ for dir in 1-quickstart 2-standard 3-advanced; do
 
   mkdir -p "${TARGET_DIR}/automation/${dir}"
 
-  find "${SCRIPT_DIR}/${dir}" -name "*.yaml" -maxdepth 1 | sort | while read bom; do
-    iascable build -i "${bom}" -o "${TARGET_DIR}/automation/${dir}"
-  done
+  boms=""
+  while read bom; do
+    boms="${boms} -i ${bom}"
+  done <<< "$(find "${SCRIPT_DIR}/${dir}" -name "*.yaml" -maxdepth 1 | sort)"
+  
+  /Users/seansundus.ibm.com/ws/catalyst/cli/iascable/iascable build ${boms} -o "${TARGET_DIR}/automation/${dir}"
 
   cp "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/automation/${dir}"
 done
