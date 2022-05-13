@@ -10,7 +10,6 @@ metadata:
     displayName: OpenShift Developer Tools
     description: Open-Source collection of assets for application development on OpenShift
     vpn/required: "true"
-    destroy/ignore-error: "true"
 spec:
   modules:
     - name: ibm-resource-group

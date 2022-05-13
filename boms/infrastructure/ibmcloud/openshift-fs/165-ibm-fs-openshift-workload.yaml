@@ -10,7 +10,6 @@ metadata:
     displayName: OpenShift Workload
     description: Configures workload cluster
     vpn/required: "true"
-    destroy/ignore-error: "true"
 spec:
   modules:
     - name: ibm-resource-group

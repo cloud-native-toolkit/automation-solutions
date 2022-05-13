@@ -2,10 +2,8 @@
 
 CI="$1"
 
-ERROR_LAYERS=""
-
 find . -type d -maxdepth 1 | grep -vE "[.]/[.].*" | grep -vE "^[.]$" | grep -v workspace | sort -r | \
-  ( while read dir;
+  while read dir;
 do
   name=$(echo "$dir" | sed -E "s~[.]/(.*)~\1~g")
 
@@ -37,33 +35,9 @@ do
 
   echo "***** Destroying ${name} *****"
 
-  RESULT="0"
-  if cd "${name}"; then
-    terraform init && ./destroy.sh
-
-    RESULT="$?"
-
-    cd - 1> /dev/null
-  else
-    RESULT="1"
-  fi
-
-  IGNORE_ERROR=$(grep "destroy/ignore-error" ./${name}/bom.yaml | sed -E "s~[^:]+: \"(.*)\"~\1~g")
-
-  if [[ "${RESULT}" -ne 0 ]] && [[ "${IGNORE_ERROR}" != "true" ]]; then
-    exit "${RESULT}"
-  else
-    echo "Ignoring layer error for now: ${name}"
-    if [[ -z "${ERROR_LAYERS}" ]]; then
-      ERROR_LAYERS="${name}"
-    else
-      ERROR_LAYERS="${ERROR_LAYERS},${name}"
-    fi
-  fi
+  cd "${name}" && \
+    terraform init && \
+    ./destroy.sh && \
+    cd - 1> /dev/null || \
+    exit 1
 done
-
-if [[ -n "${ERROR_LAYERS}" ]]; then
-  echo "Failing layers: ${ERROR_LAYERS}" >&2
-  exit 1
-fi
-)
