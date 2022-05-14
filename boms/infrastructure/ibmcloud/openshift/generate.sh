@@ -38,14 +38,14 @@ for dir in 1-quickstart 2-standard 3-advanced; do
     echo ""
   fi
 
-  mkdir -p "${TARGET_DIR}/automation/${dir}"
+  mkdir -p "${TARGET_DIR}/${dir}"
 
   boms=""
   while read bom; do
     boms="${boms} -i ${bom}"
   done <<< "$(find "${SCRIPT_DIR}/${dir}" -name "*.yaml" -maxdepth 1 | sort)"
   
-  /Users/seansundus.ibm.com/ws/catalyst/cli/iascable/iascable build ${boms} -o "${TARGET_DIR}/automation/${dir}"
+  /Users/seansundus.ibm.com/ws/catalyst/cli/iascable/iascable build ${boms} -o "${TARGET_DIR}/${dir}"
 
-  cp "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/automation/${dir}"
+  cp -R "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/${dir}"
 done
