@@ -21,3 +21,5 @@ spec:
       variables:
         - name: create_webhook
           value: true
+    - name: gitops-cluster-config
+    - name: gitops-console-link-job 
