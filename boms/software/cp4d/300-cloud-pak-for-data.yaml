@@ -1,0 +1,61 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: cp-data-fabric
+  labels:
+    type: software
+    code: '600'
+  annotations:
+    displayName: Data Fabric Solution on Cloud pak for Data
+    description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
+spec:
+  modules:
+
+    # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
+    - name: gitops-namespace
+      alias: ibm_common_services_namespace
+      variables:
+        - name: name
+          value: ibm-common-services
+
+    - name: gitops-namespace
+      alias: cpd_operators_namespace
+      variables:
+        - name: name
+          value: cpd-operators
+
+    - name: gitops-namespace
+      alias: cp4d_namespace
+      variables:
+        - name: name
+          value: cp4d
+
+    # Global pull secret for the cluster
+    - name: gitops-module-global-pullsecret
+
+    # CatalogSources ibm-operator-catalog & ibm-db2uoperator-catalog
+    - name: gitops-cp-catalogs
+      dependencies:
+        - name: namespace
+          ref: ibm_common_services_namespace
+
+    # CP4D platform Foundational Services
+    - name: ibm-common-service
+      dependencies:
+        - name: namespace
+          ref: ibm_common_services_namespace
+
+    # CP4D Operator
+    - name: gitops-cp4d-operator
+      dependencies:
+        - name: namespace
+          ref: cpd_operators_namespace
+
+    # CP4D Instance
+    - name: cp4d-instance
+      dependencies:
+        - name: namespace
+          ref: cp4d_namespace
+      variables:
+        - name: storage_vendor
+          value: portworx
