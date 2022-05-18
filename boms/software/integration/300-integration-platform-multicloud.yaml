@@ -34,7 +34,7 @@ spec:
     - name: gitops-cp-mq
     - name: gitops-cp-ace
     - name: gitops-cp-apic-opearator
-    - name: gitops-cp-eventstreams
+    - name: gitops-cp-eventstreams-operator
 
 
     # To organize the MQ Uniform cluster Workload in a dedicated namespace. Also to Override the Storage Class for MQ Uniform cluster. Require RWO storage Class
@@ -112,6 +112,35 @@ spec:
         - name: storage_class
           alias: rwo_storage_class
           scope: global
+        - name: entitlement_key
+          scope: global
+
+    # To organize the EventStream Workload in a dedicated namespace. Also to Override the Storage Class for EventStreams. Require RWO storage Class
+    - name: gitops-namespace
+      alias: cp4i-es
+      variables:
+        - name: name
+          value: cp4i-es
+
+    - name: gitops-cp-event-streams
+      dependencies:
+        - name: namespace
+          ref: cp4i-es
+      variables:
+        - name: kafka_storagetype
+          value: persistent-claim
+
+        - name: kafka_storageclass
+          alias: rwo_storage_class
+          scope: global
+
+        - name: zookeeper_storagetype
+          value: persistent-claim
+
+        - name: zookeeper_storageclass
+          alias: rwo_storage_class
+          scope: global       
+
         - name: entitlement_key
           scope: global
 
