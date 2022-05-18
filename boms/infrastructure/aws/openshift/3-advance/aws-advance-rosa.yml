@@ -7,7 +7,6 @@ spec:
 #edge VPC  
     - name: aws-vpc
       alias: edge_vpc
-      vesion: v1.5.3
       dependencies:
         - name: aws-vpc-subnets
           ref: mgmt_pri_subnet_rosa
@@ -24,7 +23,6 @@ spec:
 #Management VPC        
     - name: aws-vpc
       alias: mgmt_vpc
-      vesion: v1.5.3
       dependencies:
         - name: aws-vpc-subnets
           ref: edge_pri_subnet_ec2
@@ -44,7 +42,6 @@ spec:
 #Worload VPC
     - name: aws-vpc
       alias: work_vpc
-      vesion: v1.5.3
       dependencies:
         - name: aws-vpc-subnets
           ref: edge_pri_subnet_ec2
@@ -64,7 +61,6 @@ spec:
 #Edge Subnet - Public
     - name: aws-vpc-subnets
       alias: edge_pub_subnet_bastion
-      vesion: v2.2.0
       dependencies:
         - name: aws-vpc
           ref: edge_vpc
@@ -109,7 +105,6 @@ spec:
 #Management Subnet - Private
     - name: aws-vpc-subnets
       alias: mgmt_pri_subnet_rosa
-      vesion: v2.2.0
       dependencies:
         - name: aws-vpc
           ref: mgmt_vpc
@@ -132,7 +127,6 @@ spec:
 #Workload Subnet - Private
     - name: aws-vpc-subnets
       alias: work_pri_subnet_rosa
-      vesion: v2.2.0
       dependencies:
         - name: aws-vpc
           ref: work_vpc
@@ -354,7 +348,9 @@ spec:
         - name: number_subnet_route
           value: 9
         - name: static_routes
-          value: null       
+          value:
+          - blackhole: true
+            destination_cidr_block: 0.0.0.0/0
 
 #transit gateway  service menage
     - name: aws-transit-gateway
