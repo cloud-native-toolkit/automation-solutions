@@ -4,15 +4,18 @@ metadata:
   name: aws-standard-architecture
 spec:
   modules:
-  # VPC
+# VPC
     - name: aws-vpc
       variables:
       - name: enable_dns_hostnames
         value: true
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: pri_subnets
+        - name: aws-client-vpn
 #Internet Gateway
     - name: aws-internet-gateway
       alias: igw
-
 # Subnet for Bastion and ROSA - Public
     - name: aws-vpc-subnets
       alias: pub_subnets
@@ -33,7 +36,6 @@ spec:
           - ap-south-1a
           - ap-south-1b
           - ap-south-1c
-
 #NAT Gateway
     - name: aws-nat-gateway
       alias: ngw
@@ -45,8 +47,6 @@ spec:
         value: public   
       - name : _count
         value: 3   
-
-
 # Subnet for ROSA - Private
     - name: aws-vpc-subnets
       alias: pri_subnets
@@ -89,17 +89,90 @@ spec:
           value: 10.128.0.0/14
         - name: rosa_token          
           important: true
+#KMS for encryption
+    - name: aws-kms
+      variables:
+      - name: rotation_enabled
+        value: true
+      - name : key_spec
+        value: SYMMETRIC_DEFAULT
+      - name: enabled
+        value: true
+#SSH Key
+    - name: aws-ssh-key
+      alias: ec2_access_key
+      variables:
+      - name: rsa_bits
+        value: 3072
+      - name: label
+        value: swe-key
+#EC2 Instance
+    - name: aws-ec2-instance
+      dependencies:
+        - name: aws-vpc
+        - name: aws-vpc-subnets
+          ref: pri_subnets
+#        - name: aws-vpc-subnets
+#          ref: pub_subnets
+        - name: aws-ssh-key
+        - name: aws-kms
+      variables:
+      - name: instance_type
+        value: t3.large
+      - name: ami_id
+        value: ami-03fa4afc89e4a8a09
+      - name: root_block_device_encrypted
+        value: true
+      - name: root_volume_size
+        value: 10
+      - name: root_volume_type
+        value: gp2
+#Bastion Instance
+    - name: aws-ec2-bastion
+      dependencies:
+        - name: aws-vpc
+        - name: aws-vpc-subnets
+          ref: pub_subnets
+        - name: aws-ssh-key
+        - name: aws-kms
+        - name: aws-ec2-insatnce
+      variables:
+      - name: instance_type
+        value: t3.large
+      - name: ami_id
+        value: ami-03fa4afc89e4a8a09
+      - name: root_block_device_encrypted
+        value: true
+      - name: root_volume_size
+        value: 10
+      - name: root_volume_type
+        value: gp2
+#VPN service
+    - name: aws-client-vpn
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: pri_subnets
+        - name: aws-vpc
+      variables:
+      - name: number_subnets_vpn
+        value: 3
+      - name: client_cidr_block
+        value: 172.13.0.0/16
+      - name: dns_servers
+        value:
+          - 10.0.0.2
+      - name: allowed_cidr_ranges
+        value:
+          - 10.0.0.0/16
 #Global value    
   variables:
     - name: name_prefix
       scope: global
-      value: sw-bom
+      value: sw-bom4
     - name: provision
       value: true
       scope: global    
     - name: resource_group_name
-      value: std-arch
-      scope: global        
     - name: region
       value: ap-south-1
       scope: global              
