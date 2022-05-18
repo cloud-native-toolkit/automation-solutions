@@ -31,22 +31,36 @@ spec:
           scope: global
 
     # # IBM EventStreams Operators
-    - name: gitops-cp-eventstreams
+    - name: gitops-cp-eventstreams-operator
 
-    # To organize the AppConnect Enterprise Workload in a dedicated namespace. Also to Override the Storage Class for ACEDesigner. Require RWO & RWX storage Class
+    # To organize the EventStream Workload in a dedicated namespace. Also to Override the Storage Class for EventStreams. Require RWO storage Class
     - name: gitops-namespace
       alias: cp4i-es
       variables:
         - name: name
           value: cp4i-es
 
-    - name: TBD
+    - name: gitops-cp-event-streams
       dependencies:
         - name: namespace
           ref: cp4i-es
       variables:
+        - name: kafka_storagetype
+          value: persistent-claim
 
+        - name: kafka_storageclass
+          alias: rwo_storage_class
+          scope: global
 
+        - name: zookeeper_storagetype
+          value: persistent-claim
+
+        - name: zookeeper_storageclass
+          alias: rwo_storage_class
+          scope: global       
+
+        - name: entitlement_key
+          scope: global
 
 
 
