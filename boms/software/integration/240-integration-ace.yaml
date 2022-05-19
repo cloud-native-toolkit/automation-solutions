@@ -56,35 +56,15 @@ spec:
           value: false          
 
 
-    # To organize the PlatformNavigator Workload in a dedicated namespace. Also to Override the Storage Class for PlatformNavigator. Require RWX storage Class
-    - name: gitops-namespace
-      alias: cp4i-pn
-      variables:
-        - name: name
-          value: cp4i-pn
-
-    - name: gitops-cp-platform-navigator
-      dependencies:
-        - name: namespace
-          ref: cp4i-pn
-      variables:
-        - name: storageclass
-          alias: rwx_storage_class
-          scope: global
-
-
   variables:
-    #This storageclass is reffered by[ACE Designer/MQ UniformCluster/MQ]
     - name: rwo_storage_class
       type: string
       description: ReadWriteOnce access type Storage Class
     
-    #This storageclass is reffered by[PlatforNavigator/ACEDesigner]
     - name: rwx_storage_class
       type: string
       description: ReadWriteMany access type Storage Class
 
-    #For EntitlementKey is reffered by [PlatformNavigator/MQ Uniform Cluster/ACE Designer/APIC/MQ/EventStreams]
     - name: entitlement_key
       type: string
       description: >-

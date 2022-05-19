@@ -63,19 +63,11 @@ spec:
           scope: global
 
 
-
   variables:
-    #This storageclass is reffered by[ACE Designer/MQ UniformCluster/MQ]
     - name: rwo_storage_class
       type: string
       description: ReadWriteOnce access type Storage Class
     
-    #This storageclass is reffered by[PlatforNavigator/ACEDesigner]
-    - name: rwx_storage_class
-      type: string
-      description: ReadWriteMany access type Storage Class
-
-    #For EntitlementKey is reffered by [PlatformNavigator/MQ Uniform Cluster/ACE Designer/APIC/MQ/EventStreams]
     - name: entitlement_key
       type: string
       description: >-
