@@ -1,12 +1,12 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: cp-data-fabric
+  name: 300-cloud-pak-for-data
   labels:
     type: software
     code: '600'
   annotations:
-    displayName: Data Fabric Solution on Cloud pak for Data
+    displayName: IBM Cloud Pak for Data
     description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
 spec:
   modules:
@@ -31,7 +31,7 @@ spec:
           value: cp4d
 
     # Global pull secret for the cluster
-    - name: gitops-module-global-pullsecret
+    #- name: gitops-module-global-pullsecret
 
     # CatalogSources ibm-operator-catalog & ibm-db2uoperator-catalog
     - name: gitops-cp-catalogs
