@@ -36,8 +36,6 @@ spec:
         value: "default"
       - name: enable_dns_hostnames
         value: true
-      - name: number_subnets_vpn
-        value: 3   
                
 #Worload VPC
     - name: aws-vpc
@@ -55,8 +53,6 @@ spec:
         value: "default"
       - name: enable_dns_hostnames
         value: true
-      - name: number_subnets_vpn
-        value: 3
   
 #Edge Subnet - Public
     - name: aws-vpc-subnets
@@ -186,7 +182,7 @@ spec:
         - name: service-cidr
           value: 172.30.0.0/16
         - name: no_of_compute_nodes
-          value: 1
+          value: 3
         - name: pod-cidr
           value: 10.128.0.0/14  
         - name: multi-zone-cluster
@@ -217,7 +213,7 @@ spec:
       - name: pod-cidr
         value: 10.128.0.0/14   
       - name: no_of_compute_nodes
-        value: 1
+        value: 3
       - name: multi-zone-cluster
         value: true
       - name: private-link
@@ -289,13 +285,14 @@ spec:
       - name: name_prefix
 #VPN service
     - name: aws-client-vpn
+      alias: edge-vpn
       dependencies:
         - name: aws-vpc-subnets
           ref: edge_pri_subnet_ec2
         - name: aws-vpc
           ref: edge_vpc
       variables:
-      - name: number_subnets_vpn
+      - name: number_subnets_association
         value: 3
       - name: client_cidr_block
         value: 172.13.0.0/16
@@ -307,7 +304,13 @@ spec:
         value:
           - 10.1.0.0/16
           - 10.2.0.0/16
-          - 10.0.0.0/16        
+          - 10.0.0.0/16
+      - name: additional_routes
+        value:
+          - 10.1.0.0/16
+          - 10.2.0.0/16
+      - name: number_additional_routes
+        value: 6                            
 #transit gateway  service edge
     - name: aws-transit-gateway
       alias: edge-transit
@@ -326,7 +329,11 @@ spec:
         - name: create_transit_gateway
           value: true
         - name: create_transit_gateway_route_table
-          value: true       
+          value: true 
+        - name: static_routes
+          value:
+          - blackhole: true
+            destination_cidr_block: 0.0.0.0/0        
       
 #transit gateway  service menage
     - name: aws-transit-gateway
@@ -348,9 +355,7 @@ spec:
         - name: number_subnet_route
           value: 9
         - name: static_routes
-          value:
-          - blackhole: true
-            destination_cidr_block: 0.0.0.0/0
+          value: null
 
 #transit gateway  service menage
     - name: aws-transit-gateway
