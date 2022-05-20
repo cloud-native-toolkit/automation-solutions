@@ -13,6 +13,8 @@ then
   OUTPUT_PATH=../../../../
 fi
 
+mkdir -p $OUTPUT_PATH$SOLUTION
+
 iascable build -i ./200-openshift-gitops.yaml \
                -i ./200-openshift-gitops.yaml \
                -i ./210-aws-portworx-storage.yaml \

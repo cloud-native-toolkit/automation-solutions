@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: cp-data-fabric
+  name: 600-datafabric-services
   labels:
     type: software
     code: '600'
@@ -11,7 +11,23 @@ metadata:
 spec:
   modules:
 
+    - name: gitops-namespace
+      alias: ibm_common_services_namespace
+      variables:
+        - name: name
+          value: ibm-common-services
 
+    - name: gitops-namespace
+      alias: cpd_operators_namespace
+      variables:
+        - name: name
+          value: cpd-operators
+
+    - name: gitops-namespace
+      alias: cp4d_namespace
+      variables:
+        - name: name
+          value: cp4d
     - name: gitops-namespace
       alias: data_fabric_namespace
       variables:
@@ -29,7 +45,7 @@ spec:
     #      variables:
     #        - name: storage_vendor
     #          value: portworx
-    -
+
     # Watson Studio
     - name: gitops-cp-watson-studio
       dependencies:
