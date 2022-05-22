@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 401-mas-manage
+  name: 405-mas-manage
   labels:
     type: software
     code: '401'
@@ -11,7 +11,6 @@ metadata:
 spec:
   modules:
     - name: gitops-repo
-
 
     # Maximo Core
     - name: gitops-namespace
@@ -24,8 +23,7 @@ spec:
         - name: namespace
           ref: maximo-namespace
 
-
-    # Existing DB2 Warehouse - this could be replaced with CP4D DB2WH once ready
+    # Existing DB2 Warehouse - this could be replaced with dB2 Warehouse
     - name: db2-warehouse-existing
 
     # JDBC to connect to db2 warehouse instance
