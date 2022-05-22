@@ -25,10 +25,12 @@ GitOps within an AWS ROSA, Azure ARO, IBM Cloud ROKS cluster.
 
 List of BOMs for Maximo, there is a generic one for full customization. The others have specific setting to enable install into the cloud platform with default storage classes for that platform.  Note that customization is still possible even after the automation is generated.
 
-- [MAS for Generic Install](./400-mas-core-bom.yaml)
-- [MAS for AWS](./402-mas-core-bom-aws.yaml)
-- [MAS for Azure](./404-mas-core-bom-azure.yaml)
-- [MAS for IBM Cloud](./406-mas-core-bom-ibmcloud.yaml)
+- [200 - OpenShift GitOps](./200-openshift-gitops.yaml)
+- [210 - AWS PortWorx Storage](./210-aws-portworx-storage.yaml)
+- [210 - IBM Cloud ODF Storage](./210-ibm-odf-storage.yaml)
+- [210 - Azure PortWorx Storage](./210-aws-portworx-storage.yaml)
+- [400 - Maximo Application Suite Core](./400-mas-core-multicloud.yaml)
+- [405 - Maximo Manage Application](./400-mas-core-multicloud.yaml)
 
 ### Validated Open-Source Release
 
@@ -66,9 +68,9 @@ mkdir ~/automation
 Pick the BOM you want to generate for the platform you are targeting.
 ```
 cd boms/software/maximo
-iascable build -i ./400-mas-core-bom.yaml -o ~/automation
+iascable build -i ./400-mas-core-multicloud.yaml -o ~/automation
 
-    Name: 400-gitops-cp-maximo
+    Name: 400-mas-core-multicloud
     Loading catalog from url: https://modules.cloudnativetoolkit.dev/index.yaml
     Writing output to: ~/automation
 ```

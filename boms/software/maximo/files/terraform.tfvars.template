@@ -1,6 +1,6 @@
 ########################################################
-# Name: Turbonomic Terraform Variable File
-# Desc: Initial input variables to support installation of Turbonomic into the cloud provider of your choice
+# Name: Maximo Application Suite Terraform Variable File
+# Desc: Initial input variables to support installation of Maximo Application Suite and its Applications and Industry solutions into the Cloud of your choice
 ########################################################
 
 ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
@@ -18,5 +18,24 @@ gitops_repo_org="<your gitorg - most likely your username>"
 ## gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name)
 gitops_repo_repo="<repo name to create for git ops configuration>"
 
+## BAS Database Password: The (mongodb) database password
+bas_dbpassword="<password for the database>"
+
+## BAS Grafana password: The Grafana password
+bas_grafanapassword="<password for grafana>"
+
+## gitops-cp-maximo_instanceid: instance name for MAS - for example: masdemo or mas8
+gitops-cp-maximo_instanceid="masdemo"
+
+## sls-namespace_name: The value that should be used for the namespace
+sls-namespace_name="ibm-sls"
+
+## mongo-namespace_name: The value that should be used for the namespace
+mongo-namespace_name="mas-mongo"
+
+## bas-namespace_name: The value that should be used for the namespace
+bas-namespace_name="mas-bas"
+
 ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
 gitops-cluster-config_banner_text="Maximo Application Suite"
+
