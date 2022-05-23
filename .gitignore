@@ -34,3 +34,8 @@ override.tf.json
 .idea/
 output/
 .DS_Store
+
+*.properties
+
+# Ingore any pull secret files
+pull_secret
