@@ -1,4 +1,4 @@
-## Get an OpenShift IPI cluster running on Azure
+## Get an OpenShift UPI cluster running on Azure
 
 ### Prereqs
 
