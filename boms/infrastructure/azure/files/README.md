@@ -42,7 +42,7 @@ This folder contains the automation to deploy an OpenShift Installer-Provisioned
     
     where:
       - **STORAGE** - The storage provider. Possible options are `portworx` or `odf`. If not provided as an argument, a prompt will be shown.
-      - **REGION** - the IBM Cloud region where the infrastructure will be provided ([available regions](https://cloud.ibm.com/docs/overview?topic=overview-locations#regions)). If not provided the value defaults to `us-east`
+      - **REGION** - the Azure location where the infrastructure will be provided ([available regions](https://cloud.ibm.com/docs/overview?topic=overview-locations#regions)). If not provided the value defaults to `us-east`
       - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added.
     ```
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
