@@ -1,4 +1,4 @@
-# IBM Cloud Quick Start Reference Architecture
+# Azure Quick Start Reference Architecture
 
 Automation to provision the Quick Start reference architecture on Azure. This architecture implements the minimum infrastructure required to stand up a managed Red Hat OpenShift cluster with public endpoints.
 
