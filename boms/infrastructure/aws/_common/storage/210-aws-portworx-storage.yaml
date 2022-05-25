@@ -6,6 +6,7 @@ metadata:
     type: infrastructure
     code: '210'
     platform: aws
+    storage: portworx
   annotations:
     displayName: AWS - Portworx Cluster Storage
     description: Installs Portworx in and OCP cluster on AWS

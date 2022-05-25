@@ -6,6 +6,7 @@ metadata:
     type: infrastructure
     platform: ibm
     code: '210'
+    storage: odf
   annotations:
     displayName: IBM - ODF Cluster Storage
     description: Installs OpenShift Data Foundation in an IBM cluster

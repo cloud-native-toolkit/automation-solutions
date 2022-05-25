@@ -6,10 +6,16 @@ metadata:
     type: software
     code: '210'
     platform: azure
+    storage: portworx
   annotations:
     displayName: Azure - Portworx Cluster Storage
     description: Installs Portworx into an OCP cluster on Azure
 spec:
   modules:
     - name: azure-portworx
-
+      variables:
+        - name: portworx_spec_file
+          scope: global
+          important: true
+        - name: portworx_spec
+          scope: global
