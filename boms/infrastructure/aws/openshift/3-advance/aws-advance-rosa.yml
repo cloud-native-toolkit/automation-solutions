@@ -7,10 +7,6 @@ spec:
 #edge VPC  
     - name: aws-vpc
       alias: edge_vpc
-      dependencies:
-        - name: aws-vpc-subnets
-          ref: mgmt_pri_subnet_rosa
-        - name: aws-client-vpn
       variables:
       - name: name
         value: edge_advance_vpc
@@ -22,11 +18,7 @@ spec:
         value: true       
 #Management VPC        
     - name: aws-vpc
-      alias: mgmt_vpc
-      dependencies:
-        - name: aws-vpc-subnets
-          ref: edge_pri_subnet_ec2
-        - name: aws-client-vpn        
+      alias: mgmt_vpc    
       variables:
       - name: name
         value: mgmt_advance_vpc
@@ -40,10 +32,6 @@ spec:
 #Worload VPC
     - name: aws-vpc
       alias: work_vpc
-      dependencies:
-        - name: aws-vpc-subnets
-          ref: edge_pri_subnet_ec2
-        - name: aws-client-vpn
       variables:
       - name: name
         value: work_advance_vpc      
@@ -73,9 +61,9 @@ spec:
           - 10.0.3.0/24
       - name: availability_zones
         value:
-          - ap-south-1a
-          - ap-south-1b
-          - ap-south-1c
+          - us-east-1a
+          - us-east-1b
+          - us-east-1c
 #Edge Subnet - Private
     - name: aws-vpc-subnets
       alias: edge_pri_subnet_ec2
@@ -95,9 +83,9 @@ spec:
           - 10.0.6.0/24
       - name: availability_zones
         value:
-          - ap-south-1a
-          - ap-south-1b
-          - ap-south-1c   
+          - us-east-1a
+          - us-east-1b
+          - us-east-1c   
 #Management Subnet - Private
     - name: aws-vpc-subnets
       alias: mgmt_pri_subnet_rosa
@@ -117,9 +105,9 @@ spec:
           - 10.1.3.0/24
       - name: availability_zones
         value:
-          - ap-south-1a
-          - ap-south-1b
-          - ap-south-1c
+          - us-east-1a
+          - us-east-1b
+          - us-east-1c
 #Workload Subnet - Private
     - name: aws-vpc-subnets
       alias: work_pri_subnet_rosa
@@ -137,9 +125,9 @@ spec:
           - 10.2.3.0/24
       - name: availability_zones
         value:
-          - ap-south-1a
-          - ap-south-1b
-          - ap-south-1c
+          - us-east-1a
+          - us-east-1b
+          - us-east-1c
 #Internet Gateway
     - name: aws-internet-gateway
       alias: edge-igw
@@ -167,14 +155,14 @@ spec:
       alias: mgmt-rosa
       dependencies:
         - name: aws-vpc
-          ref: edge_vpc
-        - name: public-subnets
+          ref: mgmt_vpc
+        - name: public-subnets  
           ref: edge_pub_subnet_bastion  
         - name: private-subnets
-          ref: edge_pri_subnet_ec2         
+          ref: mgmt_pri_subnet_rosa      
       variables:
         - name: cluster_name
-          value: clustermgmt
+          value: rosamgmt
         - name: dry_run
           value: false
         - name: machine-cidr
@@ -188,7 +176,7 @@ spec:
         - name: multi-zone-cluster
           value: true
         - name: private-link
-          value: false 
+          value: true 
         - name: rosa_token
           important: true  
 #ROSA - Workload Zone
@@ -203,7 +191,7 @@ spec:
           ref: work_pri_subnet_rosa
       variables:
       - name: cluster_name
-        value: clusterwork
+        value: rosawork
       - name: dry_run
         value: false
       - name: machine-cidr
@@ -251,9 +239,9 @@ spec:
         - name: aws-kms
       variables:
       - name: instance_type
-        value: t3.large
+        value: t2.micro
       - name: ami_id
-        value: ami-03fa4afc89e4a8a09  
+        value: ami-0022f774911c1d690
       - name: root_block_device_encrypted
         value: true
       - name: root_volume_size
@@ -273,9 +261,9 @@ spec:
         - name: aws-kms
       variables:
       - name: instance_type
-        value: t3.large
+        value: t2.micro
       - name: ami_id
-        value: ami-03fa4afc89e4a8a09  
+        value: ami-0022f774911c1d690
       - name: root_block_device_encrypted
         value: true
       - name: root_volume_size
@@ -310,7 +298,7 @@ spec:
           - 10.1.0.0/16
           - 10.2.0.0/16
       - name: number_additional_routes
-        value: 6                            
+        value: 6                        
 #transit gateway  service edge
     - name: aws-transit-gateway
       alias: edge-transit
@@ -332,7 +320,7 @@ spec:
           value: true 
         - name: static_routes
           value:
-          - blackhole: true
+          - blackhole: false
             destination_cidr_block: 0.0.0.0/0        
       
 #transit gateway  service menage
@@ -354,8 +342,6 @@ spec:
             - 0.0.0.0/0
         - name: number_subnet_route
           value: 9
-        - name: static_routes
-          value: null
 
 #transit gateway  service menage
     - name: aws-transit-gateway
@@ -376,8 +362,6 @@ spec:
             - 0.0.0.0/0
         - name: number_subnet_route
           value: 9
-        - name: static_routes
-          value: null   
     - name: aws-transit-gateway
       alias: edge-transit-pub
       dependencies:
@@ -411,6 +395,6 @@ spec:
       value: true
       scope: global
     - name: region
-      value: ap-south-1
+      value: us-east-1
     - name: access_key
     - name: secret_key
