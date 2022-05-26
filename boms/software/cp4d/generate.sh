@@ -22,7 +22,9 @@ iascable build -i ./200-openshift-gitops.yaml \
                -i ./210-azure-portworx-storage.yaml \
                -i ./210-ibm-odf-storage.yaml -\
                -i ./210-ibm-portworx-storage.yaml \
-               -i ./300-cloud-pak-for-data.yaml -o $OUTPUT_PATH$SOLUTION
+               -i ./300-cloud-pak-for-data-entitlement.yaml \
+               -i ./305-cloud-pak-for-data-foundation.yaml \
+               -o $OUTPUT_PATH$SOLUTION
 
 
 

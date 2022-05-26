@@ -1,0 +1,40 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 300-cloud-pak-for-data-entitlement
+  labels:
+    type: software
+    code: '600'
+  annotations:
+    displayName: IBM Cloud Pak for Data
+    description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
+spec:
+  modules:
+
+    - name: gitops-namespace
+      alias: entitlements_namespace
+      variables:
+        - name: name
+          value: entitlements
+
+    # Global pull secret for the cluster
+    - name: gitops-module-global-pullsecret
+      dependencies:
+        - name: namespace
+          ref: entitlements_namespace
+      variables:
+        - name: docker_server
+          value: cp.icr.io
+          scope: global
+        - name: docker_username
+          value: cp
+          scope: global
+        - name: secret_name
+          value: cp4d-entitlement-key
+          scope: global
+        - name: docker_password
+          scope: global
+    - name: gitops-global-pullsecret-synch
+      dependencies:
+        - name: namespace
+          ref: entitlements_namespace
