@@ -6,7 +6,7 @@
 
 > This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
-The automation will support the installation of Cloud Pak for Data on three cloud platforms (AWS, Azure, and IBM Cloud).
+The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric. 
 
 ### Target Infrastructure
 
@@ -14,469 +14,370 @@ The Cloud Pak for Data - Foundation automation assumes you have an OpenShift clu
 
 Before you start to install and configure Cloud Pak for Data, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
 
-⚠️ todo: complete the readme details for cp4d deployment
 
-[//]: # ()
-[//]: # (### Reference Architectures)
+### Reference Architectures
 
-[//]: # ()
-[//]: # (The reference architectures are provided in three different forms, with increasing security and associated sophistication to support production configuration. These three forms are as follows:)
 
-[//]: # ()
-[//]: # (- **Quick Start** - a simple architecture to quickly get an OpenShift cluster provisioned)
+The reference architectures are provided in three different forms, with increasing security and associated sophistication to support production configuration. These three forms are as follows:
 
-[//]: # (- **Standard** - a standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, etc)
 
-[//]: # (- **Advanced** - a more advanced deployment that employs network isolation to securely route traffic between the different layers.)
+- **Quick Start** - a simple architecture to quickly get an OpenShift cluster provisioned
 
-[//]: # ()
-[//]: # (For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned, please use one of these. They are optimized for the installation of this solution.)
+- **Standard** - a standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, etc
 
-[//]: # ()
-[//]: # (| Cloud Platform                                                                                                            | Automation and Documentation                                                                                                                                                                                  |   )
+- **Advanced** - a more advanced deployment that employs network isolation to securely route traffic between the different layers.
 
-[//]: # (|---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|)
 
-[//]: # (| [IBM Cloud]&#40;https://cloud.ibm.com&#41;                                                                                        | [IBM Cloud Quick Start]&#40;https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/initial-version&#41; </br> [IBM Cloud Standard]&#40;https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/standard&#41; |  )
+For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned, please use one of these. They are optimized for the installation of this solution.  
 
-[//]: # (| [AWS]&#40;https://aws.amazon.com/&#41;                                                                                            | [AWS Quick Start]&#40;https://github.com/IBM/automation-aws-infra-openshift/tree/1-quick-start&#41; </br> [AWS Standard - Coming soon]&#40;&#41;                                                                              |)
+Note:  [Cloud Pak for Data system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/3.5.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
 
-[//]: # (| [Azure]&#40;https://portal.azure.com/#home&#41;                                                                                   | [Azure Quick Start - Coming soon]&#40;&#41;                                                                                 |                                                                                             | )
+| Cloud Platform                                                                                                            | Automation and Documentation                                                                                                                                                                                  |   
+|---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [IBM Cloud](https://cloud.ibm.com)                                                                                        | [IBM Cloud Quick Start](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/initial-version) </br> [IBM Cloud Standard](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/standard) |  
+| [AWS](https://aws.amazon.com/)                                                                                            | [AWS Quick Start](https://github.com/IBM/automation-aws-infra-openshift/tree/1-quick-start) </br> [AWS Standard - Coming soon]()                                                                              |
+| [Azure](https://portal.azure.com/#home)                                                                                   | [Azure Quick Start - Coming soon]()                                                                                 |                                                                                             | 
+| Bring You Own Infrastructure                                                                                              | You will need to setup GitOps and Storage details on the following steps                                                                                                                                        /
 
-[//]: # (| Bring You Own Infrastructure                                                                                              | You will need to setup GitOps and Storage details on the following steps                                                                                                                                        /)
 
-[//]: # ()
-[//]: # (### Getting Started)
+### Getting Started
 
-[//]: # ()
-[//]: # (Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning Maximo Core in multiple cloud environments. This `README.md` describes the SRE steps required to provision the Maximo Core software.)
 
-[//]: # ()
-[//]: # (This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. The software installs using **GitOps** best practices with [**Red Hat Open Shift GitOps**]&#40;https://docs.openshift.com/container-platform/4.8/cicd/gitops/understanding-openshift-gitops.html&#41;)
+Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning the Data Foundation in multiple cloud environments. This `README.md` describes the SRE steps required to provision the Data Foundation software.
 
-[//]: # ()
-[//]: # (## Maximo Core Architecture)
 
-[//]: # ()
-[//]: # (The following reference architecture represents the logical view of how Maximo Core works after it is installed. After obtaining a license key you will need to register your data sources. They can range from other Kubernetes environment to VMWare and Virtual Machines.)
+This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. The software installs using **GitOps** best practices with [**Red Hat Open Shift GitOps**](https://docs.openshift.com/container-platform/4.8/cicd/gitops/understanding-openshift-gitops.html)
 
-[//]: # ()
-[//]: # (![Reference Architecture]&#40;./maximo-arch.png&#41;)
 
-[//]: # ()
-[//]: # (## Deploying Maximo Core)
+## Data Foundation  Architecture  
 
-[//]: # ()
-[//]: # (The following instructions will help you install Maximo Core into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.)
 
-[//]: # ()
-[//]: # (### Obtaining License Key)
+The following reference architecture represents the logical view of how Data Foundation works after it is installed.  Data Foundation is deployed with either Portworx or OpenShift Data Foundation storage, within an OpenShift Cluster, on the Cloud provider of your choice.
 
-[//]: # ()
-[//]: # (To use Maximo Core you are required to install a license key. For Proof of Concepts IBM Partners and IBMers can obtain it using the steps highlighted below.)
 
-[//]: # ()
-[//]: # (⚠️ todo: update for mas core)
+![Reference Architecture](images/cp4d-diagram.jpg)
 
-[//]: # ()
-[//]: # ([//]: # &#40;#### Partners&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;For Partners follow these steps:&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;1. For PoCs/PoTs, Partners can download a license key from [Partner World Software Catalog]&#40;https://www.ibm.com/partnerworld/program/benefits/software-access-catalog&#41;&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;2. You can search the software catalog for  **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English**,&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;3. Download the package which contains license file for Turbonomic, with a name similar to `CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic`&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;5. This file is covered by **Turbonomic ARM P/N are currently available under IBM PPA terms and conditions**&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;#### IBMers&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;For IBMers you can download a license key using these steps:&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;1. Go to [XL Leverage]&#40;https://w3-03.ibm.com/software/xl/download/ticket.wss&#41;&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;2. Search with keyword: turbonomic&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;3. Select the package **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English** and download&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;4. Extract this download package to get the turbonomic license key&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;   This package contains license file for turbonomic, with a name similar to “CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic&#41;)
-[//]: # ()
-[//]: # (### Maximo Core for Multi Cloud)
 
-[//]: # ()
-[//]: # (The Maximo Core automation is broken into what we call layers of automation or bundles. The bundles enable SRE activities to be optimized. The automation is generic between clouds other than setting Storage for IBM Cloud. That was broken into a separate automation layer.)
+## Deploying Data Foundation
 
-[//]: # ()
-[//]: # (| BOM ID | Name                                                         | Description                                                                                                                                                                                                                                   | Run Time |)
 
-[//]: # (|--------|--------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|)
+The following instructions will help you install Maximo Core into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
 
-[//]: # (| 200    | [200 - OpenShift Gitops]&#40;./200-openshift-gitops&#41;             | Set up OpenShift GitOps in ROSA, ARO or ROKS, this is required to install the software using gitops only use this if you are bringing your own OpenShift Cluster which has not been provisioned from the reference architectures listed above | 10 Mins  |)
 
-[//]: # (| 202    | [210-ibm-portworx-storage]&#40;./210-ibm-portworx-storage&#41;          | If you are installing into your own ROKS clusters on IBM Cloud you will need to use this automation bundle to configure IBM Cloud Storage class before installing Maximo Core                                                                  | 10 Mins |)
+### Licenses and Entitlements
 
-[//]: # (| 250 | [400 - Maximo Core - Multi Cloud]&#40;./400-mas-core-multicloud&#41; | Provision Maximo Core into Multi Cloud environment AWS, Azure and IBM Cloud supported                                                                                                                                                         | 10 Mins  |)
+Details on Cloud Pak for Data licensing available at https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=planning-licenses-entitlements
 
-[//]: # ()
-[//]: # ()
-[//]: # (> At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,]&#40;https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags&#41; [Source Code for CLI Tools]&#40;https://github.com/cloud-native-toolkit/image-cli-tools&#41;)
+### Obtaining your IBM entitlement API key
+You must have your IBM entitlement API key to access images in the IBM Entitled Registry.
 
-[//]: # ()
-[//]: # (## Installation Steps)
+After you purchase Cloud Pak for Data, an entitlement API key for the software is associated with your My IBM account. You need this key to complete the Cloud Pak for Data installation. To obtain the entitlement key, complete the following steps:
+* Log in to [Container software library on My IBM](https://myibm.ibm.com/products-services/containerlibrary) with the IBM ID and password that are associated with the entitled software.
+* On the **Get entitlement key** tab, select **Copy key** to copy the entitlement key to the clipboard.
+* Save the API key for later in this installation.
 
-[//]: # ()
-[//]: # (Before you start the installation please install the pre-req tools on your machine.)
 
-[//]: # ()
-[//]: # (> We have tested this on a modern Mac laptop. We are testing on M1 machines. You will need to setup the tools natively in your M1 Mac OS and not run the `launch.sh` script.)
 
-[//]: # ()
-[//]: # (### Pre-Req Setup)
+### Data Foundation Layered Installation
 
-[//]: # ()
-[//]: # (Please install the following Pre-Req tools to help you get started with the SRE tasks for installing Maximo Core into an existing OpenShift Cluster on AWS, Azure, or IBM Cloud.)
+The Data Foundation automation is broken into what we call layers of automation or bundles. The bundles enable SRE activities to be optimized. The automation is generic between clouds other than configuration storage options, which are platform specific. 
 
-[//]: # ()
-[//]: # (Pre-requisites:)
+| BOM ID | Name                                                                                                                                                                                                                                                           | Description                                                                                                                                                | Run Time |
+|--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| 200    | [200 - OpenShift Gitops](./200-openshift-gitops)                                                                                                                                                                                                               | Set up OpenShift GitOps tools in an OpenShift cluster. This is required to install the software using gitops approaches.                                   | 10 Mins  |
+| 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) <br> [210 - IBM OpenShift Data Foundation](./210-ibm-odf-storage)  <br>  [210 - AWS Portworx Storage](./210-aws-portworx-storage)  <br>  [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  <br> _⚠️Portworks on AWS and Azure are currently not released, but are coming soon.⚠️_ | 10 Mins  |
+| 300    | [300 - Cloud Pak for Data Entitlement](./300-cloud-pak-for-data-entitlement)                                                                                                                                                                                   | Update the OpenShift Cluster with your entitlement key                                                                                                     | 5 Mins   |
+| 305    | [300 - Cloud Pak for Data Foundation](./305-cloud-pak-for-data-foundation)                                                                                                                                                                                     | Deploy the Cloud Pak for Data Foundation components                                                                                                        | 30 Mins  |
+| 310 | [310 - DB2 Warehouse](./310-cloud-pak-for-data-db2wh) | _(Optional)_ Install DB2 Warehouse service into the cluster | 15 Mins |                                                                    
 
-[//]: # (- Check you have a valid GitHub ID that can be used to create a repository in your own organization [GitHub]&#40; https://github.com/&#41; or GitHub Enterprise account.)
 
-[//]: # (- Install a code editor, we recommend [Visual Studio Code]&#40;https://code.visualstudio.com/&#41;)
 
-[//]: # (- Install [Brew]&#40;https://brew.sh/&#41;)
+> At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
 
-[//]: # (- Install a **Colima** a replacement for Docker Desktop , [Colima]&#40;https://github.com/abiosoft/colima&#41;)
 
-[//]: # (   ```)
+## Installation Steps
 
-[//]: # (   brew install colima)
 
-[//]: # (   ```)
+Before you start the installation please install the pre-req tools on your machine.
 
-[//]: # ()
-[//]: # (Ensure the following before continuing)
 
-[//]: # (- Github account exists)
+> We have tested this on a modern Mac laptop. We are testing on M1 machines. You will need to setup the tools natively in your M1 Mac OS and not run the `launch.sh` script.
 
-[//]: # (- A Github [token]&#40;https://docs.github.com/en/enterprise-server@3.3/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token&#41; is available with permissions set to create and remove repositories)
 
-[//]: # (- You are able to login to the OpenShift cluster and obtain an OpenShift login token)
+### Pre-Req Setup
 
-[//]: # (- Cloud Pak entitlement key, this can be obtained from visiting the [IBM Container Library]&#40;https://myibm.ibm.com/products-services/containerlibrary&#41;)
 
-[//]: # ()
-[//]: # (### Installing Maximo Core)
+Please install the following Pre-Req tools to help you get started with the SRE tasks for installing Data Foundation into an existing OpenShift Cluster on AWS, Azure, or IBM Cloud.
 
-[//]: # ()
-[//]: # (The installation process will use a standard GitOps repository that has been built using the Modules to support Maximo Core installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.)
 
-[//]: # ()
-[//]: # (Steps:)
+Pre-requisites:
 
-[//]: # ()
-[//]: # (1. First step is to clone the automation code to your local machine. Run this git command in your favorite command line shell.)
+- Check you have a valid GitHub ID that can be used to create a repository in your own organization [GitHub]( https://github.com/) or GitHub Enterprise account.
 
-[//]: # ()
-[//]: # (     ```)
+- Install a code editor, we recommend [Visual Studio Code](https://code.visualstudio.com/)
 
-[//]: # (     git clone git@github.com:IBM/automation-maximo-app-suite.git)
+- Install [Brew](https://brew.sh/)
 
-[//]: # (     ```)
+- If allowed by your corporate policy, install [Docker Desktop](https://www.docker.com/products/docker-desktop/).  If not allowed, install [Colima](https://github.com/abiosoft/colima), a replacement for Docker Desktop 
 
-[//]: # (2. Navigate into the `automation-maximo-app-suite` folder using your command line.)
+   ```
 
-[//]: # (   a.	The README.md has a comprehensive instructions on how to install this into other cloud environments than TechZone. This document focuses on getting it running in a TechZone requested environment.)
+   brew install colima
 
-[//]: # (3. Next you will need to set-up your credentials.properties file. This will enable a secure access to your cluster.)
+   ```
 
-[//]: # ()
-[//]: # (    ```)
 
-[//]: # (    cp credentials.template credentials.properties)
+Ensure the following before continuing
 
-[//]: # (    code credential.properties)
+- Github account exists
 
-[//]: # (    ```)
+- A Github [token](https://docs.github.com/en/enterprise-server@3.3/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) is available with permissions set to create and remove repositories
 
-[//]: # ()
-[//]: # (    ```)
+- You are able to login to the OpenShift cluster and obtain an OpenShift login token
 
-[//]: # (    # Add the values for the Credentials to access the IBM Cloud)
+- Cloud Pak entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) as described above.
 
-[//]: # (    # Instructions to access this information can be found in the README.MD)
 
-[//]: # (    # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties)
+### Installing Data Foundation
 
-[//]: # (    TF_VAR_gitops_repo_username=)
 
-[//]: # (    TF_VAR_gitops_repo_token=)
+The installation process will use a standard GitOps repository that has been built using the Modules to support Data Foundation installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.
 
-[//]: # (    TF_VAR_cluster_login_token=)
 
-[//]: # (    TF_VAR_server_url=)
+Steps:
 
-[//]: # (    ```)
 
-[//]: # ()
-[//]: # (4. You will need to populate these values. Add your Git Hub username and your Personal Access Token to `repo_username` and `repo_token`)
+1. First step is to clone the automation code to your local machine. Run this git command in your favorite command line shell.
 
-[//]: # (5. From you OpenShift console click on top right menu and select Copy login command and click on Display Token)
+    ```
+    git clone git@github.com:IBM/automation-data-foundation.git
+    ```
 
-[//]: # (6. Copy the API Token value into the `login_token` value)
+2. Navigate into the `automation-data-foundation` folder using your command line.
 
-[//]: # (7. Copy the Server URL into the `server_url` value, only the part starting with https)
+   a.	The README.md has a comprehensive instructions on how to install this into other cloud environments than TechZone. This document focuses on getting it running in a TechZone requested environment.
 
-[//]: # (8. You need to make sure you are not running Docker Desktop as this is not allowed under their new terms and conditions for corporate use. You need to install **Colima** as an alternative)
+3. Next you will need to set-up your credentials.properties file. This will enable a secure deployment to your cluster.
 
-[//]: # ()
-[//]: # (    ```)
+    ```
+    cp credentials.template credentials.properties
+    code credential.properties
+    ```
 
-[//]: # (    brew install colima)
+    In the `credentials.properties` file you will need to populate the values for your deployment.
+    
+    ```
+    # Add the values for the Credentials to access the IBM Cloud
+    # Instructions to access this information can be found in the README.MD
+    # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+    TF_VAR_gitops_repo_username=
+    TF_VAR_gitops_repo_token=
+    TF_VAR_cluster_login_token=
+    TF_VAR_server_url=
+    TF_VAR_entitlement_key=
+    
+    # Only needed if targeting IBM Cloud Deployment
+    TF_VAR_ibmcloud_api_key=""
+    
+    # Only needed if targeting AWS Deployment
+    TF_VAR_access_key=""
+    TF_VAR_secret_key=""
+    
+    # Only needed if targeting Azure Deployment
+    TF_VAR_azure_subscription_id=""
+    TF_VAR_azure_client_id=""
+    TF_VAR_azure_client_secret=""
+    TF_VAR_azure_tenant_id=""
+    ```
 
-[//]: # (    colima start)
 
-[//]: # (    ```)
+4. Add your Git Hub username and your Personal Access Token to `gitops_repo_username` and `gitops_repo_token`
 
-[//]: # ()
-[//]: # (9. We are now ready to start installing Maximo Core, run the `launch.sh` command, make sure you are in the root of the automation-maximo-app-suite repository)
+5. From you OpenShift console click on top right menu and select Copy login command and click on Display Token
 
-[//]: # ()
-[//]: # (   ```)
+6. Copy the API Token value into the `cluster_login_token` value
 
-[//]: # (   ./launch.sh)
+7. Copy the Server URL into the `server_url` value, only the part starting with https
 
-[//]: # (   Cleaning up old container: cli-tools-WljCg)
+8. Copy the entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) and place it in the `entitlement_key` variable.
 
-[//]: # (   Initializing container cli-tools-WljCg from quay.io/cloudnativetoolkit/terraform:v1.1)
+9. Complete the cloud-specific credentials to be able to provision storage **only for the platform of your choice**.
 
-[//]: # (   Attaching to running container...)
+    * IBM Cloud deployments require an [API Key](https://cloud.ibm.com/iam/apikeys).
+    * *(Coming Soon)* AWS Deployments require an [Access Key and Secret Key](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)
+    * *(Coming Soon)* Azure Deployments require a [service principal to deploy Portworx](https://github.com/cloud-native-toolkit/terraform-azure-portworx/blob/main/README.md#prerequisites).
 
-[//]: # (   /terraform $)
+10. If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
 
-[//]: # (   ```)
+     ```
+     brew install colima
+     colima start
+     ```
 
-[//]: # ()
-[//]: # (10. **launch.sh** will download a container image that contains all the command line tools to enable easy installation of the software. Once it has downloaded, it will mount the local file system and exec into the container for you to start running commands from within this custom container.)
 
-[//]: # ()
-[//]: # (> we expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible)
+9. We are now ready to start installing Data Foundation, run the `launch.sh` command, make sure you are in the root of the `automation-data-foundation` repository
 
-[//]: # ()
-[//]: # (11. Next step is to create a workspace to run the Terraform automation.)
+   ```
+   ./launch.sh
+   Cleaning up old container: cli-tools-WljCg
+   Initializing container cli-tools-WljCg from quay.io/cloudnativetoolkit/cli-tools:v1.1
+   Attaching to running container...
+   /terraform $
+   ```
 
-[//]: # (12. Run the command setup-workspace.sh)
 
-[//]: # ()
-[//]: # (```)
+10. **launch.sh** will download a container image that contains all the command line tools to enable easy installation of the software. Once it has downloaded, it will mount the local file system and exec into the container for you to start running commands from within this custom container.
 
-[//]: # (./setup-workspace.sh)
 
-[//]: # (``` )
+> we expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
 
-[//]: # ()
-[//]: # (13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.)
 
-[//]: # (14. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.)
+11. Next step is to create a workspace to run the Terraform automation.  Below you can see the parameters to configure your workspace for terraform execution.
 
-[//]: # ()
-[//]: # (The following are variables that you will be prompted for and some suggested values.)
+    ```
+    /terraform $ ./setup-workspace.sh -h
+    Creates a workspace folder and populates it with automation bundles you require.
+    
+    Usage: setup-workspace.sh
+    options:
+    -p     Cloud provider (aws, azure, ibm)
+    -s     Storage (portworx or odf)
+    -n     (optional) prefix that should be used for all variables
+    -h     Print this help
+    ```
 
-[//]: # ()
-[//]: # (| Variable      | Description  | Suggested Value | )
+    You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.
 
-[//]: # (| -----------   | ------------ | ---------------)
+    > ⚠️ At this time, only IBM Cloud is supported, but support for Azure and AWS will be released in the coming days.
 
-[//]: # (| gitops-repo_host | The host for the git repository.  | github.com    |)
+12. Run the command `setup-workspace.sh -p ibm -s portworx -n df`
 
-[//]: # (| gitops-repo_type | The type of the hosted git repository &#40;github or gitlab&#41;. | github |)
+    ```
+    /terraform $ ./setup-workspace.sh -p ibm -s portworx -n df
+    Setting up workspace in '/terraform/../workspaces/current'
+    *****
+    Setting up workspace from '' template
+    *****
+    Setting up automation  /workspaces/current
+    /terraform
+    Setting up current/200-openshift-gitops from 200-openshift-gitops
+      Skipping 210-aws-portworx-storage because it does't match ibm
+      Skipping 210-azure-portworx-storage because it does't match ibm
+    Setting up current/210-ibm-odf-storage from 210-ibm-odf-storage
+    Setting up current/210-ibm-portworx-storage from 210-ibm-portworx-storage
+    Setting up current/300-cloud-pak-for-data-entitlement from 300-cloud-pak-for-data-entitlement
+    Setting up current/305-cloud-pak-for-data-foundation from 305-cloud-pak-for-data-foundation
+    Setting up current/310-cloud-pak-for-data-db2wh from 310-cloud-pak-for-data-db2wh
+    move to /workspaces/current this is where your automation is configured
+    ```
+13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
 
-[//]: # (| gitops-repo_org | The org/group where the git repository exists | github userid or org |)
+14. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.
 
-[//]: # (| gitops-repo_repo | The short name of the repository to create | gitops-mas-ibmcloud |)
+The following you will be prompted for and some suggested values.
 
-[//]: # (| gitops-repo_username | The username of the user with access to the repository | github userid |)
+| Variable      | Description                                               | Suggested Value                                       |
+| -----------   |-----------------------------------------------------------|-------------------------------------------------------
+| gitops-repo_host | The host for the git repository.                          | github.com                                            |
+| gitops-repo_type | The type of the hosted git repository (github or gitlab). | github                                                |
+| gitops-repo_org | The org/group/username where the git repository exists    | github userid or org - if left blank the value will default to your username                                 |
+| gitops-repo_repo | The short name of the repository to create                | cp4d-gitops                                  |
 
-[//]: # (| gitops-repo_token | The git personal access token | BFe4k0MFK9s5RGIt... |)
+The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, and `cluster_login_token` values will be loaded automatically from the credentials.properties file that was configured in an earlier step.
 
-[//]: # (| bas_dbpassword | Password for BAS database | password |)
 
-[//]: # (| bas_grafanapassword | Password for BAS grafana database | password |)
+15. The `cp4d-instance_storage_vendor` variable should have already been populated by the `setup-workspace.sh` script. This should have the value `portworx` or `ocs`, depending on the selected storage option. 
 
-[//]: # (| entitlement_key | CloudPak Entitlement Key | eyJhbGciOiJIUzI1NiJ9.eyJpc3... |)
+16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
 
-[//]: # (| cluster_ingress | Ingress of the Cluster | masdemo.us-east-container.appdomain.cloud |)
+17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization where the GitOps Repository will be created in. Click on top right menu and select Your Profile to take you to your default organization.
 
-[//]: # (| gitops-cp-maximo_instanceid | Instance name for MAS - for example: masdemo or mas8 | mas8 |)
+18. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Data Foundation is installed into the cluster.
 
-[//]: # (| sls-namespace_name | Namespace for IBM SLS | ibm-sls |)
+19. You can change the `gitops-cluster-config_banner_text` banner text to something useful for your client project or demo.
 
-[//]: # (| mongo-namespace_name | Namespace for Mongo | mongo |)
+20. Save the `terraform.tfvars` file
 
-[//]: # (| bas-namespace_name | Namespace for BAS | masbas |)
+21. Navigate into the `/workspaces/current` folder
 
-[//]: # (| server_url | Url fo the OpenShift cluster | https://c100-e.us-east.containers.cloud.ibm.com:32346 |)
+    > ❗️ Do not skip this step.  You must execute from the `/worksapces/current` folder.
+    
+22. Navigate into the `200` folder and run the following commands
 
-[//]: # (| cluster_login_token | OpenShift cluster login token | sha256~nlXiXCYO_kEydz36B88y0reQ... |)
+    ```
+    cd 200-openshift-gitops
+    terraform init
+    terraform apply --auto-approve
+    ```
 
-[//]: # ()
-[//]: # (15. Change the `storage_class_name` value to `managed_premium` for **Azure** and other values for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment.)
 
-[//]: # (16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.)
+23. This will kick off the automation for setting up the GitOps Operator into your cluster.  Once complete, you should see message similar to:
 
-[//]: # (17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization where the GitOps Repository will be created in. Click on top right menu and select Your Profile to take you to your default organization.)
+    ```
+    Apply complete! Resources: 78 added, 0 changed, 0 destroyed.
+    ```
 
-[//]: # (18. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Maximo Core is installed into the cluster.)
+24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Maximo Core install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
-[//]: # (19. You can change the Banner text to something useful for your client project or demo.)
 
-[//]: # (20. Save the `terraform.tfvars` file)
+25. Change directories to the `210-*` folder and run the following commands to deploy storage into your cluster:
 
-[//]: # (21. Navigate into the `/workspaces/current` folder)
+    ```
+    cd 210-ibm-odf-storage
+    terraform init
+    terraform apply --auto-approve
+    ```
+    
+    Storage configuration will run asynchronously in the background inside of the Cluster and should be complete within 10 minutes.
+    
+26. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy entitlements into your cluster:
 
-[//]: # (22. Navigate into the `200` folder and run the following commands)
+    ```
+    cd ../300-cloud-pak-for-data-entitlement
+    terraform init
+    terraform apply --auto-approve
+    ```
+    
+    > This step **does not** require worker nodes to be restarted as some other installation methods describe.
 
-[//]: # ()
-[//]: # (      ```)
+27. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy Data Foundation into the cluster.
 
-[//]: # (      cd 200-openshift-gitops)
+    ```
+    cd ../305-cloud-pak-for-data-foundation
+    terraform init
+    terraform apply --auto-approve
+    ```
 
-[//]: # (      terraform init)
+    Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
 
-[//]: # (      terraform apply --auto-approve)
+28. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
-[//]: # (      ………)
+    This process will take between 30 and 45 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
 
-[//]: # (      Apply complete! Resources: 78 added, 0 changed, 0 destroyed.)
+29. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
 
-[//]: # ()
-[//]: # (      ```)
+    ![Reference Architecture](images/cp4d-route.jpg)
 
-[//]: # ()
-[//]: # (23. This will kick off the automation for setting up the GitOps Operator into your cluster.)
+30. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret. 
 
-[//]: # ()
-[//]: # (24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Maximo Core install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.)
+31. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
 
-[//]: # ()
-[//]: # (25. If you are using IBM Cloud, navigate into the 202 folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Maximo Core.)
+## Summary
 
-[//]: # ()
-[//]: # (⚠️ todo: update for mas core)
+This concludes the instructions for installing *Data Foundation* on AWS, Azure, and IBM Cloud.
 
-[//]: # ( ```)
+Now that the Data Foundation deployment is complete you can deploy [Cloud Pak for Data services](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=integrations-services) into this cluster.
 
-[//]: # ( cd 202-turbonomic-ibmcloud-storage-class)
 
-[//]: # ( terraform init)
+## Troubleshooting
 
-[//]: # ( terraform apply --auto-approve)
+If you experience issues with this automation, please [file an issue](https://github.com/IBM/automation-data-foundation/issues) or reach out on our [public Dischord server](https://discord.com/channels/955514069815808010/955514069815808013).
 
-[//]: # ( ```)
 
-[//]: # ()
-[//]: # (26.	Now that the GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that cause OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.)
+## How to Generate this repository from teh source Bill of Materials.
 
-[//]: # ()
-[//]: # (⚠️ todo: update for mas core)
 
-[//]: # ( ```)
+This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/cp4d) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.
 
-[//]: # ( cd 250-turbonomic-multicloud)
 
-[//]: # ( terraform init)
-
-[//]: # ( terraform apply --auto-approve)
-
-[//]: # ( ………)
-
-[//]: # ( Apply complete! Resources: 38 added, 0 changed, 0 destroyed.)
-
-[//]: # ( ```)
-
-[//]: # ()
-[//]: # (27. Once the installation has finished you will see a message from Terraform defining the state of the environment.)
-
-[//]: # (28. You will see the first change as a purple banner describing what was installed)
-
-[//]: # ()
-[//]: # ([//]: # &#40;29. The next step is to validate if everything has installed correctly. Open your git repository where your git ops configuration was defined.&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;30. Check if the payload folder has been created with the correct definitions for GitOps. Navigate to the `payload/2-services/namespace/turbonomic` folder and look at the content of the installation YAML files. You should see the Operator CR definitions&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;⚠️ todo: update for mas core&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;31. Final Step is to Open up Argo CD &#40;OpenShift GitOps&#41; check it is correctly configured, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;32. Complete the authorization with OpenShift, and, then narrow the filters by selecting the **turbonomic namespace**.&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;⚠️ todo: update for mas core&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;33. This will show you the GitOps dashboard of the software you have installed using GitOps techniques&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;34. Click on **turbonomic-turboinst** tile&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;35.&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;⚠️ todo: update for mas core&#41;)
-[//]: # ()
-[//]: # ([//]: # &#40;&#41;)
-[//]: # ([//]: # &#40;36. You will see all the microservices that Turbonomic uses to install with their enablement state&#41;)
-[//]: # ()
-[//]: # ()
-[//]: # ()
-[//]: # (At this point the install will automatically progress.  When complete you will see a message that the Apply is complete with approximately 64 resources added, 0 changed, 0 destroyed.  This will take approximately 5-10 minutes.)
-
-[//]: # ()
-[//]: # (The Maximo Application Suite will continue for approximately another 20 minutes while it sets up MAS and all the components for MAS-Core.  From this point you can skip to the MAS suite setup steps in the [README]&#40;./README.md#setup&#41; below.)
-
-[//]: # ()
-[//]: # ()
-[//]: # (### Setup Maximo Core after installation)
-
-[//]: # ()
-[//]: # (The initial setup for MAS is done through the web console and can be found in the location:)
-
-[//]: # ()
-[//]: # (`https://admin.${YourDomainURL}/initialsetup`)
-
-[//]: # ()
-[//]: # (NOTE: Depending on the browser you may have to import the self-signed certificate into your keystore &#40;if on a mac&#41;)
-
-[//]: # ()
-[//]: # (Login as super user with credential found in the secret named: `{masInstanceID}-credentials-superuser` in the OpenShift project named: `mas-{masInstanceID}-core`)
-
-[//]: # ()
-[//]: # ()
-[//]: # (## Summary)
-
-[//]: # ()
-[//]: # (This concludes the instructions for installing *Maximo Core* on AWS, Azure, and IBM Cloud)
-
-[//]: # ()
-[//]: # (## Troubleshooting)
-
-[//]: # ()
-[//]: # (Currently there are no troubleshooting topics.)
-
-[//]: # ()
-[//]: # (## How to Generate this repository from teh source Bill of Materials.)
-
-[//]: # ()
-[//]: # (This set of automation packages was generated using the open-source [`isacable`]&#40;https://github.com/cloud-native-toolkit/iascable&#41; tool. This tool enables a [Bill of Material yaml]&#40;https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/maximo&#41; file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.)
-
-[//]: # ()
-[//]: # (> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.)
+> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.

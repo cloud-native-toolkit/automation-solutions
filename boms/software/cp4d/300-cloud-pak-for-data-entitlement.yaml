@@ -4,7 +4,7 @@ metadata:
   name: 300-cloud-pak-for-data-entitlement
   labels:
     type: software
-    code: '600'
+    code: '300'
   annotations:
     displayName: IBM Cloud Pak for Data
     description: GitOps deployment of Data Fabric Solution on Cloud pak for Data

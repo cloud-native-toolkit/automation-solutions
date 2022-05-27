@@ -20,12 +20,8 @@ gitops_repo_repo="PREFIX-cp4d-gitops"
 ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
 gitops-cluster-config_banner_text="Cloud Pak for Data Foundation"
 
-## cloud pak entitlement key (can be obtained from https://www.ibm.com/docs/en/cloud-paks/cp-integration/2020.2?topic=installation-entitled-registry-entitlement-keys)
-#entitlement_key="<your cloud pak entitlement key goes here>"
-
 ## resource_group_name: The name of the resource group used for storage
 resource_group_name="PREFIXstorage"
 
-
 ## "Storage vendor for CPD (ocs | portworx | ibm-spectrum-scale-sc | RWX-storage-class)"
-#cp4d-instance_storage_vendor
+cp4d-instance_storage_vendor=STORAGEVENDOR

@@ -18,6 +18,7 @@ Usage()
 CLOUD_PROVIDER=""
 STORAGE=""
 PREFIX_NAME=""
+STORAGEVENDOR=""
 
 # Get the options
 while getopts ":p:s:n:h:" option; do
@@ -28,7 +29,7 @@ while getopts ":p:s:n:h:" option; do
       p)
          CLOUD_PROVIDER=$OPTARG;;
       s) # Enter a name
-         STORAGE=$OPTARG;;
+         STORAGE=$OPTARG;;git stat
       n) # Enter a name
          PREFIX_NAME=$OPTARG;;
      \?) # Invalid option
@@ -71,16 +72,20 @@ fi
 
 if [[ "${STORAGE}" == "portworx" ]]; then
   RWX_STORAGE="portworx-rwx-gp3-sc"
+  STORAGEVENDOR="portworx"
 elif [[ "${STORAGE}" == "odf" ]]; then
   RWX_STORAGE="ocs-storagecluster-cephfs"
+  STORAGEVENDOR="ocs"
 else
   RWX_STORAGE="<read-write-many storage class (e.g. )>"
+  STORAGEVENDOR="RWX-storage-class"
 fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
   sed "s/RWX_STORAGE/${RWX_STORAGE}/g" | \
-  sed "s/RWO_STORAGE/${RWO_STORAGE}/g" \
+  sed "s/RWO_STORAGE/${RWO_STORAGE}/g" | \
+  sed "s/STORAGEVENDOR/${STORAGEVENDOR}/g" \
   > "${SCRIPT_DIR}/terraform.tfvars"
 
 ln -s "${SCRIPT_DIR}/terraform.tfvars" ./terraform.tfvars

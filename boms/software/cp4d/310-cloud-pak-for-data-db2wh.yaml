@@ -12,25 +12,11 @@ spec:
   modules:
 
     # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
-    - name: gitops-namespace
-      alias: ibm_common_services_namespace
-      variables:
-        - name: name
-          value: ibm-common-services
-
-    # CatalogSources ibm-operator-catalog & ibm-db2uoperator-catalog
-    - name: ibm-ocp-vpc
-      alias: cluster
-    - name: gitops-db2u
-      variables:
-        - name: operator_namespace
-        - value: cpd-operators
-      dependencies:
-        - name: cp4d-instance
-          optional: true
-        - name: namespace
-          optional: true
-
+#    - name: gitops-namespace
+#      alias: ibm_common_services_namespace
+#      variables:
+#        - name: name
+#          value: ibm-common-services
 
     - name: gitops-cp-db2wh
       variables:
@@ -43,5 +29,5 @@ spec:
       dependencies:
         - name: namespace
           optional: true
-        - name: cp4d-instance
+        - name: gitops-cp4d-instance
           optional: true

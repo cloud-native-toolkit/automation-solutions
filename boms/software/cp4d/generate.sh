@@ -7,7 +7,7 @@
 
 if [ -z "$SOLUTION" ]
 then
-  SOLUTION=automation-cp4d
+  SOLUTION=automation-data-foundation
 fi
 
 if [ -z "$OUTPUT_PATH" ]
@@ -25,11 +25,11 @@ iascable build -i ./200-openshift-gitops.yaml \
                -i ./300-cloud-pak-for-data-entitlement.yaml \
                -i ./305-cloud-pak-for-data-foundation.yaml \
                -o $OUTPUT_PATH$SOLUTION
-
+# -i ./310-cloud-pak-for-data-db2wh.yaml \
 
 
 echo "Copying Files"
-cp ./files/* $OUTPUT_PATH$SOLUTION
+cp -r ./files/* $OUTPUT_PATH$SOLUTION
 
 echo "Generated Output:"
 ls -la $OUTPUT_PATH$SOLUTION
