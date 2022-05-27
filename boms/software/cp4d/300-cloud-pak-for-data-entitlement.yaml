@@ -33,6 +33,7 @@ spec:
           value: cp4d-entitlement-key
           scope: global
         - name: docker_password
+          alias: entitlement_key
           scope: global
     - name: gitops-global-pullsecret-synch
       dependencies:

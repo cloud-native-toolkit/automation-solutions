@@ -1,0 +1,47 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 310-cloud-pak-for-data-db2wh
+  labels:
+    type: software
+    code: '310'
+  annotations:
+    displayName: IBM Cloud Pak for Data
+    description: GitOps deployment of DB2 Warehouse
+spec:
+  modules:
+
+    # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
+    - name: gitops-namespace
+      alias: ibm_common_services_namespace
+      variables:
+        - name: name
+          value: ibm-common-services
+
+    # CatalogSources ibm-operator-catalog & ibm-db2uoperator-catalog
+    - name: ibm-ocp-vpc
+      alias: cluster
+    - name: gitops-db2u
+      variables:
+        - name: operator_namespace
+        - value: cpd-operators
+      dependencies:
+        - name: cp4d-instance
+          optional: true
+        - name: namespace
+          optional: true
+
+
+    - name: gitops-cp-db2wh
+      variables:
+        - name: common_services_namespace
+          value: ibm-common-services
+        - name: operator_namespace
+          value: cpd-operators
+        - name: cpd_namespace
+          value: cp4d_namespace
+      dependencies:
+        - name: namespace
+          optional: true
+        - name: cp4d-instance
+          optional: true

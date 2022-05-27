@@ -36,17 +36,21 @@ spec:
         - name: namespace
           ref: ibm_common_services_namespace
 
+          #var.gitops-cp-catalogs_entitlement_key make it use global scope
+
     # CP4D platform Foundational Services
-    - name: ibm-common-service
-      dependencies:
-        - name: namespace
-          ref: ibm_common_services_namespace
+#    - name: ibm-common-service
+#      dependencies:
+#        - name: namespace
+#          ref: ibm_common_services_namespace
 
     # CP4D Operator
     - name: gitops-cp4d-operator
       dependencies:
         - name: namespace
           ref: cpd_operators_namespace
+        - name: ibm-common-service
+          optional: true
 
     # CP4D Instance
     - name: cp4d-instance

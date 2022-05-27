@@ -21,7 +21,7 @@ gitops_repo_repo="PREFIX-cp4d-gitops"
 gitops-cluster-config_banner_text="Cloud Pak for Data Foundation"
 
 ## cloud pak entitlement key (can be obtained from https://www.ibm.com/docs/en/cloud-paks/cp-integration/2020.2?topic=installation-entitled-registry-entitlement-keys)
-#docker_password="<your cloud pak entitlement key goes here>"
+#entitlement_key="<your cloud pak entitlement key goes here>"
 
 ## resource_group_name: The name of the resource group used for storage
 resource_group_name="PREFIXstorage"
