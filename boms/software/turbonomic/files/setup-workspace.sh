@@ -60,9 +60,9 @@ if [[ "${CLOUD_PROVIDER}" == "aws" ]]; then
 elif [[ "${CLOUD_PROVIDER}" == "azure" ]]; then
   RWO_STORAGE="managed-premium"
 elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] || [[ "${CLOUD_PROVIDER}" == "ibmcloud" ]]; then
-  RWO_STORAGE="ibmc-vpc-block-10iops-tier"
+  RWO_STORAGE="ibmc-vpc-block-mzr"
 else
-  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>"
+  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-mzr>"
 fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template" | \

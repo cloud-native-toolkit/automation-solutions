@@ -187,7 +187,7 @@ Steps:
     
     ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
     ## <your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>
-    gitops-ocp-turbonomic_storage_class_name="ibmc-vpc-block-10iops-tier"
+    gitops-ocp-turbonomic_storage_class_name="ibmc-vpc-block-mzr"
     
     ## gitops-repo_host: The host for the git repository.
     gitops_repo_host="github.com"
