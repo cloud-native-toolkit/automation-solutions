@@ -29,7 +29,7 @@ while getopts ":p:s:n:h:" option; do
       p)
          CLOUD_PROVIDER=$OPTARG;;
       s) # Enter a name
-         STORAGE=$OPTARG;;git stat
+         STORAGE=$OPTARG;;
       n) # Enter a name
          PREFIX_NAME=$OPTARG;;
      \?) # Invalid option
