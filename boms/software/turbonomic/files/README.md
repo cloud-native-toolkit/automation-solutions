@@ -173,7 +173,7 @@ Steps:
 12. Run the command setup-workspace.sh you will need to provide the `-p` platform value which can be `azure` | `aws` or `ibm` then supply a prefix name
 
 ```
-./setup-workspace.sh -p ibm -n tubro01
+./setup-workspace.sh -p ibm -n turbo01
 ``` 
 
 13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
