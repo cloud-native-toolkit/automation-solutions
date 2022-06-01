@@ -10,6 +10,23 @@ metadata:
     description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
 spec:
   modules:
+    - name: gitops-namespace
+      alias: ibm_common_services_namespace
+      variables:
+        - name: name
+          value: ibm-common-services
+
+    - name: gitops-namespace
+      alias: cpd_operators_namespace
+      variables:
+        - name: name
+          value: cpd-operators
+
+    - name: gitops-namespace
+      alias: cp4d_namespace
+      variables:
+        - name: name
+          value: cp4d
 
     # Create AWS S3 Bucket instance
     - name: aws-s3-instance

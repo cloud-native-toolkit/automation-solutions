@@ -12,6 +12,7 @@ metadata:
 spec:
   modules:
     - name: ibm-resource-group
+    - name: ibm-access-group
     - name: ibm-vpc
     - name: ibm-vpc-gateways
     - name: ibm-vpc-subnets

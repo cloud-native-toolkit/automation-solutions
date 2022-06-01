@@ -1,0 +1,27 @@
+########################################################
+# Name: Cloud Pak For Data - Foundation Variable File
+# Desc: Initial input variables to support gitops deployment of CP4D into the cloud provider of your choice
+########################################################
+
+
+## gitops-repo_host: The host for the git repository.
+gitops_repo_host="github.com"
+
+## gitops-repo_type: The type of the hosted git repository (github or gitlab).
+gitops_repo_type="github"
+
+## gitops-repo_org: The org/group where the git repository exists/will be provisioned.
+## your gitorg - if left blank the value will default to your username
+gitops_repo_org=""
+
+## gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name)
+gitops_repo_repo="PREFIX-cp4d-gitops"
+
+## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
+gitops-cluster-config_banner_text="Cloud Pak for Data Foundation"
+
+## resource_group_name: The name of the resource group used for storage
+resource_group_name="PREFIXstorage"
+
+## "Storage vendor for CPD (ocs | portworx | ibm-spectrum-scale-sc | RWX-storage-class)"
+cp4d-instance_storage_vendor="STORAGEVENDOR"

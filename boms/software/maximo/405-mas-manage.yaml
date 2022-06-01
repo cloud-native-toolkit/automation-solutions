@@ -1,0 +1,30 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 405-mas-manage
+  labels:
+    type: software
+    code: '401'
+  annotations:
+    displayName: Maximo Application Suite - Manage Application
+    description: GitOps deployment of Maximo Manage application for OpenShift
+spec:
+  modules:
+    - name: gitops-repo
+
+    # Maximo Core
+    - name: gitops-namespace
+      alias: maximo-namespace
+      variables:
+        - name: name
+          value: maximo
+    - name: gitops-mas-manage
+      dependencies:
+        - name: namespace
+          ref: maximo-namespace
+
+    # Existing DB2 Warehouse - this could be replaced with dB2 Warehouse
+    - name: db2-warehouse-existing
+
+    # JDBC to connect to db2 warehouse instance
+    - name: gitops-terraform-gitops-mas-jdbc
