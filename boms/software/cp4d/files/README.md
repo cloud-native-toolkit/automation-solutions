@@ -302,7 +302,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     > ❗️ Do not skip this step.  You must execute from the `/worksapces/current` folder.
     
-22. Navigate into the `200` folder and run the following commands
+22. Navigate into the `200-openshift-gitops` folder and run the following commands
 
     ```
     cd 200-openshift-gitops
@@ -333,7 +333,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 26. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
-    cd ../300-cloud-pak-for-data-entitlement
+    cd ../305-cloud-pak-for-data-entitlement
     terraform init
     terraform apply --auto-approve
     ```

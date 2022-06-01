@@ -24,4 +24,4 @@ gitops-cluster-config_banner_text="Cloud Pak for Data Foundation"
 resource_group_name="PREFIXstorage"
 
 ## "Storage vendor for CPD (ocs | portworx | ibm-spectrum-scale-sc | RWX-storage-class)"
-cp4d-instance_storage_vendor=STORAGEVENDOR
+cp4d-instance_storage_vendor="STORAGEVENDOR"
