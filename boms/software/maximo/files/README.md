@@ -305,7 +305,8 @@ This concludes the instructions for installing *Maximo Core* on AWS, Azure, and 
 
 ## Troubleshooting
 
-Currently there are no troubleshooting topics.
+
+Please refer to the [Troubleshooting Guide](./TROUBLESHOOTING.md) for uninstallation instructions and instructions to correct common issues.
 
 ## How to Generate this repository from teh source Bill of Materials.
 

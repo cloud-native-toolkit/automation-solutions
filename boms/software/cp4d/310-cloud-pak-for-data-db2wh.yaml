@@ -25,7 +25,7 @@ spec:
         - name: operator_namespace
           value: cpd-operators
         - name: cpd_namespace
-          value: cp4d_namespace
+          value: cp4d
       dependencies:
         - name: namespace
           optional: true
