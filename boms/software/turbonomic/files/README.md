@@ -2,17 +2,19 @@
 
 ### Change Log
 
+- **05/2022** - Usability updates and Bug Fixes
+- **05/2022** - Bug Fix Release
 - **04/2022** - Initial Release
 
-> This collection of Turbonomic IBM Cloud terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Sukthankar** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
+> This collection of Turbonomic terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Vijay Sukthankar** _vksuktha@in.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
-The automation will support the installation of Turbonomic on three cloud platforms (AWS, Azure, and IBM Cloud).
+The automation will support the installation of Turbonomic on three cloud platforms **AWS**, **Azure**, and **IBM Cloud**.
 
 ### Target Infrastructure
 
 The Turbonomic automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
-Before you start to install and configure Turbonomic, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
+Before you start to install and configure Turbonomic, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own. It is recommended to install this on a `4cpu x 16gb x 2 worker nodes` **OpenShift Cluster**
 
 ### Reference Architectures
 
@@ -58,7 +60,7 @@ For Partners follow these steps:
 
 1. For PoCs/PoTs, Partners can download a license key from [Partner World Software Catalog](https://www.ibm.com/partnerworld/program/benefits/software-access-catalog)
 2. You can search the software catalog for  **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English**,
-3. Download the package which contains license file for Turbonomic, with a name similar to `CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic`
+3. Download the package it is 11gb in size and unzip the contents. Look for the client license file for Turbonomic, with a name similar to `CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic`
 5. This file is covered by **Turbonomic ARM P/N are currently available under IBM PPA terms and conditions**
 
 #### IBMers
@@ -67,7 +69,7 @@ For IBMers you can download a license key using these steps:
 
 1. Go to [XL Leverage](https://w3-03.ibm.com/software/xl/download/ticket.wss)
 2. Search with keyword: turbonomic
-3. Select the package **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English** and download
+3. Select the package **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English** and download, this file is 11gb in size, once downloaded unzip to find the license key
 4. Extract this download package to get the turbonomic license key
    This package contains license file for turbonomic, with a name similar to “CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic
 
@@ -124,13 +126,22 @@ Steps:
     ```
 
     ```
-    # Add the values for the Credentials to access the IBM Cloud
-    # Instructions to access this information can be found in the README.MD
-    # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+    ## Add the values for the Credentials to access the OpenShift Environment
+    ## Instructions to access this information can be found in the README.MD
+    ## This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+    
+    ## gitops_repo_host: The host for the git repository
+    TF_VAR_gitops_repo_host=github.com
+    ## gitops_repo_username: The username of the user with access to the repository
     TF_VAR_gitops_repo_username=
+    ## gitops_repo_token: The personal access token used to access the repository
     TF_VAR_gitops_repo_token=
-    TF_VAR_cluster_login_token=
+    
+    ## TF_VAR_server_url: The url for the OpenShift api server
     TF_VAR_server_url=
+    ## TF_VAR_cluster_login_token: Token used for authentication to the api server
+    TF_VAR_cluster_login_token=
+
     ```
 
 4. You will need to populate these values. Add your Git Hub username and your Personal Access Token to `repo_username` and `repo_token`
@@ -159,48 +170,49 @@ Steps:
 > we expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
 
 11. Next step is to create a workspace to run the Terraform automation.
-12. Run the command setup-workspace.sh
+12. Run the command setup-workspace.sh you will need to provide the `-p` platform value which can be `azure` | `aws` or `ibm` then supply a prefix name
 
 ```
-./setup-workspace.sh
+./setup-workspace.sh -p ibm -n turbo01
 ``` 
 
 13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
 14. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.
 
       ```
-      ########################################################
-      # Name: Turbonomic Terraform Variable File
-      # Desc: Initial input variables to support installation of Turbonomic into the cloud provider of your choice
-      ########################################################
-      
-      ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
-      gitops-ocp-turbonomic_storage_class_name="<your block storage on aws: gp2, on azure: managed-premium>"
-      
-      ## gitops-repo_host: The host for the git repository.
-      gitops_repo_host="github.com"
-      
-      ## gitops-repo_type: The type of the hosted git repository (github or gitlab).
-      gitops_repo_type="github"
-      
-      ## gitops-repo_org: The org/group where the git repository exists/will be provisioned.
-      gitops_repo_org="<your gitorg - most likely your username>"
-      
-      ## gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name)
-      gitops_repo_repo="<repo name to create for git ops configuration>"
-      
-      ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
-      gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
+    ########################################################
+    # Name: Turbonomic Terraform Variable File
+    # Desc: Initial input variables to support installation of Turbonomic into the cloud provider of your choice
+    ########################################################
+    
+    ## gitops-ocp-turbonomic_storage_class_name: Name of the block storage class to use - if multizone deployment then waitforfirstconsumer must be set on storageclass binding mode
+    ## <your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>
+    gitops-ocp-turbonomic_storage_class_name="ibmc-vpc-block-mzr"
+    
+    ## gitops-repo_host: The host for the git repository.
+    gitops_repo_host="github.com"
+    
+    ## gitops-repo_type: The type of the hosted git repository (github or gitlab).
+    gitops_repo_type="github"
+    
+    ## gitops-repo_org: The org/group where the git repository exists/will be provisioned.
+    ## your gitorg - if left blank the value will default to your username
+    gitops_repo_org="mjperrins"
+    
+    ## gitops-repo_repo: The short name of the repository (i.e. the part after the org/group name)
+    gitops_repo_repo="turbo-gitops-01"
+    
+    ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
+    gitops-cluster-config_banner_text="Software Everywhere Turbonomic"
       ```
 
-15. Change the `storage_class_name` value to `managed_premium` for **Azure** and other values for AWS. If we are on IBM Cloud you will need to run the `202` automation to configure Storage for the IBM Cloud environment.
-16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
-17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization where the GitOps Repository will be created in. Click on top right menu and select Your Profile to take you to your default organization.
-18. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Turbonomic is installed into the cluster.
-19. You can change the Banner text to something useful for your client project or demo.
-20. Save the `terraform.tfvars` file
-21. Navigate into the `/workspaces/current` folder
-22. Navigate into the `200` folder and run the following commands
+15. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
+16. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization where the GitOps Repository will be created in. Click on top right menu and select Your Profile to take you to your default organization.
+17. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Turbonomic is installed into the cluster.
+18. You can change the Banner text to something useful for your client project or demo.
+19. Save the `terraform.tfvars` file
+20. Navigate into the `/workspaces/current` folder
+21. Navigate into the `200` folder and run the following commands
 
       ```
       cd 200-openshift-gitops
@@ -211,42 +223,41 @@ Steps:
 
       ```
 
-23. This will kick off the automation for setting up the GitOps Operator into your cluster.
+22. This will kick off the automation for setting up the GitOps Operator into your cluster.
 
-24.	You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Turbonomic install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
+23. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Turbonomic install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
-25.	If you are using IBM Cloud, navigate into the 202 folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
+24. If you are using IBM Cloud and set the `-p` flag to `ibm`  you and navigate into the `202-turbonomic-ibmcloud-storage-class` folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
+`
+     ```
+     cd 202-turbonomic-ibmcloud-storage-class
+     terraform init
+     terraform apply --auto-approve
+     ```
 
- ```
- cd 202-turbonomic-ibmcloud-storage-class
- terraform init
- terraform apply --auto-approve
- ```
+25. Now that the GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that cause OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
 
-26.	Now that the GitOps is installed in the cluster, and we have bound the git repository to OpenShift GitOps operator. We are now ready to populate this with some Software configuration that cause OpenShift GitOps to install the software into the cluster. Navigate into the `250` folder and run the following commands, this will install Turbonomic into the cluster.
+     ```
+     cd 250-turbonomic-multicloud
+     terraform init
+     terraform apply --auto-approve
+     ………
+     Apply complete! Resources: 38 added, 0 changed, 0 destroyed.
+     ```
 
- ```
- cd 250-turbonomic-multicloud
- terraform init
- terraform apply --auto-approve
- ………
- Apply complete! Resources: 38 added, 0 changed, 0 destroyed.
- ```
+26. Once the installation has finished you will see a message from Terraform defining the state of the environment.
+27. You will see the first change as a purple banner describing what was installed
 
-27.	Once the installation has finished you will see a message from Terraform defining the state of the environment.
-28.	You will see the first change as a purple banner describing what was installed
+28. The next step is to validate if everything has installed correctly. Open your git repository where your git ops configuration was defined.
 
-29.	The next step is to validate if everything has installed correctly. Open your git repository where your git ops configuration was defined.
+29. Check if the payload folder has been created with the correct definitions for GitOps. Navigate to the `payload/2-services/namespace/turbonomic` folder and look at the content of the installation YAML files. You should see the Operator CR definitions
+30. Final Step is to Open up Argo CD (OpenShift GitOps) check it is correctly configured, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.
 
-30.	Check if the payload folder has been created with the correct definitions for GitOps. Navigate to the `payload/2-services/namespace/turbonomic` folder and look at the content of the installation YAML files. You should see the Operator CR definitions
-32. Final Step is to Open up Argo CD (OpenShift GitOps) check it is correctly configured, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.
+31. Complete the authorization with OpenShift, and, then narrow the filters by selecting the **turbonomic namespace**.
 
-33.	Complete the authorization with OpenShift, and, then narrow the filters by selecting the **turbonomic namespace**.
-
-34.	This will show you the GitOps dashboard of the software you have installed using GitOps techniques
-35.	Click on **turbonomic-turboinst** tile
-36.	You will see all the microservices that Turbonomic uses to install with their enablement state
-
+32. This will show you the GitOps dashboard of the software you have installed using GitOps techniques
+33. Click on **turbonomic-turboinst** tile
+34. You will see all the microservices that Turbonomic uses to install with their enablement state
 
 ### Setup Turbonomic after installation
 
