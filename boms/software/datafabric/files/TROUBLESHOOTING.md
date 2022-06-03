@@ -1,1 +1,1 @@
-../../_common/TROUBLESHOOTING.md
+../../../../common-files/TROUBLESHOOTING.md

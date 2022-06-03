@@ -99,6 +99,3 @@ You should *never* use the `sudo` command to execute this automation.  If you ha
 
 If you continue to experience issues with this automation, please [file an issue](https://github.com/IBM/automation-solutions/issues) or reach out on our [public Dischord server](https://discord.com/channels/955514069815808010/955514069815808013).
 
-
-root on linux
-chmod g+w -R .
