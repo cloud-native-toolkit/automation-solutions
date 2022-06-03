@@ -14,9 +14,7 @@ fi
 # check if colima is installed, and apply dns override if no override file already exists
 if command -v colima &> /dev/null
 then
-  COLIMA_OVERRIDE_FILE="~/.lima/_config/override.yaml"
-
-  if [ ! -f $COLIMA_OVERRIDE_FILE ]; then
+  if [ ! -f ~/.lima/_config/override.yaml ]; then
     echo "applying colima dns override..."
 
     COLIMA_STATUS="$(colima status 2>&1)"
