@@ -237,7 +237,7 @@ You can install these clis on your local machine **OR** run the following comman
 2. Run the `azure-portworx-credentials.sh` script to gather/create the credentials:
 
     ```shell
-    ./azure-portworx-credentials.sh -t {cluster type} -r {resource group name} -c {cluster name} [-s {subscription id}]
+    ./azure-portworx-credentials.sh -t {cluster type} -g {resource group name} -n {cluster name} [-s {subscription id}]
     ```
 
     where:

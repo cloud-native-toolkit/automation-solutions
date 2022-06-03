@@ -8,11 +8,11 @@ Usage()
 {
    echo "Retrieves the required credentials to install Portworx on Azure."
    echo
-   echo "Usage: portworx-prereq.sh -t {cluster type} -r {resource group name} -c {cluster name} [-s {subscription id}]"
+   echo "Usage: portworx-prereq.sh -t {cluster type} -g {resource group name} -n {cluster name} [-s {subscription id}]"
    echo "  options:"
    echo "  -t     Cluster type (ARO|IPI)"
-   echo "  -r     Resource group name for OpenShift cluster"
-   echo "  -c     Cluster name"
+   echo "  -g     Resource group name for OpenShift cluster"
+   echo "  -n     Cluster name"
    echo "  -s     (optional) Azure subscription id"
    echo "  -h     Print this help"
    echo
@@ -24,7 +24,7 @@ CLUSTER_NAME=""
 CLUSTER_TYPE=""
 
 # Get the options
-while getopts ":s:r:c:t:h:" option; do
+while getopts ":s:g:n:t:h:" option; do
    case $option in
       h) # display Help
          Usage
@@ -33,9 +33,9 @@ while getopts ":s:r:c:t:h:" option; do
          CLUSTER_TYPE=$OPTARG;;
       s)
          SUBSCRIPTION_ID=$OPTARG;;
-      r) # Enter a name
+      g) # Enter a name
          RESOURCE_GROUP_NAME=$OPTARG;;
-      c) # Enter a name
+      n) # Enter a name
          CLUSTER_NAME=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
