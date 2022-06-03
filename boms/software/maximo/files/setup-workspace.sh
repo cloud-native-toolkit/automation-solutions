@@ -186,7 +186,7 @@ cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
   sed "s/CLUSTER_INGRESS/${CLUSTER_INGRESS}/g" | \
   sed "s/RWX_STORAGE/${RWX_STORAGE}/g" | \
-  sed "s/RWO_STORAGE/${RWO_STORAGE}/g" \
+  sed "s/RWO_STORAGE/${RWO_STORAGE}/g" | \
   sed "s/PORTWORX_SPEC_FILE/${PORTWORX_SPEC_FILE_BASENAME}/g" \
   > "${SCRIPT_DIR}/terraform.tfvars"
 
@@ -194,9 +194,6 @@ ln -s "${SCRIPT_DIR}/terraform.tfvars" ./terraform.tfvars
 
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
-
-echo "Setting up workspace from '${TEMPLATE_FLAVOR}' template"
-echo "*****"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
@@ -249,4 +246,4 @@ do
   cd - > /dev/null
 done
 
-echo "move to ${WORKSPACE_DIR} this is where your automation is configured"
+echo "Move to ${WORKSPACE_DIR} this is where your automation is configured"
