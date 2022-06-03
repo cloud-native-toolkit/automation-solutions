@@ -59,6 +59,24 @@ For example:
 - `cluster_login_token="ABCXYZ"` is **correct**
 
 
+
+## Intermittent network failures when using Colima
+
+If you are using the `colima` container engine (replacement for Docker Desktop), you may see random network failures when the container is put under heavy network load.  This happens when the internal DNS resolver can't keep up with the container's network requests.  The workaround is to switch colima to use external DNS instead of it's own internal DNS.
+
+Steps to fix this solution:
+
+1. Stop Colima using `colima stop`
+2. Create a file `~/.lima/_config/override.yaml` containing the following:
+  ```
+  useHostResolver: false
+  dns:
+  - 8.8.8.8
+  ```
+3. Restart Colima using `colima start`
+4. Resume your activities where you encountered networking failures.  It may be required to execute a `terraform destroy` command to cleanup invalid/bad state due to network failures.
+
+
 ## Resources stuck in `Terminating` state
 
 When deleting resources, the namespaces used by the solution occasionally will get stuck in a `terminating` or inconsistent state.  Use the following steps to recover from these conditions:
