@@ -1,4 +1,1 @@
-#!/usr/bin/env bash
-
-terraform init
-terraform apply -auto-approve
+../../../../../common-files/apply.sh
