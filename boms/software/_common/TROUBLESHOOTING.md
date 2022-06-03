@@ -72,7 +72,15 @@ Follow these steps:
 
 ## Workspace permission issues
 
-You may encounter permission errors if you have previously executed this terraform automation using an older `launch.sh` script (prior to June 2022).  If you had previously executed the older `launch.sh` script, it mounted the `workspace` volume with `root` as the owner.  Tthe current `launch.sh` script mounts the `workspace` volume as the user `devops`.  When trying to execute commands, you will encounter permission errors, and `terraform` or `setupWorkspace.sh` commands will only work if you use the `sudo` command.  
+### Root user on Linux
+
+If you are running on a linux machine as `root` user, the `terraform` directory is locked down so that only root had write permissions.  When the `launch.sh` script puts you into the docker container, you are no longer root, and you encounter `permission denied` errors when executing `setupWorkspace.sh`. 
+
+If the user on the host operating system is `root`, then you have to run `chmod g+w -R .` before running `launch.sh` to allow the terraform directory to be group writeable.   Once you do this, the permission errors go away, and you can follow the installation instructions.   
+
+### Legacy launch.sh script
+
+IF you are not encountering the root user issue described above, and You may encounter permission errors if you have previously executed this terraform automation using an older `launch.sh` script (prior to June 2022).  If you had previously executed the older `launch.sh` script, it mounted the `workspace` volume with `root` as the owner.  The current `launch.sh` script mounts the `workspace` volume as the user `devops`.  When trying to execute commands, you will encounter permission errors, and `terraform` or `setupWorkspace.sh` commands will only work if you use the `sudo` command.  
 
 If this is the case, the workaround is to remove the `workspace` volume on your system, so that it can be recreated with the proper ownership.
 
@@ -90,3 +98,7 @@ You should *never* use the `sudo` command to execute this automation.  If you ha
 # That didn't work, what next?
 
 If you continue to experience issues with this automation, please [file an issue](https://github.com/IBM/automation-solutions/issues) or reach out on our [public Dischord server](https://discord.com/channels/955514069815808010/955514069815808013).
+
+
+root on linux
+chmod g+w -R .
