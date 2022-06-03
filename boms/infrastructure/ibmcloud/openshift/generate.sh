@@ -47,5 +47,5 @@ for dir in 1-quickstart 2-standard 3-advanced; do
   
   /Users/seansundus.ibm.com/ws/catalyst/cli/iascable/iascable build ${boms} -o "${TARGET_DIR}/${dir}"
 
-  cp -R "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/${dir}"
+  cp -R -L "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/${dir}"
 done

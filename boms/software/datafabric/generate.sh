@@ -31,7 +31,7 @@ iascable build -i ./200-openshift-gitops.yaml \
 
 
 echo "Copying Files"
-cp ./files/* $OUTPUT_PATH$SOLUTION
+cp -r -L ./files/* $OUTPUT_PATH$SOLUTION
 
 echo "Generated Output:"
 ls -la $OUTPUT_PATH$SOLUTION
