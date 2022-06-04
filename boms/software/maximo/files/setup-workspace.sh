@@ -24,6 +24,11 @@ STORAGE=""
 PREFIX_NAME=""
 PORTWORX_SPEC_FILE=""
 
+if [[ "$1" == "-h" ]]; then
+  Usage
+  exit 1
+fi
+
 # Get the options
 while getopts ":p:s:n:c:x:h:" option; do
    case $option in
