@@ -15,8 +15,9 @@ TOKEN="Authorization: Bearer ${TOKEN}"
 CURDIR=$(pwd)
 
 files=" /devtools/220-dev-tools.yaml \
+/gitops/200-openshift-cicd.yaml \
+/gitops/200-openshift-gitops.yaml \
 /gitops/201-gitops-bootstrap.yaml \
-/gitops/200-openshift-gitops-bootstrap.yaml \
 /cp4d/210-aws-portworx-storage.yaml \
 /cp4d/210-azure-portworx-storage.yaml \
 /cp4d/210-ibm-odf-storage.yaml \
