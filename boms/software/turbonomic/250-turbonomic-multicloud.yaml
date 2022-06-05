@@ -6,7 +6,7 @@ metadata:
     type: software
     code: '250'
   annotations:
-    displayName: Turbonomic on OpenShift - Multi Cloud
+    displayName: Turbonomic on OpenShift for Multi Cloud
     description: GitOps deployment of Turbonomic on Multi Cloud environments AWS, Azure and IBM Cloud
 spec:
   modules:

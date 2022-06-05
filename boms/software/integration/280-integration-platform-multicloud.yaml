@@ -6,7 +6,7 @@ metadata:
     type: software
     code: '280'
   annotations:
-    displayName: Integration Platform
+    displayName: Integration Platform - Cloud Pak for Integration
     description: Populates a GitOps repository with the components of the IBM Integration Platform
 spec:
   modules:

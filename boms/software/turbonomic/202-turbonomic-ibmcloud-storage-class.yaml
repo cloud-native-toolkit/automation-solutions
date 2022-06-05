@@ -6,7 +6,7 @@ metadata:
     type: software
     code: '202'
   annotations:
-    displayName: Turbonomic Storage Class - IBM Cloud
+    displayName: Turbonomic Storage Class for IBM Cloud
     description: GitOps deployment of Storage Class for IBM Cloud OpenShift environment
 spec:
   modules:
