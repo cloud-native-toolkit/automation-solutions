@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 220-integration-apiconnect
+  name: 215-integration-apiconnect
   labels:
     type: software
     code: '220'
