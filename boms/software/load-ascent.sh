@@ -21,8 +21,9 @@ files=" /devtools/220-dev-tools.yaml \
 /cp4d/210-azure-portworx-storage.yaml \
 /cp4d/210-ibm-odf-storage.yaml \
 /cp4d/210-ibm-portworx-storage.yaml \
-/cp4d/300-cloud-pak-for-data.yaml \
-/datafabric/300-cloud-pak-for-data.yaml \
+/cp4d/300-cloud-pak-for-data-entitlement.yaml \
+/cp4d/305-cloud-pak-for-data-foundation.yaml \
+/cp4d/310-cloud-pak-for-data-db2wh.yaml \
 /datafabric/600-datafabric-services.yaml \
 /datafabric/610-datafabric-demo.yaml \
 /integration/215-integration-platform-navigator.yaml \
@@ -53,4 +54,3 @@ for loadfile in ${files[@]}; do
     echo "\n"
 
 done
-
