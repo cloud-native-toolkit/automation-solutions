@@ -7,7 +7,7 @@ metadata:
     code: '220'
   annotations:
     displayName: Integration - APIConnect
-    description: Populates a GitOps repository with AIConnect component of the IBM Integration Platform
+    description: GitOps deployment of API Connect for Cloud pak for Integration
 spec:
   modules:
     # Login to existing OpenShift cluster

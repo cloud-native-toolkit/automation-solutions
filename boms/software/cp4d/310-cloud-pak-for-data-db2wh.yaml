@@ -6,8 +6,8 @@ metadata:
     type: software
     code: '310'
   annotations:
-    displayName: IBM Cloud Pak for Data
-    description: GitOps deployment of DB2 Warehouse
+    displayName: DB2 Warehouse for Cloud Pak for Data
+    description:  GitOps deployment of DB2 Warehouse for Cloud pak for Data
 spec:
   modules:
 

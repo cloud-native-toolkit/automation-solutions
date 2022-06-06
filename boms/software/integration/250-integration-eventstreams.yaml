@@ -7,7 +7,7 @@ metadata:
     code: '250'
   annotations:
     displayName: Integration - EventStreams
-    description: Populates a GitOps repository with EventStreams component of the IBM Integration Platform
+    description: GitOps deployment of EventStreams for Cloud pak for Integration
 spec:
   modules:
     # Login to existing OpenShift cluster

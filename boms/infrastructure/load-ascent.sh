@@ -19,8 +19,8 @@ files="/aws/_common/gitops/200-aws-openshift-gitops.yaml \
 /aws/openshift/1-quickstart/105-aws-vpc-openshift.yaml \
 /azure/_common/gitops/200-azure-openshift-gitops.yaml \
 /azure/_common/storage/210-azure-portworx-storage.yaml \
-/azure/openshift/1-quickstart/105-azure-vnet-openshift.yaml \
-/azure/openshift/1-quickstart/220-dev-tools.yaml \
+/azure/openshift/1-quickstart/110-azure-ocp-ipi.yaml \
+/azure/openshift-upi/1-quickstart/105-azure-vnet-openshift.yaml \
 /ibmcloud/_common/gitops/200-ibm-openshift-gitops.yaml \
 /ibmcloud/_common/storage/210-ibm-odf-storage.yaml \
 /ibmcloud/_common/storage/210-ibm-portworx-storage.yaml \
