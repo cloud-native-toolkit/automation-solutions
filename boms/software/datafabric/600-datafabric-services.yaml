@@ -7,7 +7,7 @@ metadata:
     code: '600'
   annotations:
     displayName: Data Fabric
-    description: GitOps deployment of Data Fabric part of Cloud pak for Data
+    description: GitOps deployment of Data Fabric for Cloud pak for Data
 spec:
   modules:
 
