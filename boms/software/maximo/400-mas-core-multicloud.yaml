@@ -24,7 +24,7 @@ spec:
       alias: sls-namespace
       variables:
         - name: name
-          value: sls
+          value: ibm-sls
     - name: gitops-cp-sls
       dependencies:
         - name: namespace
@@ -69,18 +69,13 @@ spec:
       alias: bas-namespace
       variables:
         - name: name
-          value: bas
+          value: masbas
     - name: gitops-cp-bas
       dependencies:
         - name: namespace
           ref: bas-namespace
 
     # Maximo Core
-    - name: gitops-namespace
-      alias: maximo-namespace
-      variables:
-        - name: name
-          value: maximo
     - name: gitops-cp-maximo
       variables:
         - name: instanceid
@@ -89,6 +84,3 @@ spec:
           scope: global
         - name: entitlement_key
           scope: global
-      dependencies:
-        - name: namespace
-          ref: maximo-namespace
