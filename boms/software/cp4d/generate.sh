@@ -3,8 +3,6 @@
 # IBM Ecosystem Lab Team
 # Install iascable and run this script to produce an target public source repository
 
-
-
 if [ -z "$SOLUTION" ]
 then
   SOLUTION=automation-data-foundation
@@ -24,7 +22,7 @@ iascable build -i ./200-openshift-gitops.yaml \
                -i ./210-ibm-portworx-storage.yaml \
                -i ./300-cloud-pak-for-data-entitlement.yaml \
                -i ./305-cloud-pak-for-data-foundation.yaml \
-               -o $OUTPUT_PATH$SOLUTION
+               -i ./310-cloud-pak-for-data-db2wh.yaml -o $OUTPUT_PATH$SOLUTION
 # -i ./310-cloud-pak-for-data-db2wh.yaml \
 
 

@@ -10,14 +10,11 @@ metadata:
     description:  GitOps deployment of DB2 Warehouse for Cloud pak for Data
 spec:
   modules:
-
-    # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
-#    - name: gitops-namespace
-#      alias: ibm_common_services_namespace
-#      variables:
-#        - name: name
-#          value: ibm-common-services
-
+    - name: gitops-namespace
+      alias: gitops-cp-db2wh_namespace
+      variables:
+        - name: name
+          value: gitops-cp-db2wh
     - name: gitops-cp-db2wh
       variables:
         - name: common_services_namespace
@@ -26,7 +23,19 @@ spec:
           value: cpd-operators
         - name: cpd_namespace
           value: cp4d
+        - name: license
+          value: Enterprise
+        - name: db2_warehouse_channel
+          value: v1.0
+        - name: db2_warehouse_version
+          value: 4.0.2 
+        - name: namespace  
+          value: gitops-cp-db2wh
+        - name: storage_class
+          value: portworx-shared-gp3
       dependencies:
+        - name: namespace
+          ref: gitops-cp-db2wh_namespace
         - name: namespace
           optional: true
         - name: gitops-cp4d-instance
