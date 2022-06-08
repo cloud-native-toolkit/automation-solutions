@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 215-integration-apiconnect
+  name: 215-integration-platform-navigator
   labels:
     type: software
     code: '215'
   annotations:
-    displayName: Integration - Platform Navigator
-    description: GitOps deployment of Platform Navigator for Cloud pak for Integration
+    displayName: Integration Platform - PlatformNavigtor Only
+    description: Populates a GitOps repository with PlatformNavigator component of the IBM Integration Platform
 spec:
   modules:
     # Login to existing OpenShift cluster
@@ -18,7 +18,7 @@ spec:
       version: v1.3.2
     - name: sealed-secret-cert
       version: v1.0.1
-
+    
     - name: gitops-repo
       alias: gitops_repo
       version: v1.16.0
@@ -60,7 +60,7 @@ spec:
         The entitlement key used to access the CP4I images in the container
         registry. Visit https://myibm.ibm.com/products-services/containerlibrary
         to get the key
-      sensitive: true
+      sensitive: true  
     - name: gitops_repo_host
       type: string
       description: The host for the git repository.
@@ -92,7 +92,7 @@ spec:
       type: string
       description: Token used for authentication
       sensitive: true
-
+    
 
 
 

@@ -31,7 +31,7 @@ spec:
           scope: global
 
     # # APIConnect Operators
-    - name: gitops-cp-apic-opearator
+    - name: gitops-cp-apic-operator
 
 
 
