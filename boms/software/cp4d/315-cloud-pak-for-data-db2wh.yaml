@@ -1,0 +1,42 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 315-cloud-pak-for-data-db2wh
+  labels:
+    type: software
+    code: '315'
+  annotations:
+    displayName: DB2 Warehouse for Cloud Pak for Data
+    description:  GitOps deployment of DB2 Warehouse for Cloud pak for Data
+spec:
+  modules:
+    - name: gitops-namespace
+      alias: gitops-cp-db2wh_namespace
+      variables:
+        - name: name
+          value: gitops-cp-db2wh
+    - name: gitops-cp-db2wh
+      variables:
+        - name: common_services_namespace
+          value: ibm-common-services
+        - name: operator_namespace
+          value: cpd-operators
+        - name: cpd_namespace
+          value: cp4d
+        - name: license
+          value: Enterprise
+        - name: db2_warehouse_channel
+          value: v1.0
+        - name: db2_warehouse_version
+          value: 4.0.2 
+        - name: namespace  
+          value: gitops-cp-db2wh
+        - name: storage_class
+          value: portworx-shared-gp3
+      dependencies:
+        - name: namespace
+          ref: gitops-cp-db2wh_namespace
+        - name: namespace
+          optional: true
+        - name: gitops-db2u
+          optional: true
