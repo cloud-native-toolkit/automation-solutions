@@ -22,7 +22,7 @@ spec:
         - name: create_webhook
           value: true
         - name: prefix
-          value: turbo
+          value: maximo
 
     - name: gitops-namespace
       alias: toolkit_namespace

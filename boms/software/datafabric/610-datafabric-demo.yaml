@@ -1,15 +1,16 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: cp-data-fabric
+  name: 610-datafabric-demo
   labels:
     type: software
-    code: '600'
+    code: '610'
   annotations:
-    displayName: Data Fabric Solution on Cloud pak for Data
-    description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
+    displayName: Data Fabric - Demo Solution
+    description: GitOps deployment of Data Fabric Sample for Cloud pak for Data
 spec:
   modules:
+
     - name: gitops-namespace
       alias: ibm_common_services_namespace
       variables:
@@ -57,6 +58,7 @@ spec:
           scope: global
 
   varables:
+    - name: cp
       value: cp
     - name: region
       value: ap-south-1

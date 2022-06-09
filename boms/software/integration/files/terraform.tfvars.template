@@ -3,6 +3,11 @@
 # Desc: Initial input variables to support gitops deployment of CP4I into the cloud provider of your choice
 ########################################################
 
+## rwo_storage_class: ReadWriteOnce access type Storage Class
+rwo_storage_class=""
+
+## rwx_storage_class: ReadWriteMany access type Storage Class
+rwx_storage_class=""
 
 ## gitops-repo_host: The host for the git repository.
 gitops_repo_host="github.com"
@@ -17,4 +22,4 @@ gitops_repo_org="<your gitorg - most likely your username>"
 gitops_repo_repo="<repo name to create for git ops configuration>"
 
 ## gitops-cluster-config_banner_text: The text that will appear in the top banner in the cluster
-gitops-cluster-config_banner_text="Cloud Pak for Integrationo"
+gitops-cluster-config_banner_text="Cloud Pak for Integration"

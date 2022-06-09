@@ -12,19 +12,10 @@ spec:
   modules:
     - name: gitops-repo
 
-    # Maximo Core
-    - name: gitops-namespace
-      alias: maximo-namespace
-      variables:
-        - name: name
-          value: maximo
+  # Maximo Application Suite - Manage
     - name: gitops-mas-manage
-      dependencies:
-        - name: namespace
-          ref: maximo-namespace
-
-    # Existing DB2 Warehouse - this could be replaced with dB2 Warehouse
-    - name: db2-warehouse-existing
-
-    # JDBC to connect to db2 warehouse instance
-    - name: gitops-terraform-gitops-mas-jdbc
+      variables:
+        - name: instanceid
+          value: mas8
+        - name: workspace_id
+          value: demo

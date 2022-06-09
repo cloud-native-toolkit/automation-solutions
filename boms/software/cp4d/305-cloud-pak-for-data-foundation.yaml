@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 300-cloud-pak-for-data
+  name: 305-cloud-pak-for-data-foundation
   labels:
     type: software
-    code: '600'
+    code: '305'
   annotations:
-    displayName: IBM Cloud Pak for Data
-    description: GitOps deployment of Data Fabric Solution on Cloud pak for Data
+    displayName: Data Foundation
+    description: GitOps deployment of Data Foundation for Cloud pak for Data
 spec:
   modules:
 
@@ -30,26 +30,30 @@ spec:
         - name: name
           value: cp4d
 
-    # Global pull secret for the cluster
-    #- name: gitops-module-global-pullsecret
-
     # CatalogSources ibm-operator-catalog & ibm-db2uoperator-catalog
     - name: gitops-cp-catalogs
       dependencies:
         - name: namespace
           ref: ibm_common_services_namespace
+      variables:
+        - name: entitlement_key
+          scope: global
+
+          #var.gitops-cp-catalogs_entitlement_key make it use global scope
 
     # CP4D platform Foundational Services
-    - name: ibm-common-service
-      dependencies:
-        - name: namespace
-          ref: ibm_common_services_namespace
+#    - name: ibm-common-service
+#      dependencies:
+#        - name: namespace
+#          ref: ibm_common_services_namespace
 
     # CP4D Operator
     - name: gitops-cp4d-operator
       dependencies:
         - name: namespace
           ref: cpd_operators_namespace
+        - name: ibm-common-service
+          optional: true
 
     # CP4D Instance
     - name: cp4d-instance
