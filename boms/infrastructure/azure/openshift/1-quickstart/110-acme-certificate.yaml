@@ -1,0 +1,58 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 110-azure-acme-certificate
+  labels:
+    type: infrastructure
+    platform: azure
+    code: '110'
+  annotations:
+    displayName: Azure Acme Certificate
+    description: Azure Acme Certificate for OpenShift
+spec:
+  modules:
+    - name: azure-acme-certificate
+      alias: apps-certificate
+      variables:
+        - name: region
+          scope: global
+        - name: name_prefix
+          scope: global
+        - name: client_id
+          scope: global
+        - name: client_secret
+          scope: global
+        - name: subscription_id
+          scope: global
+        - name: tenant_id
+          scope: global
+        - name: cluster_name
+          scope: global
+        - name: base_domain_name
+          scope: global
+    - name: azure-acme-certificate
+      alias: api-certificate
+      variables:
+        - name: region
+          scope: global
+        - name: name_prefix
+          scope: global
+        - name: client_id
+          scope: global
+        - name: client_secret
+          scope: global
+        - name: subscription_id
+          scope: global
+        - name: tenant_id
+          scope: global
+        - name: cluster_name
+          scope: global
+        - name: base_domain_name
+          scope: global
+    - name: ocp-ipi-certs
+      alias: api-certs
+      variables:
+        - name: bin_dir
+          scope: global
+        - name: name_prefix
+          scope: config_file_path

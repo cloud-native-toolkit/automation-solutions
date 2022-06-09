@@ -1,17 +1,17 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 210-azure-portworx-storage
+  name: 105-azure-ocp-ipi
   labels:
-    type: software
-    code: '210'
+    type: infrastructure
     platform: azure
+    code: '105'
   annotations:
-    displayName: Azure - Portworx Cluster Storage
-    description: Installs Portworx into an OCP cluster on Azure
+    displayName: Azure OpenShift IPI
+    description: Azure OpenShift Installer Provided Infrastructure
 spec:
   modules:
-    - name: azure-portworx
+    - name: azure-ocp-ipi
       variables:
         - name: region
           scope: global
@@ -24,4 +24,6 @@ spec:
         - name: subscription_id
           scope: global
         - name: tenant_id
+          scope: global
+        - name: pull_secret
           scope: global
