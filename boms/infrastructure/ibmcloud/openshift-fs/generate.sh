@@ -57,5 +57,5 @@ case "$GENERATE_TARGET" in
   ;;
 esac
 
-cp -R ./files/* "${GENERATE_DESTINATION}"
+cp -R -L ./files/* "${GENERATE_DESTINATION}"
 

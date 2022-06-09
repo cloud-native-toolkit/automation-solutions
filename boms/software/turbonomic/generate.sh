@@ -9,4 +9,4 @@ iascable build -i ./250-turbonomic-multicloud.yaml -o ../../../../automation-tur
 echo "Copying Files"
 cp ./files/* ../../../../automation-turbonomic
 echo "Copying Configuration"
-cp -R ./files/configuration ../../../../automation-turbonomic/configuration
+cp -R -L ./files/configuration ../../../../automation-turbonomic/configuration

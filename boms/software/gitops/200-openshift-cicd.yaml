@@ -1,0 +1,13 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 200-openshift-cicd
+  labels:
+    type: software
+    code: '200'
+  annotations:
+    displayName: OpenShift CICD
+    description: Deploys OpenShift GitOps (ArgoCD) and OpenShift Pipelines (Tekton) into an existing cluster
+spec:
+  modules:
+    - name: openshift-cicd

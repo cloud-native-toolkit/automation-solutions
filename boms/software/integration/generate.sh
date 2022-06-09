@@ -17,22 +17,22 @@ fi
 
 mkdir -p $OUTPUT_PATH$SOLUTION
 
-iascable build -i ./200-openshift-gitops.yaml \
-               -i ./210-aws-portworx-storage.yaml \
-               -i ./210-azure-portworx-storage.yaml \
-               -i ./210-ibm-odf-storage.yaml \
-               -i ./210-ibm-portworx-storage.yaml \
-               -i ./215-integration-platform-navigator.yaml \
-               -i ./220-integration-apiconnect.yaml \
-               -i ./230-integration-mq.yaml \
-               -i ./240-integration-ace.yaml \
-               -i ./250-integration-eventstreams.yaml \
-               -i ./260-integration-mq-uniform-cluster.yaml -o $OUTPUT_PATH$SOLUTION
-
+iascable build -i ./200-openshift-gitops.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./210-aws-portworx-storage.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./210-azure-portworx-storage.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./210-ibm-odf-storage.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./210-ibm-portworx-storage.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./215-integration-platform-navigator.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./220-integration-apiconnect.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./230-integration-mq.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./240-integration-ace.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./250-integration-eventstreams.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./260-integration-mq-uniform-cluster.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./280-integration-platform-multicloud.yaml -o $OUTPUT_PATH$SOLUTION
 
 
 echo "Copying Files"
-cp ./files/* $OUTPUT_PATH$SOLUTION
+cp -L ./files/* $OUTPUT_PATH$SOLUTION
 
 echo "Generated Output:"
 ls -la $OUTPUT_PATH$SOLUTION

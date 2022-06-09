@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 220-integration-apiconnect
+  name: 215-integration-platform-navigator
   labels:
     type: software
-    code: '220'
+    code: '215'
   annotations:
-    displayName: Integration Platform - APIConnect Only
-    description: Populates a GitOps repository with AIConnect component of the IBM Integration Platform
+    displayName: Integration Platform - PlatformNavigtor Only
+    description: Populates a GitOps repository with PlatformNavigator component of the IBM Integration Platform
 spec:
   modules:
     # Login to existing OpenShift cluster
