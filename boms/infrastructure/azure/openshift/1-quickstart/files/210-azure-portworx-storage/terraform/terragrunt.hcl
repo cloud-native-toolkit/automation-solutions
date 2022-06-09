@@ -1,20 +1,31 @@
 dependencies {
-    paths = ["../105-azure-ocp-ipi"]
+    paths = ["../105-azure-ocp-ipi","../110-azure-acme-certificate"]
+}
+
+dependency "acme-certs" {
+    config_path = "../110-azure-acme-certificate"
+
+    mock_outputs_allowed_terraform_commands = ["validate","plan"]
+    mock_outputs = {
+        ca_cert = "fake-ca-cert"
+    }
 }
 
 dependency "ocp-ipi" {
     config_path = "../105-azure-ocp-ipi"
 
-    mock_outputs_allowed_terraform_commands = ["validate"]
+    mock_outputs_allowed_terraform_commands = ["validate","plan"]
     mock_outputs = {
-        bin_dir = "fake-bin-dir"
-        config_file_path = "fake/config/file/path"
-        resource_group_name = "fake-rg"
-    }
+        server_url = "https://fake.url.org:6443"
+        username = "fakeuser"
+        password = "fakepassword"
+    }    
 }
 
 inputs = {
-    resource_group_name = dependency.ocp-ipi.outputs.resource_group_name
-    config_file_path = dependency.ocp-ipi.outputs.config_file_path
-    bin_dir = dependency.ocp-ipi.outputs.bin_dir
+    cluster_ca_cert = dependency.acme-certs.ca_cert
+    server_url = dependency.ocp-ipi.server_url
+    cluster_login_user = dependency.ocp-ipi.username
+    cluster_login_password = dependency.ocp-ipi.password
+    azure-portworx_cluster_type = "IPI"
 }
