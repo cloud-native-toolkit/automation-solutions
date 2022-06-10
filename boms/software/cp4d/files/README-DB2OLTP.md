@@ -370,7 +370,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 33. Change directories to the `310-cloud-pak-for-data-db2uoperator` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
-    cd ../300-cloud-pak-for-data-db2uoperator
+    cd ../310-cloud-pak-for-data-db2uoperator
     terraform init
     terraform apply --auto-approve
     ```
@@ -380,7 +380,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 33. Change directories to the `315-cloud-pak-for-data-db2oltp` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
-    cd ../300-cloud-pak-for-data-db2oltp
+    cd ../315-cloud-pak-for-data-db2oltp
     terraform init
     terraform apply --auto-approve
     ```
@@ -391,14 +391,16 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     > This step will create the database on the cluster using CP4D Console
 
-### -- Create a database instance
+### Create a database instance
+
+ You can manually create the database for DB2OLTP by following the instructions 
 
 https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=db2-creating-database-deployment
 
 This will create a database using many of the default values. You can adjust through the process for any resources you wish to change to support your requirements.
 
 - Login to cpd console
-- From the hamburget menu
+- From the hamburger menu
 - Data->Databases
 - Create a database
 - Select a database type
