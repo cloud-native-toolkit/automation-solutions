@@ -405,7 +405,9 @@ Here is the procedure.
 
 Log in to Openshift environment and go to your CP4D project.
 
-$ oc login -u apikey -p XXXXXXXX --server=https://c100-e.eu-de.containers.cloud.ibm.com:NNNN Login successful. You have access to 69 projects, the list has been suppressed. You can list all projects with 'oc projects' Using project "cp4d". $ oc project cp4d Already on project "cp4d" on server "https://c100-e.eu-de.containers.cloud.ibm.com:NNNNN"
+    ```
+    $ oc login -u apikey -p XXXXXXXX --server=https://c100-e.eu-de.containers.cloud.ibm.com:NNNN Login successful. You have access to 69 projects, the list has been suppressed. You can list all projects with 'oc projects' Using project "cp4d". $ oc project cp4d Already on project "cp4d" on server "https://c100-e.eu-de.containers.cloud.ibm.com:NNNNN"
+    ```
 
 Find the pods for your database. In the Databases > Details page, find the Deployment id.
 
@@ -421,15 +423,21 @@ Some explanations. - metadata.name : use the name you want. I personaly use
 
 Once your file configured and saved as lb-db2.yaml, let's use it.
 
-$ oc create -f db2-lb.yaml service/lb-db2-2 created $ oc get svc lb-db2-2 NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE lb-db2-2 LoadBalancer 172.21.100.200 <pending> 51000:32149/TCP,51001:32514/TCP 17s
+    ```
+    $ oc create -f db2-lb.yaml service/lb-db2-2 created $ oc get svc lb-db2-2 NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE lb-db2-2 LoadBalancer 172.21.100.200 <pending> 51000:32149/TCP,51001:32514/TCP 17s
+    ```
 
 This command will trigger the creation of a Load Balancer in VPC.Once the load balancer is created, you get all information in the command line.
 
-$ oc get svc lb-db2-2 NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE lb-db2-2 LoadBalancer 172.21.100.200 fbec480d-eu-de.lb.appdomain.cloud 51000:32149/TCP,51001:32514/TCP 21m
+    ```
+    $ oc get svc lb-db2-2 NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE lb-db2-2 LoadBalancer 172.21.100.200 fbec480d-eu-de.lb.appdomain.cloud 51000:32149/TCP,51001:32514/TCP 21m
+    ```
 
 With this command you get the domain name to connect to your database. In our case fbec480d-eu-de.lb.appdomain.cloud and you can test it.
 
-$ nc -zv fbec480d-eu-de.lb.appdomain.cloud 51000 Connection to fbec480d-eu-de.lb.appdomain.cloud (158.177.15.62) 51000 port [tcp/*] succeeded! $ nc -zv fbec480d-eu-de.lb.appdomain.cloud 51001 Connection to fbec480d-eu-de.lb.appdomain.cloud (158.177.15.62) 51001 port [tcp/*] succeeded!
+    ```
+    $ nc -zv fbec480d-eu-de.lb.appdomain.cloud 51000 Connection to fbec480d-eu-de.lb.appdomain.cloud (158.177.15.62) 51000 port [tcp/*] succeeded! $ nc -zv fbec480d-eu-de.lb.appdomain.cloud 51001 Connection to fbec480d-eu-de.lb.appdomain.cloud (158.177.15.62) 51001 port [tcp/*] succeeded!
+    ```
 
 This is the best solution for now and I am still trying to find an easier solution since this one needs to be done for each database created that need an external access.
 Connexion from a IDE
