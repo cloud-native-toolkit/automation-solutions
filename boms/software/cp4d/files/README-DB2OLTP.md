@@ -398,7 +398,8 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 This will create a database using many of the default values. You can adjust through the process for any resources you wish to change to support your requirements.
 
 Login to cpd console based on step #30
-   ```
+```
+   
     - From the hamburger menu
     - Data->Databases
       - Create a database
@@ -425,8 +426,7 @@ Login to cpd console based on step #30
     - Temporary table spaces storage
       - Storage Class : ocs-storagecluster-ceph-rbd
     - Finalize
-    ```
-  
+```  
 
 Database for DB2WH will be created.
 
