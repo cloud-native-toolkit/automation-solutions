@@ -428,7 +428,7 @@ Login to cpd console based on step #30
     - Finalize
 ```  
 
-Database for DB2WH will be created.
+Database for DB2OLTP will be created.
 
 ### Exposing DB2OLTP Connection on ROKS VPC Gen2 via Load Balancer
 
