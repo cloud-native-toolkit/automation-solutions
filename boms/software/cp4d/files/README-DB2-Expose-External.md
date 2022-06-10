@@ -22,8 +22,11 @@ You can use this instructions to expose *connections information for the DB2OLTP
 
 2. Find the pods for your database. In the Databases > Details page, find the Deployment id.
 
+ #### DB2 OLTP Deployment ID
+
  ![DB2 OLTP Deployment ID](images/db2oltp-id.jpg)
 
+ #### DB2 Warehouse Deployment ID
 
  ![DB2 WH Deployment ID](images/db2wh-id.jpg)
 
