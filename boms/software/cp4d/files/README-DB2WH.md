@@ -394,9 +394,11 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     > This step will create the database on the cluster using CP4D Console
 
-### Exposing DB2OLTP Connection on ROKS VPC Gen2 via Load Balancer
+### Exposing DB2WH Connection on ROKS VPC Gen2 via Load Balancer
 
-36. If you have installed DB2OLTP on IBM Cloud VPC Gen2, follow the  [instructions](README-DB2-Expose-External.md)
+36. If you have installed DB2WH on IBM Cloud VPC Gen2, follow the  [instructions](README-DB2-Expose-External.md)
+    
+      > This step will expose DB2WH connection info on the cluster to external application access
 
 ## Summary
 
