@@ -395,7 +395,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     > This step will create the database on the cluster using CP4D Console
 
-### Connecting DB2OLTP on ROKS VPC Gen2 
+### Exposing DB2OLTP Connection on ROKS VPC Gen2 via Load Balancer
 
 - A specificity from ROKS VPC Gen2 in IBM Cloud is the security level. The node servers don't have an external IP address and cannot be accessed externally.
 
@@ -459,26 +459,33 @@ I personaly use lb- followed by the name of my database - ports : ports name ar
 
 4. Once your file configured and saved as *lb-db2.yaml*, let's use it.
 
-    
+    ```
     $ oc create -f db2-lb.yaml service/lb-db2-2 created 
+    ```
     
+    ```
     $ oc get svc lb-db2-2 NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE lb-db2-2 LoadBalancer 172.21.100.200 <pending> 51000:32149/TCP,51001:32514/TCP 17s
+    ```
     
 
 This command will trigger the creation of a Load Balancer in VPC.
 
 5. Once the load balancer is created, you get all information in the command line.
 
-    
+    ```
     $ oc get svc lb-db2-2 NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE lb-db2-2 LoadBalancer 172.21.100.200 fbec480d-eu-de.lb.appdomain.cloud 51000:32149/TCP,51001:32514/TCP 21m
+    ```
     
 
 6. With this command you get the domain name to connect to your database. In our case *fbec480d-eu-de.lb.appdomain.cloud* and you can test it.
 
-    
+    ```
     $ nc -zv fbec480d-eu-de.lb.appdomain.cloud 51000 Connection to fbec480d-eu-de.lb.appdomain.cloud (158.177.15.62) 51000 port [tcp/*] succeeded!
+    ```
     
+    ```
     $ nc -zv fbec480d-eu-de.lb.appdomain.cloud 51001 Connection to fbec480d-eu-de.lb.appdomain.cloud (158.177.15.62) 51001 port [tcp/*] succeeded!
+    ```
     
 7. You have successfully configured db2 oltp with load balancer which can be accessed externally by any DB2 Client too.
 
