@@ -398,34 +398,43 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 This will create a database using many of the default values. You can adjust through the process for any resources you wish to change to support your requirements.
 
 Login to cpd console based on step #30
-```
-   
-    - From the hamburger menu
+```   
+- From the hamburger menu
     - Data->Databases
       - Create a database
       - Select a database type
-    - Next
+      - Click Next
     - Configure
       - Provide a database name
-    - Next
+      - Click Next
     - Advance Configuration
       - Page size: 16384
-    - Next
+      - Click Next
     - System storage    
-      - Storage Class : ocs-storagecluster-cephfs
-    - Next
+      - Storage Class : portworx-db2-rwx-sc
+      - Size : 100 GB
+      - Access Mode: ReadWriteMany
+      - Click Next
     - User storage
-      - Storage Class : ocs-storagecluster-ceph-rbd
-    - Next
+      - Storage Class : portworx-db2-rwo-sc (RWO with 4K block size)
+      - Size : 100 GB
+      - Access Mode: ReadWriteOnce
+      - Click Next
     - Backup storage
-      - Storage Class : ocs-storagecluster-cephfs
-    - Next
+      - Storage Class : portworx-db2-rwx-sc
+      - Size : 100 GB
+      - Access Mode: ReadWriteMany
+      - Click Next
     - Transaction logs storage
-      - Storage Class : ocs-storagecluster-ceph-rbd
-    - Next
+      - Storage Class : portworx-db2-rwo-sc (RWO with 4K block size)
+      - Size : 100 GB
+      - Access Mode: ReadWriteOnce
+      - Click Next
     - Temporary table spaces storage
-      - Storage Class : ocs-storagecluster-ceph-rbd
-    - Finalize
+      - Storage Class : portworx-db2-rwo-sc (RWO with 4K block size)
+      - Size : 100 GB
+      - Access Mode: ReadWriteOnce
+      - Click Finalize
 ```  
 
 Database for DB2OLTP will be created.
