@@ -389,8 +389,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
     > This step will install DB2OLTP Operator and instance into cluster. You can login to CP4D Console (Refer Step 30) and verify the service instance. 
 
-### Create DB2OLTP database instance
-
+### Create DB2OLTP database instance via Manually (⚠️⚠️ Automation Coming soon in CPD 4.5 release)
 35. You can manually create the database for DB2OLTP by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=db2-creating-database-deployment
 
     > This step will create the database on the cluster using CP4D Console
