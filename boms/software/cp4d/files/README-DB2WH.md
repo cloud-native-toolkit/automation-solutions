@@ -376,7 +376,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
     > This step will install DB2U Operator which is Pre-Req for DB2 WH Operator.
 
-33. Change directories to the `315-cloud-pak-for-data-db2wh` folder and run the following commands to deploy entitlements into your cluster:
+34. Change directories to the `315-cloud-pak-for-data-db2wh` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
     cd ../315-cloud-pak-for-data-db2wh
@@ -386,7 +386,9 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
     > This step will install DB2WH Operator and instance into cluster. You can login to CP4D Console (Refer Step 30) and verify the service instance. 
 
-34. You can manually create the database for DB2WH by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=warehouse-creating-database-deployment
+### Create DB2WH database instance
+
+35. You can manually create the database for DB2WH by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=warehouse-creating-database-deployment
 
     > This step will create the database on the cluster using CP4D Console
 

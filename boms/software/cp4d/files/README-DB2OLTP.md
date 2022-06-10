@@ -6,11 +6,11 @@
 
 > This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Bala Sivasubramanian** _bala_@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
-The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2OLTP, DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric. 
+The automation will support the installation of Data Foundation with DB2OLTP on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2OLTP, DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric. 
 
 ### Target Infrastructure
 
-The Cloud Pak for Data - Foundation automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
+The Cloud Pak for Data Foundation with DB2OLTP automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
 Before you start to install and configure Cloud Pak for Data, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
 
@@ -58,7 +58,7 @@ The following reference architecture represents the logical view of how Data Fou
 ![Reference Architecture](images/cp4d-diagram.jpg)
 
 
-## Deploying Data Foundation
+## Deploying Data Foundation with DB2OLTP
 
 
 The following instructions will help you install Cloud Pak Foundation with DB2OLTP into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
@@ -78,7 +78,7 @@ After you purchase Cloud Pak for Data, an entitlement API key for the software i
 
 
 
-### Data Foundation Layered Installation
+### Data Foundation with DB2OLTP Layered Installation
 
 The Data Foundation automation is broken into what we call layers of automation or bundles. The bundles enable SRE activities to be optimized. The automation is generic between clouds other than configuration storage options, which are platform specific. 
 
@@ -366,7 +366,9 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 31. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret. 
 
 32. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
-    
+
+### Installing DB2OLTP with pre-req DB2U Operator
+
 33. Change directories to the `310-cloud-pak-for-data-db2uoperator` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
@@ -387,48 +389,11 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
     > This step will install DB2OLTP Operator and instance into cluster. You can login to CP4D Console (Refer Step 30) and verify the service instance. 
 
+### Create DB2OLTP database instance
+
 35. You can manually create the database for DB2OLTP by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=db2-creating-database-deployment
 
     > This step will create the database on the cluster using CP4D Console
-
-### Create a database instance
-
- You can manually create the database for DB2OLTP by following the instructions 
-
-https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=db2-creating-database-deployment
-
-This will create a database using many of the default values. You can adjust through the process for any resources you wish to change to support your requirements.
-
-- Login to cpd console
-- From the hamburger menu
-- Data->Databases
-- Create a database
-- Select a database type
-- Next
-- Configure
-  - Provide a database name
-- Next
-- Advance Configuratin
-  - Page size: 16384
-- Next
-- System storage
-  - ocs-storagecluster-cephfs
-- Next
-- User storage
-  - ocs-storagecluster-ceph-rbd
-- Next
-- Backup storage
-  - ocs-storagecluster-cephfs
-- Next
-- Transaction logs storage
-  - ocs-storagecluster-ceph-rbd
-- Next
-- Temporary table spaces storage
-  - ocs-storagecluster-ceph-rbd
-- Next
-
-The database instance will create.
-Database access is the cpd user and password
 
 ## Summary
 
