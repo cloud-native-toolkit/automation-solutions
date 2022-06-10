@@ -24,6 +24,9 @@ You can use this instructions to expose *connections information for the DB2OLTP
 
  ![DB2 OLTP Deployment ID](images/db2oltp-id.jpg)
 
+
+ ![DB2 WH Deployment ID](images/db2wh-id.jpg)
+
 Note down the deployment id as it it will used all along the procedure. In this case **db2oltp-1638208426839597**
 
 3. Because a VPC in IBM Cloud is oriented toward security, workers nodes are not visible from outside of its LAN. We cannot use a regular NodePort service. Let's use a LoadBalancer service in this case.

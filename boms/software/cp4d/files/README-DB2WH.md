@@ -386,7 +386,9 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     terraform apply --auto-approve
     ```
     
-    > This step will install DB2WH Operator and instance into cluster. You can login to CP4D Console (Refer Step 30) and verify the service instance. 
+    > This step will install DB2WH Operator and service into cluster. You can login to CP4D Console (Refer Step 30) and verify the service instance. 
+  
+  ![DB2WH Service Instance ](images/db2wh-service.jpg)
 
 ### Create DB2WH database instance
 
@@ -402,6 +404,47 @@ Sometimes it can be helpful to setup internet access to the DB2 Warehouse pod(s)
     
       > The instructions shows how to setup an external route and connect to DB2 from a database client on your laptop.
 
+- Login to cpd console
+- From the hamburger menu
+- Data->Databases
+  - Create a database
+  - Select a database type
+- Next
+- Configure
+  - Provide a database name 
+  - Number of nodes
+  - CPU per node
+  - Memory per node
+- Next
+- Advance Configuratin
+  - Multiple logic nodes
+  - Workload : Analytics
+- Next
+- System storage    
+  - Storage Template : portworx-shared-gp3
+  - Size : 100 GB
+- Next
+- User storage
+  - Storage Template : portworx-shared-gp3
+  - Size :100 GB
+  - Access Mode : ReadWriteOnce
+- Next
+- Backup storage
+  - Create new Storage 
+  - Use storage template
+  - Storage Class : portworx-shared-gp3
+  - Size : 100 GB
+- Next
+- Transaction logs storage
+  - Use storage template
+  - Storage Class : portworx-shared-gp3
+  - Size : 100 GB
+- Next
+- Temporary table spaces storage
+  - Use storage template
+  - Storage Class : portworx-shared-gp3
+  - Size : 100 GB
+- Next
 
 ## Summary
 
