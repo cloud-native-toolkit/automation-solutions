@@ -1,4 +1,4 @@
-# Cloud Pak for Data - DB2OLTP Automation for AWS, Azure, and IBM Cloud
+# Cloud Pak for Data Foundation with DB2OLTP Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
 
@@ -432,7 +432,7 @@ Database access is the cpd user and password
 
 ## Summary
 
-This concludes the instructions for installing *Data Foundation* on AWS, Azure, and IBM Cloud.
+This concludes the instructions for installing *CP4D Data foundation with DB2OLTP* on AWS, Azure, and IBM Cloud.
 
 Now that the Data Foundation deployment is complete you can deploy [Cloud Pak for Data services](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=integrations-services) into this cluster.
 

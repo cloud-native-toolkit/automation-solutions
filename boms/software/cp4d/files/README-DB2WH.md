@@ -1,4 +1,4 @@
-# Cloud Pak for Data - DB2WH Automation for AWS, Azure, and IBM Cloud
+# Cloud Pak for Data foundation with DB2WH Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
 
@@ -393,7 +393,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 ## Summary
 
-This concludes the instructions for installing *Data Foundation* on AWS, Azure, and IBM Cloud.
+This concludes the instructions for installing *Cloud Pak Data Foundation with DB2WH* on AWS, Azure, and IBM Cloud.
 
 Now that the Data Foundation deployment is complete you can deploy [Cloud Pak for Data services](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=integrations-services) into this cluster.
 
