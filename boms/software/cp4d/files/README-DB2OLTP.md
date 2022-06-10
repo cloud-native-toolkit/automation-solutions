@@ -397,35 +397,37 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 This will create a database using many of the default values. You can adjust through the process for any resources you wish to change to support your requirements.
 
-Login to cpd console based on step 30
+Login to cpd console based on step #30
+   ```
     - From the hamburger menu
     - Data->Databases
-    - Create a database
-    - Select a database type
+      - Create a database
+      - Select a database type
     - Next
     - Configure
       - Provide a database name
     - Next
-    - Advance Configuratin
+    - Advance Configuration
       - Page size: 16384
     - Next
     - System storage    
-      - ocs-storagecluster-cephfs
+      - Storage Class : ocs-storagecluster-cephfs
     - Next
     - User storage
-      - ocs-storagecluster-ceph-rbd
+      - Storage Class : ocs-storagecluster-ceph-rbd
     - Next
     - Backup storage
-      - ocs-storagecluster-cephfs
+      - Storage Class : ocs-storagecluster-cephfs
     - Next
     - Transaction logs storage
-      - ocs-storagecluster-ceph-rbd
+      - Storage Class : ocs-storagecluster-ceph-rbd
     - Next
     - Temporary table spaces storage
-      - ocs-storagecluster-ceph-rbd
-    - Next
-      
-The database instance will create. 
+      - Storage Class : ocs-storagecluster-ceph-rbd
+    - Finalize
+    ```     
+
+Database for DB2WH will be created.
 
 ### Exposing DB2OLTP Connection on ROKS VPC Gen2 via Load Balancer
 
