@@ -396,7 +396,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 ### Exposing DB2OLTP Connection on ROKS VPC Gen2 via Load Balancer
 
-If you have installed DB2OLTP on IBM Cloud VPC Gen2, follow the  [instructions](README-DB2-Expose-External.md)
+36. If you have installed DB2OLTP on IBM Cloud VPC Gen2, follow the  [instructions](README-DB2-Expose-External.md)
 
 ## Summary
 
