@@ -1,4 +1,4 @@
-# Cloud Pak for Data - Foundation Automation for AWS, Azure, and IBM Cloud
+# Cloud Pak for Data - DB2OLTP Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
 
@@ -88,7 +88,8 @@ The Data Foundation automation is broken into what we call layers of automation 
 | 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) <br> [210 - IBM OpenShift Data Foundation](./210-ibm-odf-storage)  <br>  [210 - AWS Portworx Storage](./210-aws-portworx-storage)  <br>  [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  <br> _⚠️Portworks on AWS and Azure are currently not released, but are coming soon.⚠️_ | 10 Mins  |
 | 300    | [300 - Cloud Pak for Data Entitlement](./300-cloud-pak-for-data-entitlement)                                                                                                                                                                                   | Update the OpenShift Cluster with your entitlement key                                                                                                     | 5 Mins   |
 | 305    | [300 - Cloud Pak for Data Foundation](./305-cloud-pak-for-data-foundation)                                                                                                                                                                                     | Deploy the Cloud Pak for Data Foundation components                                                                                                        | 30 Mins  |
-| 310 | [310 - DB2 Warehouse](./310-cloud-pak-for-data-db2wh) | _(Optional)_ Install DB2 Warehouse service into the cluster | 15 Mins |                                                                    
+| 310 | [310 - DB2U Operator](./310-cloud-pak-for-data-db2uoperator) | _(Optional)_ Install DB2U Operator into the cluster | 15 Mins |                                                                    
+| 320 | [320 - DB2 OLTP](./320-cloud-pak-for-data-db2oltp) | _(Optional)_ Install DB2 Warehouse service into the cluster | 15 Mins |                                                                
 
 
 
