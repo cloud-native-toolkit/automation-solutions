@@ -1,4 +1,6 @@
-# Exposing DB2 Connection on ROKS VPC Gen2 via Load Balancer
+# Exposing DB2 Connection on ROKS VPC Gen2 via Load Balancer (Only IBM Cloud)
+
+You can use this instructions to expose connections information for the DB2OLTP or DB2WH running on IBM Cloud VPC Gen2.
 
 - A specificity from ROKS VPC Gen2 in IBM Cloud is the security level. The node servers don't have an external IP address and cannot be accessed externally.
 
@@ -110,22 +112,8 @@ If you need more details on the load balancer, you can find it in the VPC load b
 
 ## Summary
 
-This concludes the instructions for installing *CP4D Data foundation with DB2OLTP* on AWS, Azure, and IBM Cloud.
-
-Now that the Data Foundation deployment is complete you can deploy [Cloud Pak for Data services](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=integrations-services) into this cluster.
+This concludes the instructions for exposing the DB2OLTP or DB2WH to external on IBM Cloud.
 
 
-## Uninstalling & Troubleshooting
-
-Please refer to the [Troubleshooting Guide](./TROUBLESHOOTING.md) for uninstallation instructions and instructions to correct common issues.
-
-If you continue to experience issues with this automation, please [file an issue](https://github.com/IBM/automation-data-foundation/issues) or reach out on our [public Dischord server](https://discord.com/channels/955514069815808010/955514069815808013).
 
 
-## How to Generate this repository from teh source Bill of Materials.
-
-
-This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/cp4d) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.
-
-
-> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.

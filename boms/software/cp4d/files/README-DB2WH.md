@@ -394,6 +394,9 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     > This step will create the database on the cluster using CP4D Console
 
+### Exposing DB2OLTP Connection on ROKS VPC Gen2 via Load Balancer
+
+- Refer the [instructions](README-DB2-Expose-External.md)
 
 ## Summary
 
