@@ -405,12 +405,14 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 1. Log in to Openshift environment and go to your CP4D project.
 
-    
+    ```
     $ oc login -u apikey -p XXXXXXXX --server=https://c100-e.eu-de.containers.cloud.ibm.com:NNNN Login successful. You have access to 69 projects, the list has been suppressed. 
+    ```
     
     You can list all projects with 'oc projects' Using project "cp4d".
-
+    ```
     $ oc project cp4d Already on project "cp4d" on server "https://c100-e.eu-de.containers.cloud.ibm.com:NNNNN"
+    ```
     
 
 2. Find the pods for your database. In the Databases > Details page, find the Deployment id.
