@@ -1,5 +1,9 @@
 # Exposing DB2OLTP/DB2WH Connection on ROKS VPC Gen2 via Load Balancer for external access (Only IBM Cloud)
 
+### Change Log
+
+- **06/2022** - Initial Release
+
 You can use this instructions to expose *connections information for the DB2OLTP or DB2WH* running on IBM Cloud VPC Gen2.
 
 - A specificity from ROKS VPC Gen2 in IBM Cloud is the security level. The node servers don't have an external IP address and cannot be accessed externally.
