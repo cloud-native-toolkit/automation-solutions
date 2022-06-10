@@ -4,9 +4,9 @@
 
 - **05/2022** - Initial Release
 
-> This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
+> This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Bala Sivasubramanian** _bala_@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
-The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric. 
+The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2OLTP, DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric. 
 
 ### Target Infrastructure
 
@@ -61,7 +61,7 @@ The following reference architecture represents the logical view of how Data Fou
 ## Deploying Data Foundation
 
 
-The following instructions will help you install Maximo Core into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
+The following instructions will help you install Cloud Pak Foundation with DB2OLTP into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
 
 
 ### Licenses and Entitlements
@@ -320,7 +320,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     Apply complete! Resources: 78 added, 0 changed, 0 destroyed.
     ```
 
-24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Maximo Core install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
+24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Cloud Pak for data foundation with DB2OLTP  install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
 
 25. Change directories to the `210-*` folder and run the following commands to deploy storage into your cluster:
@@ -377,7 +377,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
     > This step will install DB2U Operator which is Pre-Req for DB2 WH Operator.
 
-33. Change directories to the `315-cloud-pak-for-data-db2oltp` folder and run the following commands to deploy entitlements into your cluster:
+34. Change directories to the `315-cloud-pak-for-data-db2oltp` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
     cd ../315-cloud-pak-for-data-db2oltp
@@ -387,7 +387,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
     > This step will install DB2OLTP Operator and instance into cluster. You can login to CP4D Console (Refer Step 30) and verify the service instance. 
 
-34. You can manually create the database for DB2OLTP by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=db2-creating-database-deployment
+35. You can manually create the database for DB2OLTP by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=db2-creating-database-deployment
 
     > This step will create the database on the cluster using CP4D Console
 
