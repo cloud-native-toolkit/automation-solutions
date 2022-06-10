@@ -390,7 +390,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
   
   ![DB2WH Service Instance ](images/db2wh-service.jpg)
 
-### Create DB2WH database instance
+### Create DB2WH database instance via Manually (⚠️⚠️ Automation coming soon in CPD 4.5 release)
 
 35. You can manually create the database for DB2WH by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=warehouse-creating-database-deployment
 
@@ -399,49 +399,56 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 Login to cpd console based on Step #30
 
   ```
-  - From the hamburger menu
+- From the hamburger menu
   - Data->Databases
     - Create a database
     - Select a database type
-  - Next
+    - Click Next
+
   - Configure
     - Provide a database name 
     - Number of nodes
     - CPU per node
     - Memory per node
-  - Next
+    - Click Next
+
   - Advance Configuratin
     - Multiple logic nodes
     - Workload : Analytics
-  - Next
+    - Click Next
+
   - System storage    
     - Storage Template : portworx-db2-rwx-sc
     - Size : 100 GB
-  - Next
+    - Click Next
+
   - User storage
     - Storage Template : portworx-db2-rwx-sc (RWO with 4K block size)
     - Size :100 GB
     - Access Mode : ReadWriteOnce
-  - Next
+    - Click Next
+
   - Backup storage
     - Create new Storage 
     - Use storage template
     - Storage Class : portworx-db2-rwx-sc
     - Size : 100 GB
-  - Next
+    - Click Next
+
   - Transaction logs storage
     - Use storage template
     - Storage Class : portworx-db2-rwx-sc (RWO with 4K block size)
     - Size : 100 GB
-  - Next
+   - Click Next
+
   - Temporary table spaces storage
     - Use storage template
     - Storage Class : portworx-db2-rwx-sc (RWO with 4K block size)
     - Size : 100 GB
-  - Finalize
+    - Click Finalize
   ```
 
-Database for DB2WH will be created.
+As a result, Database for DB2WH will be created.
 
 ### Exposing DB2WH Connection on ROKS VPC Gen2 via Load Balancer
 
