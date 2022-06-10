@@ -1,4 +1,4 @@
-# Exposing DB2OLTP Connection on ROKS VPC Gen2 via Load Balancer
+# Exposing DB2 Connection on ROKS VPC Gen2 via Load Balancer
 
 - A specificity from ROKS VPC Gen2 in IBM Cloud is the security level. The node servers don't have an external IP address and cannot be accessed externally.
 
