@@ -425,7 +425,7 @@ Login to cpd console based on step #30
     - Temporary table spaces storage
       - Storage Class : ocs-storagecluster-ceph-rbd
     - Finalize
-    ```     
+  
 
 Database for DB2WH will be created.
 
