@@ -401,9 +401,9 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 - Once you have installed Db2 in CP4D, the usual way to vie the database externally is by using NodePort access. In our case this is not working since the node cannot be viewed externally. The solution is to use a Load Balancer that needs to be added.
 
-Here is the procedure.
+*Here is the procedure* 
 
-Log in to Openshift environment and go to your CP4D project.
+1. Log in to Openshift environment and go to your CP4D project.
 
     
     $ oc login -u apikey -p XXXXXXXX --server=https://c100-e.eu-de.containers.cloud.ibm.com:NNNN Login successful. You have access to 69 projects, the list has been suppressed. 
@@ -413,13 +413,13 @@ Log in to Openshift environment and go to your CP4D project.
     $ oc project cp4d Already on project "cp4d" on server "https://c100-e.eu-de.containers.cloud.ibm.com:NNNNN"
     
 
-Find the pods for your database. In the Databases > Details page, find the Deployment id.
+2. Find the pods for your database. In the Databases > Details page, find the Deployment id.
 
  ![DB2 OLTP Deployment ID](images/db2oltp-id.jpg)
 
 Note down the deployment id as it it will used all along the procedure. In this case **db2oltp-1638208426839597**
 
-Because a VPC in IBM Cloud is oriented toward security, workers nodes are not visible from outside of its LAN. We cannot use a regular NodePort service. Let's use a LoadBalancer service in this case.
+3. Because a VPC in IBM Cloud is oriented toward security, workers nodes are not visible from outside of its LAN. We cannot use a regular NodePort service. Let's use a LoadBalancer service in this case.
 
 Here is the example file
 
@@ -455,7 +455,7 @@ I personaly use lb- followed by the name of my database - ports : ports name ar
 
 - The external port 51000 forwards to the non SSL 50000 database port. the external port 51001 forwards to the SSL 50001 database port. - selector: *app* and *formation_id* point to the deployment id we noted down earlier.
 
-Once your file configured and saved as *lb-db2.yaml*, let's use it.
+4. Once your file configured and saved as *lb-db2.yaml*, let's use it.
 
     
     $ oc create -f db2-lb.yaml service/lb-db2-2 created 
@@ -465,24 +465,24 @@ Once your file configured and saved as *lb-db2.yaml*, let's use it.
 
 This command will trigger the creation of a Load Balancer in VPC.
 
-Once the load balancer is created, you get all information in the command line.
+5. Once the load balancer is created, you get all information in the command line.
 
     
     $ oc get svc lb-db2-2 NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE lb-db2-2 LoadBalancer 172.21.100.200 fbec480d-eu-de.lb.appdomain.cloud 51000:32149/TCP,51001:32514/TCP 21m
     
 
-With this command you get the domain name to connect to your database. In our case *fbec480d-eu-de.lb.appdomain.cloud* and you can test it.
+6. With this command you get the domain name to connect to your database. In our case *fbec480d-eu-de.lb.appdomain.cloud* and you can test it.
 
     
     $ nc -zv fbec480d-eu-de.lb.appdomain.cloud 51000 Connection to fbec480d-eu-de.lb.appdomain.cloud (158.177.15.62) 51000 port [tcp/*] succeeded!
     
     $ nc -zv fbec480d-eu-de.lb.appdomain.cloud 51001 Connection to fbec480d-eu-de.lb.appdomain.cloud (158.177.15.62) 51001 port [tcp/*] succeeded!
     
-You have successfully configured db2 oltp with load balancer which can be accessed externally.
+7. You have successfully configured db2 oltp with load balancer which can be accessed externally by any DB2 Client too.
 
 #### DBeaver External Connection 
 
-Example of connecting from external tool DBeaver
+Here is the example of connecting db2 oltp with the DBeaver DB2Client but you can use any db2client.
 
  ![DBeaver Connection Info](images/dbeaver1.jpg)
 
