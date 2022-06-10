@@ -404,32 +404,39 @@ Login to cpd console based on step #30
       - Create a database
       - Select a database type
       - Click Next
+
     - Configure
       - Provide a database name
       - Click Next
+
     - Advance Configuration
       - Page size: 16384
       - Click Next
+
     - System storage    
       - Storage Class : portworx-db2-rwx-sc
       - Size : 100 GB
       - Access Mode: ReadWriteMany
       - Click Next
+      
     - User storage
       - Storage Class : portworx-db2-rwo-sc (RWO with 4K block size)
       - Size : 100 GB
       - Access Mode: ReadWriteOnce
       - Click Next
+
     - Backup storage
       - Storage Class : portworx-db2-rwx-sc
       - Size : 100 GB
       - Access Mode: ReadWriteMany
       - Click Next
+
     - Transaction logs storage
       - Storage Class : portworx-db2-rwo-sc (RWO with 4K block size)
       - Size : 100 GB
       - Access Mode: ReadWriteOnce
       - Click Next
+      
     - Temporary table spaces storage
       - Storage Class : portworx-db2-rwo-sc (RWO with 4K block size)
       - Size : 100 GB
