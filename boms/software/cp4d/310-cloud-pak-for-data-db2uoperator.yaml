@@ -18,7 +18,7 @@ spec:
         - name: operator_namespace
           value: cpd-operators
         - name: channel
-          value: v1.0
+          value: v1.1
         - name: subscription_source_namespace
           value: openshift-marketplace
     - name: gitops-db2u
