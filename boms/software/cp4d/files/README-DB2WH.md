@@ -371,7 +371,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 33. Change directories to the `310-cloud-pak-for-data-db2uoperator` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
-    cd ../300-cloud-pak-for-data-db2uoperator
+    cd ../310-cloud-pak-for-data-db2uoperator
     terraform init
     terraform apply --auto-approve
     ```
