@@ -59,10 +59,10 @@ Steps
 
 To add these privileges, run the following command on the OpenShift® cluster:
 
-    ```
+    
     oc adm policy add-cluster-role-to-user system:controller:persistent-volume-binder system:serviceaccount:${NAMESPACE}:zen-databases-sa
 
-    ```
+    
 
  ${Namespace} refers where you have created the DB2OLTP instances
 

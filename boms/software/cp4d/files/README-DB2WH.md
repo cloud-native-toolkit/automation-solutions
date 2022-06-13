@@ -53,12 +53,20 @@ The installation process will use a standard GitOps repository that has been bui
   ![DB2WH Service Instance ](images/db2wh-service.jpg)
 
 ### Create DB2WH database instance via Manually (⚠️⚠️ Automation coming soon in CPD 4.5 release)
+3. You must grant additional privileges to enable the web console to validate the CPU and memory values that you select for your deployment.
 
-3. You can manually create the database for DB2WH by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=warehouse-creating-database-deployment
+To add these privileges, run the following command on the OpenShift® cluster:
 
-    > This step will create the database on the cluster using CP4D Console
+    
+    oc adm policy add-cluster-role-to-user system:controller:persistent-volume-binder system:serviceaccount:${NAMESPACE}:zen-databases-sa
 
-4. You can manually create the database for DB2WH by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=db2-creating-database-deployment
+    
+
+ ${Namespace} refers where you have created the DB2OLTP instances
+
+After you run the command, the console is able to validate your selections by checking the available number of nodes on the cluster, whether the nodes are properly labeled and tainted, and the amount of available CPU and memory.
+
+4. You can manually create the database for DB2WH by following the instructions https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=warehouse-creating-database-deployment
 
     > This step will create the database on the cluster using CP4D Console
 
