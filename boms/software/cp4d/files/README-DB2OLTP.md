@@ -377,12 +377,12 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     terraform apply --auto-approve
     ```
     
-    > This step will install DB2U Operator which is Pre-Req for DB2 WH Operator.
+    > This step will install DB2U Operator which is Pre-Req for DB2 OLTP Operator.
 
-34. Change directories to the `315-cloud-pak-for-data-db2oltp` folder and run the following commands to deploy entitlements into your cluster:
+34. Change directories to the `320-cloud-pak-for-data-db2oltp` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
-    cd ../315-cloud-pak-for-data-db2oltp
+    cd ../320-cloud-pak-for-data-db2oltp
     terraform init
     terraform apply --auto-approve
     ```
