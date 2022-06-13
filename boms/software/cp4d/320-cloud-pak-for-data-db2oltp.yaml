@@ -12,10 +12,11 @@ spec:
   modules:
     - name: gitops-namespace
       alias: gitops-cp-db2oltp_namespace
+      version: v1.0.11
       variables:
         - name: name
           value: gitops-cp-db2oltp
-    - name: gitops-cp-db2oltp
+    - name: gitops-db2-oltp
       variables:
         - name: common_services_namespace
           value: ibm-common-services

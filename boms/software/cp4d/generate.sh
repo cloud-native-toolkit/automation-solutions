@@ -24,9 +24,9 @@ iascable build -i ./200-openshift-gitops.yaml \
                -i ./305-cloud-pak-for-data-foundation.yaml \
                -i ./310-cloud-pak-for-data-db2uoperator.yaml \
                -i ./315-cloud-pak-for-data-db2wh.yaml \
-               -i ./310-cloud-pak-for-data-db2oltp.yaml -o $OUTPUT_PATH$SOLUTION
-# -i ./310-cloud-pak-for-data-db2wh.yaml \
+               -i ./320-cloud-pak-for-data-db2oltp.yaml -o $OUTPUT_PATH$SOLUTION
 
+#
 
 echo "Copying Files"
 cp -R -L ./files/* $OUTPUT_PATH$SOLUTION
