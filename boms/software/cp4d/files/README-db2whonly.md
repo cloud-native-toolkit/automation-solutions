@@ -1,4 +1,4 @@
-# Cloud Pak for Data foundation with DB2WH Automation for AWS, Azure, and IBM Cloud
+# DB2WH Automation  for AWS, Azure, and IBM Cloud
 
 ### Change Log
 
@@ -24,7 +24,7 @@ The Data Foundation automation is broken into what we call layers of automation 
 ### Pre-Req Setup
 
 
-Please install the [Cloud Pak for Data data foundation](README.md) before you proceed with DB2WH installation and make sure its success.
+⚠️⚠️ Please install the [Cloud Pak for Data data foundation](README.md) before you proceed with DB2WH installation and make sure its success.
     
 ### Installing DB2WH with pre-req DB2U Operator
 
@@ -128,11 +128,3 @@ Please refer to the [Troubleshooting Guide](./TROUBLESHOOTING.md) for uninstalla
 
 If you continue to experience issues with this automation, please [file an issue](https://github.com/IBM/automation-data-foundation/issues) or reach out on our [public Dischord server](https://discord.com/channels/955514069815808010/955514069815808013).
 
-
-## How to Generate this repository from teh source Bill of Materials.
-
-
-This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/cp4d) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.
-
-
-> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.
