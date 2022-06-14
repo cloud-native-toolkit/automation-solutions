@@ -2,6 +2,7 @@
 
 ### Change Log
 
+- **06/2022** - Support for Azure
 - **05/2022** - Initial Release
 
 > This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
@@ -232,7 +233,7 @@ A container image is used to provide a consistent runtime environment for the au
 
 8. Copy the entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) and place it in the `entitlement_key` variable.
 
-#### Configure Storate
+#### Configure Storage
 
 ##### Deploying on IBM Cloud (Portworx or ODF)
 
