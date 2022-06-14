@@ -39,3 +39,13 @@ spec:
           optional: true
         - name: gitops-db2u
           optional: true
+        - name: gitops-cp4d-instance
+          optional: true
+        - name: cp4d-instance
+          optional: true
+        - name: gitops-cp4d-operator
+          optional: true
+        - name: gitops-cp-catalogs
+          optional: true
+        - name: ibm-common-service
+          optional: true
