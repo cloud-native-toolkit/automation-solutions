@@ -32,12 +32,12 @@ For each of these reference architecture, we have provided a detailed set of aut
 
 Note:  [Cloud Pak for Data system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/3.5.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
 
-| Cloud Platform                                                                                                            | Automation and Documentation                                                                                                                                                                                  |   
-|---------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [IBM Cloud](https://cloud.ibm.com)                                                                                        | [IBM Cloud Quick Start](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/initial-version) </br> [IBM Cloud Standard](https://github.com/IBM/automation-ibmcloud-infra-openshift/tree/standard) |  
-| [AWS](https://aws.amazon.com/)                                                                                            | [AWS Quick Start](https://github.com/IBM/automation-aws-infra-openshift/tree/1-quick-start) </br> [AWS Standard - Coming soon]()                                                                              |
-| [Azure](https://portal.azure.com/#home)                                                                                   | [Azure Quick Start - Coming soon]()                                                                                 |                                                                                             | 
-| Bring You Own Infrastructure                                                                                              | You will need to setup GitOps and Storage details on the following steps                                                                                                                                        /
+| Cloud Platform                          | Automation and Documentation                                                                                                                                                                                                                                              |   
+|-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [IBM Cloud](https://cloud.ibm.com)      | [IBM Cloud Quick Start](https://github.com/IBM/automation-ibmcloud-infra-openshift) <br /> [IBM Cloud Standard - Coming soon](https://github.com/IBM/automation-ibmcloud-infra-openshift) <br /> [IBM Cloud Advanced - Coming soon](https://github.com/IBM/automation-ibmcloud-infra-openshift) |  
+| [AWS](https://aws.amazon.com/)          | [AWS Quick Start - Coming soon](https://github.com/IBM/automation-aws-infra-openshift) <br /> [AWS Standard - Coming soon](https://github.com/IBM/automation-aws-infra-openshift) <br /> [AWS Advanced - Coming soon](https://github.com/IBM/automation-aws-infra-openshift) |
+| [Azure](https://portal.azure.com/#home) | [Azure Quick Start](https://github.com/IBM/automation-azure-infra-openshift) <br /> [Azure Standard - Coming soon](https://github.com/IBM/automation-azure-infra-openshift) <br /> [Azure Advanced - Coming soon](https://github.com/IBM/automation-azure-infra-openshift) |                                                                                             | 
+| Bring Your Own Infrastructure           | You will need a cluster with at least 16 CPUs and 64 GB of memory per node and at least 3 nodes to support storage and IBM Cloud Paks.                                                                                                                                    |                                                                               
 
 
 ### Getting Started
@@ -85,7 +85,7 @@ The Data Foundation automation is broken into what we call layers of automation 
 | BOM ID | Name                                                                                                                                                                                                                                                           | Description                                                                                                                                                | Run Time |
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | 200    | [200 - OpenShift Gitops](./200-openshift-gitops)                                                                                                                                                                                                               | Set up OpenShift GitOps tools in an OpenShift cluster. This is required to install the software using gitops approaches.                                   | 10 Mins  |
-| 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) <br> [210 - IBM OpenShift Data Foundation](./210-ibm-odf-storage)  <br>  [210 - AWS Portworx Storage](./210-aws-portworx-storage)  <br>  [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  <br> _⚠️Portworks on AWS and Azure are currently not released, but are coming soon.⚠️_ | 10 Mins  |
+| 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) <br> [210 - IBM OpenShift Data Foundation](./210-ibm-odf-storage)  <br>  [210 - AWS Portworx Storage](./210-aws-portworx-storage)  <br>  [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
 | 300    | [300 - Cloud Pak for Data Entitlement](./300-cloud-pak-for-data-entitlement)                                                                                                                                                                                   | Update the OpenShift Cluster with your entitlement key                                                                                                     | 5 Mins   |
 | 305    | [300 - Cloud Pak for Data Foundation](./305-cloud-pak-for-data-foundation)                                                                                                                                                                                     | Deploy the Cloud Pak for Data Foundation components                                                                                                        | 30 Mins  |
 | 310 | [310 - DB2 Warehouse](./310-cloud-pak-for-data-db2wh) | _(Optional)_ Install DB2 Warehouse service into the cluster | 15 Mins |                                                                    
@@ -118,16 +118,10 @@ Pre-requisites:
 
 - Install [Brew](https://brew.sh/)
 
-- If allowed by your corporate policy, install [Docker Desktop](https://www.docker.com/products/docker-desktop/).  If not allowed, install [Colima](https://github.com/abiosoft/colima), a replacement for Docker Desktop 
-
-   ```
-
-   brew install colima
-
-   ```
+- If allowed by your corporate policy, install [Docker Desktop](https://www.docker.com/products/docker-desktop/).  If not allowed, install [Colima](https://github.com/abiosoft/colima), a replacement for Docker Desktop
 
 
-Ensure the following before continuing
+Ensure you have the following before continuing:
 
 - Github account exists
 
@@ -144,7 +138,24 @@ Ensure the following before continuing
 The installation process will use a standard GitOps repository that has been built using the Modules to support Data Foundation installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.
 
 
-Steps:
+#### (optional) Set up the container environment
+
+A container image is used to provide a consistent runtime environment for the automation that includes all the required tools. The provided container image supports hosts with either amd64 and amd64 architectures. If you do not have a container runtime already (e.g. Docker Desktop or podman), **Colima** can be used. The steps to install and start **Colima** on MacOS are provided below:
+
+1. Install **Colima** and the **docker** cli. This only needs to be done once.
+
+    ```shell
+    brew install colima docker
+    ```
+
+2. Start **Colima**. This needs to be done after each time the computer is restarted. (The first time **Colima** is started takes longer to prepare the environment.)
+
+    ```shell
+    colima start
+    ```
+
+
+#### Set up environment credentials
 
 
 1. First step is to clone the automation code to your local machine. Run this git command in your favorite command line shell.
@@ -159,35 +170,53 @@ Steps:
 
 3. Next you will need to set-up your credentials.properties file. This will enable a secure deployment to your cluster.
 
-    ```
+    ```shell
     cp credentials.template credentials.properties
     code credential.properties
     ```
 
     In the `credentials.properties` file you will need to populate the values for your deployment.
     
-    ```
-    # Add the values for the Credentials to access the IBM Cloud
-    # Instructions to access this information can be found in the README.MD
-    # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
-    TF_VAR_gitops_repo_username=
-    TF_VAR_gitops_repo_token=
-    TF_VAR_cluster_login_token=
-    TF_VAR_server_url=
-    TF_VAR_entitlement_key=
+    ```text
+    ## Add the values for the Credentials to access the OpenShift Environment
+    ## Instructions to access this information can be found in the README.MD
+    ## This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
     
-    # Only needed if targeting IBM Cloud Deployment
-    TF_VAR_ibmcloud_api_key=
+    ## gitops_repo_host: The host for the git repository
+    TF_VAR_gitops_repo_host=github.com
+    ## gitops_repo_username: The username of the user with access to the repository
+    TF_VAR_gitops_repo_username=
+    ## gitops_repo_token: The personal access token used to access the repository
+    TF_VAR_gitops_repo_token=
+    
+    ## TF_VAR_server_url: The url for the OpenShift api server
+    TF_VAR_server_url=
+    ## TF_VAR_cluster_login_token: Token used for authentication to the api server
+    TF_VAR_cluster_login_token=
+    
+    ## TF_VAR_entitlement_key: The entitlement key used to access the IBM software images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key
+    TF_VAR_entitlement_key=
     
     # Only needed if targeting AWS Deployment
     TF_VAR_access_key=
     TF_VAR_secret_key=
     
-    # Only needed if targeting Azure Deployment
+    
+    ##
+    ## Azure credentials
+    ## Credentials are required to install Portworx on an Azure account. These credentials must have
+    ## particular permissions in order to interact with the account and the OpenShift cluster. Use the
+    ## provided `azure-portworx-credentials.sh` script to retrieve/generate these credentials. Be sure to use the same cluster name that was used to create the cluster on Azure
+    ##
+    
+    ## TF_VAR_azure_subscription_id: The subscription id for the Azure account. This is required if Azure portworx is used
     TF_VAR_azure_subscription_id=
-    TF_VAR_azure_client_id=
-    TF_VAR_azure_client_secret=
+    ## TF_VAR_azure_tenant_id: The tenant id for the Azure account. This is required if Azure portworx is used
     TF_VAR_azure_tenant_id=
+    ## TF_VAR_azure_client_id: The client id of the user for the Azure account. This is required if Azure portworx is used
+    TF_VAR_azure_client_id=
+    ## TF_VAR_azure_client_secret: The client id of the user for the Azure account. This is required if Azure portworx is used
+    TF_VAR_azure_client_secret=
     ```
    
     > ⚠️ Do not wrap any values in `credentials.properties` in quotes
@@ -203,18 +232,73 @@ Steps:
 
 8. Copy the entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) and place it in the `entitlement_key` variable.
 
-9. Complete the cloud-specific credentials to be able to provision storage **only for the platform of your choice**.
+#### Configure Storate
 
-    * IBM Cloud deployments require an [API Key](https://cloud.ibm.com/iam/apikeys).
-    * *(Coming Soon)* AWS Deployments require an [Access Key and Secret Key](https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys)
-    * *(Coming Soon)* Azure Deployments require a [service principal to deploy Portworx](https://github.com/cloud-native-toolkit/terraform-azure-portworx/blob/main/README.md#prerequisites).
+##### Deploying on IBM Cloud (Portworx or ODF)
 
-10. If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
+1. Provide the IBM Cloud API Key for the target IBM Cloud account as the value for `TF_VAR_ibmcloud_api_key`
 
-     ```
-     brew install colima
-     colima start
-     ```
+
+
+##### Deploying on Azure (Portworx)
+
+If Maximo Application Suite will be deployed on OpenShift deployed on Azure, the credentials for the Azure account need to be
+provided. Several clis are required for these steps:
+
+- `az` cli - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
+- `jq` cli - https://stedolan.github.io/jq/download/
+
+You can install these clis on your local machine **OR** run the following commands within the provided container image by running `launch.sh`
+
+1. Log into your Azure account
+
+    ```shell
+    az login
+    ```
+
+2. Run the `azure-portworx-credentials.sh` script to gather/create the credentials:
+
+    ```shell
+    ./azure-portworx-credentials.sh -t {cluster type} -g {resource group name} -n {cluster name} [-s {subscription id}]
+    ```
+
+   where:
+    - **cluster type** is the type of OpenShift cluster (`aro` or `ipi`).
+    - **resource group name** is the name of the Azure resource group where the cluster has been provisioned.
+    - **cluster name** is the name of the OpenShift cluster.
+    - **subscription id** is the subscription id of the Azure account. If a value is not provided it will be looked up.
+
+3. Update `credentials.properties` with the values output from the script.
+
+    ```json
+    {
+      "azure_client_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+      "azure_client_secret": "XXXXXXX",
+      "azure_tenant_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
+      "azure_subscription_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+    }
+    ```
+
+4. If you used the container image to run the script, type `exit` to close the container shell then re-rung `launch.sh` to pick up the changes to the environment variables.
+
+
+
+#### Configure the automation
+
+##### Get the Portworx configuration spec (for AWS or Azure deployments)
+
+5. Follow the steps to download the [portworx confituration spec](./PORTWORX_CONFIG.md)
+6. Copy the downloaded file into the root directory of the cloned automation-data-foundation repository
+
+##### Set up the automation workspace
+
+
+7. (Optiona) If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
+
+    ```
+    brew install colima
+    colima start
+    ```
 
 
 9. We are now ready to start installing Data Foundation, run the `launch.sh` command, make sure you are in the root of the `automation-data-foundation` repository
@@ -234,7 +318,7 @@ Steps:
 > we expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
 
 
-11. Next step is to create a workspace to run the Terraform automation.  Below you can see the parameters to configure your workspace for terraform execution.
+11. Next we need to create a workspace to run the Terraform automation.  Below you can see the parameters to configure your workspace for terraform execution.
 
     ```
     /terraform $ ./setup-workspace.sh -h
@@ -245,14 +329,16 @@ Steps:
     -p     Cloud provider (aws, azure, ibm)
     -s     Storage (portworx or odf)
     -n     (optional) prefix that should be used for all variables
+    -x     (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml
+    -c     (optional) Self-signed Certificate Authority issuer CRT file
     -h     Print this help
     ```
 
-    You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.
+    You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.  If you are using Azure, you will need a Portworx spec file name (as described above), and if your cluster is using a self-signed SSL certificate, you will need a copy of the issuer cert and the file name.
 
-    > ⚠️ At this time, only IBM Cloud is supported, but support for Azure and AWS will be released in the coming days.
+    > ⚠️ At this time, only IBM Cloud and Azure are supported, but support for AWS will be released in the coming days.
 
-12. Run the command `setup-workspace.sh -p ibm -s portworx -n df`
+12. Run the command `setup-workspace.sh -p ibm -s portworx -n df` and include optional parameters as needed.
 
     ```
     /terraform $ ./setup-workspace.sh -p ibm -s portworx -n df
@@ -380,7 +466,7 @@ Please refer to the [Troubleshooting Guide](./TROUBLESHOOTING.md) for uninstalla
 If you continue to experience issues with this automation, please [file an issue](https://github.com/IBM/automation-data-foundation/issues) or reach out on our [public Dischord server](https://discord.com/channels/955514069815808010/955514069815808013).
 
 
-## How to Generate this repository from teh source Bill of Materials.
+## How to Generate this repository from the source Bill of Materials.
 
 
 This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms/software/cp4d) file to describe your software requirements. If you want up stream releases or versions you can use `iascable` to generate a new terraform module.
