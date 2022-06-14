@@ -1,10 +1,10 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 310-cloud-pak-for-data-db2wh
+  name: 315-cloud-pak-for-data-db2wh
   labels:
     type: software
-    code: '310'
+    code: '315'
   annotations:
     displayName: DB2 Warehouse for Cloud Pak for Data
     description:  GitOps deployment of DB2 Warehouse for Cloud pak for Data
@@ -39,4 +39,12 @@ spec:
         - name: namespace
           optional: true
         - name: gitops-cp4d-instance
+          optional: true
+        - name: cp4d-instance
+          optional: true
+        - name: gitops-cp4d-operator
+          optional: true
+        - name: gitops-cp-catalogs
+          optional: true
+        - name: ibm-common-service
           optional: true
