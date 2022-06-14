@@ -72,7 +72,7 @@ After you run the command, the console is able to validate your selections by ch
 
 This will create a database using many of the default values. You can adjust through the process for any resources you wish to change to support your requirements.
 
-![DB2WH DB Instance ](images/db2wh-service.jpg)
+![DB2WH DB Instance ](images/db2wh-db.jpg.jpg)
 
 Login to cpd console
 
