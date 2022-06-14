@@ -224,8 +224,6 @@ if [[ -n "${CA_CRT_FILE}" ]]; then
   cp "${SCRIPT_DIR}/${CA_CRT_FILE}" "${WORKSPACE_DIR}/${CA_CRT_FILE_BASENAME}"
 fi
 
-echo ${SCRIPT_DIR}
-
 find ${SCRIPT_DIR}/. -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;
 do
