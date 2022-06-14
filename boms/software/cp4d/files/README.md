@@ -457,8 +457,9 @@ This concludes the instructions for installing *Data Foundation* on AWS, Azure, 
 
 Now that the Data Foundation deployment is complete you can deploy [Cloud Pak for Data services](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=integrations-services) into this cluster.
 
+⚠️⚠️⚠️⚠️⚠️⚠️ Pls refer the instructions for [installing DB2 OLTP](README-DB2OLTP.md) on top of CP4D Data foundation
 
-
+⚠️⚠️⚠️⚠️⚠️⚠️ Pls refer the instructions for [installing DB2Warehouse](README-DB2WH.md) on top of CP4D Data foundation
 
 ## Uninstalling & Troubleshooting
 
