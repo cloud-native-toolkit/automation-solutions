@@ -48,7 +48,7 @@ The installation process will use a standard GitOps repository that has been bui
     terraform apply --auto-approve
     ```
     
-    > This step will install DB2WH Operator and service into cluster. You can login to CP4D Console (Refer Step 30) and verify the service instance. 
+    > This step will install DB2WH Operator and service into cluster. You can login to CP4D Console  and verify the service instance. 
   
   ![DB2WH Service Instance ](images/db2wh-service.jpg)
 
@@ -71,6 +71,8 @@ After you run the command, the console is able to validate your selections by ch
     > This step will create the database on the cluster using CP4D Console
 
 This will create a database using many of the default values. You can adjust through the process for any resources you wish to change to support your requirements.
+
+![DB2WH DB Instance ](images/db2wh-service.jpg)
 
 Login to cpd console
 

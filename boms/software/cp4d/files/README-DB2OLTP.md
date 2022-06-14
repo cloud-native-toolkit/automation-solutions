@@ -51,7 +51,9 @@ Steps
     terraform apply --auto-approve
     ```
     
-    > This step will install DB2OLTP Operator and instance into cluster. You can login to CP4D Console (Refer Step 30) and verify the service instance. 
+    > This step will install DB2OLTP Operator and instance into cluster. You can login to CP4D Console and verify the service instance. 
+
+![DB2OLTP Service Instance ](images/DB2oltp-service.jpg)
 
 ### Create DB2OLTP database instance via Manually (⚠️⚠️ Automation coming soon in CPD 4.5 release)
 
@@ -74,6 +76,8 @@ After you run the command, the console is able to validate your selections by ch
     > This step will create the database on the cluster using CP4D Console
 
 This will create a database using many of the default values. You can adjust through the process for any resources you wish to change to support your requirements.
+
+![DB2OLTP DB Instance ](images/db2oltp-db.jpg)
 
 Login to cpd console
 ```   
