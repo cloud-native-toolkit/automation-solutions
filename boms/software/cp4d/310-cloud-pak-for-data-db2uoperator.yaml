@@ -16,13 +16,15 @@ spec:
       variables:
         - name: name
           value: gitops-db2u
+    - name: gitops-db2u
+      variables:
         - name: operator_namespace
-          value: cpd-operators
+          alias: cpd_operators_namespace
+          scope: global
         - name: channel
           value: v1.1
         - name: subscription_source_namespace
           value: openshift-marketplace
-    - name: gitops-db2u
       dependencies:
         - name: namespace
           ref: 	gitops-db2u_namespace
@@ -38,3 +40,6 @@ spec:
           optional: true
         - name: ibm-common-service
           optional: true
+  variables:
+    - name: cpd_operators_namespace
+      value: cpd-operators
