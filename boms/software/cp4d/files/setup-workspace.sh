@@ -202,9 +202,9 @@ cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
 if [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
-  ALL_ARCH="200|300|305"
+  ALL_ARCH="200|300|305|310|315|320"
 else
-  ALL_ARCH="200|210|300|305"
+  ALL_ARCH="200|210|300|305|310|315|320"
 fi
 
 echo "Setting up workspace in ${WORKSPACE_DIR}"
@@ -258,6 +258,7 @@ do
   mkdir -p ${name}
   cd "${name}"
 
+  cp -R "${SCRIPT_DIR}/${name}/bom.yaml" .
   cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
   ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
   if [[ -n "${PORTWORX_SPEC_FILE_BASENAME}" ]]; then

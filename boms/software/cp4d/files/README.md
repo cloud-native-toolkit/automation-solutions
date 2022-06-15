@@ -2,12 +2,13 @@
 
 ### Change Log
 
+- **06/2022** - Support for CP4D Data source services DB2OLTP and DB2Warehouse
 - **06/2022** - Support for Azure
 - **05/2022** - Initial Release
 
 > This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
 
-The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric. 
+The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric.
 
 ### Target Infrastructure
 
@@ -29,7 +30,7 @@ The reference architectures are provided in three different forms, with increasi
 - **Advanced** - a more advanced deployment that employs network isolation to securely route traffic between the different layers.
 
 
-For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned, please use one of these. They are optimized for the installation of this solution.  
+For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned, please use one of these. They are optimized for the installation of this solution.
 
 Note:  [Cloud Pak for Data system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/3.5.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
 
@@ -50,7 +51,7 @@ Within this repository you will find a set of Terraform template bundles that em
 This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. The software installs using **GitOps** best practices with [**Red Hat Open Shift GitOps**](https://docs.openshift.com/container-platform/4.8/cicd/gitops/understanding-openshift-gitops.html)
 
 
-## Data Foundation  Architecture  
+## Data Foundation  Architecture
 
 
 The following reference architecture represents the logical view of how Data Foundation works after it is installed.  Data Foundation is deployed with either Portworx or OpenShift Data Foundation storage, within an OpenShift Cluster, on the Cloud provider of your choice.
@@ -81,7 +82,7 @@ After you purchase Cloud Pak for Data, an entitlement API key for the software i
 
 ### Data Foundation Layered Installation
 
-The Data Foundation automation is broken into what we call layers of automation or bundles. The bundles enable SRE activities to be optimized. The automation is generic between clouds other than configuration storage options, which are platform specific. 
+The Data Foundation automation is broken into what we call layers of automation or bundles. The bundles enable SRE activities to be optimized. The automation is generic between clouds other than configuration storage options, which are platform specific.
 
 | BOM ID | Name                                                                                                                                                                                                                                                           | Description                                                                                                                                                | Run Time |
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
@@ -89,11 +90,18 @@ The Data Foundation automation is broken into what we call layers of automation 
 | 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) <br> [210 - IBM OpenShift Data Foundation](./210-ibm-odf-storage)  <br>  [210 - AWS Portworx Storage](./210-aws-portworx-storage)  <br>  [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
 | 300    | [300 - Cloud Pak for Data Entitlement](./300-cloud-pak-for-data-entitlement)                                                                                                                                                                                   | Update the OpenShift Cluster with your entitlement key                                                                                                     | 5 Mins   |
 | 305    | [300 - Cloud Pak for Data Foundation](./305-cloud-pak-for-data-foundation)                                                                                                                                                                                     | Deploy the Cloud Pak for Data Foundation components                                                                                                        | 30 Mins  |
-| 310 | [310 - DB2 Warehouse](./310-cloud-pak-for-data-db2wh) | _(Optional)_ Install DB2 Warehouse service into the cluster | 15 Mins |                                                                    
-
 
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
+
+#### Optional components
+
+The following components can be optionally deployed after Data Foundation has been deployed:
+
+| BOM ID | Name                                                                       | Description          | Run Time |
+|--------|----------------------------------------------------------------------------|----------------------|----------|
+| 315    | [315 - Cloud Pak for Data - DB2 Warehouse](./315-cloud-pak-for-data-db2wh) | Deploy DB2 Warehouse | 15 Mins   |
+| 320    | [315 - Cloud Pak for Data - DB2 OLTP](./320-cloud-pak-for-data-db2oltp)    | Deploy DB2 OLTP      | 15 Mins   |
 
 
 ## Installation Steps
@@ -176,8 +184,8 @@ A container image is used to provide a consistent runtime environment for the au
     code credential.properties
     ```
 
-    In the `credentials.properties` file you will need to populate the values for your deployment.
-    
+   In the `credentials.properties` file you will need to populate the values for your deployment.
+
     ```text
     ## Add the values for the Credentials to access the OpenShift Environment
     ## Instructions to access this information can be found in the README.MD
@@ -219,8 +227,8 @@ A container image is used to provide a consistent runtime environment for the au
     ## TF_VAR_azure_client_secret: The client id of the user for the Azure account. This is required if Azure portworx is used
     TF_VAR_azure_client_secret=
     ```
-   
-    > ⚠️ Do not wrap any values in `credentials.properties` in quotes
+
+   > ⚠️ Do not wrap any values in `credentials.properties` in quotes
 
 
 4. Add your Git Hub username and your Personal Access Token to `gitops_repo_username` and `gitops_repo_token`
@@ -294,7 +302,7 @@ You can install these clis on your local machine **OR** run the following comman
 ##### Set up the automation workspace
 
 
-7. (Optiona) If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
+7. (Optional) If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
 
     ```
     brew install colima
@@ -375,7 +383,7 @@ The following you will be prompted for and some suggested values.
 The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, and `cluster_login_token` values will be loaded automatically from the credentials.properties file that was configured in an earlier step.
 
 
-15. The `cp4d-instance_storage_vendor` variable should have already been populated by the `setup-workspace.sh` script. This should have the value `portworx` or `ocs`, depending on the selected storage option. 
+15. The `cp4d-instance_storage_vendor` variable should have already been populated by the `setup-workspace.sh` script. This should have the value `portworx` or `ocs`, depending on the selected storage option.
 
 16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
 
@@ -389,9 +397,18 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 21. Navigate into the `/workspaces/current` folder
 
-    > ❗️ Do not skip this step.  You must execute from the `/worksapces/current` folder.
-    
-22. Navigate into the `200-openshift-gitops` folder and run the following commands
+    > ❗️ Do not skip this step.  You must execute from the `/workspaces/current` folder.
+
+
+##### Automated Deployment
+
+22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current`.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
+
+    Once complete, skip to the **Access the Data Foundation Deployment** section
+
+##### Manual Deployment
+
+23. You can also deploy each layer manually.  To begin, navigate into the `200-openshift-gitops` folder and run the following commands
 
     ```
     cd 200-openshift-gitops
@@ -416,22 +433,22 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     terraform init
     terraform apply --auto-approve
     ```
+
+    > This folder will vary based on the platform and storage options that you selected in earlier steps. 
     
-    > This folder will vary based on the platform and storage options that you selected in earlier steps.
-26. 
     Storage configuration will run asynchronously in the background inside of the Cluster and should be complete within 10 minutes.
-    
-27. Change directories to the `300-cloud-pak-for-data-entitlement` folder and run the following commands to deploy entitlements into your cluster:
+
+26. Change directories to the `300-cloud-pak-for-data-entitlement` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
     cd ../300-cloud-pak-for-data-entitlement
     terraform init
     terraform apply --auto-approve
     ```
-    
+
     > This step **does not** require worker nodes to be restarted as some other installation methods describe.
 
-28. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy Data Foundation into the cluster.
+29. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy Data Foundation into the cluster.
 
     ```
     cd ../305-cloud-pak-for-data-foundation
@@ -441,17 +458,25 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
 
-29. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
+30. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
     This process will take between 30 and 45 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
 
-30. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
+##### Access the Data Foundation Deployment
+
+31. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
 
     ![Reference Architecture](images/cp4d-route.jpg)
 
-31. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret. 
+32. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
 
-32. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+33. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+
+### Optional Services
+
+- **DB2 OLTP** (Online transactional processing) - Please refer the instructions for [installing DB2 OLTP](README-DB2OLTP.md) on top of CP4D Data foundation
+
+- **DB2 Warehouse** Please refer the instructions for [installing DB2Warehouse](README-DB2WH.md) on top of CP4D Data foundation
 
 ## Summary
 

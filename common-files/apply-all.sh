@@ -12,6 +12,13 @@ find . -type d -maxdepth 1 | grep -vE "[.]/[.].*" | grep -vE "^[.]$" | grep -v w
 do
   name=$(echo "$dir" | sed -E "s~[.]/(.*)~\1~g")
 
+  OPTIONAL=$(grep "apply-all/optional" ./${name}/bom.yaml | sed -E "s~[^:]+: [\"'](.*)[\"']~\1~g")
+
+  if [[ "${OPTIONAL}" == "true" ]]; then
+    echo "***** Skipping optional step ${name} *****"
+    continue
+  fi
+
   VPN_REQUIRED=$(grep "vpn/required" ./${name}/bom.yaml | sed -E "s~[^:]+: [\"'](.*)[\"']~\1~g")
 
   if [[ "${VPN_REQUIRED}" == "true" ]]; then

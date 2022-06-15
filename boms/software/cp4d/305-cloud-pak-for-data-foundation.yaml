@@ -16,19 +16,22 @@ spec:
       alias: ibm_common_services_namespace
       variables:
         - name: name
-          value: ibm-common-services
+          alias: ibm_common_services_namespace
+          scope: global
 
     - name: gitops-namespace
       alias: cpd_operators_namespace
       variables:
         - name: name
-          value: cpd-operators
+          alias: cpd_operators_namespace
+          scope: global
 
     - name: gitops-namespace
       alias: cp4d_namespace
       variables:
         - name: name
-          value: cp4d
+          alias: cp4d_namespace
+          scope: global
 
     # CatalogSources ibm-operator-catalog & ibm-db2uoperator-catalog
     - name: gitops-cp-catalogs
@@ -63,3 +66,11 @@ spec:
       variables:
         - name: storage_vendor
           value: portworx
+
+  variables:
+    - name: ibm_common_services_namespace
+      value: ibm-common-services
+    - name: cpd_operators_namespace
+      value: cpd-operators
+    - name: cp4d_namespace
+      value: cp4d
