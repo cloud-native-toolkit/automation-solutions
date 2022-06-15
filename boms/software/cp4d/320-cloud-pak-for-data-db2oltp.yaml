@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: DB2 OLTP for Cloud Pak for Data
     description:  GitOps deployment of DB2 OLTP for Cloud pak for Data
+    apply-all/optional: "true"
 spec:
   modules:
     - name: gitops-namespace
