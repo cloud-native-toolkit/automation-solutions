@@ -94,6 +94,15 @@ The Data Foundation automation is broken into what we call layers of automation 
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
 
+#### Optional components
+
+The following components can be optionally deployed after Data Foundation has been deployed:
+
+| BOM ID | Name                                                                       | Description          | Run Time |
+|--------|----------------------------------------------------------------------------|----------------------|----------|
+| 315    | [315 - Cloud Pak for Data - DB2 Warehouse](./315-cloud-pak-for-data-db2wh) | Deploy DB2 Warehouse | 15 Mins   |
+| 320    | [315 - Cloud Pak for Data - DB2 OLTP](./320-cloud-pak-for-data-db2oltp)    | Deploy DB2 OLTP      | 15 Mins   |
+
 
 ## Installation Steps
 
@@ -293,7 +302,7 @@ You can install these clis on your local machine **OR** run the following comman
 ##### Set up the automation workspace
 
 
-7. (Optiona) If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
+7. (Optional) If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
 
     ```
     brew install colima
@@ -390,7 +399,16 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     > ❗️ Do not skip this step.  You must execute from the `/workspaces/current` folder.
 
-22. Navigate into the `200-openshift-gitops` folder and run the following commands
+
+##### Automated Deployment
+
+22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current`.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
+
+    Once complete, skip to the **Access the Data Foundation Deployment** section
+
+##### Manual Deployment
+
+23. You can also deploy each layer manually.  To begin, navigate into the `200-openshift-gitops` folder and run the following commands
 
     ```
     cd 200-openshift-gitops
@@ -416,11 +434,11 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     terraform apply --auto-approve
     ```
 
-    > This folder will vary based on the platform and storage options that you selected in earlier steps.
-26.
-Storage configuration will run asynchronously in the background inside of the Cluster and should be complete within 10 minutes.
+    > This folder will vary based on the platform and storage options that you selected in earlier steps. 
+    
+    Storage configuration will run asynchronously in the background inside of the Cluster and should be complete within 10 minutes.
 
-27. Change directories to the `300-cloud-pak-for-data-entitlement` folder and run the following commands to deploy entitlements into your cluster:
+26. Change directories to the `300-cloud-pak-for-data-entitlement` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
     cd ../300-cloud-pak-for-data-entitlement
@@ -430,7 +448,7 @@ Storage configuration will run asynchronously in the background inside of the Cl
 
     > This step **does not** require worker nodes to be restarted as some other installation methods describe.
 
-28. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy Data Foundation into the cluster.
+29. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy Data Foundation into the cluster.
 
     ```
     cd ../305-cloud-pak-for-data-foundation
@@ -440,17 +458,19 @@ Storage configuration will run asynchronously in the background inside of the Cl
 
     Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
 
-29. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
+30. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
     This process will take between 30 and 45 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
 
-30. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
+##### Access the Data Foundation Deployment
+
+31. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
 
     ![Reference Architecture](images/cp4d-route.jpg)
 
-31. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
+32. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
 
-32. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+33. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
 
 ### Optional Services
 
