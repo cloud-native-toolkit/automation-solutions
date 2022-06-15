@@ -452,17 +452,18 @@ Storage configuration will run asynchronously in the background inside of the Cl
 
 32. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
 
+### Optional Services
+
+- **DB2 OLTP** (Online transactional processing) - Please refer the instructions for [installing DB2 OLTP](README-DB2OLTP.md) on top of CP4D Data foundation
+
+- **DB2 Warehouse** Please refer the instructions for [installing DB2Warehouse](README-DB2WH.md) on top of CP4D Data foundation
+
 ## Summary
 
 This concludes the instructions for installing *Data Foundation* on AWS, Azure, and IBM Cloud.
 
 Now that the Data Foundation deployment is complete you can deploy [Cloud Pak for Data services](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=integrations-services) into this cluster.
 
-### Installing Data source services (DB2OLTP / DB2Warehouse)
-
-- ⚠️ Please refer the instructions for [installing DB2 OLTP](README-DB2OLTP.md) on top of CP4D Data foundation
-
-- ⚠️ Please refer the instructions for [installing DB2Warehouse](README-DB2WH.md) on top of CP4D Data foundation
 
 ## Uninstalling & Troubleshooting
 
