@@ -84,36 +84,6 @@ spec:
           value:
             - {"name":"allow-vpn-ingress","action":"allow","direction":"inbound","source":"0.0.0.0/0", "destination":"10.0.0.0/8"}
             - {"name":"allow-vpn-egress","action":"allow","direction":"inbound","source":"10.0.0.0/8", "destination":"0.0.0.0/0"}
-            - 
-              action: allow
-              destination: 10.0.0.0/8
-              direction: inbound
-              source: 0.0.0.0/0
-              tcp:
-                port_max: 23
-                port_min: 22
-                source_port_max: 23
-                source_port_min: 22
-              udp:
-                port_max: 23
-                port_min: 22
-                source_port_max: 23
-                source_port_min: 22
-            - 
-              action: allow
-              destination: 0.0.0.0/0
-              direction: outbound
-              source: 10.0.0.0/8
-              tcp:
-                port_max: 23
-                port_min: 22
-                source_port_max: 23
-                source_port_min: 22
-              udp:
-                port_max: 23
-                port_min: 22
-                source_port_max: 23
-                source_port_min: 22
       dependencies:
         - name: gateways
           ref: ibm-vpc-gateways
@@ -234,6 +204,42 @@ spec:
           ref: cs_resource_group
     - name: ibm-log-analysis-bind
     - name: ibm-cloud-monitoring-bind
+    - name: ibm-vpc-subnets
+      alias: vsi-subnets
+      variables:
+        - name: _count
+          value: 1
+        - name: label
+          value: worker-vsi
+        - name: ipv4_cidr_blocks
+          value:
+            - 10.10.40.0/24
+            - 10.20.40.0/24
+            - 10.30.40.0/24
+        - name: acl_rules
+          value:
+            - {"name":"allow-vpn-ingress","action":"allow","direction":"inbound","source":"0.0.0.0/0", "destination":"10.0.0.0/8"}
+            - {"name":"allow-vpn-egress","action":"allow","direction":"inbound","source":"10.0.0.0/8", "destination":"0.0.0.0/0"}
+    - name: ibm-vpc-vsi
+      variables:
+        - name: image_name
+          value: "ibm-zos-2-4-s390x-dev-test-experimental-40"
+        - name: profile_name
+          value: "mz2o-2x16"
+        - name: security_group_rules
+          value:
+            - { "name": "ingress-everything", "direction": "inbound", "remote": "0.0.0.0/0"}
+            - { "name": "egress-everything", "direction": "outbound", "remote": "0.0.0.0/0" }
+      dependencies:
+        - name: subnets
+          ref: vsi-subnets
+        - name: vpcssh
+          ref: dev_ssh_vsi
+    - name: ibm-vpc-ssh
+      alias: dev_ssh_vsi
+      variables:
+        - name: label
+          value: zos-vsi
   variables:
     - name: mgmt_resource_group_name
     - name: region
@@ -245,3 +251,9 @@ spec:
     - name: cs_name_prefix
     - name: worker_count
     - name: kms_service
+    - name: dev_ssh_vsi_public_key
+      value: ""
+    - name: dev_ssh_vsi_private_key
+      value: ""
+    - name: dev_ssh_vsi_public_key_file
+    - name: dev_ssh_vsi_private_key_file

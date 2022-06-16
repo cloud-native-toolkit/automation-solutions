@@ -70,9 +70,8 @@ spec:
       alias: worker-subnets
       variables:
         - name: _count
-          alias: mgmt_worker_subnet_count
           scope: global
-          value: 3
+          value: 1
         - name: label
           value: worker
         - name: ipv4_cidr_blocks
@@ -84,55 +83,9 @@ spec:
           value:
             - {"name":"allow-vpn-ingress","action":"allow","direction":"inbound","source":"0.0.0.0/0", "destination":"10.0.0.0/8"}
             - {"name":"allow-vpn-egress","action":"allow","direction":"outbound","source":"10.0.0.0/8", "destination":"0.0.0.0/0"}
-            -
-              action: allow
-              destination: 10.0.0.0/8
-              direction: inbound
-              source: 0.0.0.0/0
-              tcp:
-                port_max: 23
-                port_min: 22
-                source_port_max: 23
-                source_port_min: 22
-              udp:
-                port_max: 23
-                port_min: 22
-                source_port_max: 23
-                source_port_min: 22
-            -
-              action: allow
-              destination: 0.0.0.0/0
-              direction: outbound
-              source: 10.0.0.0/8
-              tcp:
-                port_max: 23
-                port_min: 22
-                source_port_max: 23
-                source_port_min: 22
-              udp:
-                port_max: 23
-                port_min: 22
-                source_port_max: 23
-                source_port_min: 22
       dependencies:
         - name: gateways
           ref: ibm-vpc-gateways
-    - name: ibm-ocp-vpc
-      alias: cluster
-      variables:
-        - name: disable_public_endpoint
-          value: true
-        - name: kms_enabled
-          value: true
-        - name: worker_count
-          alias: mgmt_worker_count
-        - name: ocp_version
-          value: 4.8
-      dependencies:
-        - name: subnets
-          ref: worker-subnets
-        - name: kms_key
-          ref: kms-key
     - name: ibm-vpc-subnets
       alias: vpe-subnets
       variables:
@@ -200,8 +153,6 @@ spec:
           ref: cos
         - name: subnets
           ref: vpe-subnets
-        - name: sync
-          ref: cluster
     - name: ibm-transit-gateway
       variables:
         - name: provision
@@ -212,28 +163,26 @@ spec:
       dependencies:
         - name: resource-group
           ref: cs_resource_group
-    - name: ibm-log-analysis
+    - name: ibm-vpc-vsi
       variables:
-        - name: provision
-          value: false
-        - name: name_prefix
-          alias: cs_name_prefix
-          scope: global
+        - name: image_name
+          value: "ibm-zos-2-4-s390x-dev-test-experimental-40"
+        - name: profile_name
+          value: "mz2o-2x16"
+        - name: security_group_rules
+          value:
+            - { "name": "ingress-everything", "direction": "inbound", "remote": "0.0.0.0/0"}
+            - { "name": "egress-everything", "direction": "outbound", "remote": "0.0.0.0/0" }
       dependencies:
-        - name: resource_group
-          ref: cs_resource_group
-    - name: ibm-cloud-monitoring
+        - name: subnets
+          ref: worker-subnets
+        - name: vpcssh
+          ref: dev_ssh_vsi
+    - name: ibm-vpc-ssh
+      alias: dev_ssh_vsi
       variables:
-        - name: provision
-          value: false
-        - name: name_prefix
-          alias: cs_name_prefix
-          scope: global
-      dependencies:
-        - name: resource_group
-          ref: cs_resource_group
-    - name: ibm-log-analysis-bind
-    - name: ibm-cloud-monitoring-bind
+        - name: label
+          value: zos-vsi
   variables:
     - name: mgmt_resource_group_name
     - name: region
@@ -243,5 +192,10 @@ spec:
       required: true
     - name: cs_resource_group_name
     - name: cs_name_prefix
-    - name: worker_count
     - name: kms_service
+    - name: dev_ssh_vsi_public_key
+      value: ""
+    - name: dev_ssh_vsi_private_key
+      value: ""
+    - name: dev_ssh_vsi_public_key_file
+    - name: dev_ssh_vsi_private_key_file
