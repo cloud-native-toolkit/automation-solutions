@@ -2,11 +2,12 @@
 
 ### Change Log
 
+- **06/2022** - Fixed typos like GitClone script, replace maximo with CP4D from README
 - **06/2022** - Support for CP4D Data source services DB2OLTP and DB2Warehouse
 - **06/2022** - Support for Azure
 - **05/2022** - Initial Release
 
-> This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ for more details or raise an issue on the repository.
+> This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ or **Bala Sivasubramanian** _bala@us.ibm.com_ for more details or raise an issue on the repository.
 
 The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric.
 
@@ -63,7 +64,7 @@ The following reference architecture represents the logical view of how Data Fou
 ## Deploying Data Foundation
 
 
-The following instructions will help you install Maximo Core into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
+The following instructions will help you install Cloud Pak for Data (CP4D) into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
 
 
 ### Licenses and Entitlements
@@ -96,7 +97,7 @@ The Data Foundation automation is broken into what we call layers of automation 
 
 #### Optional components
 
-The following components can be optionally deployed after Data Foundation has been deployed:
+The following components (CP4D - Services) can be optionally deployed after Data Foundation has been deployed:
 
 | BOM ID | Name                                                                       | Description          | Run Time |
 |--------|----------------------------------------------------------------------------|----------------------|----------|
@@ -170,7 +171,7 @@ A container image is used to provide a consistent runtime environment for the au
 1. First step is to clone the automation code to your local machine. Run this git command in your favorite command line shell.
 
     ```
-    git clone git@github.com:IBM/automation-data-foundation.git
+    git clone https://github.com/IBM/automation-data-foundation.git
     ```
 
 2. Navigate into the `automation-data-foundation` folder using your command line.
@@ -251,7 +252,7 @@ A container image is used to provide a consistent runtime environment for the au
 
 ##### Deploying on Azure (Portworx)
 
-If Maximo Application Suite will be deployed on OpenShift deployed on Azure, the credentials for the Azure account need to be
+If Cloud Pak for Data(CP4D) will be deployed on OpenShift deployed on Azure, the credentials for the Azure account need to be
 provided. Several clis are required for these steps:
 
 - `az` cli - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
@@ -423,7 +424,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     Apply complete! Resources: 78 added, 0 changed, 0 destroyed.
     ```
 
-24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Maximo Core install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
+24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Cloud Pak for Data (CP4D) install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
 
 25. Change directories to the `210-*` folder and run the following commands to deploy storage into your cluster:
