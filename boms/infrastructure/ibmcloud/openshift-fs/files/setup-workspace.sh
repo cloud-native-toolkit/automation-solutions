@@ -83,7 +83,7 @@ fi
 # Help Scripts for applying and destroying
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
-cp "${SCRIPT_DIR}/start-vpn.sh" "${WORKSPACE_DIR}/start-vpn.sh"
+cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
 
 if [[ -f "${SCRIPT_DIR}/terragrunt.hcl" ]]; then
   cp "${SCRIPT_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}/terragrunt.hcl"
