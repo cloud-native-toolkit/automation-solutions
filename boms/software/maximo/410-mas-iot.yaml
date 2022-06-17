@@ -19,7 +19,13 @@ spec:
           value: system
         - name: appid
           value: iot    
-  
+
+     # Create Namespace for Strimzi
+    - name: gitops-namespace
+      variables:
+        - name: name
+          value: maskafka
+
      # Deploy Kafka Strimzi
     - name: gitops-kafka-strimzi
       variables:
