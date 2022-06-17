@@ -166,9 +166,9 @@ spec:
     - name: ibm-vpc-vsi
       variables:
         - name: image_name
-          value: "ibm-zos-2-4-s390x-dev-test-experimental-40"
+          value: "ibm-zos-2-4-s390x-dev-test-wazi-1"
         - name: profile_name
-          value: "mz2o-2x16"
+          value: "mz2-2x16"
         - name: security_group_rules
           value:
             - { "name": "ingress-everything", "direction": "inbound", "remote": "0.0.0.0/0"}
