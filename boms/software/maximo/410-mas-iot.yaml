@@ -1,0 +1,41 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 410-mas-iot
+  labels:
+    type: software
+    code: '401'
+  annotations:
+    displayName: Maximo Application Suite - IoT Application
+    description: GitOps deployment of Maximo IoT application for OpenShift
+spec:
+  modules:
+    - name: gitops-repo
+
+    # Deploy the JDBC connector
+    - name: gitops-terraform-gitops-mas-jdbc
+      variables:
+        - name: scope
+          value: system
+        - name: appid
+          value: iot    
+  
+     # Deploy Kafka Strimzi
+    - name: gitops-kafka-strimzi
+      variables:
+        - name: cluster_name
+          value: maskafka
+        - name: user_name
+          value: maskafka
+          
+    # Deploy the Kafka configuration
+    - name: gitops-terraform-gitops-mas-kafka
+      variables:
+        - name: instanceid
+          value: masdemo         
+  
+    # Maximo Application Suite - IoT
+    - name: gitops-mas-iot
+      variables:
+        - name: workspace_id
+          value: demo
