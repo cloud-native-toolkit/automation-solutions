@@ -29,7 +29,7 @@ spec:
           value: maskafka
           
     # Deploy the Kafka configuration
-    - name: gitops-terraform-gitops-mas-kafka
+    - name: gitops-mas-kafka
       variables:
         - name: instanceid
           value: masdemo         
