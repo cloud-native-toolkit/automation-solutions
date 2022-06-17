@@ -26,5 +26,5 @@ case "$GENERATE_TARGET" in
   ;;
 esac
 
-cp -R ./files/* ../../../../../automation-ibmcloud-infra-zos-dev
+cp -R -L ./files/* ../../../../../automation-ibmcloud-infra-zos-dev
 
