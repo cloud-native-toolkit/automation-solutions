@@ -16,6 +16,6 @@ spec:
     - name: gitops-mas-manage
       variables:
         - name: instanceid
-          value: mas8
+          value: masdemo
         - name: workspace_id
           value: demo
