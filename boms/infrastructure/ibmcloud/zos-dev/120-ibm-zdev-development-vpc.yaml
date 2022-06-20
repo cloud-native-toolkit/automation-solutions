@@ -90,7 +90,7 @@ spec:
       alias: vpe-subnets
       variables:
         - name: _count
-          value: 3
+          value: 1
         - name: label
           value: vpe
         - name: ipv4_cidr_blocks
@@ -102,7 +102,7 @@ spec:
       alias: ingress-subnets
       variables:
         - name: _count
-          value: 3
+          value: 1
         - name: label
           value: ingress
         - name: ipv4_cidr_blocks
