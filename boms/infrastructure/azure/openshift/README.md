@@ -1,111 +1,115 @@
-# IBM Cloud Reference Architecture Bills of Material
+# Azure Reference Architecture - Automation
 
-This folder contains the Bills of Material (BOMs) for the Azure Reference Architectures. It is provided in three different flavors:
+> This collection of Azure terraform automation bundles has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM Ecosystem Labs team part of the [IBM Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** __mjperrin@us.ibm.com__, **Rich Ehrhardt** __rich_ehrhardt@au1.ibm.com__, **Sean Sundberg** __seansund@us.ibm.com__, or **Andrew Trice** __amtrice@us.ibm.com__ for more details or raise an issue on the [repository](https://github.com/cloud-native-toolkit/software-everywhere) for bugs or feature requests.
 
-- QuickStart
-- Standard
-- Advanced
+Three different flavors of the reference architecture are provided with different levels of complexity.
 
-## Overview
+- QuickStart - minimum to get OpenShift with public endpoints running on basic VNet, subnets and load balancer. Best for non-production workloads.
+- Standard - a simple robust architecture that can support a production workload in a single VNet with a VPN+Private Endpoints and an OpenShift cluster
+- Advanced - a sophisticated architecture isolating DMZs, Development and Production VNets for best practices
 
-BOMs are the raw ingredients for building automation for complex cloud installations. They are described in `YAML` and enable automation to be created to deploy infrastructure and software into cloud environments.
+## Reference architectures
 
-## Bills of Material
+This set of automation packages was generated using the open-source [`isacable`](https://github.com/cloud-native-toolkit/iascable) tool. This tool enables a [Bill of Material yaml](https://github.com/cloud-native-toolkit/automation-solutions/tree/main/boms) file to describe your Azure architecture, which it then generates the terraform modules into a package of infrastructure as code that you can use to accelerate the configuration of your Azure environment. Iascable generates standard terraform templates that can be executed from any terraform environment.
 
-The automation is defined as multiple BOMs that provide layers of provisioned infrastructure and software. Each flavor of reference architecture utilizes different BOMs to provide the required infrastructure. The listing of BOMs for each flavor is provided in the table below:
+> The `iascable` tool is targeted for use by advanced SRE developers. It requires deep knowledge of how the modules plug together into a customized architecture. This repository is a fully tested output from that tool. This makes it ready to consume for projects.
 
-<table>
-<thead>
-<tr>
-<th>Layers</th>
-<th>Quick Start</th>
-<th>Standard</th>
-<th>Advanced</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0xx - Setup</th>
-<td>N/A</td>
-<td><ul><li>000 - Account Setup</li></ul></td>
-</tr>
-<tr>
-<th>1xx - Infrastructure</th>
-<td><ul><li><a href="1-quickstart/110-azure-ocp-ipi.yaml">110 - Azure OpenShift IPI</a></li></ul></td>
-<td>
-<ul>
-<li>100 - Shared Services</li>
-<li>110 - VPC OpenShift</li>
-</ul>
-</td>
-<td>
-<ul>
-<li>100 - Shared Services</li>
-<li>110 - Edge VPC</li>
-<li>130 - Development VPC OpenShift</li>
-<li>150 - Production VPC OpenShift</li>
-</ul>
-</td>
-</tr>
-<tr>
-<th>2xx - OpenShift configuration</th>
-<td>
-<ul>
-<li><a href="1-quickstart/205-portworx-storage.yaml">205 - Portworx Storage</a></li>
-</ul>
-</td>
-<td>
-<ul>
-<li>205 - Portworx Storage</li>
-</ul>
-</td>
-<td>
-<ul>
-<li>205 - Portworx Storage</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
+### Quick Start
 
-### Validated Open-Source Release
+![QuickStart](1-quickstart/architecture.png)
 
-Before you attempt to generate and modify the BOM content for your solution, we recommend that you deploy the reference architecture as-provided to get a feel for it. We have provided a released and validated version of the [IBM Cloud OpenShift Reference Architectures](https://github.com/IBM/automation-ibmcloud-infra-openshift) in an open-source repository. Follow the instructions in that repo to provision the infrastructure with the automation.
+### Standard
 
-If you want to download the latest version from the *Solution Builder*, use the [Ascent](https://ascent.openfn.co) tool and log in with your IBM ID. Navigate to the Solution view and click *Download* on the *IBM Cloud Reference Architecture* tile.
+TBD
 
-## Generating Automation
+### Advanced
 
-If you want to use the latest upstream content you can generate the automation using the steps below:
+TBD
 
-### Install IasCable
+## Automation
 
-First you will need to install the latest version of [iascable](https://github.com/cloud-native-toolkit/iascable) into your `/usr/local/bin` folder, you can do this by running the following cli command. This tools converts BOMs into automation.
+### Prerequisites
 
-```shell
-curl -sL https://raw.githubusercontent.com/cloud-native-toolkit/iascable/main/install.sh | sh
+1. Have access to an Azure subscription with "Owner" and "User Access Administrator" roles. The user must be able to create a service prinicpal.
+
+2. Configure an Azure DNS zone with a valid public domain (refer to the README [here](1-quickstart/README.md) for more information)
+
+3. Create a service principal to be used to create the cluster (refer to the README [here](1-quickstart/README.md) for more information)
+
+4. Obtain a Red Hat [OpenShift installer pull secret](https://console.redhat.com/openshift/install/pull-secret)
+
+5. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
+
+    On Mac with brew:
+    ```shell
+    brew install docker colima
+    colima start
+    ```
+
+### Planning
+
+1. Determine which flavor of reference architecture you will provision: Quick Start, Standard, or Advanced.
+2. View the README in the automation directory for detailed instructions for installation steps and required information:
+    - [Quick Start](1-quickstart)
+    - [Standard](2-standard)
+    - [Advanced](3-advanced)
+
+### Setup
+
+1. Clone this repository to your local SRE laptop or into a secure terminal. Open a shell into the cloned directory.
+2. Copy **credentials.template** to **credentials.properties**.
+    ```shell
+    cp credentials.template credentials.properties
+    ```
+3. Provide values for the variables in **credentials.properties** (**Note:** `*.properties` has been added to **.gitignore** to ensure that the file containing the apikey cannot be checked into Git.)
+    - **TF_VAR_subscription_id** - The Azure subscription id where the cluster will be deployed
+    - **TF_VAR_tenant_id** - The Azure tenant id that owns the subscription
+    - **TF_VAR_client_id** - The id of the service principal with Owner and User Administrator access to the subscription for cluster creation
+    - **TF_VAR_client_secret** - The password of the service principal with Owner and User Administrator access to the subscription for cluster creation
+    - **TF_VAR_pull_secret** - The contents of the Red Hat OpenShift pull secret
+    - **TF_VAR_acme_registration_email** - (Optional) If using an auto-generated ingress certificate, this is the email address with which to register the certificate with LetsEncrypt.
+    - **TF_VAR_testing** - This value is used to determine whether testing or staging variables should be utilised. Lease as `none` for production deployments. A value other than `none` will request in a non-production deployment.
+    - **TF_VAR_portworx_spec** - A base64 encoded string of the Portworx specificatin yaml file. If left blank and using Portworx, ensure you specify the path to the Portworx specification yaml file in the `terraform.tfvars` file. For a Portworx implementation, either the `portworx_spec` or the `portworx_spec_file` values must be specified. If neither if specified, Portworx will not implement correctly.
+4. Run **./launch.sh**. This will start a container image with the prompt opened in the `/terraform` directory, pointed to the repo directory.
+5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
+
+    ```
+    Usage: setup-workspace.sh [-s STORAGE] [-r REGION] [-n PREFIX_NAME]
+    
+    where:
+      - **STORAGE** - The storage provider. Possible options are `portworx` or `odf`. If not provided as an argument, no storage will included
+      - **REGION** - the Azure location where the infrastructure will be provided ([available regions](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview)). Codes for each location can be obtained from the CLI using,
+            az account list-locations -o table
+        If not provided the value defaults to `eastus`
+      - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added and the cluster will be named `quickstart`.
+    ```
+6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
+7. Inspect **terraform.tfvars** to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated **terraform.tfvars** with default values. At a minimum, modify the ***base_domain_name*** and ***resource_group_name*** values to suit the Azure DNS zone configured in the prerequisite steps.)
+
+    **Note:** A soft link has been created to the **terraform.tfvars** in each of the terraform subdirectories so the configuration is shared between all of them. 
+
+#### Run all the terraform layers automatically
+
+From the **/workspace/current** directory, run the following:
+
+```
+./apply-all.sh
 ```
 
-### Generate all the layers
+The script will run through each of the terraform layers in sequence to provision the entire infrastructure.
 
-A script (`generate.sh`) has been provided to generate the terraform for all the flavors and all the layers at one time. The script only requires one argument - the directory where the generated automation.
+#### Run all the terraform layers manually
 
-To run the script, run the following:
-
-```shell
-boms/infrastructure/ibmcloud/openshift/generate.sh ~/automation
-```
-
-### Process individual BOMs
-
-1. Clone this repository onto your machine or trusted environment.
-2. Select the BOM that you will use, e.g. `boms/infrastructure/ibmcloud/openshift/1-quickstart/110-vpc-openshift.yaml`
-3. Run the `iascable build` command to generate the output
+From the **/workspace/current** directory, run change directory into each of the layer subdirectories and run the following:
 
 ```shell
-iascable build -i boms/infrastructure/ibmcloud/openshift/1-quickstart/110-vpc-openshift.yaml -o ~/automation
+terragrunt init
+terragrunt apply -auto-approve
 ```
 
-### How to run the generated automation
+### Obtain login information
 
-To start, read the instructions for configuring your automation from this [README.md](files/README.md). Then navigate to your output directory and follow those instructions.
+Once the "105-azure-ocp-ipi" BOM (and optionally the 110-azure-acme-certificate BOM) has successfully run it is possible to obtain the login information by running from the **/workspace/current** directory:
+```shell
+./show-login.sh
+```
