@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" pages="3">
     <diagram name="QuickStart" id="T9qopT3PJjsK0zyHMoS0">
-        <mxGraphModel dx="2018" dy="1167" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+        <mxGraphModel dx="1738" dy="945" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
             <root>
                 <mxCell id="gHoLxsW__RnX77sjm0al-0"/>
                 <mxCell id="gHoLxsW__RnX77sjm0al-1" parent="gHoLxsW__RnX77sjm0al-0"/>
@@ -522,7 +522,7 @@
         </mxGraphModel>
     </diagram>
     <diagram name="Standard" id="cOK6Yn9Cqrvdnbu7fczu">
-        <mxGraphModel dx="2699" dy="2017" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+        <mxGraphModel dx="2838" dy="1795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
             <root>
                 <mxCell id="_0J6o0tPFPfRbNGa3L3o-0"/>
                 <mxCell id="_0J6o0tPFPfRbNGa3L3o-1" style="" parent="_0J6o0tPFPfRbNGa3L3o-0"/>
@@ -808,7 +808,7 @@
                 <mxCell id="QBeX7DgfbEe83-1rXW4k-43" value="App Gateway" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="_0J6o0tPFPfRbNGa3L3o-1" vertex="1">
                     <mxGeometry x="-62.5" y="320" width="60" height="30" as="geometry"/>
                 </mxCell>
-                <mxCell id="QBeX7DgfbEe83-1rXW4k-20" value="Modules" parent="_0J6o0tPFPfRbNGa3L3o-0"/>
+                <mxCell id="QBeX7DgfbEe83-1rXW4k-20" value="Modules" parent="_0J6o0tPFPfRbNGa3L3o-0" visible="0"/>
                 <mxCell id="QBeX7DgfbEe83-1rXW4k-21" value="azure-resource-group" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=none;gradientColor=none;glass=1;fontColor=#FF0000;" parent="QBeX7DgfbEe83-1rXW4k-20" vertex="1">
                     <mxGeometry x="80" y="-10" width="260" height="40" as="geometry"/>
                 </mxCell>
