@@ -54,5 +54,5 @@ spec:
       variables:
         - name: bin_dir
           scope: global
-        - name: name_prefix
-          scope: config_file_path
+        - name: config_file_path
+          scope: global
