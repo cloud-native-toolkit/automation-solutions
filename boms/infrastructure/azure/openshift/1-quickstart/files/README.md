@@ -19,7 +19,6 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </thead>
 <tbody>
 <tr>
-
 <td>105 - IBM VPC OpenShift</td>
 <td>This layer provisions the bulk of the Azure infrastructure and OpenShift</td>
 <td>
@@ -33,19 +32,19 @@ The automation is delivered in a number of layers that are applied in order. Lay
 </ul>
 </td>
 </tr>
-
+<tr>
 <td>110 - Azure Acme Certificate</td>
-<td>This layer changes the self-signed ingress certificates for auto-generated ones from LetsEncrypt.</td>
+<td>This layer replaces the self-signed certificates with auto-generated ones from Acme & LetsEncrypt. This allows web browser console access to the cluster. Note that this layer invalidates the access key in the existing kubeconfig. It is necessary to get a new access key from the console to login at the command line after applying this layer.</td>
 <td>
-<h4>Certificates</h4>
+<h4>Network</h4>
 <ul>
-<li>Apps Certificate</li>
 <li>API Certificate</li>
-<li>Update Ingress Certificates</li>
+<li>Apps certificate</li>
+<li>Certificate Issuer CA</li>
+<li>OpenShift Cluster Update</li>
 </ul>
 </td>
 </tr>
-
 </tbody>
 </table>
 
@@ -73,10 +72,10 @@ The automation is delivered in a number of layers that are applied in order. Lay
 
 4. [Create a Service Principal](https://github.com/openshift/installer/blob/d0f7654bc4a0cf73392371962aef68cd9552b5dd/docs/user/azure/credentials.md) with proper IAM roles.
     1. Create the service principal account if it does not already exist:
-        ```bash
-         az ad sp create-for-rbac --role Contributor --name testingSPrincipal --scopes /subscriptions/$SUBSCRIPTION_ID
+        ```shell
+         az ad sp create-for-rbac --role Contributor --name <service_principal_name> --scopes /subscriptions/$SUBSCRIPTION_ID
         ```
-        where SUBSCRIPTION_ID is the Azure subscription where the cluster is to be deployed. 
+        where SUBSCRIPTION_ID is the Azure subscription where the cluster is to be deployed and `service_principal_name` is the name to be assigned to the service principal. 
         Make a copy of the details provided
         ```json
         "addId":"<this is the CLIENT_ID value>",
@@ -86,8 +85,8 @@ The automation is delivered in a number of layers that are applied in order. Lay
         ```
 
     1. Assign Contributor and User Access Administrator roles to the service principal if not already in place.
-        ```bash
-        az role assignment create --role "User Access Administrator" --assignee-object-id $(az ad sp list --filter "appId eq '$CLIENT_ID'" | jq '.[0].objectId' -r)
+        ```shell
+        az role assignment create --role "User Access Administrator" --assignee-object-id $(az ad sp list --filter "appId eq '$CLIENT_ID'" | jq '.[0].id' -r)
         ```
         where $CLIENT_ID is the appId of the service principal created in the prior step.
 
@@ -113,6 +112,9 @@ The automation is delivered in a number of layers that are applied in order. Lay
     - **TV_VAR_client_id** - The id of the service principal with Owner and User Administrator access to the subscription for cluster creation
     - **TV_VAR_client_secret** - The password of the service principal with Owner and User Administrator access to the subscription for cluster creation
     - **TV_VAR_pull_secret** - The contents of the Red Hat OpenShift pull secret downloaded in the prerequsite steps
+    - **TF_VAR_acme_registration_email** - (Optional) If using an auto-generated ingress certificate, this is the email address with which to register the certificate with LetsEncrypt.
+    - **TF_VAR_testing** - This value is used to determine whether testing or staging variables should be utilised. Lease as `none` for production deployments. A value other than `none` will request in a non-production deployment.
+    - **TF_VAR_portworx_spec** - A base64 encoded string of the Portworx specificatin yaml file. If left blank and using Portworx, ensure you specify the path to the Portworx specification yaml file in the `terraform.tfvars` file. For a Portworx implementation, either the `portworx_spec` or the `portworx_spec_file` values must be specified. If neither if specified, Portworx will not implement correctly.
 
 4. Run **./launch.sh**. This will start a container image with the prompt opened in the `/terraform` directory, pointed to the repo directory.
 5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
@@ -123,12 +125,14 @@ The automation is delivered in a number of layers that are applied in order. Lay
     where:
       - **STORAGE** - The storage provider. Possible options are `portworx` or `odf`. If not provided as an argument, a prompt will be shown.
       - **REGION** - the Azure location where the infrastructure will be provided ([available regions](https://docs.microsoft.com/en-us/azure/availability-zones/az-overview)). Codes for each location can be obtained from the CLI using,
+            ```shell
             az account list-locations -o table
+            ```
         If not provided the value defaults to `eastus`
       - **PREFIX_NAME** - the name prefix that should be added to all the resources. If not provided a prefix will not be added.
     ```
 6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
-7. Inspect **terraform.tfvars** to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated **terraform.tfvars** with default values. At a minimum, modify the ***base_domain_name*** and ***resource_group_name*** values to suit the Azure DNS zone configured in the prerequisite steps)
+7. Inspect **terraform.tfvars** to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated **terraform.tfvars** with default values. At a minimum, modify the ***base_domain_name*** and ***resource_group_name*** values to suit the Azure DNS zone configured in the prerequisite steps. )
     - **base_domain_name** - the full subdomain delegated to Azure in the DNS zone (for example ocp.azure.example.com)
     - **resource_group_name** - the Azure resource group where the DNS zone has been defined
 
@@ -149,6 +153,14 @@ The script will run through each of the terraform layers in sequence to provisio
 From the **/workspace/current** directory, change directory into each of the layer subdirectories and run the following:
 
 ```shell
-terraform init
-terraform apply -auto-approve
+terragrunt init
+terragrunt apply -auto-approve
 ```
+
+### Obtain login information
+
+Once the "105-azure-ocp-ipi" BOM (and optionally the 110-azure-acme-certificate BOM) has successfully run it is possible to obtain the login information by running from the **/workspace/current** directory:
+```shell
+./show-login.sh
+```
+

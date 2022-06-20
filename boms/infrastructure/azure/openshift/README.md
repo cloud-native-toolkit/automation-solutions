@@ -68,6 +68,8 @@ TBD
     - **TF_VAR_client_secret** - The password of the service principal with Owner and User Administrator access to the subscription for cluster creation
     - **TF_VAR_pull_secret** - The contents of the Red Hat OpenShift pull secret
     - **TF_VAR_acme_registration_email** - (Optional) If using an auto-generated ingress certificate, this is the email address with which to register the certificate with LetsEncrypt.
+    - **TF_VAR_testing** - This value is used to determine whether testing or staging variables should be utilised. Lease as `none` for production deployments. A value other than `none` will request in a non-production deployment.
+    - **TF_VAR_portworx_spec** - A base64 encoded string of the Portworx specificatin yaml file. If left blank and using Portworx, ensure you specify the path to the Portworx specification yaml file in the `terraform.tfvars` file. For a Portworx implementation, either the `portworx_spec` or the `portworx_spec_file` values must be specified. If neither if specified, Portworx will not implement correctly.
 4. Run **./launch.sh**. This will start a container image with the prompt opened in the `/terraform` directory, pointed to the repo directory.
 5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
 
@@ -101,6 +103,13 @@ The script will run through each of the terraform layers in sequence to provisio
 From the **/workspace/current** directory, run change directory into each of the layer subdirectories and run the following:
 
 ```shell
-terraform init
-terraform apply -auto-approve
+terragrunt init
+terragrunt apply -auto-approve
+```
+
+### Obtain login information
+
+Once the "105-azure-ocp-ipi" BOM (and optionally the 110-azure-acme-certificate BOM) has successfully run it is possible to obtain the login information by running from the **/workspace/current** directory:
+```shell
+./show-login.sh
 ```
