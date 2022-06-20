@@ -4,7 +4,7 @@ This folder contains the Bill of Materials (*BOMs*) for the Turbonomic Automatio
 
 Below you can see how Turbonomic can help your organisation introspect the costs and resources of your complex cloud enviroments.
 
-![Turbonimic Architecture](./files/turbonomic-arch.png)
+![Turbonimic Architecture](./files/turboArch.png)
 
 ## Overview
 
