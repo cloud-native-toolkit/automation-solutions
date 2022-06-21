@@ -1,37 +1,87 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 105-aws-vpc-openshift
-  labels:
-    type: infrastructure
-    platform: aws
-    code: '105'
-  annotations:
-    displayName: AWS VPC OpenShift
-    description: AWS VPC and Red Hat OpenShift servers
+  name: aws-quickstart-architecture
 spec:
   modules:
     - name: aws-vpc
+      alias: aws-vpc
+      variables:
+        - name: internal_cidr
+          value: 10.0.0.0/16
     - name: aws-internet-gateway
-      alias: internet_gateway
+      alias: igw
+    - name: aws-kms
+      alias: aws-kms
+    - name: aws-vpc-subnets
+      alias: pub_subnets
+      dependencies:
+        - name: gateways
+          ref: igw
+      variables:
+        - name: label
+          value: public
+        - name: subnet_cidrs
+          alias: pub_subnet_cidrs
+          value:
+            - 10.0.1.0/24
+            - 10.0.2.0/24
+            - 10.0.3.0/24
+    - name: aws-vpc-subnets
+      alias: pri_subnets
+      dependencies:
+        - name: gateways
+          ref: ngw
+      variables:
+        - name: label
+          value: private
+        - name: subnet_cidrs
+          alias: pri_subnets_cidrs
+          value:
+            - 10.0.4.0/24
+            - 10.0.5.0/24
+            - 10.0.6.0/24
     - name: aws-nat-gateway
-      alias: nat_gateway
+      alias: ngw
       dependencies:
         - name: aws-vpc-subnets
-          ref: public_subnets
-    - name: aws-vpc-subnets
-      alias: public_subnets
-      dependencies:
-        - name: gateways
-          ref: internet_gateway
-    - name: aws-vpc-subnets
-      alias: private_subnets
-      dependencies:
-        - name: gateways
-          ref: nat_gateway
+          ref: pub_subnets
+      variables:
+        - name: connectivity_type
+          value: public
+        - name: _count
+          value: 3            
     - name: aws-rosa
+      alias: cluster
       dependencies:
         - name: public-subnets
-          ref: public_subnets
+          ref: pub_subnets
         - name: private-subnets
-          ref: private_subnets
+          ref: pri_subnets
+      variables:
+        - name: no_of_compute_nodes
+          value: 1
+        - name: multi-zone-cluster      
+          alias: multi-zone
+          scope: global
+  variables:
+    - name: name_prefix
+      scope: global
+      value: sw-bom9
+      important: true      
+    - name: provision
+      value: true
+      scope: global    
+    - name: resource_group_name
+      scope: global
+    - name: region
+      value: ap-south-1
+      scope: global
+    - name: multi-zone
+      value: true
+      scope: global
+      important: true      
+    - name: rosa_token     
+      scope: global     
+      important: true
+      
