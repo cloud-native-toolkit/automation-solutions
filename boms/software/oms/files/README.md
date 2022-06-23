@@ -258,7 +258,7 @@ A container image is used to provide a consistent runtime environment for the au
 
     You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.  If you are using Azure, you will need a Portworx spec file name (as described above), and if your cluster is using a self-signed SSL certificate, you will need a copy of the issuer cert and the file name.
 
-    > ⚠️ At this time, only IBM Cloud and Azure are supported, but support for AWS will be released in the coming days.
+    > ⚠️ At this time, only IBM Cloud are supported, but support for Azure and AWS will be released in the coming days.
 
 5. Run the command `setup-workspace.sh -p ibm -s portworx -n df` and include optional parameters as needed.
 
@@ -325,7 +325,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 16. This will kick off the automation for setting up the GitOps Operator into your cluster.  Once complete, you should see message similar to:
 
     ```
-    Apply complete! Resources: 78 added, 0 changed, 0 destroyed.
+    Apply complete! Resources: 18 added, 0 changed, 0 destroyed.
     ```
 
 17. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Sterling OMS install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
