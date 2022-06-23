@@ -367,7 +367,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 20. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
-    This process will take between 15 and 25 minutes to complete.  
+    This process will take 30 minutes to complete.  
 
 ##### Access the Sterling OMS Deployment
 
@@ -379,7 +379,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
  ![OMS Secret](images/oms-secret.jpg)
 
-23. Launch the IBM Sterling OMS applications Business Center via routes or developer topology (oms-app-app-common-sbc)
+23. Launch the IBM Sterling OMS applications Business Center via routes or developer topology (oms-app-app-common-sbc). Use the password that you retrieved from step 22 which will bring up IBM Sterling Business Center
 
 ![OMS SBC](images/oms-sbc.jpg)
 
