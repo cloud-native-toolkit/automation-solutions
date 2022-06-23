@@ -93,7 +93,7 @@ spec:
           value: mq-instance
         - name: config_map
           value: oms-queue-config
-        - name: storageclass
+        - name: storageClass
           alias: rwo_storage_class
           scope: global
 
