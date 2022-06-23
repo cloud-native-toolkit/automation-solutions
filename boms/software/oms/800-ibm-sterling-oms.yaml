@@ -23,9 +23,9 @@ spec:
         - name: appserver_image_tag
           value: 10.0.0.26-amd64
         - name: db_server
-          value: 87339a92-us-east.lb.appdomain.cloud
+          value: 192.0.0.0
         - name: db_port
-          value: 51000
+          value: 50000
         - name: db_name
           value: OMDB
         - name: schema_name
@@ -45,7 +45,7 @@ spec:
         - name: oms_repository
           value: cp.icr.io/cp/ibm-oms-enterprise
         - name: storage_class
-          value: ocs-storagecluster-ceph-rbd
+          value: portworx-db2-rwx-sc
       dependencies:
         - name: namespace
           ref: gitops-sterling_oms
