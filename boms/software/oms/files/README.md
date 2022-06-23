@@ -77,7 +77,9 @@ The Sterling OMS automation is broken into what we call layers of automation or 
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | 200    | [200 - OpenShift Gitops](./200-openshift-gitops)                                                                                                                                                                                                               | Set up OpenShift GitOps tools in an OpenShift cluster. This is required to install the software using gitops approaches.                                   | 10 Mins  |
 | 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
-| 800    | [800 - IBM Sterling OMS](./800-ibm-sterling-oms)                                                                                                                                                                                   | Install IBM Sterling Order Manager Software                                                                                                     | 60 Mins   |
+| 210    | [210 - Azure Portworx Storage](./210-azure-portworx-storage) | ⚠️⚠️⚠️⚠️ Coming Soon  | 10 Mins  |
+| 210    | [210 - AWS Portworx Storage](./210-aws-portworx-storage) | ⚠️⚠️⚠️⚠️ Comming for AWS  | 10 Mins  |
+| 800    | [800 - IBM Sterling OMS](./800-ibm-sterling-oms)                                                                                                                                                                                   | Install IBM Sterling Order Manager Software                                                                                                     | 30 Mins   |
 
 
 
@@ -219,7 +221,7 @@ A container image is used to provide a consistent runtime environment for the au
 
 1. Provide the IBM Cloud API Key for the target IBM Cloud account as the value for `TF_VAR_ibmcloud_api_key`
 
-[OMS Automation Architecture](images/Sterling-oms-Page-2.jpg)
+![OMS Automation Architecture](images/Sterling-oms-Page-2.jpg)
 
 
 #### Configure the automation
