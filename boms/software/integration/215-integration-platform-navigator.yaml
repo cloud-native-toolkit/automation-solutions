@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Integration Platform - PlatformNavigtor Only
     description: Populates a GitOps repository with PlatformNavigator component of the IBM Integration Platform
+    deployment-type/gitops: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster

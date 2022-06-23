@@ -10,6 +10,7 @@ metadata:
   annotations:
     displayName: Turbonomic Storage Class for IBM Cloud
     description: GitOps deployment of Storage Class for IBM Cloud OpenShift environment
+    deployment-type/gitops: "true"
 spec:
   modules:
 

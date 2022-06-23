@@ -9,6 +9,7 @@ metadata:
     displayName: DB2UOperator for Cloud Pak for Data
     description:  GitOps deployment of DB2U Operator for Cloud pak for Data
     apply-all/optional: "true"
+    deployment-type/gitops: "true"
 spec:
   modules:
     - name: gitops-namespace

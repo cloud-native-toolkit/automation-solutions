@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Integration Platform - Cloud Pak for Integration
     description: GitOps deployment of Cloud Pak for Integration
+    deployment-type/gitops: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster

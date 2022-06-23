@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Maximo Application Suite - Monitor Application
     description: GitOps deployment of Maximo Monitor application for OpenShift
+    deployment-type/gitops: "true"
 spec:
   modules:
     - name: gitops-repo
