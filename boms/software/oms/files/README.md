@@ -404,7 +404,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Sterling OMS install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
 
-25. Change directories to the `210-*` folder and run the following commands to deploy storage into your cluster:
+25. Change directories to the `210-ibm-portworx-storage` folder and run the following commands to deploy portworx storage into your cluster:
 
     ```
     cd 210-ibm-portworx-storage
@@ -424,7 +424,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     terraform apply --auto-approve
     ```
 
-    > This step **does not** require worker nodes to be restarted as some other installation methods describe.
+    > This step install IBM Sterling Order Manager Software
 
 
 27. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
@@ -437,7 +437,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     ![Reference Architecture](images/oms-route.png)
 
-32. Navigate to `Secrets` in the `gitops-sterling-oms` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
+32. Navigate to `Secrets` in the `gitops-sterling-oms` namespace, and find the `ibm-oms-ent-prod-oms-secret` secret.  Copy the value of `admin_password` key inside of that secret.
 
 33. Go back to the Sterling OMS instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
 
