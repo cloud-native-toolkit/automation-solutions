@@ -439,7 +439,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 32. Navigate to `Secrets` in the `gitops-sterling-oms` namespace, and find the `ibm-oms-ent-prod-oms-secret` secret.  Copy the value of `admin_password` key inside of that secret.
     
- ![OMS Secret](images/oms-secret.png)
+ ![OMS Secret](images/oms-secret.jpg)
 
 33. Go back to the Sterling OMS instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
 
