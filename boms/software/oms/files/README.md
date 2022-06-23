@@ -138,7 +138,7 @@ The installation process will use a standard GitOps repository that has been bui
 
 The following diagram illustrates the basic environment configuration post deployment of the default Sterling Order Management Software images:
 
-[Architecture of Sterling Order Management Software deployment on OpenShift Container Platform](images/OMS-Architecture.jpeg)
+![Architecture of Sterling Order Management Software deployment on OpenShift Container Platform](images/OMS-Architecture.jpeg)
 
 
 #### (optional) Set up the container environment
