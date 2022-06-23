@@ -76,7 +76,7 @@ The Sterling OMS automation is broken into what we call layers of automation or 
 | BOM ID | Name                                                                                                                                                                                                                                                           | Description                                                                                                                                                | Run Time |
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | 200    | [200 - OpenShift Gitops](./200-openshift-gitops)                                                                                                                                                                                                               | Set up OpenShift GitOps tools in an OpenShift cluster. This is required to install the software using gitops approaches.                                   | 10 Mins  |
-| 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) <br> [210 - IBM OpenShift Data Foundation](./210-ibm-odf-storage)  <br>  [210 - AWS Portworx Storage](./210-aws-portworx-storage)  <br>  [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
+| 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
 | 800    | [800 - IBM Sterling OMS](./800-ibm-sterling-oms)                                                                                                                                                                                   | Install IBM Sterling Order Manager Software                                                                                                     | 60 Mins   |
 
 
@@ -186,26 +186,6 @@ A container image is used to provide a consistent runtime environment for the au
     ## TF_VAR_entitlement_key: The entitlement key used to access the IBM software images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key
     TF_VAR_entitlement_key=
     
-    # Only needed if targeting AWS Deployment
-    TF_VAR_access_key=
-    TF_VAR_secret_key=
-    
-    
-    ##
-    ## Azure credentials
-    ## Credentials are required to install Portworx on an Azure account. These credentials must have
-    ## particular permissions in order to interact with the account and the OpenShift cluster. Use the
-    ## provided `azure-portworx-credentials.sh` script to retrieve/generate these credentials. Be sure to use the same cluster name that was used to create the cluster on Azure
-    ##
-    
-    ## TF_VAR_azure_subscription_id: The subscription id for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_subscription_id=
-    ## TF_VAR_azure_tenant_id: The tenant id for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_tenant_id=
-    ## TF_VAR_azure_client_id: The client id of the user for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_client_id=
-    ## TF_VAR_azure_client_secret: The client id of the user for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_client_secret=
     ```
 
    > ⚠️ Do not wrap any values in `credentials.properties` in quotes
@@ -229,60 +209,13 @@ A container image is used to provide a consistent runtime environment for the au
 
 
 
-##### Deploying on Azure (Portworx)
-
-If IBM Sterling OMS will be deployed on OpenShift deployed on Azure, the credentials for the Azure account need to be
-provided. Several clis are required for these steps:
-
-- `az` cli - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
-- `jq` cli - https://stedolan.github.io/jq/download/
-
-You can install these clis on your local machine **OR** run the following commands within the provided container image by running `launch.sh`
-
-1. Log into your Azure account
-
-    ```shell
-    az login
-    ```
-
-2. Run the `azure-portworx-credentials.sh` script to gather/create the credentials:
-
-    ```shell
-    ./azure-portworx-credentials.sh -t {cluster type} -g {resource group name} -n {cluster name} [-s {subscription id}]
-    ```
-
-   where:
-    - **cluster type** is the type of OpenShift cluster (`aro` or `ipi`).
-    - **resource group name** is the name of the Azure resource group where the cluster has been provisioned.
-    - **cluster name** is the name of the OpenShift cluster.
-    - **subscription id** is the subscription id of the Azure account. If a value is not provided it will be looked up.
-
-3. Update `credentials.properties` with the values output from the script.
-
-    ```json
-    {
-      "azure_client_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-      "azure_client_secret": "XXXXXXX",
-      "azure_tenant_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-      "azure_subscription_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-    }
-    ```
-
-4. If you used the container image to run the script, type `exit` to close the container shell then re-rung `launch.sh` to pick up the changes to the environment variables.
-
-
-
 #### Configure the automation
 
-##### Get the Portworx configuration spec (for AWS or Azure deployments)
-
-5. Follow the steps to download the [portworx confituration spec](./PORTWORX_CONFIG.md)
-6. Copy the downloaded file into the root directory of the cloned automation-data-foundation repository
 
 ##### Set up the automation workspace
 
 
-7. (Optional) If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
+1. (Optional) If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
 
     ```
     brew install colima
@@ -290,7 +223,7 @@ You can install these clis on your local machine **OR** run the following comman
     ```
 
 
-9. We are now ready to start installing Data Foundation, run the `launch.sh` command, make sure you are in the root of the `automation-data-foundation` repository
+2. We are now ready to start installing Data Foundation, run the `launch.sh` command, make sure you are in the root of the `automation-data-foundation` repository
 
    ```
    ./launch.sh
@@ -301,13 +234,13 @@ You can install these clis on your local machine **OR** run the following comman
    ```
 
 
-10. **launch.sh** will download a container image that contains all the command line tools to enable easy installation of the software. Once it has downloaded, it will mount the local file system and exec into the container for you to start running commands from within this custom container.
+3. **launch.sh** will download a container image that contains all the command line tools to enable easy installation of the software. Once it has downloaded, it will mount the local file system and exec into the container for you to start running commands from within this custom container.
 
 
 > we expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
 
 
-11. Next we need to create a workspace to run the Terraform automation.  Below you can see the parameters to configure your workspace for terraform execution.
+4. Next we need to create a workspace to run the Terraform automation.  Below you can see the parameters to configure your workspace for terraform execution.
 
     ```
     /terraform $ ./setup-workspace.sh -h
@@ -327,7 +260,7 @@ You can install these clis on your local machine **OR** run the following comman
 
     > ⚠️ At this time, only IBM Cloud and Azure are supported, but support for AWS will be released in the coming days.
 
-12. Run the command `setup-workspace.sh -p ibm -s portworx -n df` and include optional parameters as needed.
+5. Run the command `setup-workspace.sh -p ibm -s portworx -n df` and include optional parameters as needed.
 
     ```
     /terraform $ ./setup-workspace.sh -p ibm -s portworx -n df
@@ -345,9 +278,9 @@ You can install these clis on your local machine **OR** run the following comman
     Setting up current/800-ibm-sterling-oms from 800-ibm-sterling-oms
     move to /workspaces/current this is where your automation is configured
     ```
-13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
+6. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
 
-14. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.
+7. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.
 
 The following you will be prompted for and some suggested values.
 
@@ -361,32 +294,26 @@ The following you will be prompted for and some suggested values.
 The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, and `cluster_login_token` values will be loaded automatically from the credentials.properties file that was configured in an earlier step.
 
 
-15. The `cp4d-instance_storage_vendor` variable should have already been populated by the `setup-workspace.sh` script. This should have the value `portworx` or `ocs`, depending on the selected storage option.
+8. The `cp4d-instance_storage_vendor` variable should have already been populated by the `setup-workspace.sh` script. This should have the value `portworx` or `ocs`, depending on the selected storage option.
 
-16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
+9. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
 
-17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization where the GitOps Repository will be created in. Click on top right menu and select Your Profile to take you to your default organization.
+10. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization where the GitOps Repository will be created in. Click on top right menu and select Your Profile to take you to your default organization.
 
-18. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Data Foundation is installed into the cluster.
+11. Set the `repo_repo` value to a unique name that you will recognize as the place where the GitOps configuration is going to be placed before Data Foundation is installed into the cluster.
 
-19. You can change the `gitops-cluster-config_banner_text` banner text to something useful for your client project or demo.
+12. You can change the `gitops-cluster-config_banner_text` banner text to something useful for your client project or demo.
 
-20. Save the `terraform.tfvars` file
+13. Save the `terraform.tfvars` file
 
-21. Navigate into the `/workspaces/current` folder
+14. Navigate into the `/workspaces/current` folder
 
     > ❗️ Do not skip this step.  You must execute from the `/workspaces/current` folder.
 
 
-##### Automated Deployment
-
-22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current`.  This will apply each of the Sterling OMS layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
-
-    Once complete, skip to the **Access the Sterling OMS Deployment** section
-
 ##### Manual Deployment
 
-23. You can also deploy each layer manually.  To begin, navigate into the `200-openshift-gitops` folder and run the following commands
+15. You can also deploy each layer manually.  To begin, navigate into the `200-openshift-gitops` folder and run the following commands
 
     ```
     cd 200-openshift-gitops
@@ -395,16 +322,16 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     ```
 
 
-23. This will kick off the automation for setting up the GitOps Operator into your cluster.  Once complete, you should see message similar to:
+16. This will kick off the automation for setting up the GitOps Operator into your cluster.  Once complete, you should see message similar to:
 
     ```
     Apply complete! Resources: 78 added, 0 changed, 0 destroyed.
     ```
 
-24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Sterling OMS install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
+17. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Sterling OMS install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
 
-25. Change directories to the `210-ibm-portworx-storage` folder and run the following commands to deploy portworx storage into your cluster:
+18. Change directories to the `210-ibm-portworx-storage` folder and run the following commands to deploy portworx storage into your cluster:
 
     ```
     cd 210-ibm-portworx-storage
@@ -416,7 +343,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
     Storage configuration will run asynchronously in the background inside of the Cluster and should be complete within 10 minutes.
 
-26. Change directories to the `800-ibm-sterling-oms` folder and run the following commands to deploy entitlements into your cluster:
+19. Change directories to the `800-ibm-sterling-oms` folder and run the following commands to deploy entitlements into your cluster:
 
     ```
     cd ../800-ibm-sterling-oms
@@ -427,21 +354,21 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     > This step install IBM Sterling Order Manager Software
 
 
-27. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
+20. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
-    This process will take between 45 and 60 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
+    This process will take between 15 and 25 minutes to complete.  
 
 ##### Access the Sterling OMS Deployment
 
-31. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `gitops-sterling-oms` namespace.  Here you can see the URL to the deployed Sterling OMS instance.  Open this url in a new browser window.
+21. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `gitops-sterling-oms` namespace.  Here you can see the URL to the deployed Sterling OMS instance.  Open this url in a new browser window.
 
     ![OMS Route](images/oms-route.png)
 
-32. Navigate to `Secrets` in the `gitops-sterling-oms` namespace, and find the `ibm-oms-ent-prod-oms-secret` secret.  Copy the value of `admin_password` key inside of that secret.
+22. Navigate to `Secrets` in the `gitops-sterling-oms` namespace, and find the `ibm-oms-ent-prod-oms-secret` secret.  Copy the value of `admin_password` key inside of that secret.
     
  ![OMS Secret](images/oms-secret.jpg)
 
-33. Go back to the Sterling OMS instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+23. Go back to the Sterling OMS instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
 
 
 
