@@ -1,0 +1,53 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 800-ibm-sterling-oms
+  labels:
+    type: software
+    code: '800'
+  annotations:
+    displayName: Sterling OMS
+    description: GitOps deployment of Sterling OMS
+spec:
+  modules:
+
+    # Namespaces for Sterling OMS
+  - name: gitops-namespace
+      variables:
+        - name: name
+          value: gitops-sterling-oms
+    - name: gitops-sterling-oms
+      variables:
+        - name: agent_image_tag
+          value: 10.0.0.26-amd64
+        - name: appserver_image_tag
+          value: 10.0.0.26-amd64
+        - name: db_server
+          value: 87339a92-us-east.lb.appdomain.cloud
+        - name: db_port
+          value: 51000
+        - name: db_name
+          value: OMDB
+        - name: schema_name
+          value: OMDB
+        - name: db_user
+          value: admin
+        - name: dbpassword
+          value: password
+        - name: dbvendor
+          value: db2
+        - name: db_datasource
+          value: jdbc/OMDS
+        - name: loadfactorydata
+          value: donotinstall
+        - name: loadfactorydata_mode
+          value: 
+        - name: oms_repository
+          value: cp.icr.io/cp/ibm-oms-enterprise
+        - name: storage_class
+          value: ocs-storagecluster-ceph-rbd
+      dependencies:
+        - name: namespace
+          ref: gitops-sterling_oms
+        - name: namespace
+          optional: true
