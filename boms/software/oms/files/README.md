@@ -54,6 +54,8 @@ This suite of automation can be used for a Proof of Technology environment, or u
 
 The following instructions will help you install Sterling OMS into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
 
+![OMS Automation Architecture](images/oms-deployment.jpg)
+
 
 ### Licenses and Entitlements
 
@@ -216,8 +218,6 @@ A container image is used to provide a consistent runtime environment for the au
 ##### Deploying on IBM Cloud (Portworx or ODF)
 
 1. Provide the IBM Cloud API Key for the target IBM Cloud account as the value for `TF_VAR_ibmcloud_api_key`
-
-![OMS Automation Architecture](images/oms-architecture.jpeg)
 
 
 #### Configure the automation
