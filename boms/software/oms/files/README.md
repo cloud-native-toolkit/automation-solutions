@@ -435,11 +435,14 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 31. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `gitops-sterling-oms` namespace.  Here you can see the URL to the deployed Sterling OMS instance.  Open this url in a new browser window.
 
-    ![Reference Architecture](images/oms-route.png)
+    ![OMS Route](images/oms-route.png)
 
 32. Navigate to `Secrets` in the `gitops-sterling-oms` namespace, and find the `ibm-oms-ent-prod-oms-secret` secret.  Copy the value of `admin_password` key inside of that secret.
+    
+ ![OMS Secret](images/oms-secret.png)
 
 33. Go back to the Sterling OMS instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+
 
 
 ## Summary
