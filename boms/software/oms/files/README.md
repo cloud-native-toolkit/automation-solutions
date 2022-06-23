@@ -124,15 +124,19 @@ Ensure you have the following before continuing:
 
 ⚠️⚠️⚠️⚠️ Recommendations : Refer IBM Sterling OMS data load appraoch which pre-populates the database with the 1200 tables and index 
 
-Load factory setup data for Sterling Store Engagement (Legacy) - https://www.ibm.com/docs/en/order-management-sw/10.0?topic=lfsd-load-factory-setup-data-sterling-store-engagement-legacy
+- Load factory setup data for Sterling Store Engagement (Legacy) - https://www.ibm.com/docs/en/order-management-sw/10.0?topic=lfsd-load-factory-setup-data-sterling-store-engagement-legacy
 
-As result, Database will be populated with 1200 tables and indexes on hosted environemnt which should happen successfully before you attempt to deploy IBM Sterling OMS
+- As result, Database will be populated with 1200 tables and indexes on hosted environemnt which should happen successfully before you attempt to deploy IBM Sterling OMS
 
 
 ### Installing Sterling OMS
 
 
 The installation process will use a standard GitOps repository that has been built using the Modules to support Sterling OMS installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.
+
+The following diagram illustrates the basic environment configuration post deployment of the default Sterling Order Management Software images:
+
+[Architecture of Sterling Order Management Software deployment on OpenShift Container Platform](images/OMS-Architecture.jpeg)
 
 
 #### (optional) Set up the container environment
@@ -215,6 +219,7 @@ A container image is used to provide a consistent runtime environment for the au
 
 1. Provide the IBM Cloud API Key for the target IBM Cloud account as the value for `TF_VAR_ibmcloud_api_key`
 
+[OMS Automation Architecture](images/Sterling-oms-Page-2.jpg)
 
 
 #### Configure the automation
