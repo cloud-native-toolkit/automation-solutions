@@ -136,10 +136,6 @@ Ensure you have the following before continuing:
 
 The installation process will use a standard GitOps repository that has been built using the Modules to support Sterling OMS installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.
 
-The following diagram illustrates the basic environment configuration post deployment of the default Sterling Order Management Software images:
-
-![Architecture of Sterling Order Management Software deployment on OpenShift Container Platform](images/OMS-Architecture.jpeg)
-
 
 #### (optional) Set up the container environment
 
@@ -221,7 +217,7 @@ A container image is used to provide a consistent runtime environment for the au
 
 1. Provide the IBM Cloud API Key for the target IBM Cloud account as the value for `TF_VAR_ibmcloud_api_key`
 
-![OMS Automation Architecture](images/Sterling-oms-Page-2.jpg)
+![OMS Automation Architecture](images/OMS.jpg)
 
 
 #### Configure the automation
@@ -383,7 +379,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
  ![OMS Secret](images/oms-secret.jpg)
 
-23. Go back to the Sterling OMS instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+23. Go back to the Sterling OMS instance that you opened in a separate window.  Log in Sterling business Center using the username `admin` with the password copied in the previous step.
 
 
 
