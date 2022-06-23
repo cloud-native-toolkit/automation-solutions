@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Integration - MQ
     description: GitOps deployment of MQ for Cloud pak for Integration
+    deployment-type/gitops: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster

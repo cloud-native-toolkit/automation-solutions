@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Turbonomic on OpenShift for Multi Cloud
     description: GitOps deployment of Turbonomic on Multi Cloud environments AWS, Azure and IBM Cloud
+    deployment-type/gitops: "true"
 spec:
   modules:
 

@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Data Foundation
     description: GitOps deployment of Data Foundation for Cloud pak for Data
+    deployment-type/gitops: "true"
 spec:
   modules:
 

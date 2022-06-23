@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Maximo Application Suite - IoT Application
     description: GitOps deployment of Maximo IoT application for OpenShift
+    deployment-type/gitops: "true"
 spec:
   modules:
     - name: gitops-repo
