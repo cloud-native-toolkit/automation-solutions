@@ -217,7 +217,7 @@ A container image is used to provide a consistent runtime environment for the au
 
 1. Provide the IBM Cloud API Key for the target IBM Cloud account as the value for `TF_VAR_ibmcloud_api_key`
 
-![OMS Automation Architecture](images/OMS.jpg)
+![OMS Automation Architecture](images/oms-architecture.jpeg)
 
 
 #### Configure the automation
@@ -379,8 +379,9 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     
  ![OMS Secret](images/oms-secret.jpg)
 
-23. Go back to the Sterling OMS instance that you opened in a separate window.  Log in Sterling business Center using the username `admin` with the password copied in the previous step.
+23. Launch the IBM Sterling OMS applications Business Center via routes or developer topology (oms-app-app-common-sbc)
 
+![OMS SBC](images/oms-sbc.jpg)
 
 
 ## Summary
