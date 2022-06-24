@@ -371,6 +371,14 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     This process will take 30 minutes to complete.  
 
+As a result of OMS successful deployment, here are the minimum software configurations which you notice found in the `gitops-sterling-oms` namespace
+
+- Secrets — Creates sensitive information like passwords
+- Security constraints — Specific constraints enforced by customizations
+- ConfigMaps — Capture Liberty server customizations, application/agent’s customer overrides, log4j customization, and database connectivity
+- Persistent volumes — Mountable file drives for referencing any external files - like SearchIndex and log folders
+- Ingress/Routes — Ability to push/pull images into OpenShift registry and to expose application server URLs for external access
+
 ##### Access the Sterling OMS Deployment
 
 21. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `gitops-sterling-oms` namespace.  Here you can see the URL to the deployed Sterling OMS instance.  Open this url in a new browser window.
