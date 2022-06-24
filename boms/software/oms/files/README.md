@@ -81,10 +81,7 @@ The Sterling OMS automation is broken into what we call layers of automation or 
 | 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
 | 210    | [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
 | 210    | [210 - AWS Portworx Storage](./210-aws-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
-| 800    | [800 - Sterling OMS](./800-sterling-oms)                                                                                                                                                                                   | Install Sterling Order Manager Software on IBM Cloud        
-⚠️⚠️⚠️⚠️ Support for Azure Coming Soon
-⚠️⚠️⚠️⚠️ Support for AWS Coming Soon
-                                                                                             | 30 Mins   |
+| 800    | [800 - Sterling OMS](./800-sterling-oms)                                                                                                                                                                                   | Install Sterling Order Manager Software on IBM Cloud  ⚠️⚠️⚠️⚠️ Support for Azure Coming Soon  ⚠️⚠️⚠️⚠️ Support for AWS Coming Soon  | 30 Mins   |
 | 800    | [800 - Sterling OMS](./800-sterling-oms)                                                                                                                                                                                   | ⚠️⚠️⚠️⚠️ Support for Azure Coming Soon                                                                                                     | 30 Mins   |
 | 800    | [800 - Sterling OMS](./800-sterling-oms)                                                                                                                                                                                   | ⚠️⚠️⚠️⚠️ Support for AWS Coming Soon                                                                                                     | 30 Mins   |
 
