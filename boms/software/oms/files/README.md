@@ -126,7 +126,7 @@ Ensure you have the following before continuing:
 
 - Cloud Pak entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) as described above.
   
-### DB2 Data - Load 
+### DB2 Data - Load (Don't Skip step)
 
 ⚠️⚠️⚠️⚠️ Recommendations : Refer IBM Sterling OMS data load appraoch which pre-populates the database with the 1200 tables and index 
 
