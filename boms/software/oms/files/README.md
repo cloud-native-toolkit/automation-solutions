@@ -105,7 +105,7 @@ Before you start the installation please install the pre-req tools on your machi
 Please install the following Pre-Req tools to help you get started with the SRE tasks for installing Data Foundation into an existing OpenShift Cluster on AWS, Azure, or IBM Cloud.
 
 
-Pre-requisites:
+**Pre-requisites:**
 
 - Check you have a valid GitHub ID that can be used to create a repository in your own organization [GitHub]( https://github.com/) or GitHub Enterprise account.
 
@@ -126,19 +126,39 @@ Ensure you have the following before continuing:
 
 - Cloud Pak entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) as described above.
   
-### DB2 Data - Load (Don't Skip step)
+### IBM Sterling OMS Prequisites 
 
-⚠️⚠️⚠️⚠️ Recommendations : Refer IBM Sterling OMS data load appraoch which pre-populates the database with the 1200 tables and index 
+We’ll assume that you have reviewed the [product documentation](https://www.ibm.com/docs/en/order-management-sw/10.0?topic=container-installation-prerequisites) and you are aware of the prerequisites and system version requirements. We’ll also assume you have installed the following:
+
+- IBM Db2 database V11.x or higher OR Oracle database v19c
+
+You can create highly available DB2 instances by replicating the primary instance in one region to the standby instance in another region using IBM High Availability Disaster Recovery (HADR) replication. If the primary node becomes unavailable, TSAMP fails over to the standby instance. DB2 applications automatically reconnect to the standby instance using the IBM Automatic Client Reroute (ACR) feature.
+  
+### DB2 Data - Load (Don't skip this step)
+
+We assume you have installed DB2 either in cloud environment or your on-premises which is ready to load the tables for the IBM Sterling OMS application to function properly
+
+⚠️⚠️⚠️⚠️ Recommendations : Refer IBM Sterling OMS data load approach which populates the database with the 1200 tables and index.
 
 - Load factory setup data for Sterling Store Engagement (Legacy) - https://www.ibm.com/docs/en/order-management-sw/10.0?topic=lfsd-load-factory-setup-data-sterling-store-engagement-legacy
 
 - As result, Database will be populated with 1200 tables and indexes on hosted environemnt which should happen successfully before you attempt to deploy IBM Sterling OMS
 
 
-### Installing Sterling OMS
-
+### Installing Sterling OMS (via HELM Chart approach)
 
 The installation process will use a standard GitOps repository that has been built using the Modules to support Sterling OMS installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.
+
+The Ecosystem contains the helm charts for OpenShift and can perform following key actions for deploying the application and agent containers:
+
+- Create deployment of the application server with one replica
+- Create health monitor deployment
+- Create user-defined agent and integration servers
+- Create job for loading factory setup data
+- Create service for accessing the application server via routes
+- Configure network policy to limit the type of traffic to pods
+
+Note: For a complete set of helm chart capabilities, refer to README(https://github.com/IBM/charts/blob/master/repo/ibm-helm/ibm-oms-ent-prod.md). 
 
 
 #### (optional) Set up the container environment
