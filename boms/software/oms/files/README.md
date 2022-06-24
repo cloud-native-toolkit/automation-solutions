@@ -158,7 +158,7 @@ The Ecosystem contains the helm charts for OpenShift and can perform following k
 - Create service for accessing the application server via routes
 - Configure network policy to limit the type of traffic to pods
 
-Note: For a complete set of helm chart capabilities, refer to README(https://github.com/IBM/charts/blob/master/repo/ibm-helm/ibm-oms-ent-prod.md). 
+Note: For a complete set of helm chart capabilities, refer to [README](https://github.com/IBM/charts/blob/master/repo/ibm-helm/ibm-oms-ent-prod.md). 
 
 
 #### (optional) Set up the container environment
