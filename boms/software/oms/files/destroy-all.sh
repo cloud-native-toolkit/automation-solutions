@@ -1,0 +1,1 @@
+../../../../common-files/destroy-all.sh
