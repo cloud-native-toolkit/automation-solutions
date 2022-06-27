@@ -1,0 +1,127 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 600-datafabric-services
+  labels:
+    type: software
+    code: '600'
+  annotations:
+    displayName: Install CP4D services for Data Fabric Solution 
+    description: GitOps deployment of WKC, WS, WML, DV Service & DV instance for  Data Fabric Solution on Cloud pak for Data
+spec:
+  modules:
+    - name: gitops-namespace
+      alias: datafab_namespace
+      version: v1.11.2
+      variables:
+        - name: name
+          value: datafab-services
+    #Watson Knowledge Catalog
+    - name: gitops-cp-wkc
+      version: v1.1.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: storage_vendor
+          value: portworx
+        - name: storage_class
+          value: portworx-shared-gp3
+        - name: instance_version
+          value: "4.0.9"
+        - name: sub_syncwave
+          value: "-20"
+        - name: inst_syncwave
+          value: "-18" 
+    # Watson Studio
+    - name: gitops-cp-watson-studio
+      version: v1.3.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: storage_vendor
+          value: portworx
+        - name: storage_class
+          value: portworx-shared-gp3
+        - name: instance_version
+          value: "4.0.9"
+        - name: sub_syncwave
+          value: "-16"
+        - name: inst_syncwave
+          value: "-14"
+    # Watson Machine Learning
+    - name: gitops-cp-wml
+      version: v1.2.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: storage_vendor
+          value: portworx
+        - name: storage_class
+          value: portworx-shared-gp3
+        - name: instance_version
+          value: "4.0.9"
+        - name: sub_syncwave
+          value: "-12"
+        - name: inst_syncwave
+          value: "-10"
+    # Data Virtualization Service
+    - name: gitops-cp-data-virt-svc
+      version: v2.2.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: instance_version
+          value: "1.7.8"
+        - name: size
+          value: "small"
+        - name: sub_syncwave
+          value: "-8"
+        - name: inst_syncwave
+          value: "-6" 
+    # Provision Data Virtualization
+    - name: gitops-cp-data-virtualization
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: storage_class
+          value: portworx-db2-rwx-sc
+
+  variables:
+    - name: var_cpd_ns
+      value: cp4d
+    - name: var_cpd_operators_ns
+      value: cpd-operators  
+    
+    
