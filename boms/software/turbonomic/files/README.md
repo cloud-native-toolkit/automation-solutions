@@ -228,7 +228,7 @@ Steps:
 23. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Turbonomic install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
 
 24. If you are using IBM Cloud and set the `-p` flag to `ibm`  you and navigate into the `202-turbonomic-ibmcloud-storage-class` folder and run the following commands, this will configure the storage correctly for IBM Cloud. If you are installing on AWS or Azure you can skip this step and move to the 250 installation of Turbonomic.
-`
+
      ```
      cd 202-turbonomic-ibmcloud-storage-class
      terraform init

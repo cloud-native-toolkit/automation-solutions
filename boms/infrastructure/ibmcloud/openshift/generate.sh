@@ -24,7 +24,7 @@ if [[ "${IASCABLE_MAJOR_VERSION}" -le 2 ]] && [[ "${IASCABLE_MINOR_VERSION}" -le
   exit 1
 fi
 
-cp -R "${SCRIPT_DIR}/files/"* "${TARGET_DIR}"
+cp -R -L "${SCRIPT_DIR}/files/"* "${TARGET_DIR}"
 
 for dir in 1-quickstart 2-standard 3-advanced; do
   if [[ ! -d "${SCRIPT_DIR}/${dir}" ]]; then
@@ -45,7 +45,7 @@ for dir in 1-quickstart 2-standard 3-advanced; do
     boms="${boms} -i ${bom}"
   done <<< "$(find "${SCRIPT_DIR}/${dir}" -name "*.yaml" -maxdepth 1 | sort)"
   
-  /Users/seansundus.ibm.com/ws/catalyst/cli/iascable/iascable build ${boms} -o "${TARGET_DIR}/${dir}"
+  iascable build ${boms} -o "${TARGET_DIR}/${dir}"
 
   cp -R -L "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/${dir}"
 done

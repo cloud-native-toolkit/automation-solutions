@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Maximo Application Suite - Manage Application
     description: GitOps deployment of Maximo Manage application for OpenShift
+    deployment-type/gitops: "true"
 spec:
   modules:
     - name: gitops-repo
@@ -16,6 +17,6 @@ spec:
     - name: gitops-mas-manage
       variables:
         - name: instanceid
-          value: mas8
+          value: masdemo
         - name: workspace_id
           value: demo

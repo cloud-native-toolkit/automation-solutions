@@ -1,33 +1,22 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 610-datafabric-demo
+  name: 610-datafabric-setup
   labels:
     type: software
     code: '610'
   annotations:
-    displayName: Data Fabric - Demo Solution
+    displayName: Data Fabric Setup - Demo Solution
     description: GitOps deployment of Data Fabric Sample for Cloud pak for Data
 spec:
   modules:
 
     - name: gitops-namespace
-      alias: ibm_common_services_namespace
+      alias: datafab_namespace
+      version: v1.11.2
       variables:
         - name: name
-          value: ibm-common-services
-
-    - name: gitops-namespace
-      alias: cpd_operators_namespace
-      variables:
-        - name: name
-          value: cpd-operators
-
-    - name: gitops-namespace
-      alias: cp4d_namespace
-      variables:
-        - name: name
-          value: cp4d
+          value: datafab-setup
 
     # Create AWS S3 Bucket instance
     - name: aws-s3-instance
@@ -35,11 +24,24 @@ spec:
         - name: bucket_prefix
           value: datafabric
         - name: region
+          alias: var_aws_region
+          scope: global
+        - name: access_key
+          alias: var_aws_access_key
+          scope: global
+        - name: secret_key
+          alias: var_aws_secret_key
           scope: global
 
     # Upload Data files to AWS S3 Bucket
     - name: aws-s3-bucket
       variables:
+        - name: access_key
+          alias: var_aws_access_key
+          scope: global
+        - name: secret_key
+          alias: var_aws_secret_key
+          scope: global
         - name: file_path
           value: Datafiles/aws/
 
@@ -47,18 +49,29 @@ spec:
     - name: gitops-cp-data-fabric
       dependencies:
         - name: namespace
-          ref: data_fabric_namespace
+          ref: datafab_namespace
       variables:
         - name: cpd_namespace
-          value: cp4d_namespace
-        - name: bucket_id
-          value: dfabbucket
-        - name: s3_bucket_region
-          alias: region
+          alias: var_cpd_ns
           scope: global
-
-  varables:
-    - name: cp
-      value: cp
-    - name: region
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: access_key
+          alias: var_aws_access_key
+          scope: global
+        - name: secret_key
+          alias: var_aws_secret_key
+          scope: global
+  # Update var_aws_access_key and var_aws_secret_key
+  variables:
+    - name: var_cpd_ns
+      value: cp4d
+    - name: var_cpd_operators_ns
+      value: cpd-operators
+    - name: var_aws_region
       value: ap-south-1
+    - name: var_aws_access_key
+      value: XXXXXXXXX
+    - name: var_aws_secret_key
+      value: XXXXXXXXXXXX

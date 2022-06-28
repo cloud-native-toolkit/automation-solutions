@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: IBM Cloud Pak for Data - Entitlement
     description: GitOps deployment of Entitlement for Cloud pak for Data
+    deployment-type/gitops: "true"
 spec:
   modules:
 

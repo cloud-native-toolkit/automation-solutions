@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: Integration Platform - Cloud Pak for Integration
     description: GitOps deployment of Cloud Pak for Integration
+    deployment-type/gitops: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster
@@ -93,7 +94,7 @@ spec:
           value: mq-instance
         - name: config_map
           value: oms-queue-config
-        - name: storageclass
+        - name: storageClass
           alias: rwo_storage_class
           scope: global
 
