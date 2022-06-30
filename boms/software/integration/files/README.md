@@ -206,11 +206,12 @@ A container image is used to provide a consistent runtime environment for the au
 
  5. From you OpenShift console click on top right menu and select Copy login command and click on Display Token
 
-        ![Copy Login Command](images/ocp_login_command.png)
+    ![Copy Login Command](images/ocp_login_command.png)
+      
   
  6. Copy the API Token value into the `cluster_login_token` value and Server URL into the `server_url` value, only the part starting with https
 
-        ![Copy Server URL and LoginToken](images/server_url_and_token.png)
+    ![Copy Server URL and LoginToken](images/server_url_and_token.png)
 
  7. Copy the entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) and place it in the `entitlement_key` variable.
 
@@ -340,7 +341,7 @@ Cloud Pak fo Integration deployment will run asynchronously in the background, a
 
 5. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4i-pn` namespace. Here you can see the URL to the deployed Platform Navigator instance. Open this url in a new browser window.
 
-        ![Reference Architecture](images/cp4i-pn-route.png)
+    ![Route](images/cp4i-pn-route.png)
 
 6.  Navigate to `Secrets` in the `ibm-common-services` namespace, and find the `platform-auth-idp-credentials` secret. Copy the value of `password` key inside of that secret.
 
