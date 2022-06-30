@@ -6,7 +6,7 @@
 #fi
 
 CI="$1"
-PARALLELISM=10
+PARALLELISM=6
 
 find . -type d -maxdepth 1 | grep -vE "[.]/[.].*" | grep -vE "^[.]$" | grep -v workspace | sort | \
   while read dir;
