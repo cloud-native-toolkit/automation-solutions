@@ -44,7 +44,7 @@ This suite of automation can be used for a Proof of Technology environment, or u
 
 The following reference architecture represents the logical view of how Turbonomic works after it is installed. After obtaining a license key you will need to register your data sources. They can range from other Kubernetes environment to VMWare and Virtual Machines.
 
-![Reference Architecture](./turbonomic-arch.png)
+![Reference Architecture](./turboArch.png)
 
 ## Deploying Turbonomic
 
