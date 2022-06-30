@@ -241,6 +241,7 @@ Copy_Required_Module_In_CurrentWorkSpace()
   mkdir -p ${name}
   cd "${name}"
   cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
+  cp "${SCRIPT_DIR}/${name}/bom.yaml" .
   ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
   cd - > /dev/null
 
