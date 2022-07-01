@@ -11,11 +11,7 @@ spec:
       - name: name
         value: edge_advance_vpc
       - name: internal_cidr
-        value: 10.0.0.0/16
-      - name: instance_tenancy
-        value: "default"
-      - name: enable_dns_hostnames
-        value: true       
+        value: 10.0.0.0/16      
 #Management VPC        
     - name: aws-vpc
       alias: mgmt_vpc    
@@ -24,10 +20,6 @@ spec:
         value: mgmt_advance_vpc
       - name: internal_cidr
         value: 10.1.0.0/16
-      - name: instance_tenancy
-        value: "default"
-      - name: enable_dns_hostnames
-        value: true
                
 #Worload VPC
     - name: aws-vpc
@@ -37,10 +29,6 @@ spec:
         value: work_advance_vpc      
       - name: internal_cidr
         value: 10.2.0.0/16
-      - name: instance_tenancy
-        value: "default"
-      - name: enable_dns_hostnames
-        value: true
   
 #Edge Subnet - Public
     - name: aws-vpc-subnets
@@ -59,11 +47,6 @@ spec:
           - 10.0.1.0/24
           - 10.0.2.0/24
           - 10.0.3.0/24
-      - name: availability_zones
-        value:
-          - us-east-1a
-          - us-east-1b
-          - us-east-1c
 #Edge Subnet - Private
     - name: aws-vpc-subnets
       alias: edge_pri_subnet_ec2
@@ -80,12 +63,7 @@ spec:
         value:
           - 10.0.4.0/24
           - 10.0.5.0/24
-          - 10.0.6.0/24
-      - name: availability_zones
-        value:
-          - us-east-1a
-          - us-east-1b
-          - us-east-1c   
+          - 10.0.6.0/24  
 #Management Subnet - Private
     - name: aws-vpc-subnets
       alias: mgmt_pri_subnet_rosa
@@ -103,11 +81,6 @@ spec:
           - 10.1.1.0/24
           - 10.1.2.0/24
           - 10.1.3.0/24
-      - name: availability_zones
-        value:
-          - us-east-1a
-          - us-east-1b
-          - us-east-1c
 #Workload Subnet - Private
     - name: aws-vpc-subnets
       alias: work_pri_subnet_rosa
@@ -124,18 +97,12 @@ spec:
           - 10.2.2.0/24
           - 10.2.3.0/24
       - name: availability_zones
-        value:
-          - us-east-1a
-          - us-east-1b
-          - us-east-1c
 #Internet Gateway
     - name: aws-internet-gateway
       alias: edge-igw
       dependencies:
-        - name: aws-vpc
-          ref: edge_vpc
-      variables:
-      - name: resource_group_name
+       - name: aws-vpc
+         ref: edge_vpc
 #NAT Gateway
     - name: aws-nat-gateway
       alias: edge-nat
@@ -149,7 +116,7 @@ spec:
         - name : connectivity_type
           value: public   
         - name : _count
-          value: 3 
+          value: 3
 #ROSA - Management Zone
     - name: aws-rosa
       alias: mgmt-rosa
@@ -163,22 +130,12 @@ spec:
       variables:
         - name: cluster_name
           value: rosamgmt
-        - name: dry_run
-          value: false
-        - name: machine-cidr
-          value: 10.1.0.0/16
-        - name: service-cidr
-          value: 172.30.0.0/16
         - name: no_of_compute_nodes
-          value: 3
-        - name: pod-cidr
-          value: 10.128.0.0/14  
-        - name: multi-zone-cluster
-          value: true
+          value: 1 
         - name: private-link
-          value: true 
-        - name: rosa_token
-          important: true  
+          value: true
+        - name: compute-machine-type
+          value: "m5.xlarge"   
 #ROSA - Workload Zone
     - name: aws-rosa
       alias: work-rosa
@@ -191,35 +148,19 @@ spec:
           ref: work_pri_subnet_rosa
       variables:
       - name: cluster_name
-        value: rosawork
-      - name: dry_run
-        value: false
-      - name: machine-cidr
-        value:  10.2.0.0/16
-      - name: service-cidr
-        value: 172.30.0.0/16
-      - name: pod-cidr
-        value: 10.128.0.0/14   
+        value: rosawork 
       - name: no_of_compute_nodes
-        value: 3
-      - name: multi-zone-cluster
-        value: true
+        value: 1
       - name: private-link
-        value: true 
-      - name: rosa_token  
-        important: true  
+        value: true
+      - name: compute-machine-type
+        value: "m5.xlarge"  
 #KMS for encryption
     - name: aws-kms
-      dependencies:
-        - name: aws-vpc
-          ref: edge_vpc
-        - name: aws-vpc-subnets
-          ref: edge_pri_subnet_ec2
+      alias: storage_kms
       variables:
-      - name: key_spec
-      - name: rotation_enabled
-      - name: private_subnet_ids
-      - name: kms_alias 
+      - name: user_arn
+        value: arn:aws:iam::005990573564:root
 #SSH Key
     - name: aws-ssh-key
       alias: ec2_access_key
@@ -227,7 +168,6 @@ spec:
       - name: rsa_bits
       - name: public_key
       - name: private_key      
-
 #EC Instance
     - name: aws-ec2-instance
       dependencies:
@@ -241,7 +181,7 @@ spec:
       - name: instance_type
         value: t2.micro
       - name: ami_id
-        value: ami-0022f774911c1d690
+        value: ami-0e0aaf29e73155b91
       - name: root_block_device_encrypted
         value: true
       - name: root_volume_size
@@ -249,7 +189,6 @@ spec:
       - name: root_volume_type
         value: gp2
       - name: name_prefix
-
 #Bastion Instance
     - name: aws-ec2-bastion
       dependencies:
@@ -263,7 +202,7 @@ spec:
       - name: instance_type
         value: t2.micro
       - name: ami_id
-        value: ami-0022f774911c1d690
+        value: ami-0e0aaf29e73155b91
       - name: root_block_device_encrypted
         value: true
       - name: root_volume_size
@@ -296,9 +235,7 @@ spec:
       - name: additional_routes
         value:
           - 10.1.0.0/16
-          - 10.2.0.0/16
-      - name: number_additional_routes
-        value: 6                        
+          - 10.2.0.0/16                       
 #transit gateway  service edge
     - name: aws-transit-gateway
       alias: edge-transit
@@ -322,7 +259,6 @@ spec:
           value:
           - blackhole: false
             destination_cidr_block: 0.0.0.0/0        
-      
 #transit gateway  service menage
     - name: aws-transit-gateway
       alias: mgmt-transit
@@ -378,23 +314,28 @@ spec:
             - 10.2.0.0/16
             - 10.1.0.0/16
         - name: tgw_route_table_association
-          value: false
-        - name: static_routes
-          value: null      
-
+          value: false     
     
 #Global Variables  
   variables:
     - name: name_prefix
       scope: global
-      value: "swe-advance-prod"
+      value: "swe-advance"
     - name: resource_group_name
       scope: global
-      value: "rosa-advance"       
+      value: "rosa"       
     - name: provision
       value: true
       scope: global
     - name: region
-      value: us-east-1
-    - name: access_key
-    - name: secret_key
+      value: ap-south-1
+    - name: multi-zone
+      value: true
+      scope: global
+      important: true      
+    - name: rosa_token     
+      scope: global     
+      important: true
+    - name: dry_run     
+      scope: global     
+      important: false  
