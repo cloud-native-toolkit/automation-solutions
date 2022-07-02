@@ -7,7 +7,7 @@
 
 if [ -z "$SOLUTION" ]
 then
-  SOLUTION=automation-cp4i
+  SOLUTION=automation-integration-platform-generated
 fi
 
 if [ -z "$OUTPUT_PATH" ]
@@ -32,7 +32,7 @@ iascable build -i ./280-integration-platform-multicloud.yaml -o $OUTPUT_PATH$SOL
 
 
 echo "Copying Files"
-cp -L ./files/* $OUTPUT_PATH$SOLUTION
+cp -Lr ./files/* $OUTPUT_PATH$SOLUTION
 
 echo "Generated Output:"
 ls -la $OUTPUT_PATH$SOLUTION
