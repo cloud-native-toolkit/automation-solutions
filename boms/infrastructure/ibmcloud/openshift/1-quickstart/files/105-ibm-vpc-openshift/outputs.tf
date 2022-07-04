@@ -8,12 +8,15 @@ output "cluster_username" {
 
 output "cluster_password" {
   value = module.cluster.password
+  sensitive = true
 }
 
 output "cluster_token" {
   value = module.cluster.token
+  sensitive = true
 }
 
 output "cluster_ingress" {
   value = module.cluster.platform.ingress
+  sensitive = true
 }

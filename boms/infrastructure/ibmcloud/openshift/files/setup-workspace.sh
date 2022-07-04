@@ -56,12 +56,12 @@ if [[ -z "${FLAVOR}" ]]; then
     fi
   done
 
-  FLAVOR_DIR="${REPLY}-${FLAVOR,,}"
+  FLAVOR_DIR="${REPLY}-$(echo "${FLAVOR}" | tr '[:upper:]' '[:lower:]')"
 else
   FLAVORS=($(find "${SCRIPT_DIR}" -type d -maxdepth 1 | grep "${SCRIPT_DIR}/" | sed -E "s~${SCRIPT_DIR}/~~g" | sort | awk '{$1=toupper(substr($1,0,1))substr($1,2)}1'))
 
   for flavor in ${FLAVORS[@]}; do
-    if [[ "${flavor,,}" =~ ${FLAVOR} ]]; then
+    if [[ "$(echo "${flavor}" | tr '[:upper:]' '[:lower:]')" =~ ${FLAVOR} ]]; then
       FLAVOR_DIR="${flavor}"
       break
     fi
@@ -120,6 +120,7 @@ cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
+cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
 echo "Storage: ${STORAGE}"
@@ -130,7 +131,7 @@ do
 
   name=$(echo "$dir" | sed -E "s/.*\///")
 
-  if [[ ! -d "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/terraform" ]]; then
+  if [[ ! -f "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/main.tf" ]]; then
     continue
   fi
 
@@ -143,11 +144,8 @@ do
   mkdir -p ${name}
   cd "${name}"
 
-  cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/bom.yaml" .
-  cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/terraform/"* .
+  cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/"* .
   ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
-  ln -s "${WORKSPACE_DIR}/apply.sh" ./apply.sh
-  ln -s "${WORKSPACE_DIR}/destroy.sh" ./destroy.sh
   cd - > /dev/null
 done
 

@@ -1,12 +1,18 @@
+skip = true
 
 terraform {
+  extra_arguments "reduced_parallelism" {
+    commands  = get_terraform_commands_that_need_parallelism()
+    arguments = ["-parallelism=6"]
+  }
+
   before_hook "auto_tfvars" {
-    command = ["plan", "apply"]
-    execute = ["cp", "${get_parent_terragrunt_dir()}/*.auto.tfvars.json", "."]
+    commands = ["plan", "apply"]
+    execute = ["${get_parent_terragrunt_dir()}/copy-auto-tfvars.sh", "${get_parent_terragrunt_dir()}", "."]
   }
 
   after_hook "auto_tfvars" {
-    command = ["apply"]
-    execute = ["cp", "./*.auto.tfvars.json", "${get_parent_terragrunt_dir()}"]
+    commands = ["apply"]
+    execute = ["${get_parent_terragrunt_dir()}/copy-auto-tfvars.sh", ".", "${get_parent_terragrunt_dir()}"]
   }
 }

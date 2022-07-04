@@ -1,0 +1,7 @@
+name_105: "105-ibm-vpc-openshift"
+mock_105: "mock"
+name_200: "200-openshift-gitops"
+mock_200: "mock"
+name_210_odf: "210-ibm-odf-storage"
+name_210_portworx: "210-ibm-portworx-storage"
+name_220-dev-tools: "220-dev-tools"

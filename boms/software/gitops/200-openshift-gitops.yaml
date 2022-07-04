@@ -21,8 +21,6 @@ spec:
       variables:
         - name: create_webhook
           value: true
-        - name: prefix
-          value: maximo
 
     - name: gitops-namespace
       alias: toolkit_namespace
@@ -32,5 +30,6 @@ spec:
           value: toolkit
 
     - name: gitops-cluster-config
+      alias: config
     - name: gitops-console-link-job
     # - name: gitops-buildah-unprivileged Needed only for IBM Cloud
