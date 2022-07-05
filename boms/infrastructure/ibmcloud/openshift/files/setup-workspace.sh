@@ -25,7 +25,7 @@ Usage()
 }
 
 # Get the options
-while getopts ":f:s:n:r:" option; do
+while getopts ":f:s:n:r:g:" option; do
    case $option in
       h) # display Help
          Usage
