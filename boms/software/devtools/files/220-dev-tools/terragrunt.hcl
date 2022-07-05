@@ -3,7 +3,7 @@ include "root" {
 }
 
 locals {
-  dependencies = yamldecode("${get_parent_terragrunt_dir()}/layers.yaml")
+  dependencies = yamldecode(file("${get_parent_terragrunt_dir()}/layers.yaml"))
   dep_200 = local.dependencies.name_200
   mock_200 = local.dependencies.mock_200
 }
