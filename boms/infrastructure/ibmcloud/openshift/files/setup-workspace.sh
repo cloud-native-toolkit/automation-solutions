@@ -7,17 +7,19 @@ FLAVOR="quickstart"
 STORAGE=""
 PREFIX_NAME=""
 REGION="us-east"
+GIT_HOST=""
 
 Usage()
 {
    echo "Creates a workspace folder and populates it with architectures."
    echo
-   echo "Usage: setup-workspace.sh -f FLAVOR -s STORAGE [-n PREFIX_NAME] [-r REGION]"
+   echo "Usage: setup-workspace.sh -f FLAVOR -s STORAGE [-n PREFIX_NAME] [-r REGION] [-g GIT_HOST]"
    echo "  options:"
    echo "  f     the flavor to use (quickstart, standard, advanced)"
    echo "  s     the storage option to use (portworx or odf)"
    echo "  n     (optional) prefix that should be used for all variables"
    echo "  r     (optional) the region where the infrastructure will be provisioned"
+   echo "  g     (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)"
    echo "  h     Print this help"
    echo
 }
@@ -36,6 +38,8 @@ while getopts ":f:s:n:r:" option; do
          PREFIX_NAME=$OPTARG;;
       r) # Enter a name
          REGION=$OPTARG;;
+      g) # Enter a name
+         GIT_HOST=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -112,7 +116,8 @@ fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/PREFIX/${PREFIX_NAME}/g"  | \
-  sed "s/REGION/${REGION}/g" \
+  sed "s/REGION/${REGION}/g" | \
+  sed "s/GIT_HOST/${GIT_HOST}/g" \
   > ./terraform.tfvars
 
 cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
@@ -150,4 +155,4 @@ do
   cd - > /dev/null
 done
 
-echo "move to ${WORKSPACE_DIR} this is where your automation is configured"
+echo "Move to ${WORKSPACE_DIR} this is where your automation is configured"

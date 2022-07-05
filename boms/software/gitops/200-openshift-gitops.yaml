@@ -13,6 +13,17 @@ spec:
     # Login to existing OpenShift cluster
     - name: ocp-login
 
+    - name: gitops-namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
     # Create the GitOps Repo
     - name: gitops-repo
 
