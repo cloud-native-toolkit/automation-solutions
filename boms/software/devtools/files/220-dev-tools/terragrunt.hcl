@@ -10,11 +10,7 @@ locals {
 
 dependency "gitops" {
   config_path = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? "${get_parent_terragrunt_dir()}/${local.dep_200}" : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_200}"
-  skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
-
-  mock_outputs_allowed_terraform_commands = ["validate", "init", "plan"]
-  mock_outputs = {
-  }
+  skip_outputs = true
 }
 
 terraform {
