@@ -11,7 +11,7 @@ locals {
   gitops_skip_outputs = fileexists("${get_parent_terragrunt_dir()}/${local.dep_200}/terragrunt.hcl") ? false : true
 
   names_210 = local.dependencies.names_210
-  filtered_names_210 = [for dir in local.names_210 : dir if fileexists("${get_parent_terragrunt_dir()}/${dir}/terragrunt.hcl")]
+  filtered_names_210 = [for dir in local.names_210 : "${get_parent_terragrunt_dir()}/${dir}" if fileexists("${get_parent_terragrunt_dir()}/${dir}/terragrunt.hcl")]
   storage_config_path = length(local.filtered_names_210) > 0 ? local.filtered_names_210[0] : "${get_parent_terragrunt_dir()}/.mocks/${local.mock_210}"
   mock_210 = local.dependencies.mock_210
   storage_skip_outputs = length(local.filtered_names_210) > 0 ? false : true
