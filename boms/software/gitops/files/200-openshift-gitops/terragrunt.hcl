@@ -23,7 +23,7 @@ dependency "cluster" {
   config_path = local.cluster_config_path
   skip_outputs = local.cluster_skip_outputs
 
-  mock_outputs_allowed_terraform_commands = ["validate", "init", "plan"]
+  mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
   mock_outputs = {
     cluster_server_url = ""
     cluster_username = ""
