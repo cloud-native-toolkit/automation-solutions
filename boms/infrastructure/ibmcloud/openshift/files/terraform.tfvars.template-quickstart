@@ -10,6 +10,9 @@ name_prefix="PREFIXquickstart"
 ## cluster_name: The name of the ROKS cluster where ODF will be installed
 cluster_name="PREFIXquickstart-cluster"
 
+## ocp_version: The version of the ocp cluster to install
+ocp_version="4.8"
+
 ## cluster_subnets__count: The number of subnets that should be provisioned
 #cluster_subnets__count="3"
 

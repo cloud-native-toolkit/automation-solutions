@@ -34,4 +34,4 @@ iascable build \
 #iascable build -i ./405-mas-manage.yaml -o ../../../../automation-maximo-app-suite
 
 echo "Copying Files"
-cp -L ./files/* "${TARGET_DIR}"
+cp -LR ./files/* "${TARGET_DIR}"

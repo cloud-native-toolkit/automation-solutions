@@ -118,7 +118,7 @@ cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/PREFIX/${PREFIX_NAME}/g"  | \
   sed "s/REGION/${REGION}/g" | \
   sed "s/GIT_HOST/${GIT_HOST}/g" \
-  > ./terraform.tfvars
+  > ./cluster.tfvars
 
 cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
 cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
@@ -147,12 +147,8 @@ do
 
   echo "Setting up current/${name} from ${name}"
 
-  mkdir -p ${name}
-  cd "${name}"
-
-  cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/"* .
-  ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
-  cd - > /dev/null
+  mkdir -p "${name}"
+  cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/"* "${name}"
 done
 
 echo "Move to ${WORKSPACE_DIR} this is where your automation is configured"
