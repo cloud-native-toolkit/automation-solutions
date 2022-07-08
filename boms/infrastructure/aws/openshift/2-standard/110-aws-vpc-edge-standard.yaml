@@ -148,19 +148,9 @@ spec:
       value: "swe-standard"
     - name: resource_group_name
       scope: global
-      value: "rosa"       
+      value: "edge"       
     - name: provision
       value: true
       scope: global
     - name: region
       value: ap-south-1
-    - name: multi-zone
-      value: true
-      scope: global
-      important: true      
-    - name: rosa_token     
-      scope: global     
-      important: true
-    - name: dry_run     
-      scope: global     
-      important: false
