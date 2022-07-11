@@ -17,6 +17,9 @@ spec:
     - name: gitops-namespace
       alias: odf_namespace
       default: true
+      variables:
+        - name: name
+          value: odf
     - name: gitops-ibm-odf
       variables:
         - name: cluster_name
