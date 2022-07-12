@@ -222,7 +222,8 @@ cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
-if [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
+
+if ( [[ -z "${PORTWORX_SPEC_FILE}" ]] && [[ "${CLOUD_PROVIDER}" != "ibm" ]] ) || [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
   ALL_ARCH="200|400"
 else
   ALL_ARCH="200|210|400"
