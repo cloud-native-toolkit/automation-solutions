@@ -23,6 +23,7 @@ if [[ "${IASCABLE_MAJOR_VERSION}" -le 2 ]] && [[ "${IASCABLE_MINOR_VERSION}" -lt
 fi
 
 iascable build \
+  -i ./105-mock.yaml \
   -i ./200-openshift-gitops.yaml \
   -i ./210-aws-portworx-storage.yaml \
   -i ./210-azure-portworx-storage.yaml \
@@ -31,7 +32,9 @@ iascable build \
   -i ./400-mas-core-multicloud.yaml \
   -o "${TARGET_DIR}" \
   --flatten
+
 #iascable build -i ./405-mas-manage.yaml -o ../../../../automation-maximo-app-suite
 
 echo "Copying Files"
 cp -LR ./files/* "${TARGET_DIR}"
+cp -LR ./files/.mocks/* "${TARGET_DIR}/.mocks"

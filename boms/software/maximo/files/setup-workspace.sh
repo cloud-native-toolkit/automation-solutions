@@ -9,20 +9,20 @@ Usage()
    echo
    echo "Usage: setup-workspace.sh"
    echo "  options:"
-   echo "  -p     Cloud provider (aws, azure, ibm)"
-   echo "  -s     Storage (portworx or odf or <RWX storage class>)"
-   echo "  -c     (optional) Cluster ingress - the subdomain for ingress urls into the cluster"
-   echo "  -n     (optional) Prefix that should be used for all variables"
-   echo "  -x     (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml"
-   echo "  -h     Print this help"
+   echo "  -p      Cloud provider (aws, azure, ibm)"
+   echo "  -s      Storage (portworx or odf or <RWX storage class>)"
+   echo "  -n      (optional) Prefix that should be used for all variables"
+   echo "  -x      (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml"
+   echo "  -a      Adds the configuration to the existing workspace"
+   echo "  -h      Print this help"
    echo
 }
 
-CLUSTER_INGRESS=""
 CLOUD_PROVIDER=""
 STORAGE=""
 PREFIX_NAME=""
 PORTWORX_SPEC_FILE=""
+APPEND=""
 
 if [[ "$1" == "-h" ]]; then
   Usage
@@ -30,17 +30,18 @@ if [[ "$1" == "-h" ]]; then
 fi
 
 # Get the options
-while getopts ":p:s:n:c:x:h:" option; do
+while getopts ":p:s:n:x:a:h:" option; do
    case $option in
       h) # display Help
          Usage
-         exit 1;;
+         exit 0;;
+      a)
+         echo "Got append flag"
+         APPEND="true";;
       p)
          CLOUD_PROVIDER=$OPTARG;;
       s) # Enter a name
          STORAGE=$OPTARG;;
-      c) # Enter a name
-         CLUSTER_INGRESS=$OPTARG;;
       n) # Enter a name
          PREFIX_NAME=$OPTARG;;
       x) # Enter a name
@@ -51,6 +52,9 @@ while getopts ":p:s:n:c:x:h:" option; do
          exit 1;;
    esac
 done
+
+ARG_ARRAY=( "$@" )
+
 
 RED='\033[0;31m'
 YELLOW='\033[0;33m'
@@ -131,13 +135,13 @@ else
   RWX_STORAGE="<read-write-many storage class (e.g. portworx: portworx-rwx-gp3-sc or odf: ocs-storagecluster-cephfs)>"
 fi
 
-if command -v oc 1> /dev/null 2> /dev/null && ! oc login "${TF_VAR_server_url}" --token="${TF_VAR_cluster_login_token}" --insecure-skip-tls-verify=true 1> /dev/null 2> /dev/null; then
-  echo -e "${YELLOW}WARNING: ${WHITE}Unable to log into cluster.${NC} Check the cluster credentials in ${WHITE}credentials.properties${NC}"
-fi
-
 if [[ "${CLOUD_PROVIDER}" =~ aws|azure ]] && [[ "${STORAGE}" == "portworx" ]] && [[ -z "${PORTWORX_SPEC_FILE}" ]]; then
   if command -v oc 1> /dev/null 2> /dev/null; then
     echo "Looking for existing portworx storage class: ${RWX_STORAGE}"
+
+    if command -v oc 1> /dev/null 2> /dev/null && ! oc login "${TF_VAR_server_url}" --token="${TF_VAR_cluster_login_token}" --insecure-skip-tls-verify=true 1> /dev/null 2> /dev/null; then
+      echo -e "${YELLOW}WARNING: ${WHITE}Unable to log into cluster.${NC} Check the cluster credentials in ${WHITE}credentials.properties${NC}"
+    fi
 
     if oc get storageclass "${RWX_STORAGE}" 1> /dev/null 2> /dev/null; then
       echo "  Found existing portworx installation. Skipping storage layer..."
@@ -169,26 +173,6 @@ if [[ -n "${PORTWORX_SPEC_FILE}" ]] && [[ "${PORTWORX_SPEC_FILE}" != "installed"
   exit 1
 fi
 
-if [[ -z "${CLUSTER_INGRESS}" ]]; then
-  if command -v oc 1> /dev/null 2> /dev/null && [[ -n "$TF_VAR_server_url" ]] && [[ -n "$TF_VAR_server_url" ]]; then
-    echo "Looking up cluster ingress"
-
-    if oc get ingresses.config/cluster 1> /dev/null 2> /dev/null; then
-      CLUSTER_INGRESS=$(oc get ingresses.config/cluster -o jsonpath={.spec.domain})
-    fi
-  fi
-
-  if [[ -z "${CLUSTER_INGRESS}" ]]; then
-    echo -e "${YELLOW}Unable to lookup cluster ingress.${NC} The value can be retrieved by running:"
-    echo -e "  ${WHITE}oc get ingresses.config/cluster -o jsonpath={.spec.domain}${NC}"
-    echo -n "Cluster ingress: "
-    read -r CLUSTER_INGRESS
-  else
-    echo "  Found cluster ingress: ${CLUSTER_INGRESS}"
-    echo ""
-  fi
-fi
-
 SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
 WORKSPACES_DIR="${SCRIPT_DIR}/../workspaces"
 WORKSPACE_DIR="${WORKSPACES_DIR}/current"
@@ -197,15 +181,22 @@ if [[ -n "${PREFIX_NAME}" ]]; then
   PREFIX_NAME="${PREFIX_NAME}-"
 fi
 
-if [[ -d "${WORKSPACE_DIR}" ]]; then
-  DATE=$(date "+%Y%m%d%H%M")
-  mv "${WORKSPACE_DIR}" "${WORKSPACES_DIR}/workspace-${DATE}"
+ARG_ARRAY=( "$@" )
 
-  cp "${SCRIPT_DIR}/terraform.tfvars" "${WORKSPACES_DIR}/workspace-${DATE}/terraform.tfvars"
+if [[ " ${ARG_ARRAY[*]} " =~ " -a " ]]; then
+  APPEND="true"
 fi
 
 echo "Setting up workspace in '${WORKSPACE_DIR}'"
 echo "*****"
+
+if [[ -d "${WORKSPACE_DIR}" ]] && [[ "${APPEND}" != "true" ]]; then
+  DATE=$(date "+%Y%m%d%H%M")
+  echo "  Saving current workspaces directory to workspace-${DATE}"
+  mv "${WORKSPACE_DIR}" "${WORKSPACES_DIR}/workspace-${DATE}"
+
+  cp "${SCRIPT_DIR}/maximo.tfvars" "${WORKSPACES_DIR}/workspace-${DATE}/maximo.tfvars"
+fi
 
 mkdir -p "${WORKSPACE_DIR}"
 
@@ -219,36 +210,38 @@ cd "${WORKSPACE_DIR}"
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
-  sed "s/CLUSTER_INGRESS/${CLUSTER_INGRESS}/g" | \
   sed "s/RWX_STORAGE/${RWX_STORAGE}/g" | \
   sed "s/RWO_STORAGE/${RWO_STORAGE}/g" | \
   sed "s/PORTWORX_SPEC_FILE/${PORTWORX_SPEC_FILE_BASENAME}/g" \
-  > "${SCRIPT_DIR}/terraform.tfvars"
+  > "${SCRIPT_DIR}/maximo.tfvars"
 
-ln -s "${SCRIPT_DIR}/terraform.tfvars" ./terraform.tfvars
+if [[ ! -e ./maximo.tfvars ]]; then
+  ln -s "${SCRIPT_DIR}/maximo.tfvars" ./maximo.tfvars
+fi
 
-cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
-cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
+cp -R "${SCRIPT_DIR}/.mocks" "${WORKSPACE_DIR}"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
-if ( [[ -z "${PORTWORX_SPEC_FILE}" ]] && [[ "${CLOUD_PROVIDER}" != "ibm" ]] ) || [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
+if { [[ -z "${PORTWORX_SPEC_FILE}" ]] && [[ "${CLOUD_PROVIDER}" != "ibm" ]]; } || [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
   ALL_ARCH="200|400"
 else
   ALL_ARCH="200|210|400"
 fi
 
-find ${SCRIPT_DIR}/. -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
+find ${SCRIPT_DIR}/. -maxdepth 1 -type d | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;
 do
-
   name=$(echo "$dir" | sed -E "s/.*\///")
 
-  if [[ ! -d "${SCRIPT_DIR}/${name}/terraform" ]]; then
+  if [[ ! -f "${SCRIPT_DIR}/${name}/main.tf" ]]; then
     continue
   fi
 
   if [[ ! "${name}" =~ ${ALL_ARCH} ]]; then
+    echo "  Layer doesn't match architecture. Skipping layer: ${name}"
     continue
   fi
 
@@ -257,12 +250,12 @@ do
     BOM_PROVIDER=$(grep -E "^ +platform" "${SCRIPT_DIR}/${name}/bom.yaml" | sed -E "s~[^:]+: [\"']?(.*)[\"']?~\1~g")
 
     if [[ -n "${BOM_PROVIDER}" ]] && [[ "${BOM_PROVIDER}" != "${CLOUD_PROVIDER}" ]]; then
-      echo "  Skipping ${name} because it doesn't match ${CLOUD_PROVIDER}"
+      echo "  Skipping ${name} because it doesn't match ${CLOUD_PROVIDER} cloud provider"
       continue
     fi
 
     if [[ -n "${BOM_STORAGE}" ]] && [[ "${BOM_STORAGE}" != "${STORAGE}" ]]; then
-      echo "  Skipping ${name} because it doesn't match ${STORAGE}"
+      echo "  Skipping ${name} because it doesn't match ${STORAGE} storage provider"
       continue
     fi
   fi
@@ -272,11 +265,7 @@ do
   mkdir -p ${name}
   cd "${name}"
 
-  cp "${SCRIPT_DIR}/apply.sh" .
-  cp "${SCRIPT_DIR}/destroy.sh" .
-  cp "${SCRIPT_DIR}/${name}/bom.yaml" .
-  cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
-  ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
+  cp -R "${SCRIPT_DIR}/${name}" .
   if [[ -n "${PORTWORX_SPEC_FILE_BASENAME}" ]]; then
     ln -s "${WORKSPACE_DIR}/${PORTWORX_SPEC_FILE_BASENAME}" "./${PORTWORX_SPEC_FILE_BASENAME}"
   fi

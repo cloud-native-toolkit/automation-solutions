@@ -18,7 +18,7 @@ fi
 IASCABLE_MAJOR_VERSION=$(iascable --version | sed -E "s/^([0-9]+)[.][0-9]+[.][0-9]+/\1/g")
 IASCABLE_MINOR_VERSION=$(iascable --version | sed -E "s/^[0-9]+[.]([0-9]+)[.][0-9]+/\1/g")
 
-if [[ "${IASCABLE_MAJOR_VERSION}" -le 2 ]] && [[ "${IASCABLE_MINOR_VERSION}" -lt 13 ]]; then
+if [[ "${IASCABLE_MAJOR_VERSION}" -le 2 ]] && [[ "${IASCABLE_MINOR_VERSION}" -lt 14 ]]; then
   echo "Installed iascable cli is backlevel version"
   echo "  Update iascable with this command: curl -sL https://raw.githubusercontent.com/cloud-native-toolkit/iascable/main/install.sh | sh" >&2
   exit 1
@@ -44,8 +44,11 @@ for dir in 1-quickstart 2-standard 3-advanced; do
   while read bom; do
     boms="${boms} -i ${bom}"
   done <<< "$(find "${SCRIPT_DIR}/${dir}" -name "*.yaml" -maxdepth 1 | sort)"
-  
+
   iascable build ${boms} -o "${TARGET_DIR}/${dir}" --flatten
 
   cp -R -L "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/${dir}"
+  if [[ -d ${SCRIPT_DIR}/${dir}/files/.mocks ]]; then
+    cp -R -L "${SCRIPT_DIR}/${dir}/files/.mocks/"* "${TARGET_DIR}/${dir}/.mocks"
+  fi
 done
