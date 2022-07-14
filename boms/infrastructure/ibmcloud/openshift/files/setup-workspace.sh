@@ -127,11 +127,13 @@ cat "${SCRIPT_DIR}/terraform.tfvars.template-${FLAVOR,,}" | \
   sed "s/GIT_HOST/${GIT_HOST}/g" \
   > ./cluster.tfvars
 
-cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
-cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
-cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
-cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
+cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/check-vpn.sh" "${WORKSPACE_DIR}/check-vpn.sh"
+
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 

@@ -3,7 +3,7 @@ include "root" {
 }
 
 locals {
-  dependencies = yamldecode("${get_parent_terragrunt_dir()}/layers.yaml")
+  dependencies = yamldecode(file("${get_parent_terragrunt_dir()}/layers.yaml"))
 
   names_105 = local.dependencies.names_105
   filtered_names_105 = [for dir in local.names_105 : "${get_parent_terragrunt_dir()}/${dir}" if fileexists("${get_parent_terragrunt_dir()}/${dir}/terragrunt.hcl")]
@@ -39,11 +39,19 @@ dependency "cluster" {
 dependency "gitops" {
   config_path = local.gitops_config_path
   skip_outputs = local.gitops_skip_outputs
+
+  mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
+  mock_outputs = {
+  }
 }
 
 dependency "storage" {
   config_path = local.storage_config_path
   skip_outputs = local.storage_skip_outputs
+
+  mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
+  mock_outputs = {
+  }
 }
 
 terraform {

@@ -1,0 +1,1 @@
+../../../../../common-files/plan-all-terragrunt.sh
