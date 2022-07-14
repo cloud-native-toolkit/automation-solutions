@@ -13,6 +13,7 @@ Usage()
    echo "  -s      Storage (portworx or odf or <RWX storage class>)"
    echo "  -n      (optional) Prefix that should be used for all variables"
    echo "  -x      (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml"
+   echo "  -g      (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)"
    echo "  -a      Adds the configuration to the existing workspace"
    echo "  -h      Print this help"
    echo
@@ -23,6 +24,7 @@ STORAGE=""
 PREFIX_NAME=""
 PORTWORX_SPEC_FILE=""
 APPEND=""
+GIT_HOST=""
 
 if [[ "$1" == "-h" ]]; then
   Usage
@@ -30,13 +32,12 @@ if [[ "$1" == "-h" ]]; then
 fi
 
 # Get the options
-while getopts ":p:s:n:x:a:h:" option; do
+while getopts ":p:s:n:x:a:g:h:" option; do
    case $option in
       h) # display Help
          Usage
          exit 0;;
       a)
-         echo "Got append flag"
          APPEND="true";;
       p)
          CLOUD_PROVIDER=$OPTARG;;
@@ -46,6 +47,8 @@ while getopts ":p:s:n:x:a:h:" option; do
          PREFIX_NAME=$OPTARG;;
       x) # Enter a name
          PORTWORX_SPEC_FILE=$OPTARG;;
+      g) # Enter a name
+         GIT_HOST=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -206,17 +209,24 @@ if [[ -n "${PORTWORX_SPEC_FILE}" ]] && [[ "${PORTWORX_SPEC_FILE}" != "installed"
   cp "${PORTWORX_SPEC_FILE}" "${WORKSPACE_DIR}/${PORTWORX_SPEC_FILE_BASENAME}"
 fi
 
+if [[ -z "${GIT_HOST}" ]]; then
+  GITHOST_COMMENT="#"
+fi
+
 cd "${WORKSPACE_DIR}"
 
-cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
+cat "${SCRIPT_DIR}/terraform.tfvars.template-maximo" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
   sed "s/RWX_STORAGE/${RWX_STORAGE}/g" | \
   sed "s/RWO_STORAGE/${RWO_STORAGE}/g" | \
   sed "s/PORTWORX_SPEC_FILE/${PORTWORX_SPEC_FILE_BASENAME}/g" \
-  > "${SCRIPT_DIR}/maximo.tfvars"
+  > "${WORKSPACE_DIR}/maximo.tfvars"
 
-if [[ ! -e ./maximo.tfvars ]]; then
-  ln -s "${SCRIPT_DIR}/maximo.tfvars" ./maximo.tfvars
+if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
+  cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
+    sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
+    sed "s/GIT_HOST/${GIT_HOST}/g" \
+    > "${WORKSPACE_DIR}/gitops.tfvars"
 fi
 
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
