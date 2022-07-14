@@ -5,7 +5,12 @@
 
 SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
 
-TARGET_DIR="${1:-../../../../automation-maximo-app-suite}"
+TARGET_BASE="${1:-../../../..}"
+TARGET_REPO="${2:-automation-maximo-app-suite}"
+
+TARGET_DIR="${TARGET_BASE}/${TARGET_REPO}"
+
+echo "Generating output into ${TARGET_DIR}"
 
 if ! command -v iascable 1> /dev/null 2> /dev/null; then
   echo "iascable cli not found" >&2
