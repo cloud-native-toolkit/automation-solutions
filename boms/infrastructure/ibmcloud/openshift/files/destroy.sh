@@ -1,1 +1,1 @@
-../../../../../common-files/destroy.sh
+../../../../../common-files/destroy-terragrunt.sh
