@@ -53,7 +53,7 @@ dependency "gitops" {
 
 dependency "storage" {
   config_path = local.storage_config_path
-  skip_outputs = local.storage_skip_outputs
+  skip_outputs = true
 
   mock_outputs_allowed_terraform_commands = ["validate", "init", "plan", "destroy", "output"]
   mock_outputs = {
