@@ -43,3 +43,9 @@ iascable build \
 echo "Copying Files"
 cp -LR ./files/* "${TARGET_DIR}"
 cp -LR ./files/.mocks/* "${TARGET_DIR}/.mocks"
+
+find "${TARGET_DIR}" \( -name "apply.sh" -o -name "destroy.sh" \) | while read path; do
+  file=$(basename "${path}")
+
+  cp "${SCRIPT_DIR}/files/${file}" "${path}"
+done

@@ -233,8 +233,8 @@ cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
 cp -R "${SCRIPT_DIR}/.mocks" "${WORKSPACE_DIR}"
-cp -R "${SCRIPT_DIR}/layers.yaml" "${WORKSPACE_DIR}"
-cp -R "${SCRIPT_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/layers.yaml" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
