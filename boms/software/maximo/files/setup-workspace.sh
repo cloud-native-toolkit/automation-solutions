@@ -225,6 +225,7 @@ cat "${SCRIPT_DIR}/terraform.tfvars.template-maximo" | \
 if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
   cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
     sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
+    sed "s/PREFIX/${PREFIX_NAME}/g"  | \
     sed "s/GIT_HOST/${GIT_HOST}/g" \
     > "${WORKSPACE_DIR}/gitops.tfvars"
 fi

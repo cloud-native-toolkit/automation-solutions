@@ -147,6 +147,8 @@ cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/.mocks" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/${FLAVOR_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
+mkdir -p "${WORKSPACE_DIR}/bin"
+
 echo "Looking for layers in ${SCRIPT_DIR}/${FLAVOR_DIR}"
 
 find "${SCRIPT_DIR}/${FLAVOR_DIR}" -maxdepth 1 -type d | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
@@ -169,6 +171,8 @@ do
   cp -R "${SCRIPT_DIR}/${FLAVOR_DIR}/${name}/"* "${name}"
   cp -f "${SCRIPT_DIR}/apply.sh" "${name}/apply.sh"
   cp -f "${SCRIPT_DIR}/destroy.sh" "${name}/destroy.sh"
+
+  (cd "${name}" && ln -s ../bin bin2)
 done
 
 echo "Move to ${WORKSPACE_DIR} this is where your automation is configured"
