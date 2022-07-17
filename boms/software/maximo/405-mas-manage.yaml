@@ -4,7 +4,7 @@ metadata:
   name: 405-mas-manage
   labels:
     type: software
-    code: '401'
+    code: '405'
   annotations:
     displayName: Maximo Application Suite - Manage Application
     description: GitOps deployment of Maximo Manage application for OpenShift

@@ -4,7 +4,7 @@ metadata:
   name: 415-mas-monitor
   labels:
     type: software
-    code: '401'
+    code: '415'
   annotations:
     displayName: Maximo Application Suite - Monitor Application
     description: GitOps deployment of Maximo Monitor application for OpenShift
@@ -12,7 +12,7 @@ metadata:
 spec:
   modules:
     - name: gitops-repo
-  
+
     # Maximo Application Suite - Monitor
     # Requires 410 - IoT Layer
     - name: gitops-mas-monitor

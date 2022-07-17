@@ -4,7 +4,7 @@ metadata:
   name: 410-mas-iot
   labels:
     type: software
-    code: '401'
+    code: '410'
   annotations:
     displayName: Maximo Application Suite - IoT Application
     description: GitOps deployment of Maximo IoT application for OpenShift
@@ -19,7 +19,7 @@ spec:
         - name: scope
           value: system
         - name: appid
-          value: iot    
+          value: iot
 
      # Create Namespace for Strimzi
     - name: gitops-namespace
@@ -34,13 +34,13 @@ spec:
           value: maskafka
         - name: user_name
           value: maskafka
-          
+
     # Deploy the Kafka configuration
     - name: gitops-mas-kafka
       variables:
         - name: instanceid
-          value: masdemo         
-  
+          value: masdemo
+
     # Maximo Application Suite - IoT
     - name: gitops-mas-iot
       variables:
