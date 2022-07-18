@@ -237,6 +237,8 @@ cp -R "${SCRIPT_DIR}/.mocks" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/layers.yaml" "${WORKSPACE_DIR}"
 cp "${SCRIPT_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
+mkdir -p "${WORKSPACE_DIR}/bin"
+
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
 if { [[ -z "${PORTWORX_SPEC_FILE}" ]] && [[ "${CLOUD_PROVIDER}" != "ibm" ]]; } || [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
@@ -283,6 +285,8 @@ do
   if [[ -n "${PORTWORX_SPEC_FILE_BASENAME}" ]]; then
     ln -s "${WORKSPACE_DIR}/${PORTWORX_SPEC_FILE_BASENAME}" "./${PORTWORX_SPEC_FILE_BASENAME}"
   fi
+
+  ln -s ../bin bin2
 
   cd - > /dev/null
 done
