@@ -1,48 +1,39 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: aws-standard
+  name: 110-aws-std-edge-vpc
 spec:
   modules:
 #edge VPC  
     - name: aws-vpc
       alias: edge_vpc
       variables:
-      - name: name
-        value: edge_advance_vpc
       - name: internal_cidr
-        value: 10.0.0.0/16      
-  
+        value: 10.0.0.0/16        
 #Edge Subnet - Public
     - name: aws-vpc-subnets
-      alias: edge_pub_subnet_bastion
+      alias: edge_bastion_pub_subnets
       dependencies:
-        - name: aws-vpc
-          ref: edge_vpc
         - name: gateways
           ref: edge-igw
       variables:
       - name: label
         value: public 
       - name: subnet_cidrs
-        alias: edge_pub_subnet_cidrs_bastion
         value:
           - 10.0.1.0/24
           - 10.0.2.0/24
           - 10.0.3.0/24
 #Edge Subnet - Private
     - name: aws-vpc-subnets
-      alias: edge_pri_subnet_ec2
+      alias: edge_bastion_pri_subnets
       dependencies:
-        - name: aws-vpc
-          ref: edge_vpc
         - name: gateways
           ref: edge-nat
       variables:
       - name: label
         value: private
       - name: subnet_cidrs
-        alias: edge_pri_subnet_cidrs_ec2
         value:
           - 10.0.4.0/24
           - 10.0.5.0/24
@@ -50,102 +41,63 @@ spec:
 #Internet Gateway
     - name: aws-internet-gateway
       alias: edge-igw
-      dependencies:
-       - name: aws-vpc
-         ref: edge_vpc
 #NAT Gateway
     - name: aws-nat-gateway
       alias: edge-nat
       dependencies:
-        - name: aws-vpc
-          ref: edge_vpc
-        - name: aws-internet-gateway
         - name: aws-vpc-subnets
-          ref: edge_pub_subnet_bastion
+          ref: edge_bastion_pri_subnets
       variables:
         - name : connectivity_type
           value: public   
         - name : _count
           value: 3
+
 #KMS for encryption
     - name: aws-kms
       alias: storage_kms
       variables:
       - name: user_arn
-        value: arn:aws:iam::005990573564:root
+        important: true
 #SSH Key
     - name: aws-ssh-key
       alias: ec2_access_key
-      variables:
-      - name: rsa_bits
-      - name: public_key
-      - name: private_key      
-#EC Instance
-    - name: aws-ec2-instance
-      dependencies:
-        - name: aws-vpc
-          ref: edge_vpc 
-        - name: aws-vpc-subnets
-          ref: edge_pri_subnet_ec2
-        - name: aws-ssh-key
-        - name: aws-kms
-      variables:
-      - name: instance_type
-        value: t2.micro
-      - name: ami_id
-        value: ami-08df646e18b182346
-      - name: root_block_device_encrypted
-        value: true
-      - name: root_volume_size
-        value: 10
-      - name: root_volume_type
-        value: gp2
-      - name: name_prefix
 #Bastion Instance
     - name: aws-ec2-bastion
       dependencies:
-        - name: aws-vpc
-          ref: edge_vpc 
         - name: aws-vpc-subnets
-          ref: edge_pub_subnet_bastion
+          ref: edge_bastion_pub_subnets
         - name: aws-ssh-key
         - name: aws-kms
       variables:
-      - name: instance_type
-        value: t2.micro
       - name: ami_id
         value: ami-08df646e18b182346
-      - name: root_block_device_encrypted
-        value: true
-      - name: root_volume_size
-        value: 10
-      - name: root_volume_type
-        value: gp2
-      - name: name_prefix
 #VPN service
     - name: aws-client-vpn
       alias: edge-vpn
       dependencies:
         - name: aws-vpc-subnets
-          ref: edge_pri_subnet_ec2
-        - name: aws-vpc
-          ref: edge_vpc
+          ref: edge_bastion_pri_subnets
       variables:
       - name: number_subnets_association
         value: 3
       - name: client_cidr_block
         value: 172.13.0.0/16
+        important: true
       - name: dns_servers
         value:
           - 10.0.0.2
+        important: true          
       - name: allowed_cidr_ranges
         value:
-          - 10.0.0.0/16                     
+          - 10.0.0.0/16    
+        important: true                           
 #Global Variables  
   variables:
     - name: name_prefix
       scope: global
-      value: "swe-standard"
+      value: "aws-std"
+      important: true            
     - name: resource_group_name
       scope: global
       value: "edge"       
@@ -154,3 +106,4 @@ spec:
       scope: global
     - name: region
       value: ap-south-1
+      scope: global
