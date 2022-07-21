@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: aws-quickstart-architecture
+  name: 105-aws-vpc-openshift
 spec:
   modules:
     - name: aws-vpc

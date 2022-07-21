@@ -29,7 +29,7 @@ spec:
       alias: edge_bastion_pri_subnets
       dependencies:
         - name: gateways
-          ref: edge-nat
+          ref: edge-ngw
       variables:
       - name: label
         value: private
@@ -40,10 +40,10 @@ spec:
           - 10.0.6.0/24  
 #Internet Gateway
     - name: aws-internet-gateway
-      alias: edge-igw
+      alias: igw
 #NAT Gateway
     - name: aws-nat-gateway
-      alias: ngw
+      alias: edge-ngw
       dependencies:
         - name: aws-vpc-subnets
           ref: edge_bastion_pub_subnets
