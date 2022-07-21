@@ -43,10 +43,10 @@ spec:
       alias: edge-igw
 #NAT Gateway
     - name: aws-nat-gateway
-      alias: edge-nat
+      alias: ngw
       dependencies:
         - name: aws-vpc-subnets
-          ref: edge_bastion_pri_subnets
+          ref: edge_bastion_pub_subnets
       variables:
         - name : connectivity_type
           value: public   

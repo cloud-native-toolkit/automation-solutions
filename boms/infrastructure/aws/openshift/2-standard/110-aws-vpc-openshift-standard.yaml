@@ -1,0 +1,128 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 110-aws-std-openshift-vpc
+spec:
+  modules:
+#KMS for encryption
+    - name: aws-kms
+      alias: storage_kms
+      variables:
+      - name: user_arn
+        important: true
+#SSH Key
+    - name: aws-ssh-key
+      alias: bastion_access_key  
+
+#OCP VPC  
+    - name: aws-vpc
+      variables:
+      - name: internal_cidr
+        value: 10.0.0.0/16  
+#Internet Gateway
+    - name: aws-internet-gateway
+      alias: igw              
+#Bastion Subnet - Public
+    - name: aws-vpc-subnets
+      alias: pub_subnets
+      dependencies:
+        - name: gateways
+          ref: igw
+      variables:
+      - name: label
+        value: public 
+      - name: subnet_cidrs
+        value:
+          - 10.0.1.0/24
+          - 10.0.2.0/24
+          - 10.0.3.0/24
+#Bastion Instance
+    - name: aws-ec2-bastion
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: pub_subnets
+        - name: aws-ssh-key
+        - name: aws-kms
+      variables:
+      - name: ami_id
+        required: true
+#NAT Gateway
+    - name: aws-nat-gateway
+      alias: ngw
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: pub_subnets
+      variables:
+        - name : connectivity_type
+          value: public   
+        - name : _count
+          value: 3                   
+#Worker Subnet - Private
+    - name: aws-vpc-subnets
+      alias: worker_subnets
+      dependencies:
+        - name: gateways
+          ref: ngw
+      variables:
+      - name: label
+        value: private
+      - name: subnet_cidrs
+        value:
+          - 10.0.4.0/24
+          - 10.0.5.0/24
+          - 10.0.6.0/24
+#ROSA Cluster         
+    - name: aws-rosa
+      alias: cluster
+      dependencies:
+        - name: public-subnets
+          ref: pub_subnets
+        - name: private-subnets
+          ref: worker_subnets
+      variables:
+        - name: no_of_compute_nodes
+          value: 1
+        - name: multi-zone-cluster      
+          alias: multi-zone
+          scope: global 
+        - name : private-link
+          value: true                   
+#VPN service
+    - name: aws-client-vpn
+      alias: vpn
+      version: v1.1.1
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: worker_subnets
+      variables:
+      - name: number_subnets_association
+        value: 3
+      - name: client_cidr_block
+        value: 172.13.0.0/16
+        important: true
+      - name: dns_servers
+        value:
+          - 10.0.0.2
+        important: true          
+      - name: allowed_cidr_ranges
+        value:
+          - 10.0.0.0/16    
+        important: true                           
+#Global Variables  
+  variables:
+    - name: name_prefix
+      scope: global
+      required: true
+      important: true
+    - name: resource_group_name
+      scope: global      
+    - name: region
+      value: ap-south-1
+      scope: global
+    - name: multi-zone
+      value: true
+      scope: global
+      important: true      
+    - name: rosa_token     
+      scope: global     
+      important: true
