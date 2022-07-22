@@ -1,0 +1,24 @@
+## gitops-mas-manage_db_user: database connection username
+gitops-mas-manage_db_user="maximo"
+
+## gitops-mas-manage_db_password: database connection password
+gitops-mas-manage_db_password="YOURDBPW"
+
+
+## gitops-mas-manage_db_url: database connection url
+gitops-mas-manage_db_url="jdbc:db2://c-db2wh-1657896238713384-db2u-engn-svc.cp4d.svc:50001/BLUDB:sslConnection=true;"
+
+gitops-mas-manage_instanceid="instance1"
+
+gitops-mas-manage_entitlement_key="eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJJQk0gTWFya2V0cGxhY2UiLCJpYXQiOjE1OTA2MTEyODQsImp0aSI6IjVhN"
+
+
+gitops-mas-manage_workspace_id="dev"
+
+gitops-mas-manage_addons="[\"health\"]"
+
+## gitops-mas-manage_db_cert: database connection public cert
+
+gitops-mas-manage_db_cert="-----BEGIN CERTIFICATE-----\nMIIDBjCCAe6gAwIBAgIQSdyMlbdJvUsw8LfEwFTEjjANBgkqhkiG9w0BAQsFADAd\nMRswGQYDVQQDExJ6ZW4tY2EtY2VydGlmaWNhdGUwHhcNMjIwNzA4MTU1ODE5WhcN\nMjUwNzA3MTYwMzE5WjAdMRswGQYDVQQDExJ6ZW4tY2EtY2VydGlmaWNhdGUwggEi\nMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC+giNsgWq/cijZepmEhXyQAQ62\nocWoq+uob1bzcKDBzNPlaLOiMgd0P8rAD3W9hM3BczilkSQsDBZ7NwnPjB3AbArQ\nv6lSnGQhIRU8C/0pvKpXGy5ruocdwV5KlXuPSWwIFbuc+cg3x7GwP7E+yZiFFffT\nAmPulwZRAey7CU6TCiIuOh18YMYaB2exi4qVGqqPwS5zuC4Dyf4LFF1EwM6t1rS0\n4WyQaEoxN9odZD+rru8iIAMa8u12nKJv8fniRenZHRqqHUzjbfw/kDTPwEFAkXPR\nF6sX9iOxmcAHKp5oS5WVBXBymAheXo499MW+6igyWEtficBRZnBoun3ochrrAgMB\nAAGjQjBAMA4GA1UdDwEB/wQEAwICpDAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW\nBBQWNi/a9XnuKhRv2nXUPQXXCUIBrzANBgkqhkiG9w0BAQsFAAOCAQEAYnCVt5CC\nW6tBQECnhW8kC4PkndNqAiVV0OeiCO+MAL3UT9+bLmk++j11NtkomOjqk/1s740K\n4kI5sOkK774gNgvgQ03ERyS0Q1jKuvXoU63LJ1/lIV6pvbFPmF4E3uxr0OZPnRun\nh8FZ+wjz57ZD/Dpo4koZajXluG8ovFJGV/8W7IgjdDZacWvJuCbZ2wce7YqxrbMv\n0tfkFZCQs8wnL1P+w3TA4wpYB8ywikwi+p24EFPEuy+B8YllfrLqNVXItDRMtn67\nLraPZW6weGpAYoj4TszEI5HerKq0Uy6sCmP45mZDcnpSF8q26YaULv7cRsh8W3+g\n+Iq8bXhb2ntyWg==\n-----END CERTIFICATE-----"
+
+
