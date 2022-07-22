@@ -1,15 +1,4 @@
 ##IoT##
-## gitops-terraform-gitops-mas-jdbc_workspace_id: MAS workspace id
-gitops-terraform-gitops-mas-jdbc_workspace_id="dev"
-
-## gitops-terraform-gitops-mas-jdbc_instanceid: instance name for MAS - for example: masdemo or mas8 
-gitops-terraform-gitops-mas-jdbc_instanceid="instance1"
-
-## gitops-terraform-gitops-mas-jdbc_db_user: database connection username
-gitops-terraform-gitops-mas-jdbc_db_user="maximo"
-
-## gitops-terraform-gitops-mas-jdbc_db_password: database connection password
-gitops-terraform-gitops-mas-jdbc_db_password=""
 
 ## gitops-terraform-gitops-mas-jdbc_db_cert: database connection public cert
 ## cert w/new lines \n character
@@ -21,23 +10,5 @@ gitops-terraform-gitops-mas-jdbc_db_url="jdbc:db2://<db2wh pod location>-db2u-en
 ## block storage to use for deployment
 gitops-kafka-strimzi_storageclass="managed-premium"
 
-## IBM entitlement key for MAS
-gitops-mas-iot_entitlement_key=""
 
-## MAS Workspace ID to deploy to
-gitops-mas-iot_workspace_id="dev"
-
-## instance name for MAS - for example: masdemo or mas8
-gitops-mas-kafka_instanceid="instance1"
-
-
-##Monitor##
-## gitops-mas-monitor_entitlement_key: IBM entitlement key for MAS
-gitops-mas-monitor_entitlement_key=""
-
-## instance name for MAS - for example: masdemo or mas8
-gitops-mas-monitor_instanceid="instance1"
-
-## MAS Workspace ID to deploy to
-gitops-mas-monitor_workspace_id="dev"
 
