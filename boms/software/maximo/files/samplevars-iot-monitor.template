@@ -22,7 +22,7 @@ gitops-terraform-gitops-mas-jdbc_db_url="jdbc:db2://<db2wh pod location>-db2u-en
 gitops-kafka-strimzi_storageclass="managed-premium"
 
 ## IBM entitlement key for MAS
-gitops-mas-iot_entitlement_key="eyJhbGciOiJIUzI1NiJ9..."
+gitops-mas-iot_entitlement_key=""
 
 ## MAS Workspace ID to deploy to
 gitops-mas-iot_workspace_id="dev"
