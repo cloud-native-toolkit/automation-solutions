@@ -13,4 +13,6 @@ metadata:
 spec:
   modules:
     - name: aws-portworx
+    - name: ocp-login
+      alias: cluster
 
