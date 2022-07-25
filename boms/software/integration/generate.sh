@@ -7,7 +7,7 @@
 
 if [ -z "$SOLUTION" ]
 then
-  SOLUTION=automation-integration-platform-generated
+  SOLUTION=automation-integration-2022_2_1
 fi
 
 if [ -z "$OUTPUT_PATH" ]
