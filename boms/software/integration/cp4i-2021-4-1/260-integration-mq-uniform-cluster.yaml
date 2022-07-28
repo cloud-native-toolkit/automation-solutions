@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 250-integration-eventstreams
+  name: 260-integration-mq-uniform-cluster
   labels:
     type: software
-    code: '250'
+    code: '260'
   annotations:
-    displayName: Integration - EventStreams
-    description: GitOps deployment of EventStreams for Cloud pak for Integration
+    displayName: Integration - MQ Uniform Cluster
+    description: GitOps deployment of MQ Uniform Cluster for Cloud pak for Integration
     deployment-type/gitops: "true"
 spec:
   modules:
@@ -33,40 +33,27 @@ spec:
       alias: cp4i-version-dependency
       variables:
         - name: cp4i_version
-          value: "2022_2_1"
+          value: "2021_4_1"
 
 
-    # # IBM EventStreams Operators
-    - name: gitops-cp-es-operator
-       
+    # # MQ Operators
+    - name: gitops-cp-mq
 
-    # To organize the EventStream Workload in a dedicated namespace. Also to Override the Storage Class for EventStreams. Require RWO storage Class
+
+    # To organize the MQ Uniform cluster Workload in a dedicated namespace. Also to Override the Storage Class for MQ Uniform cluster. Require RWO storage Class
     - name: gitops-namespace
-      alias: cp4i-es
+      alias: cp4i-mq-cluster
       variables:
         - name: name
-          value: cp4i-es
+          value: cp4i-mq-cluster
 
-    - name: gitops-cp-event-streams
+    - name: gitops-cp-mq-uniform-cluster
       dependencies:
         - name: namespace
-          ref: cp4i-es
+          ref: cp4i-mq-cluster
       variables:
-        - name: kafka_storagetype
-          value: persistent-claim
-
-        - name: kafka_storageclass
+        - name: storageClass
           alias: rwo_storage_class
-          scope: global
-
-        - name: zookeeper_storagetype
-          value: persistent-claim
-
-        - name: zookeeper_storageclass
-          alias: rwo_storage_class
-          scope: global
-
-        - name: entitlement_key
           scope: global
 
 
