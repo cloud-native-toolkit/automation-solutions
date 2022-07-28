@@ -90,7 +90,6 @@ spec:
 #VPN service
     - name: aws-client-vpn
       alias: vpn
-      version: v1.1.1
       dependencies:
         - name: aws-vpc-subnets
           ref: worker_subnets
