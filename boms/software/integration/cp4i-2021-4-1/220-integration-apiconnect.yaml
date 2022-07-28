@@ -1,13 +1,13 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 250-integration-eventstreams
+  name: 220-integration-apiconnect
   labels:
     type: software
-    code: '250'
+    code: '220'
   annotations:
-    displayName: Integration - EventStreams
-    description: GitOps deployment of EventStreams for Cloud pak for Integration
+    displayName: Integration - APIConnect
+    description: GitOps deployment of API Connect for Cloud pak for Integration
     deployment-type/gitops: "true"
 spec:
   modules:
@@ -33,42 +33,31 @@ spec:
       alias: cp4i-version-dependency
       variables:
         - name: cp4i_version
-          value: "2022_2_1"
+          value: "2021_4_1"
+
+          
+    # # APIConnect Operators
+    - name: gitops-cp-apic-operator
 
 
-    # # IBM EventStreams Operators
-    - name: gitops-cp-es-operator
-       
 
-    # To organize the EventStream Workload in a dedicated namespace. Also to Override the Storage Class for EventStreams. Require RWO storage Class
+    # To organize the APIConnect Workload in a dedicated namespace. Also to Override the Storage Class for APIConnect. Require RWO storage Class
     - name: gitops-namespace
-      alias: cp4i-es
+      alias: cp4i-apic
       variables:
         - name: name
-          value: cp4i-es
+          value: cp4i-apic
 
-    - name: gitops-cp-event-streams
+    - name: gitops-cp-apic
       dependencies:
         - name: namespace
-          ref: cp4i-es
+          ref: cp4i-apic
       variables:
-        - name: kafka_storagetype
-          value: persistent-claim
-
-        - name: kafka_storageclass
+        - name: storage_class
           alias: rwo_storage_class
           scope: global
-
-        - name: zookeeper_storagetype
-          value: persistent-claim
-
-        - name: zookeeper_storageclass
-          alias: rwo_storage_class
-          scope: global
-
         - name: entitlement_key
           scope: global
-
 
   variables:
     - name: rwo_storage_class
