@@ -133,6 +133,7 @@ spec:
           value: cp4i-es
 
     - name: gitops-cp-event-streams
+      version: v1.2.0
       dependencies:
         - name: namespace
           ref: cp4i-es
@@ -149,7 +150,7 @@ spec:
 
         - name: zookeeper_storageclass
           alias: rwo_storage_class
-          scope: global       
+          scope: global
 
         - name: entitlement_key
           scope: global

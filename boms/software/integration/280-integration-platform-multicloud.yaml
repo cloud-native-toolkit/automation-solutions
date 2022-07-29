@@ -132,27 +132,27 @@ spec:
         - name: name
           value: cp4i-es
 
-    # - name: gitops-cp-event-streams
-    #   dependencies:
-    #     - name: namespace
-    #       ref: cp4i-es
-    #   variables:
-    #     - name: kafka_storagetype
-    #       value: persistent-claim
+    - name: gitops-cp-event-streams
+      dependencies:
+        - name: namespace
+          ref: cp4i-es
+      variables:
+        - name: kafka_storagetype
+          value: persistent-claim
 
-    #     - name: kafka_storageclass
-    #       alias: rwo_storage_class
-    #       scope: global
+        - name: kafka_storageclass
+          alias: rwo_storage_class
+          scope: global
 
-    #     - name: zookeeper_storagetype
-    #       value: persistent-claim
+        - name: zookeeper_storagetype
+          value: persistent-claim
 
-    #     - name: zookeeper_storageclass
-    #       alias: rwo_storage_class
-    #       scope: global       
+        - name: zookeeper_storageclass
+          alias: rwo_storage_class
+          scope: global
 
-    #     - name: entitlement_key
-    #       scope: global
+        - name: entitlement_key
+          scope: global
 
     # To organize the PlatformNavigator Workload in a dedicated namespace. Also to Override the Storage Class for PlatformNavigator. Require RWX storage Class
     - name: gitops-namespace
