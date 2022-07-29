@@ -90,7 +90,6 @@ edge_ssh_bastion_public_key_file="ssh-edge-bastion.pub"
 ## edge_ssh_bastion_private_key_file: The name of the file containing the private key provided for the ssh key. If empty string is provided then a new key will be generated.
 edge_ssh_bastion_private_key_file="ssh-edge-bastion"
 
-
 ## ***************
 ## Gitops
 ## ***************

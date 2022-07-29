@@ -9,6 +9,7 @@ metadata:
     displayName: OpenShift development tools
     description: Provisions development tools in an OpenShift cluster
     deployment-type/gitops: "true"
+    vpn/required: "true"
 spec:
   modules:
     # Create the GitOps Repo

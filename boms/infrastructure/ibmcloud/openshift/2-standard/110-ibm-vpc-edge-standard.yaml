@@ -9,6 +9,7 @@ metadata:
   annotations:
     displayName: IBM VPC OpenShift Standard
     description: IBM VPC with VPN, Bastion servers, and OpenShift
+    vpn/required: "false"
 spec:
   modules:
     - name: ibm-resource-group
@@ -50,12 +51,12 @@ spec:
           ref: flow_log_bucket
     - name: ibm-vpc-gateways
     - name: ibm-vpc-subnets
-      alias: int-ingress-subnets
+      alias: ingress-subnets
       variables:
         - name: _count
           value: 3
         - name: label
-          value: internal-ingress
+          value: ingress
         - name: ipv4_cidr_blocks
           value:
             - 10.1.0.0/26
@@ -64,18 +65,17 @@ spec:
       dependencies:
         - name: gateways
           ref: ibm-vpc-gateways
-    - name: ibm-vpc-subnets
-      alias: bastion-subnets
-      variables:
-        - name: _count
-          value: 3
-        - name: label
-          value: bastion
-        - name: ipv4_cidr_blocks
-          value:
-            - 10.1.0.64/26
-            - 10.2.0.64/26
-            - 10.3.0.64/26
+    #- name: ibm-vpc-subnets
+    #  alias: bastion-subnets
+    #  variables:
+    #    - name: _count
+    #      value: 2
+    #    - name: label
+    #      value: bastion
+    #    - name: ipv4_cidr_blocks
+    #      value:
+    #        - 10.1.0.64/26
+    #        - 10.2.0.64/26
     - name: ibm-vpc-subnets
       alias: egress-subnets
       variables:
@@ -88,32 +88,33 @@ spec:
             - 10.1.0.128/26
             - 10.2.0.128/26
             - 10.3.0.128/26
-    - name: ibm-vpc-vpn-gateway
-      dependencies:
-        - name: subnets
-          ref: int-ingress-subnets
+    # Issue with VPN gateway creation to be addressed
+    #- name: ibm-vpc-vpn-gateway
+    #  dependencies:
+    #    - name: subnets
+    #      ref: ingress-subnets
     - name: ibm-vpn-server
       dependencies:
         - name: subnets
-          ref: int-ingress-subnets
+          ref: ingress-subnets
         - name: ibm-cert-manager
           ref: cert-manager
-    - name: ibm-vpc-ssh
-      alias: vpc_ssh_bastion
-      variables:
-        - name: label
-          value: bastion
-    - name: vsi-bastion
-      variables:
-        - name: image_name
-          scope: module
-        - name: kms_enabled
-          value: true
-      dependencies:
-        - name: subnets
-          ref: bastion-subnets
-        - name: vpcssh
-          ref: vpc_ssh_bastion
+    #- name: ibm-vpc-ssh
+    #  alias: vpc_ssh_bastion
+    #  variables:
+    #    - name: label
+    #      value: bastion
+    #- name: vsi-bastion
+    #  variables:
+    #    - name: image_name
+    #      scope: module
+    #    - name: kms_enabled
+    #      value: true
+    #  dependencies:
+    #    - name: subnets
+    #      ref: bastion-subnets
+    #    - name: vpcssh
+    #      ref: vpc_ssh_bastion
     - name: ibm-resource-group
       alias: cs_resource_group
       variables:
@@ -158,26 +159,26 @@ spec:
         - name: allowed_ip
           value:
             - 0.0.0.0/0
-    - name: ibm-vpc-subnets
-      alias: ext-ingress-subnets
-      variables:
-        - name: _count
-          value: 3
-        - name: label
-          value: external-ingress
-        - name: ipv4_cidr_blocks
-          value:
-            - 10.1.0.192/26
-            - 10.2.0.192/26
-            - 10.3.0.192/26
+    # These subnets are not currently used
+    #- name: ibm-vpc-subnets
+    #  alias: ext-ingress-subnets
+    #  variables:
+    #    - name: _count
+    #      value: 2
+    #    - name: label
+    #      value: external-ingress
+    #    - name: ipv4_cidr_blocks
+    #      value:
+    #        - 10.1.0.192/26
+    #        - 10.2.0.192/26
   variables:
     - name: name_prefix
       alias: vpc_name_prefix
       required: true
       scope: global
-    - name: vpc_ssh_bastion_public_key
-      value: ""
-    - name: vpc_ssh_bastion_private_key
-      value: ""
-    - name: vpc_ssh_bastion_public_key_file
-    - name: vpc_ssh_bastion_private_key_file
+    #- name: vpc_ssh_bastion_public_key
+    #  value: ""
+    #- name: vpc_ssh_bastion_private_key
+    #  value: ""
+    #- name: vpc_ssh_bastion_public_key_file
+    #- name: vpc_ssh_bastion_private_key_file
