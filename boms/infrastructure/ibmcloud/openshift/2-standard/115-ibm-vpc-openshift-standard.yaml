@@ -1,7 +1,7 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 110-ibm-vpc-openshift-standard
+  name: 115-ibm-vpc-openshift-standard
   labels:
     type: infrastructure
     platform: ibm
@@ -9,6 +9,7 @@ metadata:
   annotations:
     displayName: IBM VPC OpenShift Standard
     description: IBM VPC with VPN, Bastion servers, and OpenShift
+    vpn/required: "false"
 spec:
   modules:
     - name: ibm-resource-group
@@ -47,6 +48,9 @@ spec:
             - 10.3.0.0/20
         - name: provision
           value: false
+      dependencies:
+        - name: resource_group
+          ref:  vpc_resource_group
     - name: ibm-vpc-gateways
       variables:
         - name: provision
@@ -128,7 +132,7 @@ spec:
         - name: subnets
           ref: worker-subnets
         - name: kms_key
-          ref: kms_key
+          ref: ocp_key
     - name: ibm-log-analysis-bind
     - name: ibm-cloud-monitoring-bind
     - name: ibm-vpc-subnets
@@ -157,9 +161,9 @@ spec:
       alias: vpc_name_prefix
       required: true
       scope: global
-    - name: vpc_ssh_bastion_public_key
-      value: ""
-    - name: vpc_ssh_bastion_private_key
-      value: ""
-    - name: vpc_ssh_bastion_public_key_file
-    - name: vpc_ssh_bastion_private_key_file
+  #  - name: vpc_ssh_bastion_public_key
+  #    value: ""
+  #  - name: vpc_ssh_bastion_private_key
+  #    value: ""
+  #  - name: vpc_ssh_bastion_public_key_file
+  #  - name: vpc_ssh_bastion_private_key_file
