@@ -6,7 +6,7 @@
 
 ### Change Log
 
--  **06/2022** - Initial Release
+-  **07/2022** - Initial Release
 
   
 > This collection of Cloud Pak for Integration terraform automation layers has been crafted from a set of [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins**  _mjperrin@us.ibm.com_, **Sean Sundberg**  _seansund@us.ibm.com_, **Andrew Trice**  _amtrice@us.ibm.com_, **Gowdhaman Jayaseelan**  _gjayasee@in.ibm.com_, **Vijay K Sukthankar**  _vksuktha@in.ibm.com_ or **Jyoti Rani**  _jyotirani10@in.ibm.com_ for more details or raise an issue on the repository.
@@ -297,21 +297,42 @@ You can install these clis on your local machine **OR** run the following comman
    > We expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
 
 3. Next we need to set up the working directory for the automation:
-
-   ```shell
-   ./setup-workspace.sh [-p {cloud provider}] [-s {storage}] [-n {prefix name}] [-x {portworx spec file}]
+    ⚠️`IMPORTANT NOTE:` ⚠️  setup-workspace.sh script is responsible for choosing the required module to be deployed on Openshift Cluster. The module we refer here is cater to "GitOps,Storage & Cloud Pak capabilities(PlatformNavigator,APIC,MQ,ACE & EventStreams)". 
+    
+    ```shell
+        ./setup-workspace.sh [-p {cloud provider}] [-s {storage}] [-n {prefix name}] [-x {portworx spec file}]
    ```
     
    where:
-   - **cloud provider** (optional) - the target cloud provider for the deployment (`aws`, `azure`, or `ibm`)
-   - **storage** (optional) - the intended storage provider (`portworx` or `odf`)
+   - **cloud provider**  - the target cloud provider for the deployment (`aws`, `azure`, or `ibm`)
+   - **storage**  - the intended storage provider (`portworx` or `odf`)
    - **prefix name** (optional) - the name prefix that will be used for the gitops repo
    - **portworx spec file** (optional) - the name of the file containing the Portworx configuration spec yaml
-    
-   **Example:**
-   ```shell
-   ./setup-workspace.sh -p azure -s portworx -n cp4i-demo -x portworx_essentials.yaml
-   ```
+   
+    At this stage, We assume you have Openshift Cluster is up & running. Following info will help the user in setting up the right workspace.
+    ```
+    if [OpenShift Cluster is already provioned with 'Storage']         
+        There is No necessacity to execute any module cater to provision Storage in cluster. Hence
+         ./setup-workspace.sh -p ibm 
+    else
+        if [OpenShift Cluster is Provisoned on IBM Cloud && No Storage Provisioned]
+            In IBM Cloud you have a choice to provision 'Open Data Foundation' or 'Portworx'
+            In case 
+                'OpenData Foundation' :
+                    ./setup-workspace.sh -p ibm -s odf 
+                'portworx' :
+                    ./setup-workspace.sh -p ibm -s portworx  [-x {portworx spec file}]
+                    
+        if [OpenShift Cluster is Provisoned on Azure && No Storage Provisioned]
+            In Azure, at this point of time you can only go with 'portworx'
+                    ./setup-workspace.sh -p azure -s portworx  [-x {portworx spec file}]
+
+        if [OpenShift Cluster is Provisoned on aws && No Storage Provisioned]
+            In aws, at this point of time you can only go with 'portworx'
+                    ./setup-workspace.sh -p aws -s portworx  [-x {portworx spec file}]
+
+    fi        
+    ```
 
 4. The `setup-workspace.sh` script configures the `terraform.tfvars` file with reasonable defaults. There are no other changes required in order to run the automation.
 
