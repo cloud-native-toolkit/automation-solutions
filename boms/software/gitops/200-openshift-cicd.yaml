@@ -10,4 +10,6 @@ metadata:
     description: Deploys OpenShift GitOps (ArgoCD) and OpenShift Pipelines (Tekton) into an existing cluster
 spec:
   modules:
+    # Login to existing OpenShift cluster
+    - name: ocp-login
     - name: openshift-cicd
