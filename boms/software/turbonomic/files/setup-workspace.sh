@@ -121,7 +121,7 @@ do
 
   name=$(echo "$dir" | sed -E "s/.*\///")
 
-  if [[ ! -d "${SCRIPT_DIR}/${name}/terraform" ]]; then
+  if [[ ! -f "${SCRIPT_DIR}/${name}/main.tf" ]]; then
     continue
   fi
 
