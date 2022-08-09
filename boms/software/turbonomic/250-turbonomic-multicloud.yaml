@@ -11,6 +11,7 @@ metadata:
     deployment-type/gitops: "true"
 spec:
   modules:
+    - name: ocp-login
 
     - name: gitops-namespace
       alias: gitea_namespace
