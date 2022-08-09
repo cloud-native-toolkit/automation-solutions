@@ -20,9 +20,10 @@ CLOUD_PROVIDER=""
 PREFIX_NAME=""
 APPEND=""
 GIT_HOST=""
+STORAGE=""
 
 # Get the options
-while getopts ":p:n:a:g:h:" option; do
+while getopts ":p:n:a:g:s:h:" option; do
    case $option in
       h) # display Help
          Usage
@@ -35,6 +36,8 @@ while getopts ":p:n:a:g:h:" option; do
          PREFIX_NAME=$OPTARG;;
       g) # Enter a name
          GIT_HOST=$OPTARG;;
+      s) # Enter a name
+         STORAGE=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -94,18 +97,22 @@ fi
 cat "${SCRIPT_DIR}/terraform.tfvars.template-turbonomic" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
   sed "s/RWO_STORAGE/${RWO_STORAGE}/g" \
-  > "${SCRIPT_DIR}/turbonomic.tfvars"
+  > "${WORKSPACE_DIR}/turbonomic.tfvars"
 
 if [[ ! -f "${WORKSPACE_DIR}/gitops.tfvars" ]]; then
   cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
     sed -E "s/#(.*=\"GIT_HOST\")/${GITHOST_COMMENT}\1/g" | \
     sed "s/PREFIX/${PREFIX_NAME}/g"  | \
     sed "s/GIT_HOST/${GIT_HOST}/g" \
-    > "${SCRIPT_DIR}/gitops.tfvars"
+    > "${WORKSPACE_DIR}/gitops.tfvars"
 fi
 
-cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
-cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
+cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/plan-all.sh" "${WORKSPACE_DIR}"
+cp -R "${SCRIPT_DIR}/.mocks" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/layers.yaml" "${WORKSPACE_DIR}"
+cp "${SCRIPT_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
@@ -141,8 +148,9 @@ do
   mkdir -p ${name}
   cd "${name}"
 
-  cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
-  ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
+  cp -R -L "${SCRIPT_DIR}/${name}/"* .
+
+  ln -s ../bin bin2
 
   cd - > /dev/null
 done
