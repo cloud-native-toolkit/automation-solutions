@@ -33,3 +33,10 @@ inputs = {
   gitops_repo_username = dependency.gitops.outputs.gitops_username
   gitops_repo_token = dependency.gitops.outputs.gitops_token
 }
+
+terraform {
+  extra_arguments "reduced_parallelism" {
+    commands  = get_terraform_commands_that_need_parallelism()
+    arguments = ["-parallelism=3"]
+  }
+}
