@@ -71,7 +71,7 @@ This will mount the parent directory to the `/automation` directory inside of th
 > 
 > If you encounter this error, thne you need to enable full disk access in the operating system before you can successfully mount the volume.  Go to `System Preferences`, then go to `Security and Privacy`, and select the `Privacy` tab.  Scroll the list on the left and select "Full Disk Access" and allow access for `multipassd`.
 >
-> ![Multipass security settings](multipass-security.png)
+> ![Multipass security settings](https://github.com/cloud-native-toolkit/automation-solutions/raw/main/common-files/multipass-security.png)
 > 
 > After granting access to `multipassd`, then re-run the `multipass mount $PWD cli-tools:/automation` command.
 
