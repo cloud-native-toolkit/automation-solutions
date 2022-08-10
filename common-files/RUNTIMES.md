@@ -56,7 +56,7 @@ This will take several minutes to start the virtual machine and apply the config
 
 Once the virtual machine is started, you need to mount the local  file system for use within the virtual machine. 
 
-> ⚠️ MacOS users, you need to enable full disk access in the operating system before you can successfully mount the volume.  Go to `System Preferences`, then go to `Security and Privacy`, and select the `Privacy` tab.  Scroll the list on the left and select "Full Disk Access" and allow access for `multipassd`.
+> ⚠️ MacOS users will need to enable full disk access in the operating system before you can successfully mount the volume.  Go to `System Preferences`, then go to `Security and Privacy`, and select the `Privacy` tab.  Scroll the list on the left and select "Full Disk Access" and allow access for `multipassd`.
 > 
 > ![Multipass security settings](multipass-security.png) 
 
