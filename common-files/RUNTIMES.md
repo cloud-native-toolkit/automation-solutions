@@ -36,15 +36,15 @@ curl https://raw.githubusercontent.com/cloud-native-toolkit/sre-utilities/main/c
 
 The `cli-tools` cloud init script prepares a VM with the same tools available in the quay.io/cloudnativetoolkit/cli-tools-ibmcloud container image. Particularly:
 
-- terraform
-- terragrunt
-- git
-- jq
-- yq
-- oc
-- kubectl
-- helm
-- ibmcloud cli
+- `terraform`
+- `terragrunt`
+- `git`
+- `jq`
+- `yq`
+- `oc`
+- `kubectl`
+- `helm`
+- `ibmcloud cli`
 
 Launch the Multipass virtual machine using the following command:
 
