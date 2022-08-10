@@ -101,7 +101,7 @@ Known issues include:
 ### Podman instructions
 
 - Install [Brew](https://brew.sh/)
-- Install [Colima](https://github.com/abiosoft/colima) (a replacement for Docker Desktop ) and the **docker** cli
+- Install [Podman](https://podman.io) (a replacement for Docker Desktop ) and the **docker** cli
    ```shell
    brew install podman docker
    ```
