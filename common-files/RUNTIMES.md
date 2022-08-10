@@ -53,24 +53,27 @@ multipass launch --name cli-tools --cloud-init ./cli-tools.yaml
 
 This will take several minutes to start the virtual machine and apply the configuration.  
 
-Once the virtual machine is started, you need to mount the local  file system for use within the virtual machine. 
-
-> ⚠️ MacOS users will need to enable full disk access in the operating system before you can successfully mount the volume.  Go to `System Preferences`, then go to `Security and Privacy`, and select the `Privacy` tab.  Scroll the list on the left and select "Full Disk Access" and allow access for `multipassd`.
-> 
-> ![Multipass security settings](multipass-security.png) 
+Once the virtual machine is started, you need to mount the local  file system for use within the virtual machine.
 
 Then mount the file system using the following command:
 
-```text
+```
 multipass mount $PWD cli-tools:/automation
 ```
 
 This will mount the parent directory to the `/automation` directory inside of the virtual machine.
 
-> If you have not allowed full disk access in MacOS, this operation will fail will the message: 
+
+> ⚠️ MacOS users may encounter the following error if Multipass has not been granted file system access.  
 > ```
 > mount failed: source "{current directory}" is not readable
 > ```
+> 
+> If you encounter this error, thne you need to enable full disk access in the operating system before you can successfully mount the volume.  Go to `System Preferences`, then go to `Security and Privacy`, and select the `Privacy` tab.  Scroll the list on the left and select "Full Disk Access" and allow access for `multipassd`.
+>
+> ![Multipass security settings](multipass-security.png)
+> 
+> After granting access to `multipassd`, then re-run the `multipass mount $PWD cli-tools:/automation` command.
 
 Once the virtual machine has started, run the following command to enter an interactive shell:
 
