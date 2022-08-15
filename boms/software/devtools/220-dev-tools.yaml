@@ -24,10 +24,8 @@ spec:
 
     - name: gitops-artifactory
     - name: gitops-dashboard
-#    - name: gitops-ascent
     - name: gitops-pact-broker
     - name: gitops-sonarqube
     - name: gitops-tekton-resources
-#    - name: gitops-image-registry
-#    - name: gitops-swaggereditor
-#    - name: git link
+#   - name: gitops-image-registry
+    - name: gitops-swagger-editor
