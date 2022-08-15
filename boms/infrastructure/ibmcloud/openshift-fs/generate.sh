@@ -59,3 +59,9 @@ esac
 
 cp -R -L ./files/* "${GENERATE_DESTINATION}"
 
+# remove the default, aws, and azure docker images, and uncomment the ibm image
+sed -i '' 's/DOCKER_IMAGE\="quay.io\/cloudnativetoolkit\/cli-tools\:.*//' ${GENERATE_DESTINATION}/launch.sh
+sed -i '' 's/#AWS.*//' ${GENERATE_DESTINATION}/launch.sh
+sed -i '' 's/#AZURE.*//' ${GENERATE_DESTINATION}/launch.sh
+sed -i '' 's/#IBM //' ${GENERATE_DESTINATION}/launch.sh
+cat ${GENERATE_DESTINATION}/launch.sh | grep quay
