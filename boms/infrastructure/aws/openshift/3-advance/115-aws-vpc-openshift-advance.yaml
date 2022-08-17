@@ -1,0 +1,341 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: aws-production
+spec:
+  modules:
+#edge VPC  
+    - name: aws-vpc
+      alias: edge_vpc
+      variables:
+      - name: name
+        value: edge_advance_vpc
+      - name: internal_cidr
+        value: 10.0.0.0/16      
+#Management VPC        
+    - name: aws-vpc
+      alias: mgmt_vpc    
+      variables:
+      - name: name
+        value: mgmt_advance_vpc
+      - name: internal_cidr
+        value: 10.1.0.0/16
+               
+#Worload VPC
+    - name: aws-vpc
+      alias: work_vpc
+      variables:
+      - name: name
+        value: work_advance_vpc      
+      - name: internal_cidr
+        value: 10.2.0.0/16
+  
+#Edge Subnet - Public
+    - name: aws-vpc-subnets
+      alias: edge_pub_subnet_bastion
+      dependencies:
+        - name: aws-vpc
+          ref: edge_vpc
+        - name: gateways
+          ref: edge-igw
+      variables:
+      - name: label
+        value: public 
+      - name: subnet_cidrs
+        alias: edge_pub_subnet_cidrs_bastion
+        value:
+          - 10.0.1.0/24
+          - 10.0.2.0/24
+          - 10.0.3.0/24
+#Edge Subnet - Private
+    - name: aws-vpc-subnets
+      alias: edge_pri_subnet_ec2
+      dependencies:
+        - name: aws-vpc
+          ref: edge_vpc
+        - name: gateways
+          ref: edge-nat
+      variables:
+      - name: label
+        value: private
+      - name: subnet_cidrs
+        alias: edge_pri_subnet_cidrs_ec2
+        value:
+          - 10.0.4.0/24
+          - 10.0.5.0/24
+          - 10.0.6.0/24  
+#Management Subnet - Private
+    - name: aws-vpc-subnets
+      alias: mgmt_pri_subnet_rosa
+      dependencies:
+        - name: aws-vpc
+          ref: mgmt_vpc
+        - name: aws-internet-gateway
+          ref: edge-igw
+      variables:
+      - name: label
+        value: private
+      - name: subnet_cidrs
+        alias: mgmt_pri_subnet_cidrs_rosa
+        value:
+          - 10.1.1.0/24
+          - 10.1.2.0/24
+          - 10.1.3.0/24
+#Workload Subnet - Private
+    - name: aws-vpc-subnets
+      alias: work_pri_subnet_rosa
+      dependencies:
+        - name: aws-vpc
+          ref: work_vpc
+      variables:
+      - name: label
+        value: private
+      - name: subnet_cidrs
+        alias: work_pri_subnet_cidrs_rosa
+        value:
+          - 10.2.1.0/24
+          - 10.2.2.0/24
+          - 10.2.3.0/24
+      - name: availability_zones
+#Internet Gateway
+    - name: aws-internet-gateway
+      alias: edge-igw
+      dependencies:
+       - name: aws-vpc
+         ref: edge_vpc
+#NAT Gateway
+    - name: aws-nat-gateway
+      alias: edge-nat
+      dependencies:
+        - name: aws-vpc
+          ref: edge_vpc
+        - name: aws-internet-gateway
+        - name: aws-vpc-subnets
+          ref: edge_pub_subnet_bastion
+      variables:
+        - name : connectivity_type
+          value: public   
+        - name : _count
+          value: 3
+#ROSA - Management Zone
+    - name: aws-rosa
+      alias: mgmt-rosa
+      dependencies:
+        - name: aws-vpc
+          ref: mgmt_vpc
+        - name: public-subnets  
+          ref: edge_pub_subnet_bastion  
+        - name: private-subnets
+          ref: mgmt_pri_subnet_rosa      
+      variables:
+        - name: cluster_name
+          value: rosamgmt
+        - name: no_of_compute_nodes
+          value: 1 
+        - name: private-link
+          value: true
+        - name: compute-machine-type
+          value: "m5.xlarge"   
+#ROSA - Workload Zone
+    - name: aws-rosa
+      alias: work-rosa
+      dependencies:
+        - name: aws-vpc
+          ref: work_vpc
+        - name: public-subnets
+          ref: edge_pub_subnet_bastion  
+        - name: private-subnets
+          ref: work_pri_subnet_rosa
+      variables:
+      - name: cluster_name
+        value: rosawork 
+      - name: no_of_compute_nodes
+        value: 1
+      - name: private-link
+        value: true
+      - name: compute-machine-type
+        value: "m5.xlarge"  
+#KMS for encryption
+    - name: aws-kms
+      alias: storage_kms
+      variables:
+      - name: user_arn
+        value: arn:aws:iam::005990573564:root
+#SSH Key
+    - name: aws-ssh-key
+      alias: ec2_access_key
+      variables:
+      - name: rsa_bits
+      - name: public_key
+      - name: private_key      
+#EC Instance
+    - name: aws-ec2-instance
+      dependencies:
+        - name: aws-vpc
+          ref: edge_vpc 
+        - name: aws-vpc-subnets
+          ref: edge_pri_subnet_ec2
+        - name: aws-ssh-key
+        - name: aws-kms
+      variables:
+      - name: instance_type
+        value: t2.micro
+      - name: ami_id
+        value: ami-0e0aaf29e73155b91
+      - name: root_block_device_encrypted
+        value: true
+      - name: root_volume_size
+        value: 10
+      - name: root_volume_type
+        value: gp2
+      - name: name_prefix
+#Bastion Instance
+    - name: aws-ec2-bastion
+      dependencies:
+        - name: aws-vpc
+          ref: edge_vpc 
+        - name: aws-vpc-subnets
+          ref: edge_pub_subnet_bastion
+        - name: aws-ssh-key
+        - name: aws-kms
+      variables:
+      - name: instance_type
+        value: t2.micro
+      - name: ami_id
+        value: ami-0e0aaf29e73155b91
+      - name: root_block_device_encrypted
+        value: true
+      - name: root_volume_size
+        value: 10
+      - name: root_volume_type
+        value: gp2
+      - name: name_prefix
+#VPN service
+    - name: aws-client-vpn
+      alias: edge-vpn
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: edge_pri_subnet_ec2
+        - name: aws-vpc
+          ref: edge_vpc
+      variables:
+      - name: number_subnets_association
+        value: 3
+      - name: client_cidr_block
+        value: 172.13.0.0/16
+      - name: dns_servers
+        value:
+          - 10.1.0.2
+          - 10.2.0.2
+      - name: allowed_cidr_ranges
+        value:
+          - 10.1.0.0/16
+          - 10.2.0.0/16
+          - 10.0.0.0/16
+      - name: additional_routes
+        value:
+          - 10.1.0.0/16
+          - 10.2.0.0/16                       
+#transit gateway  service edge
+    - name: aws-transit-gateway
+      alias: edge-transit
+      dependencies:
+        - id: aws-vpc
+          ref: edge_vpc  
+        - id: aws-vpc-subnets
+          ref: edge_pri_subnet_ec2
+        - id : aws-transit-gateway
+          ref: mgmt-transit                            
+      variables:
+        - name: route_to_cidr_blocks
+          value: 
+            - 10.1.0.0/16
+            - 10.2.0.0/16
+        - name: create_transit_gateway
+          value: true
+        - name: create_transit_gateway_route_table
+          value: true 
+        - name: static_routes
+          value:
+          - blackhole: false
+            destination_cidr_block: 0.0.0.0/0        
+#transit gateway  service menage
+    - name: aws-transit-gateway
+      alias: mgmt-transit
+      dependencies:
+        - id: aws-vpc
+          ref: mgmt_vpc  
+        - id: aws-vpc-subnets
+          ref: mgmt_pri_subnet_rosa
+        - id : aws-transit-gateway
+          ref: edge-transit   
+                                    
+      variables:
+        - name: route_to_cidr_blocks
+          value: 
+            - 10.0.0.0/16
+            - 10.2.0.0/16
+            - 0.0.0.0/0
+        - name: number_subnet_route
+          value: 9
+
+#transit gateway  service menage
+    - name: aws-transit-gateway
+      alias: work-transit
+      dependencies:
+        - id: aws-vpc
+          ref: work_vpc  
+        - id: aws-vpc-subnets
+          ref: work_pri_subnet_rosa
+        - id : aws-transit-gateway
+          ref: edge-transit   
+                                    
+      variables:
+        - name: route_to_cidr_blocks
+          value: 
+            - 10.0.0.0/16
+            - 10.1.0.0/16
+            - 0.0.0.0/0
+        - name: number_subnet_route
+          value: 9
+    - name: aws-transit-gateway
+      alias: edge-transit-pub
+      dependencies:
+        - id: aws-vpc
+          ref: edge_vpc  
+        - id: aws-vpc-subnets
+          ref: edge_pub_subnet_bastion
+        - id : aws-transit-gateway
+          ref: edge-transit   
+                                    
+      variables:
+        - name: route_to_cidr_blocks
+          value: 
+            - 10.2.0.0/16
+            - 10.1.0.0/16
+        - name: tgw_route_table_association
+          value: false     
+    
+#Global Variables  
+  variables:
+    - name: name_prefix
+      scope: global
+      value: "swe-advance"
+    - name: resource_group_name
+      scope: global
+      value: "rosa"       
+    - name: provision
+      value: true
+      scope: global
+    - name: region
+      value: ap-south-1
+    - name: multi-zone
+      value: true
+      scope: global
+      important: true      
+    - name: rosa_token     
+      scope: global     
+      important: true
+    - name: dry_run     
+      scope: global     
+      important: false

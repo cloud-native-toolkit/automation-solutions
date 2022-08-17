@@ -21,13 +21,16 @@ iascable build -i ./200-openshift-gitops.yaml \
                -i ./210-ibm-odf-storage.yaml -\
                -i ./210-ibm-portworx-storage.yaml \
                -i ./300-cloud-pak-for-data-entitlement.yaml \
-               -i ./305-cloud-pak-for-data-foundation.yaml \
-               -i ./310-cloud-pak-for-data-db2wh.yaml -o $OUTPUT_PATH$SOLUTION
-# -i ./310-cloud-pak-for-data-db2wh.yaml \
+               -i ./305-cloud-pak-for-data-foundation.yaml -o $OUTPUT_PATH$SOLUTION
+
+#                \
+#                              -i ./310-cloud-pak-for-data-db2uoperator.yaml \
+#                              -i ./315-cloud-pak-for-data-db2wh.yaml \
+#                              -i ./320-cloud-pak-for-data-db2oltp.yaml
 
 
 echo "Copying Files"
-cp -R -L ./files/* $OUTPUT_PATH$SOLUTION
+cp -v -R -L ./files/* $OUTPUT_PATH$SOLUTION
 
 echo "Generated Output:"
 ls -la $OUTPUT_PATH$SOLUTION

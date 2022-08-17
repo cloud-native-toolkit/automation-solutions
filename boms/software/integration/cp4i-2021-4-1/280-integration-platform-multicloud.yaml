@@ -1,40 +1,50 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 300-integration-platform-multicloud
+  name: 280-integration-platform-multicloud
   labels:
     type: software
-    code: '300'
+    code: '280'
   annotations:
-    displayName: Integration Platform
-    description: Populates a GitOps repository with the components of the IBM Integration Platform
+    displayName: Integration Platform - Cloud Pak for Integration
+    description: GitOps deployment of Cloud Pak for Integration
+    deployment-type/gitops: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster
     - name: ocp-login
       alias: cluster
-      version: v1.2.12
+
     - name: olm
-      version: v1.3.2
+
     - name: sealed-secret-cert
-      version: v1.0.1
-    
+
+
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.16.0
+
 
     - name: gitops-cp-catalogs
       alias: gitops-cp-catalogs
-      version: v1.2.1
+
       variables:
         - name: entitlement_key
           scope: global
 
+    # Choose the CP4i Version CP4i Version. As of ow the latest version of cp4i is 2022_2_1. Hence the possible values are (2021_4_1 , 2022_2_1).
+    - name: cp4i-dependency-management
+      alias: cp4i-version-dependency
+      variables:
+        - name: cp4i_version
+          value: "2021_4_1"
+
+
+
     # # CP4i Operators
     - name: gitops-cp-mq
     - name: gitops-cp-ace
-    - name: gitops-cp-apic-opearator
-    - name: gitops-cp-eventstreams-operator
+    - name: gitops-cp-apic-operator
+    - name: gitops-cp-es-operator
 
 
     # To organize the MQ Uniform cluster Workload in a dedicated namespace. Also to Override the Storage Class for MQ Uniform cluster. Require RWO storage Class
@@ -71,9 +81,9 @@ spec:
         - name: storage_class_4_mapassist
           alias: rwx_storage_class
           scope: global
-        # If MapAssist feature is required. Then set the 'value' to 'true'  
+        # If MapAssist feature is required. Then set the 'value' to 'true'
         - name: is_map_assist_required
-          value: false          
+          value: false
 
     # To organize the QueueManager Workload in a dedicated namespace. Also to Override the Storage Class for QueueManager. Require RWO storage Class
     - name: gitops-namespace
@@ -93,7 +103,7 @@ spec:
           value: mq-instance
         - name: config_map
           value: oms-queue-config
-        - name: storageclass
+        - name: storageClass
           alias: rwo_storage_class
           scope: global
 
@@ -115,7 +125,7 @@ spec:
         - name: entitlement_key
           scope: global
 
-    # To organize the EventStream Workload in a dedicated namespace. Also to Override the Storage Class for EventStreams. Require RWO storage Class
+    #To organize the EventStream Workload in a dedicated namespace. Also to Override the Storage Class for EventStreams. Require RWO storage Class
     - name: gitops-namespace
       alias: cp4i-es
       variables:
@@ -123,6 +133,7 @@ spec:
           value: cp4i-es
 
     - name: gitops-cp-event-streams
+      version: v1.2.0
       dependencies:
         - name: namespace
           ref: cp4i-es
@@ -139,7 +150,7 @@ spec:
 
         - name: zookeeper_storageclass
           alias: rwo_storage_class
-          scope: global       
+          scope: global
 
         - name: entitlement_key
           scope: global
@@ -166,7 +177,7 @@ spec:
     - name: rwo_storage_class
       type: string
       description: ReadWriteOnce access type Storage Class
-    
+
     #This storageclass is reffered by[PlatforNavigator/ACEDesigner]
     - name: rwx_storage_class
       type: string
@@ -179,7 +190,7 @@ spec:
         The entitlement key used to access the CP4I images in the container
         registry. Visit https://myibm.ibm.com/products-services/containerlibrary
         to get the key
-      sensitive: true  
+      sensitive: true
     - name: gitops_repo_host
       type: string
       description: The host for the git repository.
@@ -211,8 +222,3 @@ spec:
       type: string
       description: Token used for authentication
       sensitive: true
-    
-
-
-
-

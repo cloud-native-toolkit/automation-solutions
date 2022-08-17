@@ -8,33 +8,43 @@ metadata:
   annotations:
     displayName: Integration Platform - Cloud Pak for Integration
     description: GitOps deployment of Cloud Pak for Integration
+    deployment-type/gitops: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster
     - name: ocp-login
       alias: cluster
-      version: v1.2.12
+
     - name: olm
-      version: v1.3.2
+
     - name: sealed-secret-cert
-      version: v1.0.1
+
 
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.16.0
+
 
     - name: gitops-cp-catalogs
       alias: gitops-cp-catalogs
-      version: v1.2.1
+
       variables:
         - name: entitlement_key
           scope: global
+
+    # Choose the CP4i Version CP4i Version. As of ow the latest version of cp4i is 2022_2_1. Hence the possible values are (2021_4_1 , 2022_2_1).
+    - name: cp4i-dependency-management
+      alias: cp4i-version-dependency
+      variables:
+        - name: cp4i_version
+          value: "2022_2_1"
+
+
 
     # # CP4i Operators
     - name: gitops-cp-mq
     - name: gitops-cp-ace
     - name: gitops-cp-apic-operator
-    - name: gitops-cp-eventstreams-operator
+    - name: gitops-cp-es-operator
 
 
     # To organize the MQ Uniform cluster Workload in a dedicated namespace. Also to Override the Storage Class for MQ Uniform cluster. Require RWO storage Class
@@ -93,7 +103,7 @@ spec:
           value: mq-instance
         - name: config_map
           value: oms-queue-config
-        - name: storageclass
+        - name: storageClass
           alias: rwo_storage_class
           scope: global
 
@@ -139,7 +149,7 @@ spec:
 
         - name: zookeeper_storageclass
           alias: rwo_storage_class
-          scope: global       
+          scope: global
 
         - name: entitlement_key
           scope: global

@@ -9,6 +9,7 @@ metadata:
   annotations:
     displayName: IBM OpenShift GitOps Bootstrap
     description: Provisions OpenShift GitOps into an existing IBM cluster and bootstraps it to a gitops repository
+    vpn/required: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster

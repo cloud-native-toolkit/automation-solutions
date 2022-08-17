@@ -9,6 +9,7 @@ metadata:
   annotations:
     displayName: IBM - ODF Cluster Storage
     description: Installs OpenShift Data Foundation in an IBM cluster
+    vpn/required: "true"
 spec:
   modules:
     # Create the GitOps Repo

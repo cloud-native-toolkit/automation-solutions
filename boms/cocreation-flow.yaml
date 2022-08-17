@@ -1,0 +1,363 @@
+---
+personas:
+  - id: demo
+    title: Setup a Demo
+    desc: As a tech seller you want to demo the capability of IBM Technology use this
+      personal to get started quickly
+    docs: url
+    image: techsales_tammy.png
+    recommendedArch: quickstart
+  - id: mvp
+    title: Create a POC/POT/MVP
+    desc: You are past the demo phase and now need to prove the technology for a specific
+      client use case
+    docs: ''
+    image: mvp_rohan.png
+    recommendedArch: standard
+  - id: production
+    title: Prepare for Production
+    desc: You are now focused on the delivery phase of a project and need to place IBM
+      Technology into a highly scalable secure production environment
+    docs: ''
+    image: production_admin.png
+    recommendedArch: advanced
+  - id: developer
+    title: Support Development
+    desc: You want to setup a Red Hat OpenShift environment to develop solution assets
+    docs: ''
+    image: developer_rubi.png
+    recommendedArch: standard
+platforms:
+  - id: aws
+    title: AWS
+    desc: Amazon Web Services infrastructure with Red Hat OpenShift ROSA
+    docs: ''
+    image: aws.png
+    enabled: true
+    boms:
+      quickstart:
+        - 200-openshift-gitops
+        - 105-aws-vpc-openshift
+        - 220-dev-tools
+      standard: []
+      advanced: []
+  - id: azure
+    title: Azure
+    desc: Microsoft Azure infrastructure with Red Hat OpenShift ARO and IPI
+    docs: https://azure.microsoft.com/
+    image: azure.png
+    enabled: true
+    boms:
+      quickstart:
+        - 110-azure-ocp-ipi
+        - 200-openshift-gitops
+        - 220-dev-tools
+      standard:
+        - 101-azure-vnet-base
+        - 200-openshift-gitops
+        - 220-dev-tools
+      advanced: []
+  - id: ibm
+    title: IBM Cloud
+    desc: 'IBM Cloud infrastructure with Red Hat OpenShift ROKS '
+    docs: https://www.ibm.com/cloud
+    image: ibmcloud.png
+    enabled: true
+    boms:
+      quickstart:
+        - 200-ibm-openshift-gitops
+        - 105-ibm-vpc-openshift
+        - 220-dev-tools
+      standard:
+        - 000-ibm-account-setup
+        - 100-ibm-shared-services
+        - 110-ibm-vpc-edge-standard
+        - 115-ibm-vpc-openshift-standard
+        - 200-ibm-openshift-gitops
+        - 220-dev-tools
+      advanced:
+        - 000-ibm-account-setup
+        - 100-ibm-shared-services
+        - 110-ibm-edge-vpc
+        - 130-ibm-development-vpc-openshift
+        - 150-ibm-production-vpc-openshift
+        - 200-ibm-openshift-gitops-dev
+        - 200-ibm-openshift-gitops-integration
+        - 220-dev-tools
+      fs-cloud:
+        - 000-ibm-fs-account-setup
+        - 100-ibm-fs-shared-services
+        - 110-ibm-fs-edge-vpc
+        - 120-ibm-fs-management-vpc
+        - 130-ibm-fs-management-vpc-openshift
+        - 140-ibm-fs-workload-vpc
+        - 150-ibm-fs-workload-vpc-openshift
+        - 160-ibm-fs-openshift-dev-tools
+        - 165-ibm-fs-openshift-workload
+        - 170-ibm-fs-openshift-gitops
+  - id: vmware
+    title: VMWare
+    desc: VMWare vSphere on premise infrastructure powered by Intel with Red Hat OpenShift
+    docs: ''
+    image: vmware.svg
+    enabled: false
+    boms:
+      quickstart: []
+      standard: []
+      advanced: []
+  - id: power
+    title: IBM Cloud + Power
+    desc: IBM Power 10 AIX environments with Red Hat OpenShift
+    docs: ''
+    image: power.png
+    enabled: false
+    boms:
+      quickstart: []
+      standard: []
+      advanced: []
+  - id: z
+    title: IBM Cloud + Z Platform
+    desc: IBM z/Linux and z/OS environment with Red Hat OpenShift
+    docs: ''
+    image: zlogo.png
+    enabled: false
+    boms:
+      quickstart: []
+      standard: []
+      advanced: []
+architecures:
+  - id: quickstart
+    title: Quick-Start
+    desc: A simple architecture to quickly get an OpenShift cluster provisioned ideal
+      for Demos
+    docs: https://github.com/cloud-native-toolkit/automation-solutions/blob/main/architecures/README.md#quickstart
+    image: quick-start.png
+  - id: standard
+    title: standard
+    desc: A standard production deployment environment with typical security protections,
+      private endpoints, VPN server, key management encryption ideal for POC/POT/MVP
+    docs: https://github.com/cloud-native-toolkit/automation-solutions/blob/main/architecures/README.md#standard
+    image: standard.png
+  - id: advanced
+    title: advanced
+    desc: A more advanced deployment that employs network isolation to securely route
+      traffic between the different layers, prepare environment for production deployed
+      IBM Software
+    docs: https://github.com/cloud-native-toolkit/automation-solutions/blob/main/architecures/README.md#advanced
+    image: advanced.png
+software:
+  - id: custom-software
+    title: custom-software
+    displayName: Custom Software
+    status: Released
+    type: ''
+    description: Bring your own custom software components into your solution.
+    boms: []
+  - id: turbo
+    title: turbo
+    displayName: Turbonomic
+    status: Released
+    type: ''
+    icon: true
+    logo: "/images/turbonomic-short.png"
+    description: Assure application performance with smarter resource management.
+    boms:
+      - 200-openshift-gitops
+      - 202-turbonomic-ibmcloud-storage-class
+      - 250-turbonomic-multicloud
+  - id: maximo-
+    title: maximo
+    displayName: Maximo Core
+    status: Released
+    type: ''
+    icon: true
+    logo: "/images/mas.svg"
+    description: Intelligent asset management, monitoring, predictive maintenance and
+      reliability in a single platform.
+    boms:
+      - 200-openshift-gitops
+      - 400-mas-core-multicloud
+  - id: maximo-manage
+    title: maximo-manage
+    displayName: Maximo Manage
+    status: Released
+    type: ''
+    icon: true
+    logo: "/images/mas-manage.svg"
+    description: Maximo Application Suite - Manage Application
+    boms:
+      - 200-openshift-gitops
+      - 400-mas-core-multicloud
+      - 405-mas-manage
+  - id: maximo-iot
+    title: maximo-iot
+    displayName: Maximo IoT
+    status: Released
+    type: ''
+    icon: true
+    logo: "/images/mas-iot.svg"
+    description: Maximo Application Suite - IoT Application
+    boms:
+      - 200-openshift-gitops
+      - 400-mas-core-multicloud
+      - 405-mas-iot
+  - id: maximo-monitor
+    title: maximo-monitor
+    displayName: Maximo Monitor
+    status: Released
+    type: ''
+    icon: true
+    logo: "/images/mas-monitor.svg"
+    description: Maximo Application Suite - Monitor
+    boms:
+      - 200-openshift-gitops
+      - 400-mas-core-multicloud
+      - 405-mas-monitor
+  - id: data-foundation
+    title: data-foundation
+    displayName: Data Foundation
+    status: Released
+    type: ''
+    icon: true
+    logo: "/images/datafoundation.svg"
+    description: Base layer of components required to support different use cases with
+      cloud pak for data
+    boms:
+      - 300-cloud-pak-for-data-entitlement
+      - 305-cloud-pak-for-data-foundation
+      - 310-cloud-pak-for-data-db2wh
+  - id: data-fabric
+    title: data-fabric
+    displayName: Data Fabric
+    status: Released
+    type: ''
+    icon: true
+    logo: "/images/datafabric.svg"
+    description: Use the right data architecture so employees can access quality data,
+      wherever and whenever it’s needed.
+    boms:
+      - 300-cloud-pak-for-data-entitlement
+      - 305-cloud-pak-for-data-foundation
+      - 600-datafabric-services
+      - 610-datafabric-demo
+  - id: integration
+    title: integration
+    displayName: Integration Tools
+    status: Released
+    type: Cloud Pak
+    description: Set of Integration tools that enable application connectivity ideal
+      to compliment your solution
+    icon: true
+    logo: "/images/integration.svg"
+    boms:
+      - 280-integration-platform-multicloud
+  - id: app-connect
+    title: app-connect
+    displayName: App Connect
+    status: Released
+    type: Cloud Pak
+    description: Unlocks the value of your systems and your data by connecting business
+      applications, integrating data, building APIs and acting on events.
+    icon: true
+    logo: "/images/appconnect.svg"
+    boms:
+      - 240-integration-ace
+  - id: api-connect
+    title: api-connect
+    displayName: API Connect
+    status: Released
+    type: Cloud Pak
+    description: Complete, intuitive and scalable API platform that lets you create,
+      expose, manage and monetize APIs across clouds.
+    icon: true
+    logo: "/images/apiconnect.svg"
+    boms:
+      - 220-integration-apiconnect
+  - id: event-streams
+    title: event-streams
+    displayName: Event Streams
+    status: Released
+    type: Cloud Pak
+    description: Event-streaming platform that helps you build smart apps that can react
+      to events as they happen.
+    icon: true
+    logo: "/images/eventstreams.svg"
+    boms:
+      - 250-integration-eventstreams
+  - id: mq
+    title: mq
+    displayName: MQ
+    status: Released
+    type: Cloud Pak
+    description: Proven messaging for hybrid and multi-cloud that’s high-performance
+      and security-rich.
+    icon: true
+    logo: "/images/mq.svg"
+    boms:
+      - 230-integration-mq
+      - 260-integration-mq-uniform-cluster
+  - id: security
+    title: security
+    displayName: Security
+    status: Beta
+    type: ''
+    icon: true
+    logo: "/images/security.svg"
+    description: Work smarter with an open security platform to advance your zero trust
+      strategy.
+    boms:
+      - 200-openshift-gitops
+      - 700-cp4s-multicloud
+  - id: db2
+    title: db2
+    displayName: Db2
+    status: Release
+    type: ''
+    icon: true
+    logo: "/images/db2.svg"
+    description: Trusted SQL database
+    boms:
+      - 200-openshift-gitops
+      - 300-cloud-pak-for-data-entitlement
+      - 305-cloud-pak-for-data-foundation
+      - 310-cloud-pak-for-data-db2uoperator
+      - 320-cloud-pak-for-data-db2oltp
+  - id: db2w
+    title: db2w
+    displayName: Db2 Warehouse
+    status: Release
+    type: ''
+    icon: true
+    logo: "/images/DB2BigSQL.svg"
+    description: Trusted SQL database for building a Data Warehouse
+    boms:
+      - 200-openshift-gitops
+      - 300-cloud-pak-for-data-entitlement
+      - 305-cloud-pak-for-data-foundation
+      - 310-cloud-pak-for-data-db2uoperator
+      - 315-cloud-pak-for-data-db2wh
+storage_providers:
+  - id: portworx
+    title: Portworx Enterprise
+    desc: Portworx Enterprise is the Kubernetes storage platform trusted in production
+      by the world’s leading enterprises
+    docs: https://portworx.com/
+    image: portworx.png
+    boms:
+      ibm:
+        - 210-ibm-portworx-storage
+      aws:
+        - 210-aws-portworx-storage
+      azure:
+        - 210-azure-portworx-storage
+  - id: odf
+    title: OpenShift Data Foundation
+    desc: "(ODF) is a software-defined, container-native storage solution that's integrated
+    with the OpenShift Container Platform"
+    docs: https://www.redhat.com/en/technologies/cloud-computing/openshift-data-foundation
+    image: odf.png
+    boms:
+      ibm:
+        - 210-ibm-portworx-storage
+      aws: []
+      azure: []

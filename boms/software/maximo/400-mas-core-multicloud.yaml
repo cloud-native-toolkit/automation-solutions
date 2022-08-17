@@ -8,8 +8,22 @@ metadata:
   annotations:
     displayName: Maximo Application Suite Core
     description: GitOps deployment of Maximo Application Suite Core for OpenShift
+    deployment-type/gitops: "true"
 spec:
   modules:
+    - name: ocp-login
+
+    - name: gitops-namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
     - name: gitops-repo
 
     # Add IBM OpenShift Catalog

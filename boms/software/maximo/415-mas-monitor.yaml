@@ -1,0 +1,21 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 415-mas-monitor
+  labels:
+    type: software
+    code: '415'
+  annotations:
+    displayName: Maximo Application Suite - Monitor Application
+    description: GitOps deployment of Maximo Monitor application for OpenShift
+    deployment-type/gitops: "true"
+spec:
+  modules:
+    - name: gitops-repo
+
+    # Maximo Application Suite - Monitor
+    # Requires 410 - IoT Layer
+    - name: gitops-mas-monitor
+      variables:
+        - name: instanceid
+          value: masdemo

@@ -25,3 +25,9 @@ resource_group_name="PREFIXstorage"
 
 ## "Storage vendor for CPD (ocs | portworx | ibm-spectrum-scale-sc | RWX-storage-class)"
 cp4d-instance_storage_vendor="STORAGEVENDOR"
+
+## portworx_spec_file: The name of the file containing the Portworx configuration spec yaml
+portworx_spec_file="PORTWORX_SPEC_FILE"
+
+# Certificate Authority issuer CRT file - required for self-signed certificates
+cluster_ca_cert_file="CA_CRT_FILE"

@@ -8,29 +8,32 @@ metadata:
   annotations:
     displayName: Integration Platform - PlatformNavigtor Only
     description: Populates a GitOps repository with PlatformNavigator component of the IBM Integration Platform
+    deployment-type/gitops: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster
     - name: ocp-login
       alias: cluster
-      version: v1.2.12
+
     - name: olm
-      version: v1.3.2
+
     - name: sealed-secret-cert
-      version: v1.0.1
-    
+
     - name: gitops-repo
       alias: gitops_repo
-      version: v1.16.0
 
     - name: gitops-cp-catalogs
       alias: gitops-cp-catalogs
-      version: v1.2.1
       variables:
         - name: entitlement_key
           scope: global
 
-
+    # Choose the CP4i Version CP4i Version. As of ow the latest version of cp4i is 2022_2_1. Hence the possible values are (2021_4_1 , 2022_2_1).
+    - name: cp4i-dependency-management
+      alias: cp4i-version-dependency
+      variables:
+        - name: cp4i_version
+          value: "2022_2_1"
 
     # To organize the PlatformNavigator Workload in a dedicated namespace. Also to Override the Storage Class for PlatformNavigator. Require RWX storage Class
     - name: gitops-namespace

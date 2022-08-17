@@ -10,7 +10,7 @@ Usage()
    echo "Usage: setup-workspace.sh"
    echo "  options:"
    echo "  -p     Cloud provider (aws, azure, ibm)"
-   echo "  -s     Storage (portworx or odf)"
+   echo "  -s     Storage (portworx or odf or <RWX storage class>)"
    echo "  -c     (optional) Cluster ingress - the subdomain for ingress urls into the cluster"
    echo "  -n     (optional) Prefix that should be used for all variables"
    echo "  -x     (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml"
@@ -87,37 +87,84 @@ if [[ -z "${STORAGE}" ]] && [[ "${CLOUD_PROVIDER}" == "ibm" ]]; then
 
   echo ""
 elif [[ -z "${STORAGE}" ]]; then
-  STORAGE="portworx"
-fi
+  PS3="Select the storage provider: "
 
-if [[ ! "${STORAGE}" =~ ^odf|portworx ]]; then
-  echo "Invalid value for storage provider: ${STORAGE}" >&2
-  exit 1
+  select storage in portworx other; do
+    if [[ -n "${storage}" ]]; then
+      STORAGE="${storage}"
+      break
+    fi
+  done
+
+  if [[ "${STORAGE}" == "other" ]]; then
+    echo ""
+    echo -n "Provide the read-write-many (RWX) storage class: "
+    read -r STORAGE
+  fi
+
+  echo ""
 fi
 
 if [[ -z "${PREFIX_NAME}" ]]; then
   echo -n "Provide a prefix name: "
   read -r PREFIX_NAME
+  echo ""
 fi
 
-if [[ "${CLOUD_PROVIDER}" =~ aws|azure ]] && [[ -z "${PORTWORX_SPEC_FILE}" ]]; then
-  DEFAULT_FILE=$(find . -name "portworx*.yaml" -maxdepth 1 -exec basename {} \; | head -1)
+if [[ "${CLOUD_PROVIDER}" == "aws" ]]; then
+  RWO_STORAGE="gp2"
+elif [[ "${CLOUD_PROVIDER}" == "azure" ]]; then
+  RWO_STORAGE="managed-premium"
+elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] || [[ "${CLOUD_PROVIDER}" == "ibmcloud" ]]; then
+  RWO_STORAGE="ibmc-vpc-block-10iops-tier"
+else
+  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>"
+fi
 
-  while [[ -z "${PORTWORX_SPEC_FILE}" ]]; do
-    echo -n "Provide the Portworx config spec file name: [${DEFAULT_FILE}] "
-    read -r PORTWORX_SPEC_FILE
+if [[ "${STORAGE}" == "portworx" ]]; then
+  RWX_STORAGE="portworx-rwx-gp3-sc"
+elif [[ "${STORAGE}" == "odf" ]]; then
+  RWX_STORAGE="ocs-storagecluster-cephfs"
+elif [[ -n "${STORAGE}" ]]; then
+  RWX_STORAGE="${STORAGE}"
+else
+  RWX_STORAGE="<read-write-many storage class (e.g. portworx: portworx-rwx-gp3-sc or odf: ocs-storagecluster-cephfs)>"
+fi
 
-    if [[ -z "${PORTWORX_SPEC_FILE}" ]] && [[ -n "${DEFAULT_FILE}" ]]; then
-      PORTWORX_SPEC_FILE="${DEFAULT_FILE}"
+if command -v oc 1> /dev/null 2> /dev/null && ! oc login "${TF_VAR_server_url}" --token="${TF_VAR_cluster_login_token}" --insecure-skip-tls-verify=true 1> /dev/null 2> /dev/null; then
+  echo -e "${YELLOW}WARNING: ${WHITE}Unable to log into cluster.${NC} Check the cluster credentials in ${WHITE}credentials.properties${NC}"
+fi
+
+if [[ "${CLOUD_PROVIDER}" =~ aws|azure ]] && [[ "${STORAGE}" == "portworx" ]] && [[ -z "${PORTWORX_SPEC_FILE}" ]]; then
+  if command -v oc 1> /dev/null 2> /dev/null; then
+    echo "Looking for existing portworx storage class: ${RWX_STORAGE}"
+
+    if oc get storageclass "${RWX_STORAGE}" 1> /dev/null 2> /dev/null; then
+      echo "  Found existing portworx installation. Skipping storage layer..."
+      echo ""
+      PORTWORX_SPEC_FILE="installed"
     fi
-  done
+  fi
 
-  echo ""
+  if [[ -z "${PORTWORX_SPEC_FILE}" ]]; then
+    DEFAULT_FILE=$(find . -name "portworx*.yaml" -maxdepth 1 -exec basename {} \; | head -1)
+
+    while [[ -z "${PORTWORX_SPEC_FILE}" ]]; do
+      echo -n "Provide the Portworx config spec file name: [${DEFAULT_FILE}] "
+      read -r PORTWORX_SPEC_FILE
+
+      if [[ -z "${PORTWORX_SPEC_FILE}" ]] && [[ -n "${DEFAULT_FILE}" ]]; then
+        PORTWORX_SPEC_FILE="${DEFAULT_FILE}"
+      fi
+    done
+
+    echo ""
+  fi
 elif [[ "${CLOUD_PROVIDER}" == "ibm" ]]; then
   PORTWORX_SPEC_FILE=""
 fi
 
-if [[ -n "${PORTWORX_SPEC_FILE}" ]] && [[ ! -f "${PORTWORX_SPEC_FILE}" ]]; then
+if [[ -n "${PORTWORX_SPEC_FILE}" ]] && [[ "${PORTWORX_SPEC_FILE}" != "installed" ]] && [[ ! -f "${PORTWORX_SPEC_FILE}" ]]; then
   echo "Portworx spec file not found: ${PORTWORX_SPEC_FILE}" >&2
   exit 1
 fi
@@ -126,10 +173,8 @@ if [[ -z "${CLUSTER_INGRESS}" ]]; then
   if command -v oc 1> /dev/null 2> /dev/null && [[ -n "$TF_VAR_server_url" ]] && [[ -n "$TF_VAR_server_url" ]]; then
     echo "Looking up cluster ingress"
 
-    if oc login "${TF_VAR_server_url}" --token="${TF_VAR_cluster_login_token}" --insecure-skip-tls-verify=true 1> /dev/null; then
+    if oc get ingresses.config/cluster 1> /dev/null 2> /dev/null; then
       CLUSTER_INGRESS=$(oc get ingresses.config/cluster -o jsonpath={.spec.domain})
-    else
-      exit 1
     fi
   fi
 
@@ -138,10 +183,13 @@ if [[ -z "${CLUSTER_INGRESS}" ]]; then
     echo -e "  ${WHITE}oc get ingresses.config/cluster -o jsonpath={.spec.domain}${NC}"
     echo -n "Cluster ingress: "
     read -r CLUSTER_INGRESS
+  else
+    echo "  Found cluster ingress: ${CLUSTER_INGRESS}"
+    echo ""
   fi
 fi
 
-SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
+SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
 WORKSPACES_DIR="${SCRIPT_DIR}/../workspaces"
 WORKSPACE_DIR="${WORKSPACES_DIR}/current"
 
@@ -163,29 +211,11 @@ mkdir -p "${WORKSPACE_DIR}"
 
 PORTWORX_SPEC_FILE_BASENAME=$(basename "${PORTWORX_SPEC_FILE}")
 
-if [[ -n "${PORTWORX_SPEC_FILE}" ]]; then
+if [[ -n "${PORTWORX_SPEC_FILE}" ]] && [[ "${PORTWORX_SPEC_FILE}" != "installed" ]]; then
   cp "${PORTWORX_SPEC_FILE}" "${WORKSPACE_DIR}/${PORTWORX_SPEC_FILE_BASENAME}"
 fi
 
 cd "${WORKSPACE_DIR}"
-
-if [[ "${CLOUD_PROVIDER}" == "aws" ]]; then
-  RWO_STORAGE="gp2"
-elif [[ "${CLOUD_PROVIDER}" == "azure" ]]; then
-  RWO_STORAGE="managed-premium"
-elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] || [[ "${CLOUD_PROVIDER}" == "ibmcloud" ]]; then
-  RWO_STORAGE="ibmc-vpc-block-10iops-tier"
-else
-  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium, on ibm: ibmc-vpc-block-10iops-tier>"
-fi
-
-if [[ "${STORAGE}" == "portworx" ]]; then
-  RWX_STORAGE="portworx-rwx-gp3-sc"
-elif [[ "${STORAGE}" == "odf" ]]; then
-  RWX_STORAGE="ocs-storagecluster-cephfs"
-else
-  RWX_STORAGE="<read-write-many storage class (e.g. portworx: portworx-rwx-gp3-sc or odf: ocs-storagecluster-cephfs)>"
-fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
@@ -202,11 +232,11 @@ cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
-ALL_ARCH="200|210|400"
-
-echo "Setting up automation  ${WORKSPACE_DIR}"
-
-echo ${SCRIPT_DIR}
+if ( [[ -z "${PORTWORX_SPEC_FILE}" ]] && [[ "${CLOUD_PROVIDER}" != "ibm" ]] ) || [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
+  ALL_ARCH="200|400"
+else
+  ALL_ARCH="200|210|400"
+fi
 
 find ${SCRIPT_DIR}/. -type d -maxdepth 1 | grep -vE "[.][.]/[.].*" | grep -v workspace | sort | \
   while read dir;
@@ -218,7 +248,7 @@ do
     continue
   fi
 
-  if [[ "${REF_ARCH}" == "all" ]] && [[ ! "${name}" =~ ${ALL_ARCH} ]]; then
+  if [[ ! "${name}" =~ ${ALL_ARCH} ]]; then
     continue
   fi
 
@@ -242,6 +272,9 @@ do
   mkdir -p ${name}
   cd "${name}"
 
+  cp "${SCRIPT_DIR}/apply.sh" .
+  cp "${SCRIPT_DIR}/destroy.sh" .
+  cp "${SCRIPT_DIR}/${name}/bom.yaml" .
   cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
   ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
   if [[ -n "${PORTWORX_SPEC_FILE_BASENAME}" ]]; then
