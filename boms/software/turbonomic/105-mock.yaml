@@ -1,14 +1,1 @@
-apiVersion: cloud.ibm.com/v1alpha1
-kind: BillOfMaterial
-metadata:
-  name: 105-mock
-  labels:
-    type: infrastructure
-    code: '105'
-  annotations:
-    displayName: VPC OpenShift mock
-    description: Mock layer for VPC OpenShift
-    path: .mocks
-spec:
-  modules:
-    - name: ocp-login
+../../infrastructure/common-files/105-mock.yaml

@@ -12,19 +12,6 @@ metadata:
     description: Installs Portworx in an IBM cluster
 spec:
   modules:
-    - name: ocp-login
-
-    - name: gitops-namespace
-      alias: gitea_namespace
-      variables:
-        - name: name
-          value: gitea
-
-    - name: gitea
-      dependencies:
-        - id: namespace
-          ref: gitea_namespace
-
     - name: gitops-repo
     - name: gitops-namespace
       alias: portworx_namespace

@@ -35,6 +35,4 @@ iascable build \
 
 echo "Copying Files"
 cp -R -L ./files/* "${TARGET_DIR}"
-
-echo "Copying Configuration"
-cp -R -L ./files/configuration "${TARGET_DIR}"
+cp -R -L ./files/.mocks "${TARGET_DIR}"
