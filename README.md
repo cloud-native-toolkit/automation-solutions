@@ -1,4 +1,4 @@
-# automation-solutions
+# TechZone Automation Solutions
 
 A collection of Bills of Materials (BOMs) that address solution/use-case scenarios.
 
