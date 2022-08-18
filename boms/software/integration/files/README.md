@@ -110,10 +110,6 @@ Pre-requisites:
 - Check you have a valid GitHub ID that can be used to create a repository in your own organization [GitHub]( https://github.com/) or GitHub Enterprise account.
 - Install a code editor. We recommend [Visual Studio Code](https://code.visualstudio.com/)
 - Install [Brew](https://brew.sh/)
-- Install [Colima](https://github.com/abiosoft/colima) (a replacement for Docker Desktop ) and the **docker** cli
-   ```shell
-   brew install colima docker
-   ```
 
 Ensure the following before continuing
 - Github account exists
@@ -125,15 +121,13 @@ Ensure the following before continuing
 
 The installation process will use a standard GitOps repository that has been built using the Modules to support CP4I platform installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.
 
-#### (optional) Set up the container environment
 
-A container image is used to provide a consistent runtime environment for the automation that includes all the required tools. The provided container image supports hosts with either amd64 and amd64 architectures. If you do not have a container runtime already (e.g. Docker Desktop or podman), **Colima** can be used. The steps to install and start **Colima** on MacOS are provided below:
+#### Set up the runtime environment
 
-1. Install **Colima** and the **docker** cli. This only needs to be done once.
+At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or Virtual Machine. We provide both a [container image](https://github.com/cloud-native-toolkit/image-cli-tools) and a virtual machine [cloud-init](https://github.com/cloud-native-toolkit/sre-utilities/blob/main/cloud-init/cli-tools.yaml) script that have all the common SRE tools installed.
 
-    ```shell
-    brew install colima docker
-    ```
+We recommend using Docker Desktop if choosing the container image method, and Multipass if choosing the virtual machine method.   Detailed instructions for downloading and configuring both Docker Desktop and Multipass can be found in [RUNTIMES.md](./RUNTIMES.md)
+
 
 #### Set up environment credentials
 
@@ -161,30 +155,30 @@ A container image is used to provide a consistent runtime environment for the au
     # Add the values for the Credentials to access the IBM Cloud
     # Instructions to access this information can be found in the README.MD
     # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
-
+    
     ## gitops_repo_username: The username of the user with access to the repository
-    TF_VAR_gitops_repo_username=
-
+    export TF_VAR_gitops_repo_username=
+    
     ## gitops_repo_token: The personal access token used to access the repository
-    TF_VAR_gitops_repo_token=
-
+    export TF_VAR_gitops_repo_token=
+    
     ## TF_VAR_cluster_login_token: Token used for authentication to the api server
-    TF_VAR_cluster_login_token=
-
+    export TF_VAR_cluster_login_token=
+    
     ## TF_VAR_server_url: The url for the OpenShift api server
-    TF_VAR_server_url=
-
+    export TF_VAR_server_url=
+    
     ## TF_VAR_entitlement_key: The entitlement key used to access the IBM software images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key
-    TF_VAR_entitlement_key=
-
-
+    export TF_VAR_entitlement_key=
+    
+    
     ## TF_VAR_ibmcloud_api_key: IBM Cloud API Key required to provision storage on IBM Cloud
-    TF_VAR_ibmcloud_api_key=
-
+    export TF_VAR_ibmcloud_api_key=
+    
     # Only needed if targeting AWS Deployment
-    TF_VAR_access_key=
-    TF_VAR_secret_key=
-
+    export TF_VAR_access_key=
+    export TF_VAR_secret_key=
+    
     ##
     ## Azure credentials
     ## Credentials are required to install Portworx on an Azure account. These credentials must have
@@ -192,15 +186,15 @@ A container image is used to provide a consistent runtime environment for the au
     ## provided `azure-portworx-credentials.sh` script to retrieve/generate these credentials.
     ##
     # Only needed if targeting Azure Deployment
-
+    
     ## TF_VAR_azure_subscription_id: The subscription id for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_subscription_id=
+    export TF_VAR_azure_subscription_id=
     ## TF_VAR_azure_tenant_id: The tenant id for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_tenant_id=
+    export TF_VAR_azure_tenant_id=
     ## TF_VAR_azure_client_id: The client id of the user for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_client_id=
+    export TF_VAR_azure_client_id=
     ## TF_VAR_azure_client_secret: The client id of the user for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_client_secret=
+    export TF_VAR_azure_client_secret=
    ```
 
  4. You will need to populate these values. Add your Git Hub username and your Personal Access Token to `TF_VAR_gitops_repo_username` and `TF_VAR_gitops_repo_token`.
@@ -277,29 +271,27 @@ You can install these clis on your local machine **OR** run the following comman
 1. Follow the steps to download the [portworx confituration spec](./PORTWORX_CONFIG.md)
 2. Copy the downloaded file into the root directory of the cloned automation-maximo-app-suite repository
 
+
+##### Set up the runtime environment
+
+At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or Virtual Machine. We provide both a [container image](https://github.com/cloud-native-toolkit/image-cli-tools) and a virtual machine [cloud-init](https://github.com/cloud-native-toolkit/sre-utilities/blob/main/cloud-init/cli-tools.yaml) script that have all the common SRE tools installed.
+
+We recommend using Docker Desktop if choosing the container image method, and Multipass if choosing the virtual machine method.   Detailed instructions for downloading and configuring both Docker Desktop and Multipass can be found in [RUNTIMES.md](./RUNTIMES.md)
+
+
+> We expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
+
+
 ##### Set up the automation workspace
 
-1. Next we need to configure the installation of Maximo Core. Run the `launch.sh` command from the root directory of the cloned automation-maximo-app-suite repository
+1. Launch the automation runtime.
+    - If using *Docker Desktop*, run `./launch.sh`. This will start a container image with the prompt opened in the `/terraform` directory.
+    - If using *Multipass*, run `mutlipass shell cli-tools` to start the interactive shell, and cd into the `/automation/{template}` directory, where  `{template}` is the folder you've cloned this repo. Be sure to run `source credentials.properties` once in the shell.
 
-    ```shell
-    ./launch.sh
-    ```
-
-    ```
-    Cleaning up old container: cli-tools-WljCg
-    Initializing container cli-tools-WljCg from quay.io/cloudnativetoolkit/terraform:v1.1
-    Attaching to running container...
-    /terraform $
-    ```
-
-2. **launch.sh** will download a container image that contains all the command line tools to enable easy installation of the software. Once it has downloaded, it will mount the local file system and exec into the container for you to start running commands from within this custom container.
-
-   > We expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
-
-3. Next we need to set up the working directory for the automation:
-    ⚠️`IMPORTANT NOTE:` ⚠️  setup-workspace.sh script is responsible for choosing the required module to be deployed on Openshift Cluster. The module we refer here is cater to "GitOps,Storage & Cloud Pak capabilities(PlatformNavigator,APIC,MQ,ACE & EventStreams)". 
+2. Next we need to set up the working directory for the automation:
+   ⚠️`IMPORTANT NOTE:` ⚠️  setup-workspace.sh script is responsible for choosing the required module to be deployed on Openshift Cluster. The module we refer here is cater to "GitOps,Storage & Cloud Pak capabilities(PlatformNavigator,APIC,MQ,ACE & EventStreams)". 
     
-    ```shell
+   ```shell
         ./setup-workspace.sh [-p {cloud provider}] [-s {storage}] [-n {prefix name}] [-x {portworx spec file}]
    ```
     
@@ -334,7 +326,7 @@ You can install these clis on your local machine **OR** run the following comman
     fi        
     ```
 
-4. The `setup-workspace.sh` script configures the `terraform.tfvars` file with reasonable defaults. There are no other changes required in order to run the automation.
+3. The `setup-workspace.sh` script configures the `terraform.tfvars` file with reasonable defaults. There are no other changes required in order to run the automation.
 
      **Note:** 
      The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
@@ -356,11 +348,7 @@ The following are variables that you will be updating. Here are some suggested v
 2. Save the `terraform.tfvars` file
 
 #### Apply the automation
-1. We are now ready to start installing Cloud Pak for Integration. Ensure you are inside the running container, if not Run the `launch.sh` command. Make sure you are in the root of the automation-integration-platform repository.
-
-    ```shell
-    ./launch.sh
-    ```
+1. We are now ready to start installing Cloud Pak for Integration. Ensure you are inside the running container or Multipass VM.
 2. Within the container terminal, change directory to the `/workspaces/current` folder. This folder was populated by the `setup-workspaces.sh` script in the previous step. (The `launch.sh` command configures a named volume to preserve the contents of the `/workspaces` directory between container images so you don't need to re-run `setup-workspaces.sh` again unless you want to configure a different environment.)
 
 3. Run `./apply-all.sh` to kick off the automation. The script will apply each layer in order.

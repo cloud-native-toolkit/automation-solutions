@@ -88,7 +88,9 @@ If you are planning to create multiple instances of the Management or Workload a
 
 2. Download OpenVPN Client from https://openvpn.net/vpn-server-resources/connecting-to-access-server-with-macos/#installing-a-client-application for your client device, this has been tested on MacOS
 
-3. At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or with native tools installed.
+3. At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or Virtual Machine. We provide both a [container image](https://github.com/cloud-native-toolkit/image-cli-tools) and a virtual machine [cloud-init](https://github.com/cloud-native-toolkit/sre-utilities/blob/main/cloud-init/cli-tools.yaml) script that have all the common SRE tools installed.
+
+We recommend using Docker Desktop if choosing the container image method, and Multipass if choosing the virtual machine method.   Detailed instructions for downloading and configuring both Docker Desktop and Multipass can be found in [RUNTIMES.md](./RUNTIMES.md)
 
 > The schematics service is producing intermittent issues.
 
@@ -113,6 +115,13 @@ Enable your IBM Cloud account to use Financial Services Validated Products
 
 [Financial Services Validated Button](./images/ibm-cloud-architecture.png)
 
+
+### Setup
+
+1. Launch the automation runtime.
+   - If using *Docker Desktop*, run `./launch.sh`. This will start a container image with the prompt opened in the `/terraform` directory.
+   - If using *Multipass*, run `mutlipass shell cli-tools` to start the interactive shell, and cd into the `/automation/{template}` directory, where  `{template}` is the folder you've cloned this repo. Be sure to run `source credentials.properties` once in the shell.
+
 ### Terraform IasC Automation
 
 1. Clone this repository to your local SRE laptop and open a terminal to the cloned directory.
@@ -134,16 +143,16 @@ Enable your IBM Cloud account to use Financial Services Validated Products
 
 ### Apply all architectures in the solution
 
-1. From the root of the cloned repository directory, run `./launch.sh`. This will start a docker container that contains the required libraries to run the terraform scripts.
-2. The container should have opened in the `/terraform/workspace` as the working directory which should be mounted from repository directory on the host.
+1. Launch either Multipass or the container in Docker Desktop using the instructions in the setup section above.
+2. Navigate to the **/workspace/current** directory.
 3. Run the `./apply-all.sh` script to sequentially provision the included architectures.
 
 **Note:** You can clean everything up by running `./destroy-all.sh`. It will destroy each architecture in reverse order.
 
 ### Apply each architecture in the solution
 
-1. From the root of the cloned repository directory, run `./launch.sh`. This will start a docker container that contains the required libraries to run the terraform scripts.
-2. The container should have opened in the `/terraform/workspace` as the working directory which should be mounted from repository directory on the host.
+1. Launch either Multipass or the container in Docker Desktop using the instructions in the setup section above.
+2. Navigate to the **/workspace/current** directory.
 3. Change directory to the terraform directory that will be applied (e.g. `100-common-services`)
 4. Initialize the environment with `terraform init`
 5. Apply the terraform with `terraform apply -auto-approve`. If all is configured properly you should not be prompted again and the terraform should run to completion.

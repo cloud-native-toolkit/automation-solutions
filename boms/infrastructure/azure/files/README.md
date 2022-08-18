@@ -15,12 +15,10 @@ This folder contains the automation to deploy an OpenShift Installer-Provisioned
 3. Install [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli).
 4. Get your [OpenShift installer pull secret](https://console.redhat.com/openshift/install/pull-secret) and save it in `./pull-secret`.
 
-2. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
+2. At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or Virtual Machine. We provide both a [container image](https://github.com/cloud-native-toolkit/image-cli-tools) and a virtual machine [cloud-init](https://github.com/cloud-native-toolkit/sre-utilities/blob/main/cloud-init/cli-tools.yaml) script that have all the common SRE tools installed.
 
-    ```shell
-    brew install docker colima
-    colima start
-    ```
+We recommend using Docker Desktop if choosing the container image method, and Multipass if choosing the virtual machine method.   Detailed instructions for downloading and configuring both Docker Desktop and Multipass can be found in [RUNTIMES.md](./RUNTIMES.md)
+
 ### Setup
 
 1. Clone this repository to your local SRE laptop or into a secure terminal. Open a shell into the cloned directory.
@@ -34,7 +32,9 @@ This folder contains the automation to deploy an OpenShift Installer-Provisioned
     - **TV_VAR_client_id** - The id of the service principal with Owner and User Administrator access to the subscription for cluster creation
     - **TV_VAR_client_secret** - The password of the service principal with Owner and User Administrator access to the subscription for cluster creation
 
-4. Run **./launch.sh**. This will start a container image with the prompt opened in the `/terraform` directory, pointed to the repo directory.
+4. Launch the automation runtime.
+   - If using *Docker Desktop*, run `./launch.sh`. This will start a container image with the prompt opened in the `/terraform` directory.
+   - If using *Multipass*, run `mutlipass shell cli-tools` to start the interactive shell, and cd into the `/automation/{template}` directory, where  `{template}` is the folder you've cloned this repo. Be sure to run `source credentials.properties` once in the shell.
 5. Create a working copy of the terraform by running **./setup-workspace.sh**. The script makes a copy of the terraform in `/workspaces/current` and set up a "terraform.tfvars" file populated with default values. The **setup-workspace.sh** script has a number of optional arguments.
 
     ```
