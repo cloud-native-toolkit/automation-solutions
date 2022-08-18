@@ -1,4 +1,4 @@
-# IBM Cloud Reference Architecture - Terraform Automation
+# TechZone Automation - IBM Cloud Reference Architecture
 
 ### Change Log
 

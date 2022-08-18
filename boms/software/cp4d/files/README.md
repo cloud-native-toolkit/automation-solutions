@@ -1,4 +1,4 @@
-# Cloud Pak for Data - Foundation Automation for AWS, Azure, and IBM Cloud
+# TechZone Automation - Data Foundation Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
 

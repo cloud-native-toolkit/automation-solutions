@@ -1,4 +1,4 @@
-# IBM Cloud z/OS Development Reference Architecture - Terraform Automation
+# TechZone Automation - IBM Cloud z/OS Development Reference Architecture
 
 ### Change Log
 

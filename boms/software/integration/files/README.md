@@ -1,6 +1,4 @@
-
-
-# Cloud Pak for Integration - Automation for AWS, Azure, and IBM Cloud
+# TechZone Automation - Cloud Pak for Integration - Automation for AWS, Azure, and IBM Cloud
 
   
 

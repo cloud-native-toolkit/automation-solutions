@@ -1,4 +1,4 @@
-# Maximo Application Suite - Core Automation for AWS, Azure, and IBM Cloud
+# TechZone Automation - Maximo Application Suite - Core Automation for AWS, Azure, and IBM Cloud
 
 ## Overview
 

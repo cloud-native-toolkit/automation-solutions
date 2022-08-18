@@ -1,4 +1,4 @@
-# Turbonomic Automation for AWS, Azure, and IBM Cloud
+# TechZone Automation - Turbonomic Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
 
