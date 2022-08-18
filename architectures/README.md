@@ -1,4 +1,4 @@
-# Reference Architectures
+# TechZone Automation - Reference Architectures
 
 The reference architectures are provided in three different forms, with increasing security and associated complexity. These three forms are:
 
