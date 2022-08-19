@@ -2,6 +2,7 @@
 
 ### Change Log
 
+- **08/2022** - Added CPD 4.0 version, fixed broken links
 - **06/2022** - Fixed typos like GitClone script, replace maximo with CP4D from README
 - **06/2022** - Support for CP4D Data source services DB2OLTP and DB2Warehouse
 - **06/2022** - Support for Azure
@@ -33,7 +34,7 @@ The reference architectures are provided in three different forms, with increasi
 
 For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned, please use one of these. They are optimized for the installation of this solution.
 
-Note:  [Cloud Pak for Data system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/3.5.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
+Note:  [Cloud Pak for Data system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
 
 | Cloud Platform                          | Automation and Documentation                                                                                                                                                                                                                                              |   
 |-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
