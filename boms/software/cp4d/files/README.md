@@ -1,8 +1,8 @@
-# TechZone Automation - Data Foundation Automation for AWS, Azure, and IBM Cloud
+# TechZone Automation - Data Foundation 4.0.x Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
 
-- **08/2022** - Added CPD 4.0 version, fixed broken links
+- **08/2022** - Added CPD 4.0.x version, fixed broken links
 - **06/2022** - Fixed typos like GitClone script, replace maximo with CP4D from README
 - **06/2022** - Support for CP4D Data source services DB2OLTP and DB2Warehouse
 - **06/2022** - Support for Azure
