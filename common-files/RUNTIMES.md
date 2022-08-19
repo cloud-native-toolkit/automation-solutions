@@ -89,6 +89,8 @@ source credentials.properties
 
 Once complete, you will be in an interactive shell that is pre-configured with all dependencies necessary to execute the Terraform automation.
 
+> ⚠️ Some MacOS users have reported network connectivity issues with Multipass when Cisco Anyconnect VPN is running at the same time.  If you encounter this issue, please quit Cisco Anyconnect. 
+
 ----
 
 ## Unsupported runtimes
