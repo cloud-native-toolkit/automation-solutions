@@ -14,9 +14,9 @@ The automation will support the installation of Data Foundation on three cloud p
 
 ### Target Infrastructure
 
-The Cloud Pak for Data - Foundation automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
+The Cloud Pak for Data - Foundation 4.0 automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
-Before you start to install and configure Cloud Pak for Data, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
+Before you start to install and configure Cloud Pak for Data 4.0, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
 
 
 ### Reference Architectures
@@ -34,7 +34,7 @@ The reference architectures are provided in three different forms, with increasi
 
 For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned, please use one of these. They are optimized for the installation of this solution.
 
-Note:  [Cloud Pak for Data system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
+Note:  [Cloud Pak for Data 4.0 system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
 
 | Cloud Platform                          | Automation and Documentation                                                                                                                                                                                                                                              |   
 |-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -65,7 +65,7 @@ The following reference architecture represents the logical view of how Data Fou
 ## Deploying Data Foundation
 
 
-The following instructions will help you install Cloud Pak for Data (CP4D) into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
+The following instructions will help you install Cloud Pak for Data (CP4D) 4.0 into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
 
 
 ### Licenses and Entitlements
