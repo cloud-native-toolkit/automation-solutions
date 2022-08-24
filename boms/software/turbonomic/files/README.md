@@ -60,9 +60,9 @@ To use Turbonimic you are required to install a license key. For Proof of Concep
 For Partners follow these steps:
 
 1. For PoCs/PoTs, Partners can download a license key from [Partner World Software Catalog](https://www.ibm.com/partnerworld/program/benefits/software-access-catalog)
-2. You can search the software catalog for  **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English**,
-3. Download the package it is 11gb in size and unzip the contents. Look for the client license file for Turbonomic, with a name similar to `CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic`
-5. This file is covered by **Turbonomic ARM P/N are currently available under IBM PPA terms and conditions**
+2. You can search the software catalog for **M07FSEN Turbonomic Application Resource Management On-Prem 8.6** for install on Kubernetes English and download, this file is 12gb in size, once downloaded unzip to find the license key
+3. Extract this download package to get the turbonomic license key This package contains license file for turbonomic, with a name similar to “TURBONOMIC-ARM.lic"
+4. This file is covered by **Turbonomic ARM P/N are currently available under IBM PPA terms and conditions**
 
 #### IBMers
 
@@ -70,9 +70,8 @@ For IBMers you can download a license key using these steps:
 
 1. Go to [XL Leverage](https://w3-03.ibm.com/software/xl/download/ticket.wss)
 2. Search with keyword: turbonomic
-3. Select the package **M05C4EN	IBM Turbonomic Application Resource Management On-Prem 8.4.6 for install on Kubernetes English** and download, this file is 11gb in size, once downloaded unzip to find the license key
-4. Extract this download package to get the turbonomic license key
-   This package contains license file for turbonomic, with a name similar to “CP4MCM_IBM_ARM_OEM_Premier_License_July_2022.lic
+3. Select the package **M07FSEN Turbonomic Application Resource Management On-Prem 8.6** for install on Kubernetes English and download, this file is 12gb in size, once downloaded unzip to find the license key
+4. Extract this download package to get the turbonomic license key This package contains license file for turbonomic, with a name similar to “TURBONOMIC-ARM.lic"
 
 ### Turbonomic for Multi Cloud
 
