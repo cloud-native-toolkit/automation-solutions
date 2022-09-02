@@ -13,7 +13,7 @@ spec:
     # Login to existing OpenShift cluster
     - name: ocp-login
 
-    - name: gitops-namespace
+    - name: namespace
       alias: gitea_namespace
       variables:
         - name: name
