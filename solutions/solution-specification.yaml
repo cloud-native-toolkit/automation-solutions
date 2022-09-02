@@ -17,13 +17,43 @@ metadata:
 # You do not have to include all the logical layers, you can just supply a list of BOMs to assemble but for
 # logical separation we group them into solution layers
 stack/layers:
+  # You can include BOMs at the top level if the BOM is ID only will use ASCENT API to retrieve
+  # the BOM, if its file reference will read from public link
+  # if its a file:// reference will read from REPO
+  boms:
+    - name: "000-account-setup"
+
+  # Are layers optimised for IasC with Technologies like Terraform
+  infrastructure:
+    # BOM name can be an ID which would work from
+    - name: "000-account-setup"
+    - name: "100-shared-services"
+    - name: "110-edge-vpc.yaml"
+
+  # Compute layer enables  Virtual Images, OpenShift, z/OS
+  compute:
+    # BOM name can be an ID which would work from
+    - name: "000-account-setup"
+    - name: "100-shared-services"
+    - name: "130-management-vpc-openshift.yaml"
+
+  storage:
+    - name: "100-shared-services"
+    - name: "110-edge-vpc.yaml"
 
   software:
-    - name: "250-turbonomic-multicloud"
+    - name: "100-shared-services"
+    - name: "110-edge-vpc.yaml"
 
-  # Can include management tools like GitOps Turbonomic or Developer Tools like Tekton or ArgoCD
+  # Can include management tools like Turbonomic or Developer Tools like Tekton or ArgoCD
   tools:
-    - name: "200-openshift-gitops"
+    - name: "160-openshift-dev-tools.yaml"
+
+  boms:
+    #corresponds to name inside of bom yaml
+    - name: "000-account-setup"
+    - name: "100-shared-services"
+    - name: "110-edge-vpc.yaml"
 
   bootstrap:
     - name: launch.sh
@@ -33,9 +63,6 @@ stack/layers:
     - name: gitops_repo_host
       - desc: ## gitops_repo_host: The host for the git repository
       - value: github.com
-    - name: gitops_repo_host
-        - desc: ## gitops_repo_host: The host for the git repository
-        - value: github.com
 
     TF_VAR_gitops_repo_host=github.com
     ## gitops_repo_username: The username of the user with access to the repository
@@ -43,10 +70,10 @@ stack/layers:
     ## gitops_repo_token: The personal access token used to access the repository
     TF_VAR_gitops_repo_token=
 
-    - name: server_url
-      - desc: ## TF_VAR_server_url: The url for the OpenShift api server
-    - name: cluster_login_token
-      - desc: ## TF_VAR_cluster_login_token: Token used for authentication to the api server
+    ## TF_VAR_server_url: The url for the OpenShift api server
+    TF_VAR_server_url=
+    ## TF_VAR_cluster_login_token: Token used for authentication to the api server
+    TF_VAR_cluster_login_token=
 
   files:
     readme:
