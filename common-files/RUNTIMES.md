@@ -100,9 +100,30 @@ Additional container engines, such as podman or colima may be used at your own r
 Known issues include:
 
 1. Network/DNS failures under load
-1. Read/write permissions to local storage volumes
-1. Issues running binary executables from volumes mounted from the host
-1. Time drift issues when hosts are suspended/resumed
+2. Read/write permissions to local storage volumes
+3. Issues running binary executables from volumes mounted from the host
+4. Time drift issues when hosts are suspended/resumed
+
+### Permissions errors
+
+When using the `launch.sh` script to launch the container used for this automation, you need to add the `-u` parameter to include the user id of the current user.  This will prevent file permission errors on mounted volumes.
+
+Modify the `docker run` command to include the `-u` parameter as shown below:
+
+```bash
+echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
+${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
+   --device /dev/net/tun --cap-add=NET_ADMIN \
+   -u "${UID}" \
+   -v "${SRC_DIR}:/terraform" \
+   -v "workspace-${AUTOMATION_BASE}:/workspaces" \
+   ${ENV_VARS} \
+   -w /terraform \
+   ${DOCKER_IMAGE}
+```
+
+The `-u` parameter is not added by default because it introduces other permission errors when running in Docker Desktop with this configuration.
+
 
 ### Colima instructions
 

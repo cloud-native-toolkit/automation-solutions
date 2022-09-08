@@ -1,4 +1,4 @@
-# TechZone Automation - Data Foundation 4.0.x Automation for AWS, Azure, and IBM Cloud
+# Data Foundation 4.0.x Automation for AWS, Azure, and IBM Cloud, creating with the TechZone Accelerator Toolkit
 
 ### Change Log
 
@@ -322,8 +322,6 @@ You can install these clis on your local machine **OR** run the following comman
 
    You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.  If you are using Azure, you will need a Portworx spec file name (as described above), and if your cluster is using a self-signed SSL certificate, you will need a copy of the issuer cert and the file name.
 
-   > ⚠️ At this time, only IBM Cloud and Azure are supported, but support for AWS will be released in the coming days.
-
 9. Run the command `setup-workspace.sh -p ibm -s portworx -n df` and include optional parameters as needed.
 
     ```
@@ -380,75 +378,22 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 ##### Automated Deployment
 
-22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current`.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
+22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current` directory.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
+
+    Alternatively you can run each of the layers individually, by following the [manual deployment instructions](#MANUAL-DEPLOY.md).
 
     Once complete, skip to the **Access the Data Foundation Deployment** section
 
-##### Manual Deployment
-
-23. You can also deploy each layer manually.  To begin, navigate into the `200-openshift-gitops` folder and run the following commands
-
-    ```
-    cd 200-openshift-gitops
-    terraform init
-    terraform apply --auto-approve
-    ```
-
-
-23. This will kick off the automation for setting up the GitOps Operator into your cluster.  Once complete, you should see message similar to:
-
-    ```
-    Apply complete! Resources: 78 added, 0 changed, 0 destroyed.
-    ```
-
-24. You can check the progress by looking at two places, first look in your github repository. You will see the git repository has been created based on the name you have provided. The Cloud Pak for Data (CP4D) install will populate this with information to let OpenShift GitOps install the software. The second place is to look at the OpenShift console, Click Workloads->Pods and you will see the GitOps operator being installed.
-
-
-25. Change directories to the `210-*` folder and run the following commands to deploy storage into your cluster:
-
-    ```
-    cd 210-ibm-portworx-storage
-    terraform init
-    terraform apply --auto-approve
-    ```
-
-    > This folder will vary based on the platform and storage options that you selected in earlier steps. 
-    
-    Storage configuration will run asynchronously in the background inside of the Cluster and should be complete within 10 minutes.
-
-26. Change directories to the `300-cloud-pak-for-data-entitlement` folder and run the following commands to deploy entitlements into your cluster:
-
-    ```
-    cd ../300-cloud-pak-for-data-entitlement
-    terraform init
-    terraform apply --auto-approve
-    ```
-
-    > This step **does not** require worker nodes to be restarted as some other installation methods describe.
-
-29. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy Data Foundation into the cluster.
-
-    ```
-    cd ../305-cloud-pak-for-data-foundation
-    terraform init
-    terraform apply --auto-approve
-    ```
-
-    Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
-
-30. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
-
-    This process will take between 30 and 45 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
 
 ##### Access the Data Foundation Deployment
 
-31. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
+23. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
 
     ![Reference Architecture](images/cp4d-route.jpg)
 
-32. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
+24. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
 
-33. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+25. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
 
 ### Optional Services
 
