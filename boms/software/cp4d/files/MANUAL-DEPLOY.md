@@ -1,7 +1,7 @@
 
 # Manual Deployment Steps
 
-These steps are used as an alternative to the `apply-all.sh` script, which will automatically process all layers of this solution.  These steps should be run in lieu of the [Automated Deployment](RUNTIMES.md#automated-deployment) step.
+These steps are used as an alternative to the `apply-all.sh` script, which will automatically process all layers of this solution.  These steps should be run in lieu of the [Automated Deployment](README.md#automated-deployment) step.
 
 1. First navigate into the `200-openshift-gitops` folder and run the following commands
 
@@ -57,4 +57,4 @@ These steps are used as an alternative to the `apply-all.sh` script, which will 
 
     This process will take between 30 and 45 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
 
-Once complete, go back and complete the [Access the Data Foundation Deployment](RUNTIMES.md#access-the-data-foundation-deployment) instructions.
+Once complete, go back and complete the [Access the Data Foundation Deployment](README.md#access-the-data-foundation-deployment) instructions.

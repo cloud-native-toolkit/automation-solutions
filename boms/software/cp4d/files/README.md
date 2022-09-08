@@ -380,7 +380,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current` directory.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
 
-    Alternatively you can run each of the layers individually, by following the [manual deployment instructions](#MANUAL-DEPLOY.md).
+    Alternatively you can run each of the layers individually, by following the [manual deployment instructions](MANUAL-DEPLOY.md).
 
     Once complete, skip to the **Access the Data Foundation Deployment** section
 
