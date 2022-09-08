@@ -57,15 +57,15 @@ Once the virtual machine is started, you need to mount the local  file system fo
 
 Then mount the file system using the following command:
 
-```
+```text
 multipass mount $PWD cli-tools:/automation
 ```
 
 This will mount the parent directory to the `/automation` directory inside of the virtual machine.
 
-
 > ⚠️ MacOS users may encounter the following error if Multipass has not been granted file system access.
-> ```
+>
+> ```text
 > mount failed: source "{current directory}" is not readable
 > ```
 >
@@ -117,7 +117,7 @@ Known issues include:
 
 ### Podman instructions
 
-Unlike Docker which traditionally has separated a cli from a daemon-based container engine, [Podman](https://podman.io) is a daemon-less container engine originally developed for [Linux](#getting-started-with-podman-for-linux) systems. There is a [MacOS](#getting-started-with-podman-for-macos) port which has sufficient features to support running the automation based on container images. Podman can run containers in root or rootless mode. Current permissions setup in the `launch.sh` script will require root mode.
+Unlike Docker which traditionally has separated a cli from a daemon-based container engine, [Podman](https://podman.io) is a daemon-less container engine originally developed for [Linux](#getting-started-with-podman-for-linux) systems. There is a [MacOS](#getting-started-with-podman-for-macos) port which has sufficient features to support running the automation based on container images. Podman can run containers in root or rootless mode. Current permissions setup in the `launch.sh` script will require rootless mode.
 
 #### Getting started with Podman for MacOS
 
@@ -128,15 +128,18 @@ Unlike Docker which traditionally has separated a cli from a daemon-based contai
    brew install podman docker
    ```
 
-- Create a podman machine, set it to run in rootful mode and start it
+- Create a podman machine
 
    ```shell
    podman machine init
-   podman machine set --rootful
    podman machine start
    ```
 
-Once the podman vm is started, use the automation template's `launch.sh` script to launch an interactive shell where the Terraform automation can be executed.
+Once the podman vm is started, use the `launch.sh` script to launch an interactive shell where the Terraform automation can be executed:
+
+   ```shell
+   ./launch.sh podman
+   ```
 
 ##### Dealing with known issues for Podman on MacOS
 
@@ -154,10 +157,10 @@ Once the podman vm is started, use the automation template's `launch.sh` script 
 
 - Visit and follow the [installation instructions](https://podman.io/getting-started/installation#installing-on-linux) for your distribution
 
-Once the podman application is installed provide `sudo podman` as the first argument to the automation template's `launch.sh` script to launch an interactive shell where the Terraform automation can be executed:
+Once the podman application is installed provide `podman` as the first argument to the automation template's `launch.sh` script to launch an interactive shell where the Terraform automation can be executed:
 
    ```shell
-   ./launch.sh 'sudo podman'
+   ./launch.sh 'podman'
    ```
 
 - More information available at: <https://podman.io/getting-started/installation>
