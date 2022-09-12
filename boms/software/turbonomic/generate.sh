@@ -28,7 +28,14 @@ fi
 echo "Generating output into ${TARGET_DIR}"
 
 iascable build \
+  -i ./105-existing-openshift.yaml \
+  -o "${TARGET_DIR}" \
+  --flatten
+iascable build \
   -i ./200-openshift-gitops.yaml \
+  -o "${TARGET_DIR}" \
+  --flatten
+iascable build \
   -i ./250-turbonomic-multicloud.yaml \
   -o "${TARGET_DIR}" \
   --flatten

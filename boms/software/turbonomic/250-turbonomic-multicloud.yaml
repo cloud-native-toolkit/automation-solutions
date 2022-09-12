@@ -13,7 +13,7 @@ spec:
   modules:
     - name: ocp-login
 
-    - name: gitops-namespace
+    - name: namespace
       alias: gitea_namespace
       variables:
         - name: name
@@ -31,6 +31,7 @@ spec:
     - name: gitops-namespace
       alias: turbo_namespace
       default: true
+      version: v1.12.2
       variables:
         - name: name
           value: turbonomic

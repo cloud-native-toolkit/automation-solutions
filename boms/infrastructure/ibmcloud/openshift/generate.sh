@@ -42,10 +42,8 @@ for dir in 1-quickstart 2-standard 3-advanced; do
 
   boms=""
   while read bom; do
-    boms="${boms} -i ${bom}"
+    iascable build -i "${bom}" -o "${TARGET_DIR}/${dir}" --flatten
   done <<< "$(find "${SCRIPT_DIR}/${dir}" -maxdepth 1 -name "*.yaml" | sort)"
-
-  iascable build ${boms} -o "${TARGET_DIR}/${dir}" --flatten
 
   cp -R -L "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/${dir}"
   if [[ -d ${SCRIPT_DIR}/${dir}/files/.mocks ]]; then

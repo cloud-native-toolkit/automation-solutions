@@ -16,6 +16,7 @@ spec:
     - name: gitops-namespace
       alias: odf_namespace
       default: true
+      version: v1.12.2
       variables:
         - name: name
           value: odf

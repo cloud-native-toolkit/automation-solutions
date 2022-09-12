@@ -16,6 +16,7 @@ spec:
     - name: gitops-namespace
       alias: portworx_namespace
       default: true
+      version: v1.12.2
       variables:
         - name: name
           value: portworx
