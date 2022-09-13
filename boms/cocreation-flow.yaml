@@ -59,7 +59,7 @@ platforms:
       advanced: []
   - id: ibm
     title: IBM Cloud
-    desc: 'IBM Cloud infrastructure with Red Hat OpenShift ROKS '
+    desc: 'IBM Cloud infrastructure with Red Hat OpenShift ROKS'
     docs: https://www.ibm.com/cloud
     image: ibmcloud.png
     enabled: true
