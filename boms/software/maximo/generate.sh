@@ -28,12 +28,30 @@ if [[ "${IASCABLE_MAJOR_VERSION}" -le 2 ]] && [[ "${IASCABLE_MINOR_VERSION}" -lt
 fi
 
 iascable build \
-  -i ./105-mock.yaml \
+  -i ./105-existing-openshift.yaml \
+  -o "${TARGET_DIR}" \
+  --flatten
+iascable build \
   -i ./200-openshift-gitops.yaml \
+  -o "${TARGET_DIR}" \
+  --flatten
+iascable build \
   -i ./210-aws-portworx-storage.yaml \
+  -o "${TARGET_DIR}" \
+  --flatten
+iascable build \
   -i ./210-azure-portworx-storage.yaml \
+  -o "${TARGET_DIR}" \
+  --flatten
+iascable build \
   -i ./210-ibm-odf-storage.yaml \
+  -o "${TARGET_DIR}" \
+  --flatten
+iascable build \
   -i ./210-ibm-portworx-storage.yaml \
+  -o "${TARGET_DIR}" \
+  --flatten
+iascable build \
   -i ./400-mas-core-multicloud.yaml \
   -o "${TARGET_DIR}" \
   --flatten
