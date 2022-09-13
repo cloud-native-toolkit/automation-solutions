@@ -18,6 +18,7 @@ spec:
     - name: gitops-namespace
       alias: tools_namespace
       default: true
+      version: v1.12.2
       variables:
         - name: name
           value: tools
@@ -26,7 +27,6 @@ spec:
     - name: gitops-dashboard
     - name: gitops-pact-broker
     - name: gitops-sonarqube
-      version: v1.2.6
     - name: gitops-tekton-resources
 #   - name: gitops-image-registry
     - name: gitops-swagger-editor

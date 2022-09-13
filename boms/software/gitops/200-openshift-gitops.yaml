@@ -13,6 +13,17 @@ spec:
     # Login to existing OpenShift cluster
     - name: ocp-login
 
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
     # Create the GitOps Repo
     - name: gitops-repo
 
@@ -21,16 +32,16 @@ spec:
       variables:
         - name: create_webhook
           value: true
-        - name: prefix
-          value: maximo
 
     - name: gitops-namespace
       alias: toolkit_namespace
       default: true
+      version: v1.12.2
       variables:
         - name: name
           value: toolkit
 
     - name: gitops-cluster-config
+      alias: config
     - name: gitops-console-link-job
     # - name: gitops-buildah-unprivileged Needed only for IBM Cloud
