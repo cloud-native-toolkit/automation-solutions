@@ -196,6 +196,8 @@ cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
 
 ln -s "${SCRIPT_DIR}/terraform.tfvars" ./terraform.tfvars
 
+cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
+cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 
@@ -261,6 +263,8 @@ do
   cp -R "${SCRIPT_DIR}/${name}/bom.yaml" .
   cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
   ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
+  ln -s "${WORKSPACE_DIR}/apply.sh" ./apply.sh
+  ln -s "${WORKSPACE_DIR}/destroy.sh" ./destroy.sh
   if [[ -n "${PORTWORX_SPEC_FILE_BASENAME}" ]]; then
     ln -s "${WORKSPACE_DIR}/${PORTWORX_SPEC_FILE_BASENAME}" "./${PORTWORX_SPEC_FILE_BASENAME}"
   fi

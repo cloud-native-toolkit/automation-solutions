@@ -17,7 +17,7 @@ spec:
       variables:
         - name: name
           value: gitops-cp-db2wh
-    - name: gitops-cp-db2wh
+    - name: gitops-cp-db2wh-service
       variables:
         - name: common_services_namespace
           alias: ibm_common_services_namespace

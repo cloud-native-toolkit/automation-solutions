@@ -15,14 +15,15 @@ fi
 
 mkdir -p $OUTPUT_PATH$SOLUTION
 
-iascable build -i ./200-openshift-gitops.yaml \
-               -i ./200-openshift-gitops.yaml \
-               -i ./210-aws-portworx-storage.yaml \
-               -i ./210-azure-portworx-storage.yaml \
-               -i ./210-ibm-odf-storage.yaml \
-               -i ./210-ibm-portworx-storage.yaml \
-               -i ./300-cloud-pak-for-data.yaml \
-               -i ./600-datafabric-services.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./200-openshift-gitops.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./210-aws-portworx-storage.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./210-azure-portworx-storage.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./210-ibm-odf-storage.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./210-ibm-portworx-storage.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./300-cloud-pak-for-data-entitlement.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./305-cloud-pak-for-data-foundation.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./600-datafabric-services-odf.yaml -o $OUTPUT_PATH$SOLUTION
+iascable build -i ./600-datafabric-services-portworx.yaml -o $OUTPUT_PATH$SOLUTION
 
 
 #               -i ./600-datafabric-services.yaml \
