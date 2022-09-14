@@ -14,3 +14,17 @@ spec:
   modules:
     - name: aws-portworx
 
+      variables: 
+      - name: region
+        scope: global
+      - name: access_key
+        scope: global
+      - name: secret_key
+        scope: global
+      - name: portworx_spec_file
+        scope: global
+      - name: portworx_spec
+        scope: global      
+        important: true        
+
+
