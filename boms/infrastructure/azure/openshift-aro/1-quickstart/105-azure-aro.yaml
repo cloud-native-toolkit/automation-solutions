@@ -1,0 +1,62 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 105-azure-aro
+  labels:
+    type: infrastructure
+    platform: azure
+    code: '105'
+  annotations:
+    displayName: Azure Red Hat OpenShift (ARO) Quickstart
+    description: Azure Vnet and ARO
+    vpn/required: 'false'
+spec:
+  modules:
+    - name: azure-resource-group
+      alias: resource_group
+    - name: azure-vnet
+      alias: vnet
+      variables:
+        - name: address_prefixes
+          value: 
+            - 10.0.0.0/20
+    - name: azure-vnet-subnets
+      alias: master-subnet
+      variables:
+        - name: label
+          value: "master"
+        - name: ipv4_cidr_blocks
+          value: 
+            - 10.0.1.0/24
+        - name: service_endpoints
+          value:
+            - Microsoft.ContainerRegistry
+            - Microsoft.Storage
+    - name: azure-vnet-subnets
+      alias: worker-subnet
+      variables:
+        - name: label
+          value: "worker"
+        - name: ipv4_cidr_blocks
+          value: 
+            - 10.0.2.0/24
+        - name: service_endpoints
+          value:
+            - Microsoft.ContainerRegistry
+            - Microsoft.Storage
+    - name: azure-aro
+      alias: cluster
+      dependencies:
+        - name: master-subnet
+          ref: master-subnet
+        - name: worker-subnet
+          ref: worker-subnet
+      variables:
+        - name: master_subnet_id
+          ref: master-subnet
+        - name: worker_subnet_id
+          ref: worker-subnet
+  variables:
+    - name: name_prefix
+      required: true
+      scope: global
