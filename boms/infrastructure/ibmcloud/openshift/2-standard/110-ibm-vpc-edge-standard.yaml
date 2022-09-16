@@ -99,6 +99,9 @@ spec:
           ref: ingress-subnets
         - name: ibm-cert-manager
           ref: cert-manager
+      variables:
+        - name: vpn_client_timeout
+          value: 3600
     #- name: ibm-vpc-ssh
     #  alias: vpc_ssh_bastion
     #  variables:

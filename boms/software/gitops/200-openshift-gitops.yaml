@@ -8,6 +8,7 @@ metadata:
   annotations:
     displayName: OpenShift GitOps Bootstrap
     description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
+    vpn/required: "true"
 spec:
   modules:
     # Login to existing OpenShift cluster
