@@ -46,7 +46,7 @@ spec:
       alias: cp4i-version-dependency
       variables:
         - name: cp4i_version
-          value: "2022_2_1"
+          value: "2021_4_1"
 
 
 

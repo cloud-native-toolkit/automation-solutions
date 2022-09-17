@@ -44,7 +44,7 @@ spec:
       alias: cp4i-version-dependency
       variables:
         - name: cp4i_version
-          value: "2022_2_1"
+          value: "2021_4_1"
 
     # To organize the PlatformNavigator Workload in a dedicated namespace. Also to Override the Storage Class for PlatformNavigator. Require RWX storage Class
     - name: gitops-namespace
