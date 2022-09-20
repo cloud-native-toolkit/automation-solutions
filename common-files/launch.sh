@@ -91,7 +91,6 @@ fi
 
 echo "Initializing container ${CONTAINER_NAME} from ${DOCKER_IMAGE}"
 ${DOCKER_CMD} run -itd --name ${CONTAINER_NAME} \
-   -u "${UID}:0" \
    --device /dev/net/tun --cap-add=NET_ADMIN \
    -v "${SRC_DIR}:/terraform" \
    -v "workspace-${AUTOMATION_BASE}-${UID}:/workspaces" \
