@@ -1,0 +1,32 @@
+apiVersion: cloudnativetoolkit.dev/v2
+kind: CatalogSummary
+metadata:
+  name: default
+modules:
+  - id: ''
+    name: ''
+    displayName: ''
+    description: ''
+    category: ''
+    group: ''
+    type: '' # terraform or gitops
+    cloudProvider: '' # (Optional) ibm, aws, azure
+    softwareProvider: '' # (Optional) ibm, red hat, etc
+    tags: []
+    metadataUrl: ''
+    versions:
+      - version: ''
+        metadataUrl: ''
+boms:
+  - id: ''
+    name: ''
+    displayName: ''
+    metadataUrl: '' # Url where the definition of the latest BOM can be found
+    tags: [] # (Optional) additional metadata, subcategories, etc
+    category: '' # infrastructure, platform, software ? (should this be called layer instead?)
+    cloudProvider: '' # (Optional) ibm, aws, azure
+    versions:
+      - version: ''
+        metadataUrl: '' # (Optional) the url to the metadata for this BOM version. If not provided then the url is assumed to be derived from the main metadataUrl
+
+

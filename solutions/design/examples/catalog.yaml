@@ -1,0 +1,34 @@
+apiVersion: cloudnativetoolkit.dev/v2
+kind: Catalog
+metadata:
+  name: default
+modules:
+  - id: ''
+    name: ''
+    displayName: ''
+    description: ''
+    category: ''
+    group: ''
+    type: '' # terraform or gitops
+    cloudProvider: ''
+    softwareProvider: ''
+    tags: []
+    versions: [] # array of version definition objects
+boms:
+  - id: ''
+    name: ''
+    displayName: ''
+    metadataUrl: '' # Url where the definition of the latest BOM can be found
+    tags: [] # (Optional) additional metadata, subcategories, etc
+    category: '' # infrastructure, platform, software ?
+    type: '' # solution-bom or bom (not sure if this is necessary)
+    cloudProvider: '' # (Optional) ibm, aws, azure
+    versions:
+      - version: ''
+        metadataUrl: '' # (Optional) the url to the metadata for this BOM version. If not provided then the url is assumed to be derived from the main metadataUrl
+providers:
+  - name: ''
+    source: ''
+aliases:
+  - id: ''
+    aliases: []
