@@ -5,7 +5,6 @@ boms:
   - name: 105-ibm-vpc-openshift
     displayName: IBM Simple VPC OpenShift
     description: IBM VPC and public Red Hat OpenShift server
-    metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-ibm-vpc-openshift_v1.0.0/bom.yaml
     tags:
       - ibm
       - openshift
@@ -20,7 +19,6 @@ boms:
   - name: 200-openshift-gitops
     displayName: OpenShift GitOps Bootstrap
     description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
-    metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/200-openshift-gitops_v1.0.0/bom.yaml
     tags:
       - openshift
       - gitops
@@ -34,7 +32,6 @@ boms:
   - name: 210-ibm-odf-storage
     displayName: IBM - ODF Cluster Storage
     description: Installs OpenShift Data Foundation in an IBM cluster
-    metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/210-ibm-odf-storage_v1.0.0/bom.yaml
     tags:
       - odf
       - ibm
@@ -48,7 +45,6 @@ boms:
   - name: 210-ibm-portworx-storage
     displayName: IBM - Portworx Cluster Storage
     description: Installs Portworx in an IBM cluster
-    metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/210-ibm-portworx-storage_v1.0.0/bom.yaml
     tags:
       - portworx
       - ibm
@@ -62,7 +58,6 @@ boms:
   - name: 220-dev-tools
     displayName: OpenShift development tools
     description: Provisions development tools in an OpenShift cluster
-    metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/220-dev-tools_v1.0.0/bom.yaml
     tags:
       - multi-cloud
       - dev tools
