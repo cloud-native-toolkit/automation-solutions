@@ -1,0 +1,4 @@
+apiVersion: cloudnativetoolkit.dev/v2
+kind: Catalog
+modules: []
+boms: []
