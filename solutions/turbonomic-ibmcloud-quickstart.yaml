@@ -3,7 +3,6 @@ kind: Solution
 metadata:
   name: turbonomic-ibmcloud-quickstart
   labels:
-    version: v1.0.0
     type: infrastructure
     platform: ibm
     flavor: quickstart
@@ -13,6 +12,7 @@ metadata:
     files/diagram: diagram.png # filename (from files below, default diagram.png)
     files/readme: README.md # filename (from files below, default README.md)
 spec:
+  version: v1.0.0
   stack:
     - name: 105-ibm-vpc-openshift # this is the name of the layer in the
       layer: infrastructure
