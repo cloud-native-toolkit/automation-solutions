@@ -10,6 +10,7 @@ metadata:
   annotations:
     displayName: IBM - Portworx Cluster Storage
     description: Installs Portworx in an IBM cluster
+    vpn/required: "true"
 spec:
   modules:
     - name: gitops-repo
