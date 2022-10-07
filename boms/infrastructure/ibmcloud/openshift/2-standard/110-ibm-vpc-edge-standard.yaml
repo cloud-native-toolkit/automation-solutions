@@ -97,8 +97,8 @@ spec:
       dependencies:
         - name: subnets
           ref: ingress-subnets
-        - name: ibm-cert-manager
-          ref: cert-manager
+        - name: ibm-secrets-manager
+          ref: secrets-manager
       variables:
         - name: vpn_client_timeout
           value: 3600
@@ -144,7 +144,7 @@ spec:
         - name: kms
           ref: kms
     - name: ibm-activity-tracker
-    - name: ibm-cert-manager
+    - name: ibm-secrets-manager
       variables:
         - name: provision
           value: false
