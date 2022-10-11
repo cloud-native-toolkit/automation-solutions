@@ -2,6 +2,15 @@ apiVersion: cloudnativetoolkit.dev/v2
 kind: Catalog
 modules: []
 boms:
+  - name: 000-ibm-account-setup
+    displayName: IBM Account Setup
+    description: Sets up an IBM Cloud account with required Financial Services reference architecture settings
+    category: infrastructure
+    type: bom
+    cloudProvider: ibm
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/000-ibm-account-setup_v1.0.0/bom.yaml
   - name: 105-ibm-vpc-openshift
     displayName: IBM Simple VPC OpenShift
     description: IBM VPC and public Red Hat OpenShift server
