@@ -1,1 +1,1 @@
-../../../../../common-files/apply-all.sh
+../../../../../common-files/apply-all-terragrunt.sh

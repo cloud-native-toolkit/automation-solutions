@@ -1,0 +1,15 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 200-openshift-cicd
+  labels:
+    type: software
+    platform: ibm
+    code: '200'
+  annotations:
+    displayName: IBM OpenShift GitOps Bootstrap
+    description: Provisions OpenShift GitOps into an existing IBM cluster and bootstraps it to a gitops repository
+spec:
+  modules:
+    - name: ocp-login
+    - name: openshift-cicd

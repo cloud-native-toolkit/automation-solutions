@@ -13,3 +13,4 @@ terraform.tfvars
 workspace/*
 workspace-*/*
 credentials.properties
+credentials.sh

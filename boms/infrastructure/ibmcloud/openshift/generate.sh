@@ -2,12 +2,12 @@
 
 SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
 
-TARGET_DIR="$1"
+TARGET_BASE="${1:-../../../../..}"
+TARGET_REPO="${2:-automation-ibmcloud-infra-openshift}"
 
-if [[ -z "${TARGET_DIR}" ]]; then
-  echo "usage: generate.sh TARGET_DIR"
-  exit 1
-fi
+TARGET_DIR="${TARGET_BASE}/${TARGET_REPO}"
+
+echo "Generating output into ${TARGET_DIR}"
 
 if ! command -v iascable 1> /dev/null 2> /dev/null; then
   echo "iascable cli not found" >&2
@@ -18,7 +18,7 @@ fi
 IASCABLE_MAJOR_VERSION=$(iascable --version | sed -E "s/^([0-9]+)[.][0-9]+[.][0-9]+/\1/g")
 IASCABLE_MINOR_VERSION=$(iascable --version | sed -E "s/^[0-9]+[.]([0-9]+)[.][0-9]+/\1/g")
 
-if [[ "${IASCABLE_MAJOR_VERSION}" -le 2 ]] && [[ "${IASCABLE_MINOR_VERSION}" -le 11 ]]; then
+if [[ "${IASCABLE_MAJOR_VERSION}" -le 2 ]] && [[ "${IASCABLE_MINOR_VERSION}" -lt 14 ]]; then
   echo "Installed iascable cli is backlevel version"
   echo "  Update iascable with this command: curl -sL https://raw.githubusercontent.com/cloud-native-toolkit/iascable/main/install.sh | sh" >&2
   exit 1
@@ -42,10 +42,17 @@ for dir in 1-quickstart 2-standard 3-advanced; do
 
   boms=""
   while read bom; do
-    boms="${boms} -i ${bom}"
-  done <<< "$(find "${SCRIPT_DIR}/${dir}" -name "*.yaml" -maxdepth 1 | sort)"
-  
-  iascable build ${boms} -o "${TARGET_DIR}/${dir}"
+    iascable build -i "${bom}" -o "${TARGET_DIR}/${dir}" --flatten
+  done <<< "$(find "${SCRIPT_DIR}/${dir}" -maxdepth 1 -name "*.yaml" | sort)"
 
   cp -R -L "${SCRIPT_DIR}/${dir}/files/"* "${TARGET_DIR}/${dir}"
+  if [[ -d ${SCRIPT_DIR}/${dir}/files/.mocks ]]; then
+    cp -R -L "${SCRIPT_DIR}/${dir}/files/.mocks/"* "${TARGET_DIR}/${dir}/.mocks"
+  fi
+
+  find "${TARGET_DIR}/${dir}" \( -name "apply.sh" -o -name "destroy.sh" \) | while read path; do
+    file=$(basename "${path}")
+
+    cp "${SCRIPT_DIR}/files/${file}" "${path}"
+  done
 done

@@ -16,11 +16,22 @@ spec:
       alias: cluster
 
     - name: olm
-
     - name: sealed-secret-cert
 
+    # To setup Gitea
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
+    # Create the GitOps Repo
     - name: gitops-repo
-      alias: gitops_repo
 
     - name: gitops-cp-catalogs
       alias: gitops-cp-catalogs
@@ -48,7 +59,6 @@ spec:
           value: cp4i-es
 
     - name: gitops-cp-event-streams
-      version: v1.2.0
       dependencies:
         - name: namespace
           ref: cp4i-es
