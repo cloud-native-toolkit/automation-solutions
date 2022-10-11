@@ -139,6 +139,7 @@ Ensure you have the following before continuing:
 
 - Cloud Pak entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) as described above.
 
+- If you are deploying on [IBM Cloud Satellite](https://www.ibm.com/cloud/satellite), please review the [Satellite prerequisites](./IBM_SATELLITE.md).
 
 ### Installing Data Foundation
 
@@ -342,6 +343,8 @@ You can install these clis on your local machine **OR** run the following comman
     Setting up current/310-cloud-pak-for-data-db2wh from 310-cloud-pak-for-data-db2wh
     move to /workspaces/current this is where your automation is configured
     ```
+
+    > ⚠️ If you are deploying on IBM Cloud Satellite, choose the `odf` storage option when running `setup-workspace.sh`.
    
 10. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
 
@@ -375,10 +378,11 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     > ❗️ Do not skip this step.  You must execute from the `/workspaces/current` folder.
 
+    > ⚠️ If you are deploying on IBM Cloud Satellite, you must delete the `/workspaces/current/210-ibm-odf-storage` folder and ensure that `ocs-storagecluster-cephfs` is the default storage class before proceeding to the next step.  ODF will already have been deployed into the Satellite cluster.  For additional detail, please see the [Satellite prerequisites](./IBM_SATELLITE.md).
 
 ##### Automated Deployment
 
-22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current` directory.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
+22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current` directory.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asynchronously in the background.  This can take an additional 45 minutes.
 
     Alternatively you can run each of the layers individually, by following the [manual deployment instructions](MANUAL-DEPLOY.md).
 
