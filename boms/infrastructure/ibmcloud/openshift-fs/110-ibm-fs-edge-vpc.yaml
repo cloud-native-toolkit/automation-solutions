@@ -117,8 +117,11 @@ spec:
       dependencies:
         - name: subnets
           ref: ingress-subnets
-        - name: ibm-cert-manager
-          ref: cert-manager
+        - name: ibm-secrets-manager
+          ref: secrets-manager
+      variables:
+        - name: vpn_client_timeout
+          value: 3600
     - name: ibm-vpc-ssh
       alias: edge_ssh_bastion
       variables:
@@ -169,7 +172,7 @@ spec:
       dependencies:
         - name: resource_group
           ref: cs_resource_group
-    - name: ibm-cert-manager
+    - name: ibm-secrets-manager
       variables:
         - name: provision
           value: false
