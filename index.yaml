@@ -11,6 +11,14 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/000-ibm-account-setup_v1.0.0/bom.yaml
+  - name: 105-existing-openshift
+    displayName: Existing OpenShift
+    description: Existing OpenShift cluster
+    category: Infrastructure
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-existing-openshift_v1.0.0/bom.yaml
   - name: 105-ibm-vpc-openshift
     displayName: IBM Simple VPC OpenShift
     description: IBM VPC and public Red Hat OpenShift server
