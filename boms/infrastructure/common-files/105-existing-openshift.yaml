@@ -8,6 +8,8 @@ metadata:
   annotations:
     displayName: Existing OpenShift
     description: Existing OpenShift cluster
+    dependencies.cloudnativetoolkit.dev/provides: cluster
 spec:
+  version: v1.0.1
   modules:
     - name: ocp-login
