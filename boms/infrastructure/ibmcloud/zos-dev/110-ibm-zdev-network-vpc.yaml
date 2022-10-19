@@ -31,8 +31,10 @@ spec:
           ref: kms_resource_group
     - name: ibm-resource-group
       variables:
+        - name: provision
+          value: false
         - name: resource_group_name
-          alias: edge_resource_group_name
+          alias: zos_resource_group_name
           scope: global
     - name: ibm-iam-service-authorization
       alias: flow-log-auth
@@ -86,7 +88,7 @@ spec:
         - name: gateways
           ref: ibm-vpc-gateways
     - name: ibm-vpc-subnets
-      alias: bastion-subnets
+      alias: worker-subnets
       variables:
         - name: _count
           value: 1
@@ -109,6 +111,18 @@ spec:
             - 10.1.30.0/24
             - 10.2.30.0/24
             - 10.3.30.0/24
+    - name: ibm-vpc-subnets
+      alias: vpe-subnets
+      variables:
+        - name: _count
+          value: 1
+        - name: label
+          value: vpe
+        - name: ipv4_cidr_blocks
+          value:
+            - 10.1.40.0/24
+            - 10.2.40.0/24
+            - 10.3.40.0/24
     - name: ibm-vpc-vpn-gateway
       dependencies:
         - name: subnets
@@ -117,37 +131,37 @@ spec:
       dependencies:
         - name: subnets
           ref: ingress-subnets
-        - name: ibm-cert-manager
-          ref: cert-manager
-    - name: ibm-vpc-ssh
-      alias: edge_ssh_bastion
-      variables:
-        - name: label
-          value: bastion
-    - name: vsi-bastion
-      variables:
-        - name: image_name
-          scope: module
-        - name: kms_enabled
-          value: true
-      dependencies:
-        - name: subnets
-          ref: bastion-subnets
-        - name: vpcssh
-          ref: edge_ssh_bastion
+        - name: ibm-secrets-manager
+          ref: secrets-manager
+    # - name: ibm-vpc-ssh
+    #   alias: zos_ssh_bastion
+    #   variables:
+    #     - name: label
+    #       value: bastion
+    # - name: vsi-bastion
+    #   variables:
+    #     - name: image_name
+    #       scope: module
+    #     - name: kms_enabled
+    #       value: true
+    #   dependencies:
+    #     - name: subnets
+    #       ref: bastion-subnets
+    #     - name: vpcssh
+    #       ref: zos_ssh_bastion
     - name: ibm-resource-group
-      alias: cs_resource_group
+      alias: zos_resource_group
     - name: ibm-object-storage
       alias: cos
       variables:
         - name: provision
           value: false
         - name: name_prefix
-          alias: cs_name_prefix
+          alias: zos_name_prefix
           scope: global
       dependencies:
         - name: resource_group
-          ref: cs_resource_group
+          ref: zos_resource_group
     - name: ibm-kms-key
       variables:
         - name: provision
@@ -164,21 +178,21 @@ spec:
         - name: provision
           value: false
         - name: name_prefix
-          alias: cs_name_prefix
+          alias: zos_name_prefix
           scope: global
       dependencies:
         - name: resource_group
-          ref: cs_resource_group
-    - name: ibm-cert-manager
+          ref: zos_resource_group
+    - name: ibm-secrets-manager
       variables:
         - name: provision
           value: false
         - name: name_prefix
-          alias: cs_name_prefix
+          alias: zos_name_prefix
           scope: global
       dependencies:
         - name: resource_group
-          ref: cs_resource_group
+          ref: zos_resource_group
     - name: ibm-object-storage-bucket
       alias: flow_log_bucket
       variables:
@@ -187,34 +201,75 @@ spec:
         - name: allowed_ip
           value:
             - 0.0.0.0/0
-    - name: ibm-transit-gateway
+    # - name: ibm-transit-gateway
+    #   variables:
+    #     - name: name_prefix
+    #       alias: zos_name_prefix
+    #       scope: global
+    #   dependencies:
+    #     - name: resource-group
+    #       ref: zos_resource_group
+
+
+
+# this is new
+
+
+    - name: ibm-vpe-gateway
+      alias: vpe-cos
+      dependencies:
+        - name: resource
+          ref: cos
+        - name: subnets
+          ref: vpe-subnets
+
+#need vars for profile_name and image name?
+
+
+    - name: ibm-vpc-vsi
       variables:
         - name: name_prefix
-          alias: cs_name_prefix
+          alias: zos_name_prefix
           scope: global
+        - name: image_name
+          value: "ibm-zos-2-4-s390x-dev-test-wazi-1"
+        - name: profile_name
+          value: "mz2-2x16"
+        - name: security_group_rules
+          value:
+            - { "name": "ingress-everything", "direction": "inbound", "remote": "0.0.0.0/0"}
+            - { "name": "egress-everything", "direction": "outbound", "remote": "0.0.0.0/0" }
       dependencies:
-        - name: resource-group
-          ref: cs_resource_group
+        - name: subnets
+          ref: worker-subnets
+        - name: vpcssh
+          ref: dev_ssh_vsi
+    - name: ibm-vpc-ssh
+      alias: dev_ssh_vsi
+      variables:
+        - name: label
+          value: zos-vsi
+
+
   variables:
-    - name: edge_resource_group_name
+    - name: zos_resource_group_name
     - name: region
     - name: ibmcloud_api_key
     - name: name_prefix
-      alias: edge_name_prefix
+      alias: zos_name_prefix
       required: true
       scope: global
-    - name: cs_resource_group_name
-    - name: cs_name_prefix
+    - name: zos_resource_group_name
     - name: kms_service
-    # - name: edge_ssh_vpn_public_key
+    # - name: zos_ssh_vpn_public_key
     #   value: ""
-    # - name: edge_ssh_vpn_private_key
+    # - name: zos_ssh_vpn_private_key
     #   value: ""
-    - name: edge_ssh_bastion_public_key
-      value: ""
-    - name: edge_ssh_bastion_private_key
-      value: ""
-    # - name: edge_ssh_vpn_public_key_file
-    # - name: edge_ssh_vpn_private_key_file
-    - name: edge_ssh_bastion_public_key_file
-    - name: edge_ssh_bastion_private_key_file
+    # - name: zos_ssh_bastion_public_key
+    #   value: ""
+    # - name: zos_ssh_bastion_private_key
+    #   value: ""
+    # # - name: zos_ssh_vpn_public_key_file
+    # # - name: zos_ssh_vpn_private_key_file
+    # - name: zos_ssh_bastion_public_key_file
+    # - name: zos_ssh_bastion_private_key_file

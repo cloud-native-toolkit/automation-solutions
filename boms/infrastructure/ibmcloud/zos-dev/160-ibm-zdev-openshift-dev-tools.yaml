@@ -18,7 +18,7 @@ spec:
         - name: provision
           value: false
         - name: resource_group_name
-          alias: mgmt_resource_group_name
+          alias: zos_resource_group_name
           scope: global
     - name: ibm-ocp-vpc
       dependencies:
@@ -44,13 +44,13 @@ spec:
         - name: login
           value: true
     - name: ibm-resource-group
-      alias: cs_resource_group
+      alias: zos_resource_group
       variables:
         - name: provision
           value: false
       dependencies:
         - name: resource_group
-          ref: cs_resource_group
+          ref: zos_resource_group
     - name: namespace
       alias: tools_namespace
       default: true
@@ -86,7 +86,7 @@ spec:
     - name: registry_namespace
       required: true
     - name: name_prefix
-      alias: mgmt_name_prefix
+      alias: zos_name_prefix
       required: true
     - name: tools_name
       value: tools

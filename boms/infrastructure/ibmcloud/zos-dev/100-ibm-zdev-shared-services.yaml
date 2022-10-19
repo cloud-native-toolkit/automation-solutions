@@ -23,7 +23,7 @@ spec:
     - name: ibm-resource-group
       variables:
         - name: resource_group_name
-          alias: cs_resource_group_name
+          alias: zos_resource_group_name
           scope: global
     - name: ibm-resource-group
       alias: kms_resource_group
@@ -134,14 +134,14 @@ spec:
           ref: kms_resource_group
         - name: target_resource
           ref: kms
-    - name: ibm-cert-manager
+    - name: ibm-secrets-manager
       variables:
         - name: private_endpoint
           value: false
       dependencies:
         - name: resource_group
     - name: ibm-iam-service-authorization
-      alias: vpn-cert-manager-auth
+      alias: vpn-secrets-manager-auth
       variables:
         - name: source_service_name
           value: is
@@ -149,13 +149,13 @@ spec:
           value: vpn-server
         - name: roles
           value:
-            - Writer
+            - SecretsReader
         - name: target_service_name
-          value: cloudcerts
+          value: secrets-manager
   variables:
     - name: name_prefix
-      alias: cs_name_prefix
+      alias: zos_name_prefix
     - name: region
-    - name: cs_resource_group_name
+    - name: zos_resource_group_name
     - name: kms_service
     - name: at_resource_group_name
