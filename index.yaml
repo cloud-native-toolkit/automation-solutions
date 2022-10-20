@@ -1,5 +1,53 @@
 apiVersion: cloudnativetoolkit.dev/v2
 kind: Catalog
+metadata:
+  cloudProviders:
+    - name: aws
+      displayName: AWS
+      description: Amazon Web Services infrastructure with Red Hat OpenShift ROSA
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/cloud-providers/aws.png
+    - name: azure
+      displayName: Azure
+      description: Microsoft Azure infrastructure with Red Hat OpenShift ARO and IPI
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/cloud-providers/azure.png
+    - name: ibm
+      displayName: IBM
+      description: IBM Cloud infrastructure with Red Hat OpenShift ROKS
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/cloud-providers/ibmcloud.png
+  useCases:
+    - name: demo
+      displayName: Setup a Demo
+      description: As a tech seller you want to demo the capability of IBM Technology use this personal to get started quickly
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/use-cases/demo-tammy.png
+      flavor: quickstart
+    - name: mvp
+      displayName: Create a POC/POT/MVP
+      description: You are past the demo phase and now need to prove the technology for a specific client use case
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/use-cases/mvp-rohan.png
+      flavor: standard
+    - name: production
+      displayName: Prepare for Production
+      description: You are now focused on the delivery phase of a project and need to place IBM Technology into a highly scalable secure production environment
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/use-cases/production-joe.png
+      flavor: advanced
+    - name: dev
+      displayName: Support Development
+      description: You want to setup a Red Hat OpenShift environment to develop solution assets
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/use-cases/dev-rubi.png
+      flavor: standard
+  flavors:
+    - name: quickstart
+      displayName: Quick-Start
+      description: A simple architecture to quickly get an OpenShift cluster provisioned ideal for Demos
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/flavors/quickstart.png
+    - name: standard
+      displayName: Standard
+      description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/flavors/standard.png
+    - name: advanced
+      displayName: Prepare for Production
+      description: A more advanced deployment that employs network isolation to securely route traffic between the different layers, prepare environment for production deployed IBM Software
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/flavors/advanced.png
 modules: []
 boms:
   - name: 000-ibm-account-setup
