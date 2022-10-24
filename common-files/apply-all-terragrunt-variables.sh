@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
-
 if [[ "${1}" == "--prompt" ]]; then
   PROMPT_ALL="true"
 else
@@ -11,6 +9,10 @@ fi
 
 if [[ -z "${VARIABLES_FILE}" ]]; then
   VARIABLES_FILE="variables.yaml"
+fi
+
+if [[ -z "${CREDENTIALS_FILE}" ]]; then
+  CREDENTIALS_FILE="credentials.yaml"
 fi
 
 YQ=$(command -v yq4 || command -v yq)
@@ -24,28 +26,8 @@ if ! command -v jq 1> /dev/null 2> /dev/null; then
   exit 1
 fi
 
-CREDENTIALS_PROPERTIES="../credentials.properties"
+CREDENTIALS_TFVARS="credentials.auto.tfvars"
 TERRAFORM_TFVARS="terraform.tfvars"
-
-if [[ -f "${TERRAFORM_TFVARS}" ]]; then
-  cp "${TERRAFORM_TFVARS}" "${TERRAFORM_TFVARS}.backup"
-  rm "${TERRAFORM_TFVARS}"
-fi
-
-if [[ -f "${CREDENTIALS_PROPERTIES}" ]]; then
-  cp "${CREDENTIALS_PROPERTIES}" "${CREDENTIALS_PROPERTIES}.backup"
-  rm "${CREDENTIALS_PROPERTIES}"
-fi
-touch "${CREDENTIALS_PROPERTIES}"
-
-if [[ ! -f "${VARIABLES_FILE}" ]]; then
-  echo "Variables can be provided in a yaml file passed as the first argument"
-  echo ""
-fi
-
-TMP_VARIABLES_FILE="${VARIABLES_FILE}.tmp"
-
-echo "variables: []" > ${TMP_VARIABLES_FILE}
 
 function process_variable () {
   local name="$1"
@@ -61,6 +43,7 @@ function process_variable () {
   else
     environment_variable="null"
   fi
+
   value="${environment_variable}"
   if [[ -f "${VARIABLES_FILE}" ]]; then
     value=$(cat "${VARIABLES_FILE}" | NAME="${name}" ${YQ} e -o json '.variables[] | select(.name == env(NAME)) | .value' - | jq -c -r '.')
@@ -72,8 +55,6 @@ function process_variable () {
   if [[ "${value}" == "null" ]] && [[ "${prompt_all}" != "true" ]]; then
     value="${default_value}"
   fi
-
-  echo "  Processing variable: ${name} '${default_value}' '${value}' '${prompt_all}'"
 
   while [[ "${value}" == "null" ]]; do
     echo "Provide a value for '${name}':"
@@ -102,102 +83,65 @@ function process_variable () {
       NAME="${name}" VALUE="${value}" ${YQ} e -i -P '.variables += [{"name": env(NAME), "value": env(VALUE)}]' "${TMP_VARIABLES_FILE}"
     fi
   else
-    echo "export ${name}=\"${output_value}\"" >> "${CREDENTIALS_PROPERTIES}"
+    echo "${name} = \"${output_value}\"" >> "${CREDENTIALS_TFVARS}"
+    if [[ -z "${value}" ]]; then
+      NAME="${name}" VALUE="${value}" ${YQ} e -i -P '.variables += [{"name": env(NAME), "value": ""}]' "${TMP_CREDENTIALS_FILE}"
+    else
+      NAME="${name}" VALUE="${value}" ${YQ} e -i -P '.variables += [{"name": env(NAME), "value": env(VALUE)}]' "${TMP_CREDENTIALS_FILE}"
+    fi
   fi
 }
 
-cat "bom.yaml" | ${YQ} e '.spec.variables[] | .name' - | while read name; do
-  variable=$(cat "bom.yaml" | NAME="${name}" ${YQ} e '.spec.variables[] | select(.name == env(NAME))' -)
+if [[ ! -f "${TERRAFORM_TFVARS}" ]] && [[ ! -f "${CREDENTIALS_TFVARS}" ]]; then
 
-  default_value=$(echo "${variable}" | ${YQ} e -o json '.value' - | jq -c -r '.')
-  sensitive=$(echo "${variable}" | ${YQ} e '.sensitive // false' -)
-  description=$(echo "${variable}" | ${YQ} e '.description // ""' -)
+  touch "${TERRAFORM_TFVARS}"
+  touch "${CREDENTIALS_TFVARS}"
 
-  process_variable "${name}" "${default_value}" "${sensitive}" "${description}" "${PROMPT_ALL}"
-done
-
-if [[ -f "${VARIABLES_FILE}" ]]; then
-  cat "${VARIABLES_FILE}" | ${YQ} e '.variables[]' -o json - | jq -c '.' | while read var; do
-    name=$(echo "${var}" | jq -r '.name')
-
-    value=$(echo "${var}" | jq -r '.value // empty')
-    sensitive=$(echo "${var}" | jq -r '.sensitive')
-
-    bom_var=$(cat bom.yaml | ${YQ} e '.spec.variables[]' -o json - | jq --arg NAME "${name}" -c 'select(.name == $NAME)')
-
-    if [[ -z "${bom_var}" ]]; then
-      process_variable "${name}" "${value}" "${sensitive}" "" "${PROMPT_ALL}"
-    fi
-  done
-fi
-
-cp "${TMP_VARIABLES_FILE}" "${VARIABLES_FILE}"
-rm "${TMP_VARIABLES_FILE}"
-
-# shellcheck source=../credentials.properties
-source "${CREDENTIALS_PROPERTIES}"
-
-if [[ -f "${PWD}/terragrunt.hcl" ]]; then
-  if [[ -n "${CI}" ]]; then
-    NON_INTERACTIVE="--terragrunt-non-interactive"
+  if [[ ! -f "${VARIABLES_FILE}" ]]; then
+    echo "Variables can be provided in a yaml file passed as the first argument"
+    echo ""
   fi
 
-  terragrunt run-all apply --terragrunt-parallelism 1 ${NON_INTERACTIVE}
-else
-  PARALLELISM=6
+  TMP_VARIABLES_FILE="${VARIABLES_FILE}.tmp"
+  TMP_CREDENTIALS_FILE="${CREDENTIALS_FILE}.tmp"
 
-  find . -type d -maxdepth 1 | grep -vE "[.]/[.].*" | grep -vE "^[.]$" | grep -v workspace | sort | \
-    while read dir;
-  do
-    name=$(echo "$dir" | sed -E "s~[.]/(.*)~\1~g")
+  echo "variables: []" > ${TMP_VARIABLES_FILE}
+  echo "variables: []" > ${TMP_CREDENTIALS_FILE}
 
-    TYPE=$(grep "deployment-type/gitops" ./${name}/bom.yaml | sed -E "s~[^:]+: [\"'](.*)[\"']~\1~g")
+  cat "bom.yaml" | ${YQ} e '.spec.variables[] | .name' - | while read name; do
+    variable=$(cat "bom.yaml" | NAME="${name}" ${YQ} e '.spec.variables[] | select(.name == env(NAME))' -)
 
-    if [[ "${TYPE}" == "true" ]]; then
-      PARALLELISM=3
-      echo "***** Setting parallelism for gitops type deployment for step ${name} to ${PARALLELISM} *****"
-    fi
+    default_value=$(echo "${variable}" | ${YQ} e -o json '.value' - | jq -c -r '.')
+    sensitive=$(echo "${variable}" | ${YQ} e '.sensitive // false' -)
+    description=$(echo "${variable}" | ${YQ} e '.description // ""' -)
 
-    OPTIONAL=$(grep "apply-all/optional" ./${name}/bom.yaml | sed -E "s~[^:]+: [\"'](.*)[\"']~\1~g")
-
-    if [[ "${OPTIONAL}" == "true" ]]; then
-      echo "***** Skipping optional step ${name} *****"
-      continue
-    fi
-
-    VPN_REQUIRED=$(grep "vpn/required" ./${name}/bom.yaml | sed -E "s~[^:]+: [\"'](.*)[\"']~\1~g")
-
-    if [[ "${VPN_REQUIRED}" == "true" ]]; then
-      RUNNING_PROCESSES=$(ps -ef)
-      VPN_RUNNING=$(echo "${RUNNING_PROCESSES}" | grep "openvpn --config")
-
-      if [[ -n "${VPN_RUNNING}" ]]; then
-        echo "VPN required but it is already running"
-      elif command -v openvpn 1> /dev/null 2> /dev/null; then
-        OVPN_FILE=$(find . -name "*.ovpn" | head -1)
-
-        if [[ -z "${OVPN_FILE}" ]]; then
-          echo "VPN profile not found. Skipping ${name}"
-          continue
-        fi
-
-        echo "Connecting to vpn with profile: ${OVPN_FILE}"
-        sudo openvpn --config "${OVPN_FILE}" &
-      elif [[ -n "${CI}" ]]; then
-        echo "VPN connection required but unable to create the connection. Skipping..."
-        continue
-      else
-        echo "Please connect to your vpn instance using the .ovpn profile within the 110-ibm-fs-edge-vpc directory and press ENTER to proceed."
-        read throwaway
-      fi
-    fi
-
-    echo "***** Applying ${name} *****"
-
-    cd "${name}" && \
-      terraform init && \
-      terraform apply -parallelism=$PARALLELISM -auto-approve && \
-      cd - 1> /dev/null || \
-      exit 1
+    process_variable "${name}" "${default_value}" "${sensitive}" "${description}" "${PROMPT_ALL}"
   done
+
+  if [[ -f "${VARIABLES_FILE}" ]]; then
+    cat "${VARIABLES_FILE}" | ${YQ} e '.variables[]' -o json - | jq -c '.' | while read var; do
+      name=$(echo "${var}" | jq -r '.name')
+
+      value=$(echo "${var}" | jq -r '.value // empty')
+      sensitive=$(echo "${var}" | jq -r '.sensitive')
+
+      bom_var=$(cat bom.yaml | ${YQ} e '.spec.variables[]' -o json - | jq --arg NAME "${name}" -c 'select(.name == $NAME)')
+
+      if [[ -z "${bom_var}" ]]; then
+        process_variable "${name}" "${value}" "${sensitive}" "" "${PROMPT_ALL}"
+      fi
+    done
+  fi
+
+  cp "${TMP_VARIABLES_FILE}" "${VARIABLES_FILE}"
+  rm "${TMP_VARIABLES_FILE}"
+
+  cp "${TMP_CREDENTIALS_FILE}" "${CREDENTIALS_FILE}"
+  rm "${TMP_CREDENTIALS_FILE}"
 fi
+
+if [[ -n "${CI}" ]]; then
+  NON_INTERACTIVE="--terragrunt-non-interactive"
+fi
+
+terragrunt run-all apply --terragrunt-parallelism 1 ${NON_INTERACTIVE}
