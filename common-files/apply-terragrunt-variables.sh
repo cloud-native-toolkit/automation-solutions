@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-if [[ -f "${PWD}/terragrunt.hcl" ]]; then
+TERRAFORM_DIR=$(find . -name "main.tf" | grep -v ".terraform/modules" | sed -E 's~^./~~g' | sed -E 's~/main.tf$~~g')
+
+if [[ -f "${TERRAFORM_DIR}/terragrunt.hcl" ]]; then
+  cd "${TERRAFORM_DIR}" || exit 1
+
   terragrunt apply -auto-approve
 else
-  TERRAFORM_DIR=$(find . -name "main.tf" | grep -v ".terraform/modules" | sed -E 's~^./~~g' | sed -E 's~/main.tf$~~g')
   VARIABLES_FILE="${1}"
 
   if [[ -z "${VARIABLES_FILE}" ]]; then
@@ -44,7 +47,12 @@ else
     fi
 
     value="${environment_variable}"
-    if [[ -f "${VARIABLES_FILE}" ]]; then
+    if [[ "${sensitive}" == "true" ]] && [[ -f "${CREDENTIALS_FILE}" ]]; then
+      value=$(cat "${CREDENTIALS_FILE}" | NAME="${name}" ${YQ} e -o json '.variables[] | select(.name == env(NAME)) | .value' - | jq -c -r '.')
+      if [[ "${value}" == "null" ]]; then
+        value="${environment_variable}"
+      fi
+    elif [[ "${sensitive}" != "true" ]] && [[ -f "${VARIABLES_FILE}" ]]; then
       value=$(cat "${VARIABLES_FILE}" | NAME="${name}" ${YQ} e -o json '.variables[] | select(.name == env(NAME)) | .value' - | jq -c -r '.')
       if [[ "${value}" == "null" ]]; then
         value="${environment_variable}"

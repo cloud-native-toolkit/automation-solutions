@@ -2,6 +2,9 @@
 
 if [[ "${1}" == "--prompt" ]]; then
   PROMPT_ALL="true"
+elif [[ "${1}" == "--ci" ]]; then
+  CI="${1}"
+  VARIABLES_FILE="variables.yaml"
 else
   CI="${1}"
   VARIABLES_FILE="${1}"
@@ -45,7 +48,12 @@ function process_variable () {
   fi
 
   value="${environment_variable}"
-  if [[ -f "${VARIABLES_FILE}" ]]; then
+  if [[ "${sensitive}" == "true" ]] && [[ -f "${CREDENTIALS_FILE}" ]]; then
+    value=$(cat "${CREDENTIALS_FILE}" | NAME="${name}" ${YQ} e -o json '.variables[] | select(.name == env(NAME)) | .value' - | jq -c -r '.')
+    if [[ "${value}" == "null" ]]; then
+      value="${environment_variable}"
+    fi
+  elif [[ "${sensitive}" != "true" ]] && [[ -f "${VARIABLES_FILE}" ]]; then
     value=$(cat "${VARIABLES_FILE}" | NAME="${name}" ${YQ} e -o json '.variables[] | select(.name == env(NAME)) | .value' - | jq -c -r '.')
     if [[ "${value}" == "null" ]]; then
       value="${environment_variable}"
