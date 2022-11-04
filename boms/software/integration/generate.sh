@@ -76,7 +76,10 @@ then
   OUTPUT_PATH=../../../../
 fi
 
+rm -rf $OUTPUT_PATH$SOLUTION
 mkdir -p $OUTPUT_PATH$SOLUTION
+
+iascable build -i ./${CP4I_VERSION}/105-existing-openshift.yaml -o $OUTPUT_PATH$SOLUTION
 
 iascable build -i ./${CP4I_VERSION}/200-openshift-gitops.yaml -o $OUTPUT_PATH$SOLUTION
 iascable build -i ./${CP4I_VERSION}/210-aws-portworx-storage.yaml -o $OUTPUT_PATH$SOLUTION
@@ -93,7 +96,8 @@ iascable build -i ./${CP4I_VERSION}/280-integration-platform-multicloud.yaml -o 
 
 
 echo "Copying Files"
-cp -Lr ./files/* $OUTPUT_PATH$SOLUTION
+cp -LR ./files/* $OUTPUT_PATH$SOLUTION
+cp -LR ./files/.mocks $OUTPUT_PATH$SOLUTION/.mocks
 
 echo "Generated Output:"
 ls -la $OUTPUT_PATH$SOLUTION
