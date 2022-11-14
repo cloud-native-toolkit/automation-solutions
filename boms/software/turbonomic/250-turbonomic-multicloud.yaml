@@ -10,6 +10,7 @@ metadata:
     description: GitOps deployment of Turbonomic on Multi Cloud environments AWS, Azure and IBM Cloud
     deployment-type/gitops: "true"
 spec:
+  version: v1.0.0
   modules:
     - name: ocp-login
 
