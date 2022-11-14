@@ -2,9 +2,10 @@
 
 ### Change Log
 
+- **11/2022** - Updated for Terragrunt & GitOps provider support
 - **08/2022** - Added CPD 4.0.x version, fixed broken links
 - **06/2022** - Fixed typos like GitClone script, replace maximo with CP4D from README
-- **06/2022** - Support for CP4D Data source services DB2OLTP and DB2Warehouse
+- **06/2022** - Support for CP4D Data source services DB2OLTP and DB2Warehouse (removed)
 - **06/2022** - Support for Azure
 - **05/2022** - Initial Release
 
@@ -18,6 +19,7 @@ The Cloud Pak for Data - Foundation 4.0 automation assumes you have an OpenShift
 
 Before you start to install and configure Cloud Pak for Data 4.0, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
 
+> ⚠️ Cloud Pak for Data 4.0 requires an OpenShift 4.8 cluster.
 
 ### Reference Architectures
 
@@ -96,14 +98,6 @@ The Data Foundation automation is broken into what we call layers of automation 
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
 
-#### Optional components
-
-The following components (CP4D - Services) can be optionally deployed after Data Foundation has been deployed:
-
-| BOM ID | Name                                                                       | Description          | Run Time |
-|--------|----------------------------------------------------------------------------|----------------------|----------|
-| 315    | [315 - Cloud Pak for Data - DB2 Warehouse](./315-cloud-pak-for-data-db2wh) | Deploy DB2 Warehouse | 15 Mins   |
-| 320    | [315 - Cloud Pak for Data - DB2 OLTP](./320-cloud-pak-for-data-db2oltp)    | Deploy DB2 OLTP      | 15 Mins   |
 
 
 ## Installation Steps
@@ -177,16 +171,24 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
    In the `credentials.properties` file you will need to populate the values for your deployment.
 
     ```text
-    ## Add the values for the Credentials to access the OpenShift Environment
-    ## Instructions to access this information can be found in the README.MD
-    ## This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+    # Add the values for the Credentials to access the IBM Cloud
+    # Instructions to access this information can be found in the README.MD
+    # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+
+    # The host for the git repository (e.g. github.com, bitbucket.org). Supported Git servers are GitHub, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea. If this value is left commented out, the automation will default to using Gitea.
+    #TF_VAR_gitops_repo_host=
     
-    ## gitops_repo_host: The host for the git repository
-    export TF_VAR_gitops_repo_host=github.com
     ## gitops_repo_username: The username of the user with access to the repository
-    export TF_VAR_gitops_repo_username=
+    #export TF_VAR_gitops_repo_username=
+    
     ## gitops_repo_token: The personal access token used to access the repository
-    export TF_VAR_gitops_repo_token=
+    #export TF_VAR_gitops_repo_token=
+
+    # The organization/owner/group on the git server where the gitops repository will be provisioned/found. If not provided the org will default to the username.
+    #TF_VAR_gitops_repo_org=
+
+    # The project on the Azure DevOps server where the gitops repository will be provisioned/found. This value is only required for repositories on Azure DevOps.
+    #TF_VAR_gitops_repo_project
     
     ## TF_VAR_server_url: The url for the OpenShift api server
     export TF_VAR_server_url=
@@ -230,7 +232,7 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
     ```
 
 
-4. Add your Git Hub username and your Personal Access Token to `gitops_repo_username` and `gitops_repo_token`
+4. If you would like to use GitHub for your GitOps repo, then you will need to populate these values. Add your GitHub username and your Personal Access Token to `TF_VAR_gitops_repo_username` and `TF_VAR_gitops_repo_token`.  If these values are left blank, the automation will deploy Gitea into the OpenShift cluster for the GitOps deployment, requiring no additional user interaction.
 
 5. From you OpenShift console click on top right menu and select Copy login command and click on Display Token
 
@@ -340,7 +342,6 @@ You can install these clis on your local machine **OR** run the following comman
     Setting up current/210-ibm-portworx-storage from 210-ibm-portworx-storage
     Setting up current/300-cloud-pak-for-data-entitlement from 300-cloud-pak-for-data-entitlement
     Setting up current/305-cloud-pak-for-data-foundation from 305-cloud-pak-for-data-foundation
-    Setting up current/310-cloud-pak-for-data-db2wh from 310-cloud-pak-for-data-db2wh
     move to /workspaces/current this is where your automation is configured
     ```
 
@@ -398,12 +399,6 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 24. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
 
 25. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
-
-### Optional Services
-
-- **DB2 OLTP** (Online transactional processing) - Please refer the instructions for [installing DB2 OLTP](README-DB2OLTP.md) on top of CP4D Data foundation
-
-- **DB2 Warehouse** Please refer the instructions for [installing DB2Warehouse](README-DB2WH.md) on top of CP4D Data foundation
 
 ## Summary
 

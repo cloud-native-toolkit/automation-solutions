@@ -13,6 +13,8 @@ Usage()
    echo "  -n     (optional) prefix that should be used for all variables"
    echo "  -x     (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml"
    echo "  -c     (optional) Self-signed Certificate Authority issuer CRT file"
+   echo "  -b     (optional) the banner text that should be shown at the top of the cluster"
+   echo "  -g     (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)"
    echo "  -h     Print this help"
    echo
 }
@@ -22,6 +24,8 @@ STORAGE=""
 PREFIX_NAME=""
 STORAGEVENDOR=""
 CA_CRT_FILE=""
+GIT_HOST=""
+BANNER="Cloud Pak for Data"
 
 
 
@@ -31,7 +35,7 @@ if [[ "$1" == "-h" ]]; then
 fi
 
 # Get the options
-while getopts ":p:s:n:h:x:c:" option; do
+while getopts ":p:s:n:h:x:c:g:b:" option; do
    case $option in
       h) # display Help
          Usage
@@ -46,6 +50,10 @@ while getopts ":p:s:n:h:x:c:" option; do
          PORTWORX_SPEC_FILE=$OPTARG;;
       c) # Enter a name
          CA_CRT_FILE=$OPTARG;;
+      g) # Enter a name
+         GIT_HOST=$OPTARG;;
+      b) # Enter a name
+         BANNER=$OPTARG;;
      \?) # Invalid option
          echo "Error: Invalid option"
          Usage
@@ -185,28 +193,46 @@ if [[ -n "${CA_CRT_FILE}" ]] && [[ ! -f "${SCRIPT_DIR}/${CA_CRT_FILE}" ]]; then
   exit 1
 fi
 
-cat "${SCRIPT_DIR}/terraform.tfvars.template" | \
+cat "${SCRIPT_DIR}/terraform.tfvars.template-cluster" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
   sed "s/RWX_STORAGE/${RWX_STORAGE}/g" | \
   sed "s/RWO_STORAGE/${RWO_STORAGE}/g" | \
   sed "s/STORAGEVENDOR/${STORAGEVENDOR}/g" | \
   sed "s/PORTWORX_SPEC_FILE/${PORTWORX_SPEC_FILE}/g" | \
-  sed "s/CA_CRT_FILE/${CA_CRT_FILE}/g" \
-  > "${SCRIPT_DIR}/terraform.tfvars"
+  sed "s/CA_CRT_FILE/${CA_CRT_FILE}/g" | \
+  sed "s/BANNER/${BANNER}/g"  | \
+  sed "s/GIT_HOST/${GIT_HOST}/g" \
+  > "${SCRIPT_DIR}/cluster.tfvars"
 
-ln -s "${SCRIPT_DIR}/terraform.tfvars" ./terraform.tfvars
+ln -s "${SCRIPT_DIR}/cluster.tfvars" ./cluster.tfvars
+
+cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
+  sed "s/PREFIX/${PREFIX_NAME}/g" | \
+  sed "s/RWX_STORAGE/${RWX_STORAGE}/g" | \
+  sed "s/RWO_STORAGE/${RWO_STORAGE}/g" | \
+  sed "s/STORAGEVENDOR/${STORAGEVENDOR}/g" | \
+  sed "s/PORTWORX_SPEC_FILE/${PORTWORX_SPEC_FILE}/g" | \
+  sed "s/CA_CRT_FILE/${CA_CRT_FILE}/g" | \
+  sed "s/BANNER/${BANNER}/g"  | \
+  sed "s/GIT_HOST/${GIT_HOST}/g" \
+  > "${SCRIPT_DIR}/gitops.tfvars"
+
+ln -s "${SCRIPT_DIR}/gitops.tfvars" ./gitops.tfvars
 
 cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
 cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
 cp "${SCRIPT_DIR}/apply-all.sh" "${WORKSPACE_DIR}/apply-all.sh"
 cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
+cp "${SCRIPT_DIR}/terragrunt.hcl" "${WORKSPACE_DIR}/terragrunt.hcl"
+cp "${SCRIPT_DIR}/layers.yaml" "${WORKSPACE_DIR}/layers.yaml"
+cp -R "${SCRIPT_DIR}/.mocks" "${WORKSPACE_DIR}/.mocks"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
 if [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
-  ALL_ARCH="200|300|305|310|315|320"
+  ALL_ARCH="105|200|300|305"
 else
-  ALL_ARCH="200|210|300|305|310|315|320"
+  ALL_ARCH="105|200|210|300|305"
 fi
 
 echo "Setting up workspace in ${WORKSPACE_DIR}"
@@ -262,7 +288,8 @@ do
 
   cp -R "${SCRIPT_DIR}/${name}/bom.yaml" .
   cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
-  ln -s "${WORKSPACE_DIR}"/terraform.tfvars ./terraform.tfvars
+  ln -s "${WORKSPACE_DIR}"/cluster.tfvars ./cluster.tfvars
+  ln -s "${WORKSPACE_DIR}"/gitops.tfvars ./gitops.tfvars
   ln -s "${WORKSPACE_DIR}/apply.sh" ./apply.sh
   ln -s "${WORKSPACE_DIR}/destroy.sh" ./destroy.sh
   if [[ -n "${PORTWORX_SPEC_FILE_BASENAME}" ]]; then
