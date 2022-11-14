@@ -1,11 +1,27 @@
-name_105: "105-ibm-vpc-openshift"
-mock_105: "mock"
-name_200: "200-openshift-gitops"
-mock_200: "mock"
-names_210:
-  - "210-aws-portworx-storage"
-  - "210-azure-portworx-storage"
-  - "210-ibm-odf-storage"
-  - "210-ibm-portworx-storage"
-mock_210: "mock"
-name_220-dev-tools: "220-dev-tools"
+cluster:
+  names:
+    - 105-aws-vpc-openshift
+    - 105-azure-ocp-ipi
+    - 105-ibm-vpc-openshift
+    - 105-existing-openshift
+  mock: mock
+"200":
+  names:
+    - 200-openshift-gitops
+  mock: mock
+"210":
+  names:
+    - 210-aws-portworx-storage
+    - 210-azure-portworx-storage
+    - 210-ibm-odf-storage
+    - 210-ibm-portworx-storage
+  mock: mock
+"300":
+  names:
+    - 300-cloud-pak-for-data-entitlement
+  mock: mock
+"305":
+  names:
+    - 305-cloud-pak-for-data-foundation
+  mock: mock
+
