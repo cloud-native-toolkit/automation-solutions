@@ -171,16 +171,24 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
    In the `credentials.properties` file you will need to populate the values for your deployment.
 
     ```text
-    ## Add the values for the Credentials to access the OpenShift Environment
-    ## Instructions to access this information can be found in the README.MD
-    ## This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+    # Add the values for the Credentials to access the IBM Cloud
+    # Instructions to access this information can be found in the README.MD
+    # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+
+    # The host for the git repository (e.g. github.com, bitbucket.org). Supported Git servers are GitHub, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea. If this value is left commented out, the automation will default to using Gitea.
+    #TF_VAR_gitops_repo_host=
     
-    ## gitops_repo_host: The host for the git repository
-    export TF_VAR_gitops_repo_host=github.com
     ## gitops_repo_username: The username of the user with access to the repository
-    export TF_VAR_gitops_repo_username=
+    #export TF_VAR_gitops_repo_username=
+    
     ## gitops_repo_token: The personal access token used to access the repository
-    export TF_VAR_gitops_repo_token=
+    #export TF_VAR_gitops_repo_token=
+
+    # The organization/owner/group on the git server where the gitops repository will be provisioned/found. If not provided the org will default to the username.
+    #TF_VAR_gitops_repo_org=
+
+    # The project on the Azure DevOps server where the gitops repository will be provisioned/found. This value is only required for repositories on Azure DevOps.
+    #TF_VAR_gitops_repo_project
     
     ## TF_VAR_server_url: The url for the OpenShift api server
     export TF_VAR_server_url=
@@ -224,7 +232,7 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
     ```
 
 
-4. Add your Git Hub username and your Personal Access Token to `gitops_repo_username` and `gitops_repo_token`
+4. If you would like to use GitHub for your GitOps repo, then you will need to populate these values. Add your GitHub username and your Personal Access Token to `TF_VAR_gitops_repo_username` and `TF_VAR_gitops_repo_token`.  If these values are left blank, the automation will deploy Gitea into the OpenShift cluster for the GitOps deployment, requiring no additional user interaction.
 
 5. From you OpenShift console click on top right menu and select Copy login command and click on Display Token
 
