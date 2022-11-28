@@ -107,7 +107,7 @@ boms:
   - name: 210-ibm-odf-storage
     displayName: IBM - ODF Cluster Storage
     description: Installs OpenShift Data Foundation in an IBM cluster
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/odf.png
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/odf.png
     tags:
       - odf
       - ibm
@@ -121,7 +121,7 @@ boms:
   - name: 210-ibm-portworx-storage
     displayName: IBM - Portworx Cluster Storage
     description: Installs Portworx in an IBM cluster
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/portworx.png
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/portworx.png
     tags:
       - portworx
       - ibm
@@ -135,6 +135,7 @@ boms:
   - name: 220-dev-tools
     displayName: OpenShift development tools
     description: Provisions development tools in an OpenShift cluster
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/dev-tools.svg
     tags:
       - multi-cloud
       - dev tools
@@ -147,6 +148,7 @@ boms:
   - name: 250-turbonomic-multicloud
     displayName: Turbonomic on OpenShift for Multi Cloud
     description: GitOps deployment of Turbonomic on Multi Cloud environments AWS, Azure and IBM Cloud
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/turbonomic-short.png
     tags:
       - multi-cloud
       - turbonomic
