@@ -8,7 +8,7 @@ metadata:
     flavor: quickstart
   annotations:
     displayName: "Infrastructure: IBM Cloud Quickstart"
-    description: "IBM Cloud simple architecture to quickly get an OpenShift cluster provisioned ideal for Demos"
+    description: IBM Cloud simple architecture to quickly get an OpenShift cluster provisioned ideal for Demos
     files.cloudnativetoolkit.dev/diagram: diagram.png
     files.cloudnativetoolkit.dev/readme: README.md
 spec:
@@ -20,9 +20,6 @@ spec:
     - name: 200-openshift-gitops
       layer: platform
       description: Provisions OpenShift GitOps into an existing IBM cluster and bootstraps it to a gitops repository
-    - name: 210-ibm-portworx-storage
-      layer: storage
-      description: Installs Portworx in an IBM cluster
     - name: 220-dev-tools
       layer: software
       description: Provisions development tools in an OpenShift cluster
