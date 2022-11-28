@@ -50,6 +50,16 @@ metadata:
       iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/flavors/advanced.png
 modules: []
 boms:
+  - name: infra-ibmcloud-quickstart
+    displayName: "Infrastructure: IBM Cloud Quickstart"
+    description: IBM Cloud simple architecture to quickly get an OpenShift cluster provisioned ideal for Demos
+    category: infrastructure
+    type: solution
+    cloudProvider: ibm
+    flavor: quickstart
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infra-ibmcloud-quickstart.yaml
   - name: 000-ibm-account-setup
     displayName: IBM Account Setup
     description: Sets up an IBM Cloud account with required Financial Services reference architecture settings
