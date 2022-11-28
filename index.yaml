@@ -72,7 +72,7 @@ boms:
   - name: 105-existing-openshift
     displayName: Existing OpenShift
     description: Existing OpenShift cluster
-    category: Infrastructure
+    category: infrastructure
     type: bom
     versions:
       - version: v1.0.0
@@ -107,6 +107,7 @@ boms:
   - name: 210-ibm-odf-storage
     displayName: IBM - ODF Cluster Storage
     description: Installs OpenShift Data Foundation in an IBM cluster
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/odf.png
     tags:
       - odf
       - ibm
@@ -120,6 +121,7 @@ boms:
   - name: 210-ibm-portworx-storage
     displayName: IBM - Portworx Cluster Storage
     description: Installs Portworx in an IBM cluster
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/portworx.png
     tags:
       - portworx
       - ibm
