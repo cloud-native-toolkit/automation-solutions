@@ -247,3 +247,47 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/250-integration-eventstreams.yaml
+  - name: 400-mas-core-multicloud
+    displayName: Maximo Application Suite Core
+    description: GitOps deployment of Maximo Application Suite Core for OpenShift
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas.svg
+    tags:
+      - multi-cloud
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/400-mas-core-multicloud.yaml
+  - name: 405-mas-manage
+    displayName: Maximo Application Suite - Manage Application
+    description: GitOps deployment of Maximo Manage application for OpenShift
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-manage.svg
+    tags:
+      - multi-cloud
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/405-mas-manage.yaml
+  - name: 410-mas-iot
+    displayName: Maximo Application Suite - IoT Application
+    description: GitOps deployment of Maximo IoT application for OpenShift
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-iot.svg
+    tags:
+      - multi-cloud
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/410-mas-iot.yaml
+  - name: 415-mas-monitor
+    displayName: Maximo Application Suite - Monitor Application
+    description: GitOps deployment of Maximo Monitor application for OpenShift
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-monitor.svg
+    tags:
+      - multi-cloud
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/415-mas-monitor.yaml
