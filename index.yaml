@@ -79,6 +79,15 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/000-ibm-account-setup_v1.0.0/bom.yaml
+  - name: 100-ibm-shared-services
+    displayName: IBM Shared services
+    description: Managed services that are shared across the networks
+    category: infrastructure
+    type: bom
+    cloudProvider: ibm
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/ibmcloud/openshift/2-standard/100-ibm-shared-services.yaml
   - name: 105-existing-openshift
     displayName: Existing OpenShift
     description: Existing OpenShift cluster
@@ -87,6 +96,33 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-existing-openshift_v1.0.0/bom.yaml
+  - name: 110-ibm-vpc-edge-standard
+    displayName: IBM VPC OpenShift Standard
+    description: IBM VPC with VPN, Bastion servers, and OpenShift
+    category: infrastructure
+    type: bom
+    cloudProvider: ibm
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/ibmcloud/openshift/2-standard/110-ibm-vpc-edge-standard.yaml
+  - name: 115-ibm-vpc-openshift-standard
+    displayName: IBM VPC OpenShift Standard
+    description: IBM VPC with VPN, Bastion servers, and OpenShift
+    category: infrastructure
+    type: bom
+    cloudProvider: ibm
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/ibmcloud/openshift/2-standard/115-ibm-vpc-openshift-standard.yaml
+  - name: 115-ibm-vpc-openshift-standard
+    displayName: IBM VPC OpenShift Standard
+    description: IBM VPC with VPN, Bastion servers, and OpenShift
+    category: infrastructure
+    type: bom
+    cloudProvider: ibm
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/ibmcloud/openshift/2-standard/115-ibm-vpc-openshift-standard.yaml
   - name: 105-ibm-vpc-openshift
     displayName: IBM Simple VPC OpenShift
     description: IBM VPC and public Red Hat OpenShift server
@@ -167,3 +203,47 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/250-turbonomic-multicloud_v1.0.0/bom.yaml
+  - name: 220-integration-apiconnect
+    displayName: Integration - APIConnect
+    description: GitOps deployment of API Connect for Cloud pak for Integration
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/apiconnect.svg
+    tags:
+      - multi-cloud
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/220-integration-apiconnect.yaml
+  - name: 230-integration-mq
+    displayName: Integration - MQ
+    description: GitOps deployment of MQ for Cloud pak for Integration
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mq.svg
+    tags:
+      - multi-cloud
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/230-integration-mq.yaml
+  - name: 240-integration-ace
+    displayName: Integration - App Connect
+    description: GitOps deployment of App Connect for Cloud pak for Integration
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/appconnect.svg
+    tags:
+      - multi-cloud
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/240-integration-ace.yaml
+  - name: 250-integration-eventstreams
+    displayName: Integration - EventStreams
+    description: GitOps deployment of EventStreams for Cloud pak for Integration
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/eventstreams.svg
+    tags:
+      - multi-cloud
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/250-integration-eventstreams.yaml
