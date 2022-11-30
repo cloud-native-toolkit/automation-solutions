@@ -1,0 +1,5 @@
+tasks:
+  - init: |
+      mkdir /home/gitpod/bin
+      curl -sL https://iascable.cloudnativetoolkit.dev/install.sh | RELEASE=v3.0.0-beta.13 DEST_DIR=/home/gitpod/bin sh
+    command: export PATH=$PATH:/home/gitpod/bin
