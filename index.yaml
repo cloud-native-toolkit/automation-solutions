@@ -203,12 +203,27 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/250-turbonomic-multicloud_v1.0.0/bom.yaml
+  - name: 215-integration-platform-navigator
+    displayName: Integration - Platform Navigtor
+    description: Populates a GitOps repository with Platform Navigator component of the IBM Integration Platform
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/CloudPakIntegration.svg
+    tags:
+      - multi-cloud
+      - integration
+      - cp4i
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/215-integration-platform-navigator.yaml
   - name: 220-integration-apiconnect
     displayName: Integration - APIConnect
     description: GitOps deployment of API Connect for Cloud pak for Integration
     iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/apiconnect.svg
     tags:
       - multi-cloud
+      - integration
+      - cp4i
     category: software
     type: bom
     versions:
@@ -220,6 +235,8 @@ boms:
     iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mq.svg
     tags:
       - multi-cloud
+      - integration
+      - cp4i
     category: software
     type: bom
     versions:
@@ -231,6 +248,8 @@ boms:
     iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/appconnect.svg
     tags:
       - multi-cloud
+      - integration
+      - cp4i
     category: software
     type: bom
     versions:
@@ -242,50 +261,82 @@ boms:
     iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/eventstreams.svg
     tags:
       - multi-cloud
+      - integration
+      - cp4i
     category: software
     type: bom
     versions:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/250-integration-eventstreams.yaml
+  - name: 260-integration-mq-uniform-cluster
+    displayName: Integration - MQ Uniform Cluster
+    description: GitOps deployment of MQ Uniform Cluster for Cloud pak for Integration
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mq.svg
+    tags:
+      - multi-cloud
+      - integration
+      - cp4i
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/260-integration-mq-uniform-cluster.yaml
+  - name: 280-integration-platform-multicloud
+    displayName: Cloud Pak for Integration
+    description: GitOps deployment of Cloud Pak for Integration and components
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/CloudPakIntegration.svg
+    tags:
+      - multi-cloud
+      - integration
+      - cp4i
+    category: software
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/280-integration-platform-multicloud.yaml
   - name: 400-mas-core-multicloud
-    displayName: Maximo Application Suite Core
+    displayName: Maximo - Core
     description: GitOps deployment of Maximo Application Suite Core for OpenShift
     iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas.svg
     tags:
       - multi-cloud
+      - maximo
     category: software
     type: bom
     versions:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/400-mas-core-multicloud.yaml
   - name: 405-mas-manage
-    displayName: Maximo Application Suite - Manage Application
+    displayName: Maximo - Manage Application
     description: GitOps deployment of Maximo Manage application for OpenShift
     iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-manage.svg
     tags:
       - multi-cloud
+      - maximo
     category: software
     type: bom
     versions:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/405-mas-manage.yaml
   - name: 410-mas-iot
-    displayName: Maximo Application Suite - IoT Application
+    displayName: Maximo - IoT Application
     description: GitOps deployment of Maximo IoT application for OpenShift
     iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-iot.svg
     tags:
       - multi-cloud
+      - maximo
     category: software
     type: bom
     versions:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/410-mas-iot.yaml
   - name: 415-mas-monitor
-    displayName: Maximo Application Suite - Monitor Application
+    displayName: Maximo - Monitor Application
     description: GitOps deployment of Maximo Monitor application for OpenShift
     iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-monitor.svg
     tags:
       - multi-cloud
+      - maximo
     category: software
     type: bom
     versions:
