@@ -1,9 +1,11 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: aws-quickstart-architecture
+  name: 105-aws-vpc-openshift
 spec:
   modules:
+    - name: aws-kms
+      alias: aws-kms  
     - name: aws-vpc
       alias: aws-vpc
       variables:
@@ -11,8 +13,16 @@ spec:
           value: 10.0.0.0/16
     - name: aws-internet-gateway
       alias: igw
-    - name: aws-kms
-      alias: aws-kms
+    - name: aws-nat-gateway
+      alias: ngw
+      dependencies:
+        - name: aws-vpc-subnets
+          ref: pub_subnets
+      variables:
+        - name: connectivity_type
+          value: public
+        - name: _count
+          value: 3             
     - name: aws-vpc-subnets
       alias: pub_subnets
       dependencies:
@@ -40,17 +50,7 @@ spec:
           value:
             - 10.0.4.0/24
             - 10.0.5.0/24
-            - 10.0.6.0/24
-    - name: aws-nat-gateway
-      alias: ngw
-      dependencies:
-        - name: aws-vpc-subnets
-          ref: pub_subnets
-      variables:
-        - name: connectivity_type
-          value: public
-        - name: _count
-          value: 3            
+            - 10.0.6.0/24     
     - name: aws-rosa
       alias: cluster
       dependencies:
