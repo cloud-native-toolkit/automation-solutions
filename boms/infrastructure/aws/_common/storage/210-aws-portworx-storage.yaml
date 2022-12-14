@@ -26,5 +26,6 @@ spec:
       - name: portworx_spec
         scope: global      
         important: true        
-
+    - name: ocp-login
+      alias: cluster      
 
