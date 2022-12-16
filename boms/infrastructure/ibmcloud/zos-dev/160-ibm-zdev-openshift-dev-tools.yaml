@@ -7,7 +7,7 @@ metadata:
     platform: ibm
     code: '160'
   annotations:
-    displayName: OpenShift Developer Tools and Wazzi Dev Tools
+    displayName: OpenShift Developer Tools and Wazi Dev Tools
     description: Open-Source collection of assets for application development on OpenShift
     vpn/required: "true"
     deployment-type/gitops: "true"
@@ -28,6 +28,8 @@ spec:
           optional: true
         - name: vpc
           optional: true
+        - name: kms_key
+          optional: true
       variables:
         - name: exists
           value: true
@@ -43,20 +45,18 @@ spec:
           value: ""
         - name: login
           value: true
-    - name: ibm-resource-group
-      alias: zos_resource_group
-      variables:
-        - name: provision
-          value: false
-      dependencies:
-        - name: resource_group
-          ref: zos_resource_group
-    - name: namespace
-      alias: tools_namespace
-      default: true
-      variables:
-        - name: name
-          value: tools
+        - name: resource_group_name
+          ref: zos_resource_group_name
+        - name: name_prefix
+          ref: zos_name_prefix
+
+
+    # - name: namespace
+    #   alias: tools_namespace
+    #   default: true
+    #   variables:
+    #     - name: name
+    #       value: tools
     - name: namespace
       alias: openshift-gitops
       variables:
@@ -67,26 +67,105 @@ spec:
         - name: registry_namespace
           required: true
           scope: global
-    - name: cluster-config
+      dependencies:
+        - id: namespace
+          ref: openshift-gitops
+
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+      variables:
+        - name: ca_cert
+          value: ""
+        - name: ca_cert_file
+          value: ""
+
+    # - name: dashboard
+    # - name: pactbroker
+    # - name: artifactory
+    # - name: sonarqube
+    # - name: tekton-resources
+    # - name: source-control
+
+    - name: gitops-repo
+
+    - name: argocd-bootstrap
+      variables:
+        - name: create_webhook
+          value: true
+
+    - name: gitops-namespace
+      alias: tools_namespace
+      default: true
+      version: v1.12.2
+      variables:
+        - name: name
+          value: tools
+
+    - name: gitops-namespace
+      alias: wazi_namespace
+      version: v1.12.2
+      variables:
+        - name: name
+          value: wazi-devspaces
+
+    - name: gitops-cluster-config
       variables:
         - name: banner_text
-          value: Management
-    - name: openshift-cicd
-    - name: dashboard
-    - name: pactbroker
-    - name: artifactory
-    - name: sonarqube
-    - name: tekton-resources
-    - name: source-control
+          value: Z/OS Development
+      dependencies:
+        - id: namespace
+          ref: tools_namespace
+
+    # - name: gitops-artifactory
+    #   dependencies:
+    #     - id: namespace
+    #       ref: tools_namespace
+    # - name: gitops-dashboard
+    #   dependencies:
+    #     - id: namespace
+    #       ref: tools_namespace
+    # - name: gitops-pact-broker
+    #   dependencies:
+    #     - id: namespace
+    #       ref: tools_namespace
+    # - name: gitops-sonarqube
+    #   dependencies:
+    #     - id: namespace
+    #       ref: tools_namespace
+    - name: gitops-tekton-resources
+      dependencies:
+        - id: namespace
+          ref: tools_namespace
+#   - name: gitops-image-registry
+      # dependencies:
+      #   - id: namespace
+      #     ref: tools_namespace
+    - name: gitops-wazi-ds
+      dependencies:
+        - id: namespace
+          ref: wazi_namespace
+    - name: gitops-wazi-ds-op
+      dependencies:
+        - id: namespace
+          ref: wazi_namespace
+    
   variables:
-    - name: resource_group_name
+    - name: zos_resource_group_name
     - name: region
     - name: ibmcloud_api_key
-      required: true
-    - name: registry_namespace
-      required: true
     - name: name_prefix
       alias: zos_name_prefix
+      required: true
+      scope: global
+    - name: registry_namespace
       required: true
     - name: tools_name
       value: tools

@@ -11,6 +11,8 @@ then
       GENERATE_TARGET="all"
 fi
 
+echo "GENERATE_DESTINATION: $GENERATE_DESTINATION"
+
 case "$GENERATE_TARGET" in
   "all" | "infra" | "infrastructure" | "i")
     iascable build -i ./000-ibm-zdev-account-setup.yaml -o $GENERATE_DESTINATION
@@ -22,7 +24,7 @@ esac
 
 case "$GENERATE_TARGET" in
   "all" | "software" | "s")
-    iascable build -i ./160-ibm-zdev-openshift-dev-tools.yaml -o $GENERATE_DESTINATION
+    iascable build -i ./160-ibm-zdev-openshift-dev-tools.yaml -o $GENERATE_DESTINATION -c https://modules.cloudnativetoolkit.dev/index.yaml
   ;;
 esac
 
