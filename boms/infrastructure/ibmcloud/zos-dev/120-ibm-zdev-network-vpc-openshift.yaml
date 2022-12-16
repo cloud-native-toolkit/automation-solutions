@@ -233,7 +233,9 @@ spec:
           value: true
         - name: worker_count
         - name: ocp_version
-          value: 4.10
+          value: "4.10"
+        - name: cluster_flavor
+          value: "bx2.16x64"
       dependencies:
         - name: subnets
           ref: worker-subnets
@@ -260,7 +262,7 @@ spec:
     - name: ibm-vpc-vsi
       variables:
         - name: image_name
-          value: "ibm-zos-2-4-s390x-dev-test-wazi-1"
+          value: "ibm-zos-2-4-s390x-dev-test-wazi-5"
         - name: profile_name
           value: "mz2-2x16"
         - name: security_group_rules
