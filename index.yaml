@@ -70,6 +70,26 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/ibmcloud/infra-ibmcloud-standard.yaml
+  - name: infra-azure-quickstart
+    displayName: "Infrastructure: Azure Quickstart"
+    description: Azure simple architecture to quickly get an OpenShift cluster provisioned, ideal for demos
+    category: infrastructure
+    type: solution
+    cloudProvider: azure
+    flavor: quickstart
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/azure/infra-azure-quickstart.yaml
+  - name: infra-azure-standard
+    displayName: "Infrastructure: Azure Standard"
+    description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
+    category: infrastructure
+    type: solution
+    cloudProvider: azure
+    flavor: standard
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/azure/infra-azure-standard.yaml
   - name: 000-ibm-account-setup
     displayName: IBM Account Setup
     description: Sets up an IBM Cloud account with required Financial Services reference architecture settings
