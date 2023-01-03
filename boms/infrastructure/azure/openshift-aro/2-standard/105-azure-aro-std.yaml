@@ -1,53 +1,41 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 105-azure-aro
+  name: 105-azure-aro-std
   labels:
     type: infrastructure
     platform: azure
     code: '105'
   annotations:
     displayName: Azure Red Hat OpenShift (ARO) Quickstart
-    description: Azure Vnet and ARO
-    vpn/required: 'false'
+    description: Azure ARO for Standard Architecture
+    vpn/required: 'true'
 spec:
   modules:
     - name: azure-resource-group
       alias: resource_group
+      variables:
+        - name: provision
+          value: false
     - name: azure-vnet
       alias: vnet
       variables:
-        - name: address_prefixes
-          value: 
-            - 10.0.0.0/20
+        - name: provision
+          value: false
     - name: azure-vnet-subnets
       alias: master-subnet
       variables:
         - name: label
           value: "master"
-        - name: ipv4_cidr_blocks
-          value: 
-            - 10.0.1.0/24
-        - name: service_endpoints
-          value:
-            - Microsoft.ContainerRegistry
-            - Microsoft.Storage
-        - name: disable_private_link_endpoint_network_policies
-          value: true
-        - name: disable_private_link_service_network_policies
-          value: true 
+        - name: provision
+          value: false
     - name: azure-vnet-subnets
       alias: worker-subnet
       variables:
         - name: label
           value: "worker"
-        - name: ipv4_cidr_blocks
-          value: 
-            - 10.0.2.0/24
-        - name: service_endpoints
-          value:
-            - Microsoft.ContainerRegistry
-            - Microsoft.Storage
+        - name: provision
+          value: false
     - name: azure-aro
       alias: cluster
       dependencies:
@@ -60,6 +48,10 @@ spec:
           ref: master-subnet
         - name: worker_subnet_id
           ref: worker-subnet
+        - name: encrypt
+          value: true
+        - name: disable_public_endpoint
+          value: true
   variables:
     - name: name_prefix
       required: true
