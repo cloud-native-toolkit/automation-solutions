@@ -186,7 +186,7 @@ boms:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/openshift-aro/2-standard/101-azure-vnet-std.yaml
   - name: 105-azure-aro-std
-    displayName: Azure Red Hat OpenShift (ARO) Quickstart
+    displayName: Azure Red Hat OpenShift (ARO) Standard
     description: Azure ARO for Standard Architecture
     tags:
       - azure
@@ -199,20 +199,34 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/openshift-aro/2-standard/105-azure-aro-std.yaml
-  - name: 210-azure-portworx-storage
-    displayName: Azure - Portworx Cluster Storage
-    description: Installs Portworx in an Azure cluster
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/portworx.png
+  - name: 105-aws-vpc-openshift
+    displayName: Red Hat OpenShift on AWS (ROSA) Quickstart
+    description: AWS ROSA for Quickstart Architecture
     tags:
-      - portworx
-      - azure
-      - storage
-    category: storage
+      - aws
+      - openshift
+      - vpc
+      - public
+    category: infrastructure
     type: bom
-    cloudProvider: azure
+    cloudProvider: aws
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/_common/storage/210-azure-portworx-storage.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/aws/openshift/1-quickstart/105-aws-vpc-openshift.yaml
+  - name: 110-aws-std-openshift-vpc
+    displayName: Red Hat OpenShift on AWS (ROSA) Standard
+    description: AWS ROSA for Standard Architecture
+    tags:
+      - aws
+      - openshift
+      - vpc
+      - public
+    category: infrastructure
+    type: bom
+    cloudProvider: aws
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/aws/openshift/2-standard/110-aws-vpc-openshift-standard.yaml
   - name: 200-openshift-gitops
     displayName: OpenShift GitOps Bootstrap
     description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
@@ -254,6 +268,34 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/210-ibm-portworx-storage_v1.0.0/bom.yaml
+  - name: 210-azure-portworx-storage
+    displayName: Azure - Portworx Cluster Storage
+    description: Installs Portworx in an Azure cluster
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/portworx.png
+    tags:
+      - portworx
+      - azure
+      - storage
+    category: storage
+    type: bom
+    cloudProvider: azure
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/_common/storage/210-azure-portworx-storage.yaml
+  - name: 210-aws-portworx-storage
+    displayName: AWS - Portworx Cluster Storage
+    description: Installs Portworx in an AWS cluster
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/portworx.png
+    tags:
+      - portworx
+      - aws
+      - storage
+    category: storage
+    type: bom
+    cloudProvider: aws
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/aws/_common/storage/210-aws-portworx-storage.yaml
   - name: 220-dev-tools
     displayName: OpenShift development tools
     description: Provisions development tools in an OpenShift cluster
