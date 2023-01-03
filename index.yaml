@@ -137,6 +137,62 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-ibm-vpc-openshift_v1.0.0/bom.yaml
+  - name: 105-azure-aro
+    displayName: Azure Red Hat OpenShift (ARO) Quickstart
+    description: Azure Vnet and ARO
+    tags:
+      - azure
+      - openshift
+      - vpc
+      - public
+    category: infrastructure
+    type: bom
+    cloudProvider: azure
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/openshift-aro/1-quickstart/105-azure-aro.yaml
+  - name: 101-azure-vnet-std
+    displayName: Azure VNet
+    description: Azure base infrastructure for OpenShift standard architecture
+    tags:
+      - azure
+      - openshift
+      - vpc
+      - public
+    category: infrastructure
+    type: bom
+    cloudProvider: azure
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/openshift-aro/2-standard/101-azure-vnet-std.yaml
+  - name: 105-azure-aro-std
+    displayName: Azure Red Hat OpenShift (ARO) Quickstart
+    description: Azure ARO for Standard Architecture
+    tags:
+      - azure
+      - openshift
+      - vpc
+      - public
+    category: infrastructure
+    type: bom
+    cloudProvider: azure
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/openshift-aro/2-standard/105-azure-aro-std.yaml
+  - name: 210-azure-portworx-storage
+    displayName: Azure - Portworx Cluster Storage
+    description: Installs Portworx in an Azure cluster
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/portworx.png
+    tags:
+      - portworx
+      - azure
+      - storage
+    category: storage
+    type: bom
+    cloudProvider: azure
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/_common/storage/210-azure-portworx-storage.yaml
   - name: 200-openshift-gitops
     displayName: OpenShift GitOps Bootstrap
     description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
