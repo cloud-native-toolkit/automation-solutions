@@ -1,0 +1,203 @@
+apiVersion: cloudnativetoolkit.dev/v2
+kind: Solution
+metadata:
+  name: infra-aws-quickstart
+  labels:
+    type: infrastructure
+    platform: aws
+    flavor: quickstart
+  annotations:
+    displayName: "Infrastructure: AWS Quickstart"
+    description: AWS simple architecture to quickly get an OpenShift cluster provisioned, ideal for demos.
+    files.cloudnativetoolkit.dev/diagram: diagram.png
+    files.cloudnativetoolkit.dev/readme: README.md
+spec:
+  version: v1.0.0
+  stack:
+    - name: 105-aws-vpc-openshift
+      layer: infrastructure
+      description: AWS VPC and public Red Hat OpenShift cluster
+    - name: 200-openshift-gitops
+      layer: platform
+      description: Provisions OpenShift GitOps into an existing OpenShift cluster and bootstraps it to a gitops repository
+    - name: 220-dev-tools
+      layer: software
+      description: Provisions development tools in an OpenShift cluster
+  variables:
+    - name: gitops_repo_host
+    - name: gitops_repo_username
+    - name: gitops_repo_token
+  files:
+    - name: README.md
+      type: doc
+      content: |
+        # AWS Cloud Reference Architecture - Automation
+
+        Automation to provision the Quick Start reference architecture on AWS Cloud. This architecture implements the minimum infrastructure required to stand up a managed Red Hat OpenShift cluster with public endpoints.
+
+        ## Reference Architecture
+
+        ![QuickStart](aws_quickstart_architecture.png)
+
+        The automation is delivered in a number of layers that are applied in order. Layer `110` provisions the infrastructure including the Red Hat OpenShift cluster and the remaining layers provide configuration inside the cluster. Each layer depends on resources provided in the layer before it (e.g. `200` depends on `110`). Where two layers have the same numbers (e.g. `205`), you have a choice of which layer to apply.
+
+        <table>
+        <thead>
+        <tr>
+        <th>Layer name</th>
+        <th>Layer description</th>
+        <th>Provided resources</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>105 - AWS VPC OpenShift</td>
+        <td>This layer provisions the bulk of the AWS Cloud infrastructure</td>
+        <td>
+        <h4>Network</h4>
+        <ul>
+        <li>VPC network</li>
+        <li>VPC Subnet</li>
+        <li>VPC Public Gateways</li>
+        <li>Red Hat OpenShift cluster</li>
+        </ul>
+        <h4>Shared Services</h4>
+        <ul>
+        <li>Object Storage</li>
+        <li>Key Managment Service</li>
+        <li>Monitoring</li>
+        </ul>
+        <ul>
+        </ul>
+        </td>
+        </tr>
+        <tr>
+        <td>200 -  AWS OpenShift Gitops </td>
+        <td>This layer provisions OpenShift CI/CD tools into the cluster, a GitOps repository, and bootstraps the repository to the OpenShift Gitops instance.</td>
+        <td>
+        <h4>Software </h4>
+        <ul>
+        <li>OpenShift GitOps (ArgoCD)</li>
+        <li>OpenShift Pipelines (Tekton)</li>
+        <li>Sealed Secrets (Kubeseal)</li>
+        <li>GitOps repo</li>
+        </ul>
+        </td>
+        </tr>
+        <tr>
+        <td>205 - AWS Storage </td>
+        <td>The storage layer offers  `portworx`. Portworx storage can be installed on ROSA cluster.</td>
+        <td>
+        <h4>Portworx Storage</h4>
+        <ul>
+        <li>AWS Cloud storage volumes</li>
+        <li>Portworx operator</li>
+        <li>Portworx storage classes</li>
+        </ul>
+        </td>
+        </tr>
+        <tr>
+        <td>220 - Dev Tools </td>
+        <td>The dev tools layer installs standard continuous integration (CI) pipelines that integrate with tools that support the software development lifecycle.</td>
+        <td>
+        <h4>Software</h4>
+        <ul>
+        <li>Artifactory</li>
+        <li>Developer Dashboard</li>
+        <li>Pact Broker</li>
+        <li>Sonarqube</li>
+        <li>Tekton Resources</li>
+        </ul>
+        </td>
+        </tr>
+        </tbody>
+        </table>
+
+        ## Automation
+
+        ### Prerequisites
+
+        1. Have access to an AWS Cloud Account. An Enterprise account is best for workload isolation but this terraform can be run in a Pay Go account as well.
+
+        2. (Optional) Install and start Colima to run the terraform tools in a local bootstrapped container image.
+
+            ```shell
+            brew install docker colima
+            colima start
+            ```
+
+        ### Setup
+
+        1. Clone this repository to your local SRE laptop or into a secure terminal. Open a shell into the cloned directory.
+        2. Copy **credentials.template** to **credentials.properties**.
+            ```shell
+            cp credentials.template credentials.properties
+            ```
+        3. Provide values for the variables in **credentials.properties** (**Note:** `*.properties` has been added to **.gitignore** to ensure that the file containing the apikey cannot be checked into Git.)
+
+            - **TF_VAR_access_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
+            - **TF_VAR_secret_key** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
+            - **AWS_ACCESS_KEY_ID=** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
+            - **AWS_SECRET_ACCESS_KEY** - The API key for the AWS Cloud account where the infrastructure will be provisioned.
+            - **TF_VAR_rosa_token** - The offline rosa token used to provision  ROSA cluster
+                ```
+                Users can download ROSA token from [RHN Link](https://cloud.redhat.com/openshift/token/rosa) using RHN Login credentails.
+                ```
+
+            - **TF_VAR_gitops_repo_username** - The username on git server host that will be used to provision and access the gitops repository. If the `gitops_repo_host` is blank this value will be ignored and the Gitea credentials will be used.
+            - **TF_VAR_gitops_repo_token** - The personal access token that will be used to authenticate to the git server to provision and access the gitops repository. (The user should have necessary access in the org to create the repository and the token should have `delete_repo` permission.) If the host is blank this value will be ignored and the Gitea credentials will be used.
+            - **TF_VAR_gitops_repo_org** - (Optional) The organization/owner/group on the git server where the gitops repository will be provisioned/found. If not provided the org will default to the username.
+            - **TF_VAR_gitops_repo_project** - (Optional) The project on the Azure DevOps server where the gitops repository will be provisioned/found. This value is only required for repositories on Azure DevOps.
+
+        4. Run **./launch.sh**. This will start a container image with the prompt opened in the `/terraform` directory, pointed to the repo directory.
+        5. Create a working copy of the terraform by running **./setup-workspace.sh**. . The script makes a copy of the terraform in /workspaces/current and set up "cluster.tfvars" and "gitops.tfvars" files populated with default values. The setup-workspace.sh script has a number of optional arguments.
+
+        ```
+            Usage: setup-workspace.sh [-f FLAVOR] [-s STORAGE] [-r REGION] [-n PREFIX_NAME] [-b BANNER_TEXT] [-g GIT_HOST] [-h HELP]
+            
+            options:
+            -f   the type of deployment quickstart, standard or advanced. Make sure to use 'quickstart'
+            -s   the storage option to use (portworx)
+            -n   (optional) the name prefix that should be added to all the resources and length of prefix should not exceed 5 characters.  If not provided a prefix will not be added. 
+            
+            -r   (optional) the region where the infrastructure will be provisioned. 
+                    Note: the AWS Cloud region where the infrastructure will be provided [available regions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html). Codes for each location can be obtained from the CLI from shell - "aws ec2 describe-regions --output table". If this value is not provided then the value defaults to ap-south-1  (Note : User should always chose a AWS Region with minimum 3 AZs)
+                      
+            -b   (optional) customer message to display on OCP console as a banner
+            -g   (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise ,  Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)
+            -h   Print this help    
+
+            ```
+
+        6. Change the directory to the current workspace where the automation was configured (e.g. `/workspaces/current`).
+        7.  Two different configuration files have been created: **cluster.tfvars** and **gitops.tfvars**. **cluster.tfvars** contains the variables specific to the infrastructure and cluster that will be provisioned. **gitops.tfvars** contains the variables that define the gitops configuration. Inspect both of these files to see if there are any variables that should be changed. (The **setup-workspace.sh** script has generated these two files with default values and can be used without updates, if desired.) Make sure to update the IAM arn value of the user by  uncommenting  user_arn variable section and provide appropriate value  in the **cluster.tfvars** 
+
+
+        #### Run the entire automation stack automatically
+
+        From the **/workspace/current** directory, run the following:
+
+        ```shell
+        ./apply.sh
+        ```
+
+        The script will run through each of the terraform layers in sequence to provision the entire infrastructure.
+
+        #### Run each of the Terraform layers manually
+
+        From the **/workspace/current** directory, change the directory into each of the layer subdirectories, in order, and run the following:
+
+        ```shell
+        ./apply.sh
+        ```
+
+        ### Obtain login information
+
+        Once the "105-azure-vpc-openshift"  has successfully run it is possible to obtain the login information by running from the **/workspace/current** directory:
+        ```shell
+        ./show-login.sh quickstart
+        ```
+
+    - name: diagram.png
+      type: image
+      contentUrl: https://raw.githubusercontent.com/IBM/automation-aws-infra-openshift/main/1-quickstart/aws_quickstart_architecture.png
