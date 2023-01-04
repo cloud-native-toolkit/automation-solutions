@@ -5,49 +5,49 @@ metadata:
     - name: aws
       displayName: AWS
       description: Amazon Web Services infrastructure with Red Hat OpenShift ROSA
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/cloud-providers/aws.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/cloud-providers/aws.png
     - name: azure
       displayName: Azure
       description: Microsoft Azure infrastructure with Red Hat OpenShift ARO and IPI
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/cloud-providers/azure.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/cloud-providers/azure.png
     - name: ibm
       displayName: IBM
       description: IBM Cloud infrastructure with Red Hat OpenShift ROKS
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/cloud-providers/ibmcloud.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/cloud-providers/ibmcloud.png
   useCases:
     - name: demo
       displayName: Setup a Demo
       description: As a tech seller you want to demo the capability of IBM Technology use this personal to get started quickly
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/use-cases/demo-tammy.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/use-cases/demo-tammy.png
       flavor: quickstart
     - name: mvp
       displayName: Create a POC/POT/MVP
       description: You are past the demo phase and now need to prove the technology for a specific client use case
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/use-cases/mvp-rohan.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/use-cases/mvp-rohan.png
       flavor: standard
     - name: production
       displayName: Prepare for Production
       description: You are now focused on the delivery phase of a project and need to place IBM Technology into a highly scalable secure production environment
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/use-cases/production-joe.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/use-cases/production-joe.png
       flavor: advanced
     - name: dev
       displayName: Support Development
       description: You want to setup a Red Hat OpenShift environment to develop solution assets
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/use-cases/dev-rubi.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/use-cases/dev-rubi.png
       flavor: standard
   flavors:
     - name: quickstart
       displayName: Quick-Start
       description: A simple architecture to quickly get an OpenShift cluster provisioned ideal for Demos
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/flavors/quickstart.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/flavors/quickstart.png
     - name: standard
       displayName: Standard
       description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/flavors/standard.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/flavors/standard.png
     - name: advanced
       displayName: Prepare for Production
       description: A more advanced deployment that employs network isolation to securely route traffic between the different layers, prepare environment for production deployed IBM Software
-      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/flavors/advanced.png
+      iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/flavors/advanced.png
 modules: []
 boms:
   - name: infra-ibmcloud-quickstart
@@ -59,7 +59,7 @@ boms:
     flavor: quickstart
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/ibmcloud/infra-ibmcloud-quickstart.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/ibmcloud/infra-ibmcloud-quickstart.yaml
   - name: infra-ibmcloud-standard
     displayName: "Infrastructure: IBM Cloud Standard"
     description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
@@ -69,7 +69,7 @@ boms:
     flavor: standard
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/ibmcloud/infra-ibmcloud-standard.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/ibmcloud/infra-ibmcloud-standard.yaml
   - name: infra-azure-quickstart
     displayName: "Infrastructure: Azure Quickstart"
     description: Azure simple architecture to quickly get an OpenShift cluster provisioned, ideal for demos
@@ -79,7 +79,7 @@ boms:
     flavor: quickstart
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/azure/infra-azure-quickstart.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/azure/infra-azure-quickstart.yaml
   - name: infra-azure-standard
     displayName: "Infrastructure: Azure Standard"
     description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
@@ -89,7 +89,7 @@ boms:
     flavor: standard
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/azure/infra-azure-standard.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/azure/infra-azure-standard.yaml
   - name: infra-aws-quickstart
     displayName: "Infrastructure: AWS Quickstart"
     description: AWS simple architecture to quickly get an OpenShift cluster provisioned, ideal for demos
@@ -99,7 +99,7 @@ boms:
     flavor: quickstart
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/aws/infra-aws-quickstart.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/aws/infra-aws-quickstart.yaml
   - name: infra-aws-standard
     displayName: "Infrastructure: AWS Standard"
     description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
@@ -109,7 +109,7 @@ boms:
     flavor: standard
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/sboms-ns/solutions/infrastructure/aws/infra-aws-standard.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/aws/infra-aws-standard.yaml
   - name: 000-ibm-account-setup
     displayName: IBM Account Setup
     description: Sets up an IBM Cloud account with required Financial Services reference architecture settings
@@ -263,7 +263,7 @@ boms:
   - name: 210-ibm-odf-storage
     displayName: IBM - ODF Cluster Storage
     description: Installs OpenShift Data Foundation in an IBM cluster
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/odf.png
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/storage/odf.png
     tags:
       - odf
       - ibm
@@ -277,7 +277,7 @@ boms:
   - name: 210-ibm-portworx-storage
     displayName: IBM - Portworx Cluster Storage
     description: Installs Portworx in an IBM cluster
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/portworx.png
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/storage/portworx.png
     tags:
       - portworx
       - ibm
@@ -291,7 +291,7 @@ boms:
   - name: 210-azure-portworx-storage
     displayName: Azure - Portworx Cluster Storage
     description: Installs Portworx in an Azure cluster
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/portworx.png
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/storage/portworx.png
     tags:
       - portworx
       - azure
@@ -305,7 +305,7 @@ boms:
   - name: 210-aws-portworx-storage
     displayName: AWS - Portworx Cluster Storage
     description: Installs Portworx in an AWS cluster
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/storage/portworx.png
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/storage/portworx.png
     tags:
       - portworx
       - aws
@@ -319,7 +319,7 @@ boms:
   - name: 220-dev-tools
     displayName: OpenShift development tools
     description: Provisions development tools in an OpenShift cluster
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/dev-tools.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/dev-tools.svg
     tags:
       - multi-cloud
       - dev tools
@@ -332,7 +332,7 @@ boms:
   - name: 250-turbonomic-multicloud
     displayName: Turbonomic on OpenShift for Multi Cloud
     description: GitOps deployment of Turbonomic on Multi Cloud environments AWS, Azure and IBM Cloud
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/turbonomic-short.png
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/turbonomic-short.png
     tags:
       - multi-cloud
       - turbonomic
@@ -344,7 +344,7 @@ boms:
   - name: 215-integration-platform-navigator
     displayName: Integration - Platform Navigtor
     description: Populates a GitOps repository with Platform Navigator component of the IBM Integration Platform
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/CloudPakIntegration.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/CloudPakIntegration.svg
     tags:
       - multi-cloud
       - integration
@@ -357,7 +357,7 @@ boms:
   - name: 220-integration-apiconnect
     displayName: Integration - APIConnect
     description: GitOps deployment of API Connect for Cloud pak for Integration
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/apiconnect.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/apiconnect.svg
     tags:
       - multi-cloud
       - integration
@@ -370,7 +370,7 @@ boms:
   - name: 230-integration-mq
     displayName: Integration - MQ
     description: GitOps deployment of MQ for Cloud pak for Integration
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mq.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/mq.svg
     tags:
       - multi-cloud
       - integration
@@ -383,7 +383,7 @@ boms:
   - name: 240-integration-ace
     displayName: Integration - App Connect
     description: GitOps deployment of App Connect for Cloud pak for Integration
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/appconnect.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/appconnect.svg
     tags:
       - multi-cloud
       - integration
@@ -396,7 +396,7 @@ boms:
   - name: 250-integration-eventstreams
     displayName: Integration - EventStreams
     description: GitOps deployment of EventStreams for Cloud pak for Integration
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/eventstreams.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/eventstreams.svg
     tags:
       - multi-cloud
       - integration
@@ -409,7 +409,7 @@ boms:
   - name: 260-integration-mq-uniform-cluster
     displayName: Integration - MQ Uniform Cluster
     description: GitOps deployment of MQ Uniform Cluster for Cloud pak for Integration
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mq.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/mq.svg
     tags:
       - multi-cloud
       - integration
@@ -422,7 +422,7 @@ boms:
   - name: 280-integration-platform-multicloud
     displayName: Cloud Pak for Integration
     description: GitOps deployment of Cloud Pak for Integration and components
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/CloudPakIntegration.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/CloudPakIntegration.svg
     tags:
       - multi-cloud
       - integration
@@ -435,7 +435,7 @@ boms:
   - name: 400-mas-core-multicloud
     displayName: Maximo - Core
     description: GitOps deployment of Maximo Application Suite Core for OpenShift
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/mas.svg
     tags:
       - multi-cloud
       - maximo
@@ -447,7 +447,7 @@ boms:
   - name: 405-mas-manage
     displayName: Maximo - Manage Application
     description: GitOps deployment of Maximo Manage application for OpenShift
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-manage.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/mas-manage.svg
     tags:
       - multi-cloud
       - maximo
@@ -459,7 +459,7 @@ boms:
   - name: 410-mas-iot
     displayName: Maximo - IoT Application
     description: GitOps deployment of Maximo IoT application for OpenShift
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-iot.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/mas-iot.svg
     tags:
       - multi-cloud
       - maximo
@@ -471,7 +471,7 @@ boms:
   - name: 415-mas-monitor
     displayName: Maximo - Monitor Application
     description: GitOps deployment of Maximo Monitor application for OpenShift
-    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/icons/icons/software/mas-monitor.svg
+    iconUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/icons/software/mas-monitor.svg
     tags:
       - multi-cloud
       - maximo
