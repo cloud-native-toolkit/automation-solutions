@@ -2,6 +2,7 @@
 
 ### Change Log
 
+- **01/2023** - Updated for CP4D 4.6, using Cloud Pak Deployer
 - **11/2022** - Updated for Terragrunt & GitOps provider support
 - **08/2022** - Added CPD 4.0.x version, fixed broken links
 - **06/2022** - Fixed typos like GitClone script, replace maximo with CP4D from README
@@ -11,15 +12,15 @@
 
 > This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ or **Bala Sivasubramanian** _bala@us.ibm.com_ for more details or raise an issue on the repository.
 
-The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric.
+The automation will support the installation of Cloud Pak For Data on three cloud platforms (AWS, Azure, and IBM Cloud) by leveraging the [Cloud Pak Deployer](https://ibm.github.io/cloud-pak-deployer/introduction/) in-cluster in a GitOps configuration.  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric.  Additional cartridges can be installed by changing installation options in the `cp4d.tfvars` file, as described later in this document.
 
 ### Target Infrastructure
 
-The Cloud Pak for Data - Foundation 4.0 automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
+The Cloud Pak for Data - Foundation automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
-Before you start to install and configure Cloud Pak for Data 4.0, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
+Before you start to install and configure Cloud Pak for Data, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
 
-> ⚠️ Cloud Pak for Data 4.0 requires an OpenShift 4.8 cluster.
+> ⚠️ Cloud Pak for Data 4.6 requires an OpenShift 4.10 cluster.
 
 ### Reference Architectures
 
@@ -58,7 +59,7 @@ This suite of automation can be used for a Proof of Technology environment, or u
 ## Data Foundation  Architecture
 
 
-The following reference architecture represents the logical view of how Data Foundation works after it is installed.  Data Foundation is deployed with either Portworx or OpenShift Data Foundation storage, within an OpenShift Cluster, on the Cloud provider of your choice.
+The following reference architecture represents the logical view of how Data Foundation works after it is installed.  If targeting IBM Cloud, Data Foundation is deployed with OpenShift Data Foundation storage, within an OpenShift Cluster.  If targeting Amazon or AWS, the OpenShift cluster must already have OpenShift Data Foundation configured prior to using this automation.
 
 
 ![Reference Architecture](images/cp4d-diagram.jpg)
@@ -67,7 +68,7 @@ The following reference architecture represents the logical view of how Data Fou
 ## Deploying Data Foundation
 
 
-The following instructions will help you install Cloud Pak for Data (CP4D) 4.0 into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
+The following instructions will help you install Cloud Pak for Data (CP4D) into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
 
 
 ### Licenses and Entitlements
@@ -92,8 +93,7 @@ The Data Foundation automation is broken into what we call layers of automation 
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | 200    | [200 - OpenShift Gitops](./200-openshift-gitops)                                                                                                                                                                                                               | Set up OpenShift GitOps tools in an OpenShift cluster. This is required to install the software using gitops approaches.                                   | 10 Mins  |
 | 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) <br> [210 - IBM OpenShift Data Foundation](./210-ibm-odf-storage)  <br>  [210 - AWS Portworx Storage](./210-aws-portworx-storage)  <br>  [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
-| 300    | [300 - Cloud Pak for Data Entitlement](./300-cloud-pak-for-data-entitlement)                                                                                                                                                                                   | Update the OpenShift Cluster with your entitlement key                                                                                                     | 5 Mins   |
-| 305    | [300 - Cloud Pak for Data Foundation](./305-cloud-pak-for-data-foundation)                                                                                                                                                                                     | Deploy the Cloud Pak for Data Foundation components                                                                                                        | 30 Mins  |
+| 300    | [300 - Cloud Pak for Data Foundation](./305-cloud-pak-for-data-foundation)                                                                                                                                                                                     | Deploy the Cloud Pak for Data Foundation components                                                                                                        | 30 Mins  |
 
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
@@ -135,6 +135,8 @@ Ensure you have the following before continuing:
 
 - If you are deploying on [IBM Cloud Satellite](https://www.ibm.com/cloud/satellite), please review the [Satellite prerequisites](./IBM_SATELLITE.md).
 
+- OpenShift Data Foundation - If targeting AWS or Azure clusters, you must configure OpenShift Data Foundation prior to running this automation.
+
 ### Installing Data Foundation
 
 
@@ -171,64 +173,29 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
    In the `credentials.properties` file you will need to populate the values for your deployment.
 
     ```text
-    # Add the values for the Credentials to access the IBM Cloud
-    # Instructions to access this information can be found in the README.MD
-    # This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
+    ## Add the values for the Credentials to access the OpenShift Environment
+    ## Instructions to access this information can be found in the README.MD
+    ## This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
 
-    # The host for the git repository (e.g. github.com, bitbucket.org). Supported Git servers are GitHub, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea. If this value is left commented out, the automation will default to using Gitea.
-    #TF_VAR_gitops_repo_host=
-    
+    ## gitops_repo_host: The host for the git repository
+    #export TF_VAR_gitops_repo_host=github.com
     ## gitops_repo_username: The username of the user with access to the repository
     #export TF_VAR_gitops_repo_username=
-    
     ## gitops_repo_token: The personal access token used to access the repository
     #export TF_VAR_gitops_repo_token=
 
-    # The organization/owner/group on the git server where the gitops repository will be provisioned/found. If not provided the org will default to the username.
-    #TF_VAR_gitops_repo_org=
-
-    # The project on the Azure DevOps server where the gitops repository will be provisioned/found. This value is only required for repositories on Azure DevOps.
-    #TF_VAR_gitops_repo_project
-    
     ## TF_VAR_server_url: The url for the OpenShift api server
     export TF_VAR_server_url=
     ## TF_VAR_cluster_login_token: Token used for authentication to the api server
     export TF_VAR_cluster_login_token=
-    
+
+
     ## TF_VAR_entitlement_key: The entitlement key used to access the IBM software images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key
     export TF_VAR_entitlement_key=
-    
-    
+
+
     # Only needed if targeting IBM Cloud Deployment
     export TF_VAR_ibmcloud_api_key=
-    
-    
-    ##
-    ## AWS credentials
-    ## Credentials are required to install Portworx on an AWS. These credentials must have
-    ## particular permissions in order to interact with the account and the OpenShift cluster. Use the
-    ## provided `aws-portworx-credentials.sh` script to retrieve/generate these credentials.
-    ##
-    
-    export TF_VAR_access_key=
-    export TF_VAR_secret_key=
-    
-    
-    ##
-    ## Azure credentials
-    ## Credentials are required to install Portworx on an Azure account. These credentials must have
-    ## particular permissions in order to interact with the account and the OpenShift cluster. Use the
-    ## provided `azure-portworx-credentials.sh` script to retrieve/generate these credentials.
-    ##
-    
-    ## TF_VAR_azure_subscription_id: The subscription id for the Azure account. This is required if Azure portworx is used
-    export TF_VAR_azure_subscription_id=
-    ## TF_VAR_azure_tenant_id: The tenant id for the Azure account. This is required if Azure portworx is used
-    export TF_VAR_azure_tenant_id=
-    ## TF_VAR_azure_client_id: The client id of the user for the Azure account. This is required if Azure portworx is used
-    export TF_VAR_azure_client_id=
-    ## TF_VAR_azure_client_secret: The client id of the user for the Azure account. This is required if Azure portworx is used
-    export TF_VAR_azure_client_secret=
     ```
 
 
@@ -242,63 +209,8 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
 
 8. Copy the entitlement key, this can be obtained from visiting the [IBM Container Library](https://myibm.ibm.com/products-services/containerlibrary) and place it in the `entitlement_key` variable.
 
-#### Configure Storage
+9. If targeting IBM Cloud, be sure to specify an API key in the `ibmcloud_api_key` variable, to be used to automatically configure ODF storage.  If targeting AWS or Azure, be sure to configure ODF prior to using this automation.
 
-##### Deploying on IBM Cloud (Portworx or ODF)
-
-1. Provide the IBM Cloud API Key for the target IBM Cloud account as the value for `TF_VAR_ibmcloud_api_key`
-
-
-
-##### Deploying on Azure (Portworx)
-
-If Cloud Pak for Data(CP4D) will be deployed on OpenShift deployed on Azure, the credentials for the Azure account need to be
-provided. Several clis are required for these steps:
-
-- `az` cli - https://docs.microsoft.com/en-us/cli/azure/install-azure-cli
-- `jq` cli - https://stedolan.github.io/jq/download/
-
-You can install these clis on your local machine **OR** run the following commands within the provided container image by running `launch.sh`
-
-1. Log into your Azure account
-
-    ```shell
-    az login
-    ```
-
-2. Run the `azure-portworx-credentials.sh` script to gather/create the credentials:
-
-    ```shell
-    ./azure-portworx-credentials.sh -t {cluster type} -g {resource group name} -n {cluster name} [-s {subscription id}]
-    ```
-
-   where:
-    - **cluster type** is the type of OpenShift cluster (`aro` or `ipi`).
-    - **resource group name** is the name of the Azure resource group where the cluster has been provisioned.
-    - **cluster name** is the name of the OpenShift cluster.
-    - **subscription id** is the subscription id of the Azure account. If a value is not provided it will be looked up.
-
-3. Update `credentials.properties` with the values output from the script.
-
-    ```json
-    {
-      "azure_client_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-      "azure_client_secret": "XXXXXXX",
-      "azure_tenant_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-      "azure_subscription_id": "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-    }
-    ```
-
-4. If you used the container image to run the script, type `exit` to close the container shell then re-rung `launch.sh` to pick up the changes to the environment variables.
-
-
-
-#### Configure the automation
-
-##### Get the Portworx configuration spec (for AWS or Azure deployments)
-
-5. Follow the steps to download the [portworx confituration spec](./PORTWORX_CONFIG.md)
-6. Copy the downloaded file into the root directory of the cloned automation-data-foundation repository
 
 ##### Set up the automation workspace
 
@@ -312,44 +224,41 @@ You can install these clis on your local machine **OR** run the following comman
    ```
    /terraform $ ./setup-workspace.sh -h
    Creates a workspace folder and populates it with automation bundles you require.
-    
+
    Usage: setup-workspace.sh
    options:
    -p     Cloud provider (aws, azure, ibm)
-   -s     Storage (portworx or odf)
    -n     (optional) prefix that should be used for all variables
-   -x     (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml
    -c     (optional) Self-signed Certificate Authority issuer CRT file
+   -b     (optional) the banner text that should be shown at the top of the cluster
+   -g     (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, zure DevOps, and Gitea servers are supported)
    -h     Print this help
    ```
 
-   You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.  If you are using Azure, you will need a Portworx spec file name (as described above), and if your cluster is using a self-signed SSL certificate, you will need a copy of the issuer cert and the file name.
+   You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.
 
-9. Run the command `setup-workspace.sh -p ibm -s portworx -n df` and include optional parameters as needed.
+9. Run the command `setup-workspace.sh -p ibm -n df` and include optional parameters as needed.
 
     ```
-    /terraform $ ./setup-workspace.sh -p ibm -s portworx -n df
+    /terraform $ ./setup-workspace.sh -p ibm
     Setting up workspace in '/terraform/../workspaces/current'
     *****
-    Setting up workspace from '' template
+    Setting up workspace in /workspaces/current
     *****
-    Setting up automation  /workspaces/current
-    /terraform
+    Setting up current/105-existing-openshift from 105-existing-openshift
     Setting up current/200-openshift-gitops from 200-openshift-gitops
-      Skipping 210-aws-portworx-storage because it does't match ibm
-      Skipping 210-azure-portworx-storage because it does't match ibm
     Setting up current/210-ibm-odf-storage from 210-ibm-odf-storage
-    Setting up current/210-ibm-portworx-storage from 210-ibm-portworx-storage
-    Setting up current/300-cloud-pak-for-data-entitlement from 300-cloud-pak-for-data-entitlement
-    Setting up current/305-cloud-pak-for-data-foundation from 305-cloud-pak-for-data-foundation
+    Setting up current/300-cloud-pak-for-data-foundation from 300-cloud-pak-for-data-foundation
     move to /workspaces/current this is where your automation is configured
     ```
 
-    > ⚠️ If you are deploying on IBM Cloud Satellite, choose the `odf` storage option when running `setup-workspace.sh`.
+    > ⚠️ If you are deploying on IBM Cloud Satellite, be sure the cluster has ODF storage option configured.
    
-10. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
+10. The default `cluster.tfvars`, `cp4d.tfvars`, and `gitops.tfvars` files are symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
 
-12. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.
+11. Edit the default `cp4d.tfvars` file this will enable you to configure the Cloud Pak for Data deployment.  **You MUST specify a value for the `cluster_ingress`**.
+
+12. Edit the default `gitops.tfvars` file this will enable you to setup the GitOps parameters, or leave the default configuration to use Gitea in-cluster for the GitOps repository.
 
 The following you will be prompted for and some suggested values.
 
@@ -362,9 +271,6 @@ The following you will be prompted for and some suggested values.
 
 The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, and `cluster_login_token` values will be loaded automatically from the credentials.properties file that was configured in an earlier step.
 
-
-15. The `cp4d-instance_storage_vendor` variable should have already been populated by the `setup-workspace.sh` script. This should have the value `portworx` or `ocs`, depending on the selected storage option.
-
 16. You will see that the `repo_type` and `repo_host` are set to GitHub you can change these to other Git Providers, like GitHub Enterprise or GitLab.
 
 17. For the `repo_org` value set it to your default org name, or specific a custom org value. This is the organization where the GitOps Repository will be created in. Click on top right menu and select Your Profile to take you to your default organization.
@@ -373,17 +279,19 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 19. You can change the `gitops-cluster-config_banner_text` banner text to something useful for your client project or demo.
 
-20. Save the `terraform.tfvars` file
+20. Save the all changes to the `tfvars` files.
 
 21. Navigate into the `/workspaces/current` folder
 
     > ❗️ Do not skip this step.  You must execute from the `/workspaces/current` folder.
 
-    > ⚠️ If you are deploying on IBM Cloud Satellite, you must delete the `/workspaces/current/210-ibm-odf-storage` folder and ensure that `ocs-storagecluster-cephfs` is the default storage class before proceeding to the next step.  ODF will already have been deployed into the Satellite cluster.  For additional detail, please see the [Satellite prerequisites](./IBM_SATELLITE.md).
+    > ⚠️ If you are deploying on IBM Cloud Satellite, you must delete the `/workspaces/current/210-ibm-odf-storage` folder ODF will already have been deployed into the Satellite cluster.  For additional detail, please see the [Satellite prerequisites](./IBM_SATELLITE.md).
+
+    > ⚠️ If your cluster already has ODF configured, you must delete the `/workspaces/current/210-ibm-odf-storage` folder.
 
 ##### Automated Deployment
 
-22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current` directory.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asynchronously in the background.  This can take an additional 45 minutes.
+22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current` directory.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asynchronously in the background.  This can take an additional 60 minutes.
 
     Alternatively you can run each of the layers individually, by following the [manual deployment instructions](MANUAL-DEPLOY.md).
 
@@ -392,19 +300,27 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 ##### Access the Data Foundation Deployment
 
-23. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
+23. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cpd-instance` namespace.  Here you can see the URL to the deployed Cloud Pak for Data  instance.  Open this url in a new browser window.
 
     ![Reference Architecture](images/cp4d-route.jpg)
 
-24. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
+24. Navigate to `Secrets` in the `cpd-instance` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
 
 25. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+
+
+
+##### Update the deployment using GitOps
+
+You can change the installed cartridges on the deployed Cloud Pak for Data instance by modifying the gitops configuration. This will automatically trigger a new job on the cluster that executes the Cloud Pak Deployer and applies the desired changes.
+
+In the GitOps repo, find the `values.yaml` file located at `cp4d--gitops/payload/1-infrastructure/namespace/cloud-pak-deployer/cp4d-deployer/values.yaml`.  You can change the boolean values from `false` to `true` to install the additional cartridges.  Once you commit changes to this file, OpenShift GitOps will automatically detect the change and trigger the job which will apply the updates to the existing Cloud Pak for Data instance.  
+
+Applying these changes is an asynchronous process that can take a few minutes, or more than an hour, depending on the changes that are being applied.  You can monitor the deployment status using the OpenShift GitOps (ArgoCD) user interface, which is accessible through the OpenShift cluster's Application Launcher menu.
 
 ## Summary
 
 This concludes the instructions for installing *Data Foundation* on AWS, Azure, and IBM Cloud.
-
-Now that the Data Foundation deployment is complete you can deploy [Cloud Pak for Data services](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=integrations-services) into this cluster.
 
 
 ## Uninstalling & Troubleshooting

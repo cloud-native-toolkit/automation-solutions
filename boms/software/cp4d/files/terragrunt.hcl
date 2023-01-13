@@ -11,7 +11,8 @@ terraform {
 
     required_var_files = [
       "${get_parent_terragrunt_dir()}/cluster.tfvars",
-      "${get_parent_terragrunt_dir()}/gitops.tfvars"
+      "${get_parent_terragrunt_dir()}/gitops.tfvars",
+      "${get_parent_terragrunt_dir()}/cp4d.tfvars"
     ]
   }
 }
