@@ -9,9 +9,7 @@ Usage()
    echo "Usage: setup-workspace.sh"
    echo "  options:"
    echo "  -p     Cloud provider (aws, azure, ibm)"
-   echo "  -s     Storage (portworx or odf)"
    echo "  -n     (optional) prefix that should be used for all variables"
-   echo "  -x     (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml"
    echo "  -c     (optional) Self-signed Certificate Authority issuer CRT file"
    echo "  -b     (optional) the banner text that should be shown at the top of the cluster"
    echo "  -g     (optional) the git host that will be used for the gitops repo. If left blank gitea will be used by default. (Github, Github Enterprise, Gitlab, Bitbucket, Azure DevOps, and Gitea servers are supported)"
@@ -20,9 +18,7 @@ Usage()
 }
 
 CLOUD_PROVIDER=""
-STORAGE=""
 PREFIX_NAME="cp4d"
-STORAGEVENDOR=""
 CA_CRT_FILE=""
 GIT_HOST=""
 BANNER="Cloud Pak for Data"
@@ -35,19 +31,15 @@ if [[ "$1" == "-h" ]]; then
 fi
 
 # Get the options
-while getopts ":p:s:n:h:x:c:g:b:" option; do
+while getopts ":p:n:h:c:g:b:" option; do
    case $option in
       h) # display Help
          Usage
          exit 1;;
       p)
          CLOUD_PROVIDER=$OPTARG;;
-      s) # Enter a name
-         STORAGE=$OPTARG;;
       n) # Enter a name
          PREFIX_NAME=$OPTARG;;
-      x) # Enter a name
-         PORTWORX_SPEC_FILE=$OPTARG;;
       c) # Enter a name
          CA_CRT_FILE=$OPTARG;;
       g) # Enter a name
@@ -84,24 +76,15 @@ if [[ ! "${CLOUD_PROVIDER}" =~ ^aws|azure|ibm ]]; then
   exit 1
 fi
 
-if [[ -z "${STORAGE}" ]] && [[ "${CLOUD_PROVIDER}" == "ibm" ]]; then
-  PS3="Select the storage provider: "
+if [[ ! "${CLOUD_PROVIDER}" =~ ^ibm ]]; then
+  echo "This automation expects OpenShift Data Foundation (ODF) or OpenShift Container Storage (OCS) to be preinstalled on the cluster."
+  echo "Is ODF or OCS already deployed on this cluster?"
+  read -p "[y/n] " confirm_storage
 
-  select storage in portworx odf; do
-    if [[ -n "${storage}" ]]; then
-      STORAGE="${storage}"
-      break
-    fi
-  done
-
-  echo ""
-elif [[ -z "${STORAGE}" ]]; then
-  STORAGE="portworx"
-fi
-
-if [[ ! "${STORAGE}" =~ ^odf|portworx ]]; then
-  echo "Invalid value for storage provider: ${STORAGE}" >&2
-  exit 1
+  if [ $choice != 'y' ] ; then
+    echo "Please configure ODF or OCS storage on this cluster and re-run this script."
+    exit 1;
+  fi
 fi
 
 if [[ -n "${PREFIX_NAME}" ]]; then
@@ -112,7 +95,9 @@ if [[ -d "${WORKSPACE_DIR}" ]]; then
   DATE=$(date "+%Y%m%d%H%M")
   mv "${WORKSPACE_DIR}" "${WORKSPACES_DIR}/workspace-${DATE}"
 
-  cp "${SCRIPT_DIR}/terraform.tfvars" "${WORKSPACES_DIR}/workspace-${DATE}/terraform.tfvars"
+  cp "${SCRIPT_DIR}/cluster.tfvars" "${WORKSPACES_DIR}/workspace-${DATE}/cluster.tfvars"
+  cp "${SCRIPT_DIR}/gitops.tfvars" "${WORKSPACES_DIR}/workspace-${DATE}/gitops.tfvars"
+  cp "${SCRIPT_DIR}/cp4d.tfvars" "${WORKSPACES_DIR}/workspace-${DATE}/cp4d.tfvars"
 fi
 
 mkdir -p "${WORKSPACE_DIR}"
@@ -121,68 +106,11 @@ cd "${WORKSPACE_DIR}"
 echo "Setting up workspace in '${WORKSPACE_DIR}'"
 echo "*****"
 
-if [[ "${CLOUD_PROVIDER}" == "aws" ]]; then
-  RWO_STORAGE="gp2"
-elif [[ "${CLOUD_PROVIDER}" == "azure" ]]; then
-  RWO_STORAGE="managed-premium"
-elif [[ "${CLOUD_PROVIDER}" == "ibm" ]] || [[ "${CLOUD_PROVIDER}" == "ibmcloud" ]]; then
-  RWO_STORAGE="ibmc-vpc-block-10iops-tier"
-else
-  RWO_STORAGE="<your block storage on aws: gp2, on azure: managed-premium>"
-fi
-
-if [[ "${STORAGE}" == "portworx" ]]; then
-  RWX_STORAGE="portworx-db2-rwx-sc"
-  STORAGEVENDOR="portworx"
-elif [[ "${STORAGE}" == "odf" ]]; then
-  RWX_STORAGE="ocs-storagecluster-cephfs"
-  STORAGEVENDOR="ocs"
-else
-  RWX_STORAGE="<read-write-many storage class (e.g. )>"
-  STORAGEVENDOR="RWX-storage-class"
-fi
-
 if [[ -z "${PREFIX_NAME}" ]]; then
   echo -n "Provide a prefix name: "
   read -r PREFIX_NAME
 fi
 
-if [[ "${CLOUD_PROVIDER}" =~ aws|azure ]] && [[ -z "${PORTWORX_SPEC_FILE}" ]]; then
-  if command -v oc 1> /dev/null 2> /dev/null; then
-    echo "Looking for existing portworx storage class: ${RWX_STORAGE}"
-
-    if ! oc login "${TF_VAR_server_url}" --token="${TF_VAR_cluster_login_token}" --insecure-skip-tls-verify=true 1> /dev/null; then
-      exit 1
-    fi
-
-    if oc get storageclass "${RWX_STORAGE}" 1> /dev/null 2> /dev/null; then
-      echo "  Found existing portworx installation. Skipping storage layer..."
-      echo ""
-      PORTWORX_SPEC_FILE="installed"
-    fi
-  fi
-
-  if [[ -z "${PORTWORX_SPEC_FILE}" ]]; then
-    DEFAULT_FILE=$(find . -name "portworx*.yaml" -maxdepth 1 -exec basename {} \; | head -1)
-
-    while [[ -z "${PORTWORX_SPEC_FILE}" ]]; do
-      echo -n "Provide the Portworx config spec file name: [${DEFAULT_FILE}] "
-      read -r PORTWORX_SPEC_FILE
-
-      if [[ -z "${PORTWORX_SPEC_FILE}" ]] && [[ -n "${DEFAULT_FILE}" ]]; then
-        PORTWORX_SPEC_FILE="${DEFAULT_FILE}"
-      fi
-    done
-    echo ""
-  fi
-elif [[ "${CLOUD_PROVIDER}" == "ibm" ]]; then
-  PORTWORX_SPEC_FILE=""
-fi
-
-if [[ -n "${PORTWORX_SPEC_FILE}" ]] && [[ "${PORTWORX_SPEC_FILE}" != "installed" ]] && [[ ! -f "${SCRIPT_DIR}/${PORTWORX_SPEC_FILE}" ]]; then
-  echo "Portworx spec file not found: ${PORTWORX_SPEC_FILE}" >&2
-  exit 1
-fi
 
 if [[ "${CLOUD_PROVIDER}" == "ibm" ]]; then
   CA_CRT_FILE=""
@@ -195,10 +123,6 @@ fi
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template-cluster" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
-  sed "s/RWX_STORAGE/${RWX_STORAGE}/g" | \
-  sed "s/RWO_STORAGE/${RWO_STORAGE}/g" | \
-  sed "s/STORAGEVENDOR/${STORAGEVENDOR}/g" | \
-  sed "s/PORTWORX_SPEC_FILE/${PORTWORX_SPEC_FILE}/g" | \
   sed "s/CA_CRT_FILE/${CA_CRT_FILE}/g" | \
   sed "s/BANNER/${BANNER}/g"  | \
   sed "s/GIT_HOST/${GIT_HOST}/g" \
@@ -208,16 +132,21 @@ ln -s "${SCRIPT_DIR}/cluster.tfvars" ./cluster.tfvars
 
 cat "${SCRIPT_DIR}/terraform.tfvars.template-gitops" | \
   sed "s/PREFIX/${PREFIX_NAME}/g" | \
-  sed "s/RWX_STORAGE/${RWX_STORAGE}/g" | \
-  sed "s/RWO_STORAGE/${RWO_STORAGE}/g" | \
-  sed "s/STORAGEVENDOR/${STORAGEVENDOR}/g" | \
-  sed "s/PORTWORX_SPEC_FILE/${PORTWORX_SPEC_FILE}/g" | \
   sed "s/CA_CRT_FILE/${CA_CRT_FILE}/g" | \
   sed "s/BANNER/${BANNER}/g"  | \
   sed "s/GIT_HOST/${GIT_HOST}/g" \
   > "${SCRIPT_DIR}/gitops.tfvars"
 
 ln -s "${SCRIPT_DIR}/gitops.tfvars" ./gitops.tfvars
+
+cat "${SCRIPT_DIR}/terraform.tfvars.template-cp4d" | \
+  sed "s/PREFIX/${PREFIX_NAME}/g" | \
+  sed "s/CA_CRT_FILE/${CA_CRT_FILE}/g" | \
+  sed "s/BANNER/${BANNER}/g"  | \
+  sed "s/GIT_HOST/${GIT_HOST}/g" \
+  > "${SCRIPT_DIR}/cp4d.tfvars"
+
+ln -s "${SCRIPT_DIR}/cp4d.tfvars" ./cp4d.tfvars
 
 cp "${SCRIPT_DIR}/apply.sh" "${WORKSPACE_DIR}/apply.sh"
 cp "${SCRIPT_DIR}/destroy.sh" "${WORKSPACE_DIR}/destroy.sh"
@@ -229,10 +158,10 @@ cp -R "${SCRIPT_DIR}/.mocks" "${WORKSPACE_DIR}/.mocks"
 
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
-if [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
-  ALL_ARCH="105|200|300|305"
+if [[ ! "${CLOUD_PROVIDER}" =~ ^ibm ]]; then
+  ALL_ARCH="105|200|300"
 else
-  ALL_ARCH="105|200|210|300|305"
+  ALL_ARCH="105|200|210|300"
 fi
 
 echo "Setting up workspace in ${WORKSPACE_DIR}"
@@ -290,6 +219,7 @@ do
   cp -R "${SCRIPT_DIR}/${name}/terraform/"* .
   ln -s "${WORKSPACE_DIR}"/cluster.tfvars ./cluster.tfvars
   ln -s "${WORKSPACE_DIR}"/gitops.tfvars ./gitops.tfvars
+  ln -s "${WORKSPACE_DIR}"/cp4d.tfvars ./cp4d.tfvars
   ln -s "${WORKSPACE_DIR}/apply.sh" ./apply.sh
   ln -s "${WORKSPACE_DIR}/destroy.sh" ./destroy.sh
   if [[ -n "${PORTWORX_SPEC_FILE_BASENAME}" ]]; then

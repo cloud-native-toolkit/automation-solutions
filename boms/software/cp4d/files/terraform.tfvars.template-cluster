@@ -1,14 +1,6 @@
 ## config_banner_text: The text that will appear in the top banner in the cluster
 config_banner_text="BANNER"
 
-## resource_group_name: The name of the resource group used for storage
-resource_group_name="PREFIXstorage"
-
-## "Storage vendor for CPD (ocs | portworx | ibm-spectrum-scale-sc | RWX-storage-class)"
-cp4d-instance_storage_vendor="STORAGEVENDOR"
-
-## portworx_spec_file: The name of the file containing the Portworx configuration spec yaml
-portworx_spec_file="PORTWORX_SPEC_FILE"
 
 # Certificate Authority issuer CRT file - required for self-signed certificates
 gitops_default_ca_cert="CA_CRT_FILE"
