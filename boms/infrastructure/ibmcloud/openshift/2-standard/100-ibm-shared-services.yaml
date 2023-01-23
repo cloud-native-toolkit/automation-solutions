@@ -107,10 +107,24 @@ spec:
           ref: kms_resource_group
         - name: target_resource
           ref: kms
+    - name: ibm-kms-key
+      alias: sm-key
+      default: true
+      variables:
+        - name: provision
+          value: true
+      dependencies:
+        - name: kms
+          ref: kms
     - name: ibm-secrets-manager
+      dependencies:
+        - name: kms_key
+          ref: sm-key
       variables:
         - name: private_endpoint
           value: false
+        - name: kms_enabled
+          value: true
     - name: ibm-iam-service-authorization
       alias: vpn-secrets-manager-auth
       variables:
