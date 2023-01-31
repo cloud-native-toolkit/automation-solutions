@@ -1,4 +1,4 @@
-# Data Foundation 4.0.x Automation for AWS, Azure, and IBM Cloud, creating with the TechZone Accelerator Toolkit
+# Data Foundation 4.6.x Automation for AWS, Azure, and IBM Cloud, creating with the TechZone Accelerator Toolkit
 
 ### Change Log
 
@@ -37,7 +37,7 @@ The reference architectures are provided in three different forms, with increasi
 
 For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned, please use one of these. They are optimized for the installation of this solution.
 
-Note:  [Cloud Pak for Data 4.0 system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
+Note:  [Cloud Pak for Data 4.6 system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per done (128 GB RAM is recommended).
 
 | Cloud Platform                          | Automation and Documentation                                                                                                                                                                                                                                              |   
 |-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -73,7 +73,7 @@ The following instructions will help you install Cloud Pak for Data (CP4D) into 
 
 ### Licenses and Entitlements
 
-Details on Cloud Pak for Data licensing available at https://www.ibm.com/docs/en/cloud-paks/cp-data/4.0?topic=planning-licenses-entitlements
+Details on Cloud Pak for Data licensing available at https://www.ibm.com/docs/en/cloud-paks/cp-data/4.6.x?topic=planning-licenses-entitlements
 
 ### Obtaining your IBM entitlement API key
 You must have your IBM entitlement API key to access images in the IBM Entitled Registry.
