@@ -50,12 +50,12 @@ function process_variable () {
   value="${environment_variable}"
   if [[ "${sensitive}" == "true" ]] && [[ -f "${CREDENTIALS_FILE}" ]]; then
     value=$(cat "${CREDENTIALS_FILE}" | NAME="${name}" ${YQ} e -o json '.variables[] | select(.name == env(NAME)) | .value' - | jq -c -r '.')
-    if [[ "${value}" == "null" ]]; then
+    if [[ -z "${value}" ]]; then
       value="${environment_variable}"
     fi
   elif [[ "${sensitive}" != "true" ]] && [[ -f "${VARIABLES_FILE}" ]]; then
     value=$(cat "${VARIABLES_FILE}" | NAME="${name}" ${YQ} e -o json '.variables[] | select(.name == env(NAME)) | .value' - | jq -c -r '.')
-    if [[ "${value}" == "null" ]]; then
+    if [[ -z "${value}" ]]; then
       value="${environment_variable}"
     fi
   fi
