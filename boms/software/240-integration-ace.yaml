@@ -1,0 +1,131 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 240-integration-ace
+  labels:
+    type: software
+    code: '240'
+  annotations:
+    displayName: Integration - App Connect
+    description: GitOps deployment of App Connect for Cloud pak for Integration
+    deployment-type/gitops: "true"
+spec:
+  version: v1.0.0
+  modules:
+    # Login to existing OpenShift cluster
+    - name: ocp-login
+      alias: cluster
+
+    - name: olm
+    - name: sealed-secret-cert
+
+    # To setup Gitea
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    - name: gitops-cp-catalogs
+      alias: gitops-cp-catalogs
+      variables:
+        - name: entitlement_key
+          scope: global
+
+    # Choose the CP4i Version CP4i Version. As of ow the latest version of cp4i is 2022_2_1. Hence the possible values are (2021_4_1 , 2022_2_1).
+    - name: cp4i-dependency-management
+      alias: cp4i-version-dependency
+      variables:
+        - name: cp4i_version
+          value: "2022_2_1"
+
+
+    # # App Connect Enterprise Operators
+    - name: gitops-cp-ace
+
+    # To organize the AppConnect Enterprise Workload in a dedicated namespace. Also to Override the Storage Class for ACEDesigner. Require RWO & RWX storage Class
+    - name: gitops-namespace
+      alias: cp4i-ace
+      variables:
+        - name: name
+          value: cp4i-ace
+
+    - name: gitops-cp-ace-designer
+      dependencies:
+        - name: namespace
+          ref: cp4i-ace
+      variables:
+        - name: storage_class_4_couchdb
+          alias: rwo_storage_class
+          scope: global
+        - name: storage_class_4_mapassist
+          alias: rwx_storage_class
+          scope: global
+        # If MapAssist feature is required. Then set the 'value' to 'true'
+        - name: is_map_assist_required
+          value: false
+
+
+  variables:
+    - name: rwo_storage_class
+      type: string
+      description: ReadWriteOnce access type Storage Class
+
+    - name: rwx_storage_class
+      type: string
+      description: ReadWriteMany access type Storage Class
+
+    - name: entitlement_key
+      type: string
+      description: >-
+        The entitlement key used to access the CP4I images in the container
+        registry. Visit https://myibm.ibm.com/products-services/containerlibrary
+        to get the key
+      sensitive: true
+    - name: gitops_repo_host
+      type: string
+      description: The host for the git repository.
+    - name: gitops_repo_type
+      type: string
+      description: The type of the hosted git repository (github or gitlab).
+    - name: gitops_repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      sensitive: true
+    - name: gitops-cluster-config_banner_text
+      type: string
+      description: The text that will appear in the top banner in the cluster
+    - name: server_url
+      type: string
+      description: The url for the OpenShift api
+    - name: cluster_login_token
+      type: string
+      description: Token used for authentication
+      sensitive: true
+      
+  outputs:
+    - name: entitlement_key
+      sensitive: true  
+    - name: gitops_repo_token
+      sensitive: true
+    - name: cluster_login_token
+      sensitive: true

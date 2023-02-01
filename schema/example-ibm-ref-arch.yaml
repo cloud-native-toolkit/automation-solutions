@@ -6,7 +6,7 @@ metadata:
     displayName: "IBM Cloud for Financial Services Reference Architecture"
     description: ""
     platforms: "ibm"
-    base: "ibm-ref-arch" #root for the solution boms in the ../boms folder
+    base: "ibm-ref-arch" #root for the solution boms_old in the ../boms_old folder
     diagram: "diagram.png" # filename (from files below, default diagram.png)
     readme: "README.md" # filename (from files below, default README.md)
 

@@ -1,0 +1,33 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 210-aws-portworx-storage
+  labels:
+    type: infrastructure
+    code: '210'
+    platform: aws
+    storage: portworx
+  annotations:
+    displayName: AWS - Portworx Cluster Storage
+    description: Installs Portworx in and OCP cluster on AWS
+    dependencies.cloudnativetoolkit.dev/provides: storage
+spec:
+  version: v1.0.0
+  modules:
+    - name: aws-portworx
+
+      variables: 
+      - name: region
+        scope: global
+      - name: access_key
+        scope: global
+      - name: secret_key
+        scope: global
+      - name: portworx_spec_file
+        scope: global
+      - name: portworx_spec
+        scope: global      
+        important: true        
+    - name: ocp-login
+      alias: cluster      
+
