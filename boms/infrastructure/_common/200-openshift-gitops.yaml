@@ -1,0 +1,48 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 200-openshift-gitops
+  labels:
+    type: software
+    code: '200'
+  annotations:
+    displayName: OpenShift GitOps Bootstrap
+    description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
+spec:
+  version: v1.0.0
+  modules:
+    # Login to existing OpenShift cluster
+    - name: ocp-login
+
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
+    - name: argocd-bootstrap
+      variables:
+        - name: create_webhook
+          value: true
+
+    - name: gitops-namespace
+      alias: toolkit_namespace
+      default: true
+      version: v1.12.2
+      variables:
+        - name: name
+          value: toolkit
+
+    - name: gitops-cluster-config
+      alias: config
+    - name: gitops-console-link-job
+    # - name: gitops-buildah-unprivileged Needed only for IBM Cloud

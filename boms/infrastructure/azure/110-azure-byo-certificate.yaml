@@ -1,0 +1,21 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 111-supplied-certificate
+  labels:
+    type: infrastructure
+    platform: azure
+    code: '110'
+  annotations:
+    displayName: Supplied Certificate
+    description: Supplied Certificate for OpenShift
+spec:
+  version: v1.0.0
+  modules:
+    - name: ocp-ipi-certs
+      alias: api-certs
+      variables:
+        - name: bin_dir
+          scope: global
+        - name: config_file_path
+          scope: global

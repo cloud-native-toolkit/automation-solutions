@@ -1,0 +1,19 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 105-azure-vnet-openshift
+  labels:
+    type: infrastructure
+    platform: azure
+    code: '105'
+  annotations:
+    displayName: Azure VNet OpenShift
+    description: Azure VNet and Red Hat OpenShift (ARO) servers
+spec:
+  version: v1.0.0
+  modules:
+    - name: azure-resource-group
+    - name: azure-vnet
+    - name: azure-subnets
+    - name: azure-lb
+    - name: azure-ocp-ipi

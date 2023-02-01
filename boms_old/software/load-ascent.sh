@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Script for loading BOMs into Ascent
-# "https://<deployed-cluster-url>/architectures/boms/import?overwrite=true&public=true"
+# "https://<deployed-cluster-url>/architectures/boms_old/import?overwrite=true&public=true"
 
 TOKEN="$1"
 URL="https://ascent-bff-mapper-staging.dev-mapper-ocp-4be51d31de4db1e93b5ed298cdf6bb62-0000.eu-de.containers.appdomain.cloud"

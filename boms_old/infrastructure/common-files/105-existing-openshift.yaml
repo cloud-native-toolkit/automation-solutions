@@ -1,0 +1,15 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 105-existing-openshift
+  labels:
+    type: infrastructure
+    code: '105'
+  annotations:
+    displayName: Existing OpenShift
+    description: Existing OpenShift cluster
+    dependencies.cloudnativetoolkit.dev/provides: cluster
+spec:
+  version: v1.0.1
+  modules:
+    - name: ocp-login

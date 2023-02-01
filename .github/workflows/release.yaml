@@ -1,0 +1,88 @@
+name: Release BOMs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: main
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v3
+        with:
+          path: gh-pages
+          ref: refs/heads/gh-pages
+
+      - name: Get changed files in the boms/ folder
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          path: main
+          files: boms/**
+
+      - name: Run step if any file(s) in the boms folder change
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files in the boms folder has changed."
+          echo "Changed boms: ${{ steps.changed-files.outputs.all_changed_files }}"
+
+      - name: Install yq
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CC86BB64
+          sudo add-apt-repository ppa:rmescandon/yq
+          sudo apt update
+          sudo apt install yq -y
+
+      - name: Install jq
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          curl -Lo jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+          chmod +x jq
+          sudo mv jq /usr/local/bin
+
+      - name: BOM releaser
+        id: bom-releaser
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          mkdir -p /tmp/output
+          
+          gh_path=$(cd gh-pages; pwd -P)
+          
+          yaml_file="${gh_path}/index.yaml"
+          output_file="/tmp/output/index.yaml"
+          
+          cd main
+          echo "${{ steps.changed-files.outputs.all_changed_files }}" | \
+            tr " " "\n" | xargs -I{} echo "${PWD}/{}" | \
+            .github/scripts/bom-changes-to-details.sh  | \
+            .github/scripts/bom-details-to-releases.sh | \
+            .github/scripts/releases-to-index.sh "${yaml_file}" > "${output_file}"
+          
+          echo "yaml_file=${output_file}" >> $GITHUB_OUTPUT
+
+      - name: Update index.yaml
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          cd gh-pages
+          cp ${{ steps.bom-releaser.outputs.yaml_file }} index.yaml
+
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+          git add index.yaml
+          git commit -m "Update index.yaml with new releases"
+          git push

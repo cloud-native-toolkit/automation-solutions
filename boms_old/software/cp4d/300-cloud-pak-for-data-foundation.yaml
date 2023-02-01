@@ -1,0 +1,284 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 300-cloud-pak-for-data-foundation
+  labels:
+    type: software
+    code: '300'
+  annotations:
+    displayName: Data Foundation
+    description: GitOps deployment of Data Foundation for Cloud pak for Data
+    deployment-type/gitops: "true"
+spec:
+  modules:
+
+    # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
+    - name: gitops-namespace
+      alias: cloud_pak_deployer_namespace
+      variables:
+        - name: name
+          alias: cloud_pak_deployer_namespace
+          scope: global
+
+    - name: gitops-namespace
+      alias: cpd_instance_namespace
+      variables:
+        - name: name
+          alias: cpd_instance_namespace
+          scope: global
+
+    - name: gitops-cp4d-deployer
+      dependencies:
+        - name: namespace
+          ref: cloud_pak_deployer_namespace
+        - name: instance_namespace
+          ref: cpd_instance_namespace
+      variables:
+        - name: cpd_version
+          alias: cpd_version
+          scope: global
+        - name: cluster_name
+          alias: cluster_name
+          scope: global
+        - name: cluster_ingress
+          alias: cluster_ingress
+          scope: global
+        - name: entitlement_key
+          alias: entitlement_key
+          scope: global
+        - name: deployer_storage_class
+          alias: deployer_storage_class
+          scope: global
+        - name: install_scheduler
+          alias: install_scheduler
+          scope: global
+        - name: install_analyticsengine
+          alias: install_analyticsengine
+          scope: global
+        - name: install_bigsql
+          alias: install_bigsql
+          scope: global
+        - name: install_ca
+          alias: install_ca
+          scope: global
+        - name: install_cde
+          alias: install_cde
+          scope: global
+        - name: install_datagate
+          alias: install_datagate
+          scope: global
+        - name: install_datastage-ent-plus
+          alias: install_datastage-ent-plus
+          scope: global
+        - name: install_db2
+          alias: install_db2
+          scope: global
+        - name: install_db2u
+          alias: install_db2u
+          scope: global
+        - name: install_db2wh
+          alias: install_db2wh
+          scope: global
+        - name: install_dmc
+          alias: install_dmc
+          scope: global
+        - name: install_dods
+          alias: install_dods
+          scope: global
+        - name: install_dp
+          alias: install_dp
+          scope: global
+        - name: install_dv
+          alias: install_dv
+          scope: global
+        - name: install_hadoop
+          alias: install_hadoop
+          scope: global
+        - name: install_mdm
+          alias: install_mdm
+          scope: global
+        - name: install_openpages
+          alias: install_openpages
+          scope: global
+        - name: install_planning-analytics
+          alias: install_planning-analytics
+          scope: global
+        - name: install_rstudio
+          alias: install_rstudio
+          scope: global
+        - name: install_spss
+          alias: install_spss
+          scope: global
+        - name: install_voice-gateway
+          alias: install_voice-gateway
+          scope: global
+        - name: install_watson-assistant
+          alias: install_watson-assistant
+          scope: global
+        - name: install_watson-discovery
+          alias: install_watson-discovery
+          scope: global
+        - name: install_watson-ks
+          alias: install_watson-ks
+          scope: global
+        - name: install_watson-openscale
+          alias: install_watson-openscale
+          scope: global
+        - name: install_watson-speech
+          alias: install_watson-speech
+          scope: global
+        - name: install_wkc
+          alias: install_wkc
+          scope: global
+        - name: install_wml
+          alias: install_wml
+          scope: global
+        - name: install_wml-accelerator
+          alias: install_wml-accelerator
+          scope: global
+        - name: install_wsl
+          alias: install_wsl
+          scope: global
+
+
+  variables:
+    - name: cloud_pak_deployer_namespace
+      value: cloud-pak-deployer
+      important: true
+    - name: cpd_instance_namespace
+      value: cpd-instance
+      important: true
+    - name: deployer_storage_class
+      value: "ocs-storagecluster-cephfs"
+    - name: cpd_version
+      value: "4.6.0"  
+      important: true
+      required: true
+    - name: cluster_name
+      value: "cloud-pak-for-data"  
+      important: true
+      required: true
+    - name: cluster_ingress
+      important: true
+      required: true
+    - name: install_scheduler
+      important: true
+      required: true
+      value: false
+    - name: install_analyticsengine
+      important: true
+      required: true
+      value: false
+    - name: install_bigsql
+      important: true
+      required: true
+      value: false
+    - name: install_ca
+      important: true
+      required: true
+      value: false
+    - name: install_cde
+      important: true
+      required: true
+      value: false
+    - name: install_datagate
+      important: true
+      required: true
+      value: false
+    - name: install_datastage-ent-plus
+      important: true
+      required: true
+      value: false
+    - name: install_db2
+      important: true
+      required: true
+      value: false
+    - name: install_db2u
+      important: true
+      required: true
+      value: false
+    - name: install_db2wh
+      important: true
+      required: true
+      value: false
+    - name: install_dmc
+      important: true
+      required: true
+      value: false
+    - name: install_dods
+      important: true
+      required: true
+      value: false
+    - name: install_dp
+      important: true
+      required: true
+      value: false
+    - name: install_dv
+      important: true
+      required: true
+      value: false
+    - name: install_hadoop
+      important: true
+      required: true
+      value: false
+    - name: install_mdm
+      important: true
+      required: true
+      value: false
+    - name: install_openpages
+      important: true
+      required: true
+      value: false
+    - name: install_planning-analytics
+      important: true
+      required: true
+      value: false
+    - name: install_rstudio
+      important: true
+      required: true
+      value: false
+    - name: install_spss
+      important: true
+      required: true
+      value: false
+    - name: install_voice-gateway
+      important: true
+      required: true
+      value: false
+    - name: install_watson-assistant
+      important: true
+      required: true
+      value: false
+    - name: install_watson-discovery
+      important: true
+      required: true
+      value: false
+    - name: install_watson-ks
+      important: true
+      required: true
+      value: false
+    - name: install_watson-openscale
+      important: true
+      required: true
+      value: false
+    - name: install_watson-speech
+      important: true
+      required: true
+      value: false
+    - name: install_wkc
+      important: true
+      required: true
+      value: false
+    - name: install_wml
+      important: true
+      required: true
+      value: false
+    - name: install_wml-accelerator
+      important: true
+      required: true
+      value: false
+    - name: install_wsl
+      important: true
+      required: true
+      value: false
+    
