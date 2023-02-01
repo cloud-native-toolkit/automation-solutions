@@ -10,6 +10,7 @@ metadata:
     description: GitOps deployment of Data Foundation for Cloud pak for Data
     deployment-type/gitops: "true"
 spec:
+  version: v1.0.0
   modules:
 
     # Namespaces for Common/Foundational Services, CP4D Operators and CP4D Platform instance & Services
@@ -151,11 +152,11 @@ spec:
     - name: deployer_storage_class
       value: "ocs-storagecluster-cephfs"
     - name: cpd_version
-      value: "4.6.1"  
+      value: "4.6.0"
       important: true
       required: true
     - name: cluster_name
-      value: "cloud-pak-for-data"  
+      value: "cloud-pak-for-data"
       important: true
       required: true
     - name: cluster_ingress

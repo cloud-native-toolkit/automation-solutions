@@ -1,0 +1,81 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 105-azure-aro-std
+  labels:
+    type: infrastructure
+    platform: azure
+    code: '105'
+  annotations:
+    displayName: Azure Red Hat OpenShift (ARO) Quickstart
+    description: Azure ARO for Standard Architecture
+    vpn/required: 'true'
+spec:
+  version: v1.0.0
+  modules:
+    - name: azure-resource-group
+      alias: resource_group
+      variables:
+        - name: provision
+          value: false
+    - name: azure-vnet
+      alias: vnet
+      variables:
+        - name: provision
+          value: false
+    - name: azure-vnet-subnets
+      alias: master-subnet
+      variables:
+        - name: label
+          value: "master"
+        - name: provision
+          value: false
+    - name: azure-vnet-subnets
+      alias: worker-subnet
+      variables:
+        - name: label
+          value: "worker"
+        - name: provision
+          value: false
+    - name: azure-aro
+      alias: cluster
+      dependencies:
+        - name: master-subnet
+          ref: master-subnet
+        - name: worker-subnet
+          ref: worker-subnet
+      variables:
+        - name: master_subnet_id
+          ref: master-subnet
+        - name: worker_subnet_id
+          ref: worker-subnet
+        - name: encrypt
+          value: true
+        - name: disable_public_endpoint
+          value: true
+  variables:
+    - name: name_prefix
+      required: true
+      scope: global
+    - name: subscription_id
+      required: false
+      scope: global
+      value: null
+    - name: client_secret
+      required: false
+      scope: global
+      value: null
+    - name: client_id
+      required: false
+      scope: global
+      value: null
+    - name: tenant_id
+      required: false
+      scope: global
+      value: null
+    - name: pull_secret
+      required: false
+      scope: global
+    - name: pull_secret_file
+      required: false
+      scope: global

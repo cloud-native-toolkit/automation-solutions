@@ -103,7 +103,7 @@ A script (`generate.sh`) has been provided to generate the terraform for all the
 To run the script, run the following:
 
 ```shell
-boms/infrastructure/ibmcloud/openshift/generate.sh ~/automation
+boms_old/infrastructure/ibmcloud/openshift/generate.sh ~/automation
 ```
 
 ### Process individual BOMs
@@ -113,7 +113,7 @@ boms/infrastructure/ibmcloud/openshift/generate.sh ~/automation
 3. Run the `iascable build` command to generate the output
 
 ```shell
-iascable build -i boms/infrastructure/ibmcloud/openshift/1-quickstart/110-vpc-openshift.yaml -o ~/automation
+iascable build -i boms_old/infrastructure/ibmcloud/openshift/1-quickstart/110-vpc-openshift.yaml -o ~/automation
 ```
 
 ### How to run the generated automation

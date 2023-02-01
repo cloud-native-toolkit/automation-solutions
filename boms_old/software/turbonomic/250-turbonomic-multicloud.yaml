@@ -1,0 +1,42 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 250-turbonomic-multicloud
+  labels:
+    type: software
+    code: '250'
+  annotations:
+    displayName: Turbonomic on OpenShift for Multi Cloud
+    description: GitOps deployment of Turbonomic on Multi Cloud environments AWS, Azure and IBM Cloud
+    deployment-type/gitops: "true"
+spec:
+  version: v1.0.0
+  modules:
+    - name: ocp-login
+
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    # Create Name Space for Turbonomic
+    - name: gitops-namespace
+      alias: turbo_namespace
+      default: true
+      version: v1.12.2
+      variables:
+        - name: name
+          value: turbonomic
+
+    # Define Turbonomic GitOps resources for OpenShift GitOps to install
+    - name: gitops-ocp-turbonomic
+

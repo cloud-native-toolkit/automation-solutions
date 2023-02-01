@@ -1,0 +1,25 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 210-ibm-portworx-storage
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: '210'
+    storage: portworx
+  annotations:
+    displayName: IBM - Portworx Cluster Storage
+    description: Installs Portworx in an IBM cluster
+spec:
+  version: v1.0.0
+  modules:
+    - name: gitops-repo
+    - name: gitops-namespace
+      alias: portworx_namespace
+      default: true
+      version: v1.12.2
+      variables:
+        - name: name
+          value: portworx
+    - name: gitops-ibm-portworx
+    - name: ibm-resource-group

@@ -1,0 +1,135 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 250-integration-eventstreams
+  labels:
+    type: software
+    code: '250'
+  annotations:
+    displayName: Integration - EventStreams
+    description: GitOps deployment of EventStreams for Cloud pak for Integration
+    deployment-type/gitops: "true"
+spec:
+  version: v1.0.0
+  modules:
+    # Login to existing OpenShift cluster
+    - name: ocp-login
+      alias: cluster
+
+    - name: olm
+    - name: sealed-secret-cert
+
+    # To setup Gitea
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    - name: gitops-cp-catalogs
+      alias: gitops-cp-catalogs
+      variables:
+        - name: entitlement_key
+          scope: global
+
+    # Choose the CP4i Version CP4i Version. As of ow the latest version of cp4i is 2022_2_1. Hence the possible values are (2021_4_1 , 2022_2_1).
+    - name: cp4i-dependency-management
+      alias: cp4i-version-dependency
+      variables:
+        - name: cp4i_version
+          value: "2022_2_1"
+
+
+    # # IBM EventStreams Operators
+    - name: gitops-cp-es-operator
+       
+
+    # To organize the EventStream Workload in a dedicated namespace. Also to Override the Storage Class for EventStreams. Require RWO storage Class
+    - name: gitops-namespace
+      alias: cp4i-es
+      variables:
+        - name: name
+          value: cp4i-es
+
+    - name: gitops-cp-event-streams
+      dependencies:
+        - name: namespace
+          ref: cp4i-es
+      variables:
+        - name: kafka_storagetype
+          value: persistent-claim
+
+        - name: kafka_storageclass
+          alias: rwo_storage_class
+          scope: global
+
+        - name: zookeeper_storagetype
+          value: persistent-claim
+
+        - name: zookeeper_storageclass
+          alias: rwo_storage_class
+          scope: global
+
+        - name: entitlement_key
+          scope: global
+
+
+  variables:
+    - name: rwo_storage_class
+      type: string
+      description: ReadWriteOnce access type Storage Class
+
+    - name: entitlement_key
+      type: string
+      description: >-
+        The entitlement key used to access the CP4I images in the container
+        registry. Visit https://myibm.ibm.com/products-services/containerlibrary
+        to get the key
+      sensitive: true
+    - name: gitops_repo_host
+      type: string
+      description: The host for the git repository.
+    - name: gitops_repo_type
+      type: string
+      description: The type of the hosted git repository (github or gitlab).
+    - name: gitops_repo_org
+      type: string
+      description: The org/group where the git repository exists/will be provisioned.
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      sensitive: true
+    - name: gitops-cluster-config_banner_text
+      type: string
+      description: The text that will appear in the top banner in the cluster
+    - name: server_url
+      type: string
+      description: The url for the OpenShift api
+    - name: cluster_login_token
+      type: string
+      description: Token used for authentication
+      sensitive: true
+      
+  outputs:
+    - name: entitlement_key
+      sensitive: true  
+    - name: gitops_repo_token
+      sensitive: true
+    - name: cluster_login_token
+      sensitive: true
