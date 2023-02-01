@@ -1,0 +1,34 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 210-azure-portworx-storage
+  labels:
+    type: software
+    code: '210'
+    platform: azure
+    storage: portworx
+  annotations:
+    displayName: Azure - Portworx Cluster Storage
+    description: Installs Portworx into an OCP cluster on Azure
+spec:
+  version: v1.0.0
+  modules:
+    - name: azure-portworx
+      variables:
+        - name: region
+          scope: global
+        - name: name_prefix
+          scope: global
+        - name: client_id
+          scope: global
+        - name: client_secret
+          scope: global
+        - name: subscription_id
+          scope: global
+        - name: tenant_id
+          scope: global
+        - name: portworx_spec_file
+          scope: global
+          important: true
+        - name: portworx_spec
+          scope: global
