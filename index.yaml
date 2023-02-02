@@ -1,5 +1,3 @@
-Reading index file: /home/runner/work/automation-solutions/automation-solutions/gh-pages/index.yaml
-Releases: []
 apiVersion: cloudnativetoolkit.dev/v2
 kind: Catalog
 metadata:
