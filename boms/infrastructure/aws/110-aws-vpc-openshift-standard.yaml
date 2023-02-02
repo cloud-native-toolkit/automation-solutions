@@ -2,8 +2,15 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: 110-aws-std-openshift-vpc
+  labels:
+    type: infrastructure
+    code: '110'
+    platform: aws
+  annotations:
+    displayName: AWS OpenShift Standard
+    description: Provision OpenShift on AWS
 spec:
-  version: v1.0.0
+  version: v1.0.1
   modules:
     - name: aws-kms
       alias: storage_kms

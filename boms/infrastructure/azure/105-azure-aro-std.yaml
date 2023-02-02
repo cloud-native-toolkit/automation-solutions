@@ -7,7 +7,7 @@ metadata:
     platform: azure
     code: '105'
   annotations:
-    displayName: Azure Red Hat OpenShift (ARO) Quickstart
+    displayName: Azure Red Hat OpenShift (ARO) Standard
     description: Azure ARO for Standard Architecture
     vpn/required: 'true'
 spec:

@@ -2,8 +2,15 @@ apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
   name: 105-aws-vpc-openshift
+  labels:
+    type: infrastructure
+    code: '105'
+    platform: aws
+  annotations:
+    displayName: AWS OpenShift Quickstart
+    description: Provision OpenShift on AWS
 spec:
-  version: v1.0.0
+  version: v1.0.1
   modules:
     - name: aws-kms
       alias: aws-kms  

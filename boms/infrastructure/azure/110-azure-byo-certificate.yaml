@@ -5,12 +5,12 @@ metadata:
   labels:
     type: infrastructure
     platform: azure
-    code: '110'
+    code: '111'
   annotations:
     displayName: Supplied Certificate
     description: Supplied Certificate for OpenShift
 spec:
-  version: v1.0.0
+  version: v1.0.1
   modules:
     - name: ocp-ipi-certs
       alias: api-certs

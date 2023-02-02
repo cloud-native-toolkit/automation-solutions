@@ -7,11 +7,11 @@ metadata:
     platform: azure
     code: '101'
   annotations:
-    displayName: Azure VNet
+    displayName: Azure Red Hat OpenShift Standard
     description: Azure base infrastructure for OpenShift standard architecture
     vpn/required: false
 spec:
-  version: v1.0.0
+  version: v1.0.1
   modules:
     # Resource Group
     - name: azure-resource-group
