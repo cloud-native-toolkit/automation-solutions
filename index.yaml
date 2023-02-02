@@ -436,7 +436,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/400-mas-core-multicloud.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms_old/software/maximo/400-mas-core-multicloud.yaml
   - name: 405-mas-manage
     displayName: Maximo - Manage Application
     description: GitOps deployment of Maximo Manage application for OpenShift
@@ -448,7 +448,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/405-mas-manage.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms_old/software/maximo/405-mas-manage.yaml
   - name: 410-mas-iot
     displayName: Maximo - IoT Application
     description: GitOps deployment of Maximo IoT application for OpenShift
@@ -460,7 +460,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/410-mas-iot.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms_old/software/maximo/410-mas-iot.yaml
   - name: 415-mas-monitor
     displayName: Maximo - Monitor Application
     description: GitOps deployment of Maximo Monitor application for OpenShift
@@ -472,7 +472,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/415-mas-monitor.yaml
+        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms_old/software/maximo/415-mas-monitor.yaml
   - name: 700-cp4s-multicloud
     displayName: 700-cp4s-multicloud
     description: Layer for 700-cp4s-multicloud
