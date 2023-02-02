@@ -1,3 +1,5 @@
+Reading index file: /home/runner/work/automation-solutions/automation-solutions/gh-pages/index.yaml
+Releases: []
 apiVersion: cloudnativetoolkit.dev/v2
 kind: Catalog
 metadata:
@@ -51,7 +53,7 @@ metadata:
 modules: []
 boms:
   - name: infra-ibmcloud-quickstart
-    displayName: "Infrastructure: IBM Cloud Quickstart"
+    displayName: 'Infrastructure: IBM Cloud Quickstart'
     description: IBM Cloud simple architecture to quickly get an OpenShift cluster provisioned ideal for Demos
     category: infrastructure
     type: solution
@@ -61,7 +63,7 @@ boms:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/ibmcloud/infra-ibmcloud-quickstart.yaml
   - name: infra-ibmcloud-standard
-    displayName: "Infrastructure: IBM Cloud Standard"
+    displayName: 'Infrastructure: IBM Cloud Standard'
     description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
     category: infrastructure
     type: solution
@@ -71,7 +73,7 @@ boms:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/ibmcloud/infra-ibmcloud-standard.yaml
   - name: infra-azure-quickstart
-    displayName: "Infrastructure: Azure Quickstart"
+    displayName: 'Infrastructure: Azure Quickstart'
     description: Azure simple architecture to quickly get an OpenShift cluster provisioned, ideal for demos
     category: infrastructure
     type: solution
@@ -81,7 +83,7 @@ boms:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/azure/infra-azure-quickstart.yaml
   - name: infra-azure-standard
-    displayName: "Infrastructure: Azure Standard"
+    displayName: 'Infrastructure: Azure Standard'
     description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
     category: infrastructure
     type: solution
@@ -91,7 +93,7 @@ boms:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/azure/infra-azure-standard.yaml
   - name: infra-aws-quickstart
-    displayName: "Infrastructure: AWS Quickstart"
+    displayName: 'Infrastructure: AWS Quickstart'
     description: AWS simple architecture to quickly get an OpenShift cluster provisioned, ideal for demos
     category: infrastructure
     type: solution
@@ -101,7 +103,7 @@ boms:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/solutions/infrastructure/aws/infra-aws-quickstart.yaml
   - name: infra-aws-standard
-    displayName: "Infrastructure: AWS Standard"
+    displayName: 'Infrastructure: AWS Standard'
     description: A standard production deployment environment with typical security protections, private endpoints, VPN server, key management encryption, ideal for POC/POT/MVP
     category: infrastructure
     type: solution
