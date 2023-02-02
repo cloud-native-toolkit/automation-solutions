@@ -7,7 +7,7 @@ metadata:
     platform: azure
     code: '101'
   annotations:
-    displayName: Azure Red Hat OpenShift Standard
+    displayName: Azure vnet Standard
     description: Azure base infrastructure for OpenShift standard architecture
     vpn/required: false
 spec:

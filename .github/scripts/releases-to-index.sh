@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-INDEX_FILE="${1:-index.yaml}"
+INPUT_FILE="${1:-index.yaml}"
+OUTPUT_FILE="${2:-/dev/stdout}"
 
 if ! command -v yq 1> /dev/null 2> /dev/null; then
   echo "yq not installed" 1>&2
@@ -16,7 +17,7 @@ RELEASES=$(</dev/stdin)
 
 BASE_URL="https://github.com/cloud-native-toolkit/automation-solutions/releases/download"
 
-INDEX_JSON=$(yq e '.' -o json "${INDEX_FILE}")
+INDEX_JSON=$(yq e '.' -o json "${INPUT_FILE}")
 
 while read -r release; do
   name=$(echo "${release}" | jq -r '.name')
@@ -32,7 +33,13 @@ while read -r release; do
 
   release_json=$(echo "${INDEX_JSON}" | jq --arg name "${name}" -c '.boms[] | select(.name == $name)')
   if [[ -n "${release_json}" ]]; then
-    versions=$(echo "${release_json}" | jq -c --argjson version "${version_json}" '.versions | reverse | . += [$version] | reverse')
+    versions=$(echo "${release_json}" | jq -c '.versions')
+
+    if [[ $(echo "${versions}" | jq -r --arg version "${version}" '.[] | select(.version == $version) | .version // ""') == "${version}" ]]; then
+      versions=$(echo "${versions}" | jq -c --arg version "${version}" --arg url "${release_url}" 'map((select(.version == $version) | .metadataUrl) |= $url)')
+    else
+      versions=$(echo "${versions}" | jq -c --argjson version "${version_json}" '. | reverse | . += [$version] | reverse')
+    fi
 
     release_json=$(echo "${release_json}" | jq -c --argjson versions "${versions}" '.versions = $versions')
 
@@ -45,4 +52,4 @@ while read -r release; do
 
 done < <(echo "${RELEASES}" | jq -c '.[]')
 
-echo "${INDEX_JSON}" | yq e -P '.' -
+echo "${INDEX_JSON}" | yq e -P '.' - > "${OUTPUT_FILE}"

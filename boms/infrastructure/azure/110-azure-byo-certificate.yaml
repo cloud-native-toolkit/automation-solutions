@@ -1,11 +1,11 @@
 apiVersion: cloud.ibm.com/v1alpha1
 kind: BillOfMaterial
 metadata:
-  name: 111-supplied-certificate
+  name: 110-supplied-certificate
   labels:
     type: infrastructure
     platform: azure
-    code: '111'
+    code: '110'
   annotations:
     displayName: Supplied Certificate
     description: Supplied Certificate for OpenShift

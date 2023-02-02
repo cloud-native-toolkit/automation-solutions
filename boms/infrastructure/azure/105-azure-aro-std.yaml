@@ -8,7 +8,7 @@ metadata:
     code: '105'
   annotations:
     displayName: Azure Red Hat OpenShift (ARO) Standard
-    description: Azure ARO for Standard Architecture
+    description: Azure ARO managed OpenShift for Standard Architecture
     vpn/required: 'true'
 spec:
   version: v1.0.0

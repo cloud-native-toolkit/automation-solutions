@@ -66,6 +66,10 @@ jobs:
           output_file="/tmp/output/index.yaml"
           
           cd main
+
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          
           echo "${{ steps.changed-files.outputs.all_changed_files }}" | \
             tr " " "\n" | xargs -I{} echo "${PWD}/{}" | \
             .github/scripts/bom-changes-to-details.sh | \
