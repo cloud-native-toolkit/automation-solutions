@@ -25,9 +25,10 @@ while read -r bom; do
   fi
 
   echo "  Creating tag: ${release_name}" 1>&2
-  git tag -a "${release_name}" -m "${version} release of ${name} bom" 1> /dev/null 2> /dev/null
+  git tag -a "${release_name}" -m "${version} release of ${name} bom" 1> /dev/null
   git push --tags 1> /dev/null 2> /dev/null
 
+  echo "  Copying asset to /tmp/asset/${name}" 1>&2
   mkdir -p "/tmp/asset/${name}" 1> /dev/null
   cp "${file}" "/tmp/asset/${name}/bom.yaml" 1> /dev/null
 
@@ -37,7 +38,7 @@ while read -r bom; do
     --title "${release_name}" \
     --notes "${version} release of ${name} bom" \
     --repo "${REPO}" \
-    "/tmp/asset/${name}/bom.yaml" 1> /dev/null 2> /dev/null || continue
+    "/tmp/asset/${name}/bom.yaml" 1> /dev/null || continue
 
   echo "Release created: ${release_name}" 1>&2
   RELEASES=$(echo "${RELEASES}" | jq --argjson bom "${bom}" '. += [$bom]')

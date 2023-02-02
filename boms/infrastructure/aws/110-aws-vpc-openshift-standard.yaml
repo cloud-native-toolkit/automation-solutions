@@ -7,8 +7,8 @@ metadata:
     code: '110'
     platform: aws
   annotations:
-    displayName: AWS OpenShift Standard
-    description: Provision OpenShift on AWS
+    displayName: AWS OpenShift (ROSA) Standard
+    description: Provision ROSA managed OpenShift on AWS
 spec:
   version: v1.0.1
   modules:
