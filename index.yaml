@@ -127,13 +127,15 @@ boms:
     cloudProvider: ibm
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/ibmcloud/openshift/2-standard/100-ibm-shared-services.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/100-ibm-shared-services_v1.0.0/bom.yaml
   - name: 105-existing-openshift
     displayName: Existing OpenShift
     description: Existing OpenShift cluster
     category: infrastructure
     type: bom
     versions:
+      - version: v1.0.1
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-existing-openshift_v1.0.1/bom.yaml
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-existing-openshift_v1.0.0/bom.yaml
   - name: 110-ibm-vpc-edge-standard
@@ -144,7 +146,7 @@ boms:
     cloudProvider: ibm
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/ibmcloud/openshift/2-standard/110-ibm-vpc-edge-standard.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/110-ibm-vpc-edge-standard_v1.0.0/bom.yaml
   - name: 115-ibm-vpc-openshift-standard
     displayName: IBM VPC OpenShift Standard
     description: IBM VPC with VPN, Bastion servers, and OpenShift
@@ -153,16 +155,7 @@ boms:
     cloudProvider: ibm
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/ibmcloud/openshift/2-standard/115-ibm-vpc-openshift-standard.yaml
-  - name: 115-ibm-vpc-openshift-standard
-    displayName: IBM VPC OpenShift Standard
-    description: IBM VPC with VPN, Bastion servers, and OpenShift
-    category: infrastructure
-    type: bom
-    cloudProvider: ibm
-    versions:
-      - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/ibmcloud/openshift/2-standard/115-ibm-vpc-openshift-standard.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/115-ibm-vpc-openshift-standard_v1.0.0/bom.yaml
   - name: 105-ibm-vpc-openshift
     displayName: IBM Simple VPC OpenShift
     description: IBM VPC and public Red Hat OpenShift server
@@ -190,7 +183,7 @@ boms:
     cloudProvider: azure
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/openshift-aro/1-quickstart/105-azure-aro.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-aro_v1.0.0/bom.yaml
   - name: 101-azure-vnet-std
     displayName: Azure VNet
     description: Azure base infrastructure for OpenShift standard architecture
@@ -204,7 +197,7 @@ boms:
     cloudProvider: azure
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/openshift-aro/2-standard/101-azure-vnet-std.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/101-azure-vnet-std_v1.0.0/bom.yaml
   - name: 105-azure-aro-std
     displayName: Azure Red Hat OpenShift (ARO) Standard
     description: Azure ARO for Standard Architecture
@@ -218,7 +211,7 @@ boms:
     cloudProvider: azure
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/openshift-aro/2-standard/105-azure-aro-std.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-aro-std_v1.0.0/bom.yaml
   - name: 105-aws-vpc-openshift
     displayName: Red Hat OpenShift on AWS (ROSA) Quickstart
     description: AWS ROSA for Quickstart Architecture
@@ -232,7 +225,7 @@ boms:
     cloudProvider: aws
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/aws/openshift/1-quickstart/105-aws-vpc-openshift.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-aws-vpc-openshift_v1.0.0/bom.yaml
   - name: 110-aws-std-openshift-vpc
     displayName: Red Hat OpenShift on AWS (ROSA) Standard
     description: AWS ROSA for Standard Architecture
@@ -246,7 +239,7 @@ boms:
     cloudProvider: aws
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/aws/openshift/2-standard/110-aws-vpc-openshift-standard.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/110-aws-std-openshift-vpc_v1.0.0/bom.yaml
   - name: 200-openshift-gitops
     displayName: OpenShift GitOps Bootstrap
     description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
@@ -301,7 +294,7 @@ boms:
     cloudProvider: azure
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/azure/_common/storage/210-azure-portworx-storage.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/210-azure-portworx-storage_v1.0.0/bom.yaml
   - name: 210-aws-portworx-storage
     displayName: AWS - Portworx Cluster Storage
     description: Installs Portworx in an AWS cluster
@@ -315,7 +308,7 @@ boms:
     cloudProvider: aws
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/infrastructure/aws/_common/storage/210-aws-portworx-storage.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/210-aws-portworx-storage_v1.0.0/bom.yaml
   - name: 220-dev-tools
     displayName: OpenShift development tools
     description: Provisions development tools in an OpenShift cluster
@@ -353,7 +346,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/215-integration-platform-navigator.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/215-integration-platform-navigator_v1.0.0/bom.yaml
   - name: 220-integration-apiconnect
     displayName: Integration - APIConnect
     description: GitOps deployment of API Connect for Cloud pak for Integration
@@ -366,7 +359,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/220-integration-apiconnect.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/220-integration-apiconnect_v1.0.0/bom.yaml
   - name: 230-integration-mq
     displayName: Integration - MQ
     description: GitOps deployment of MQ for Cloud pak for Integration
@@ -379,7 +372,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/230-integration-mq.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/230-integration-mq_v1.0.0/bom.yaml
   - name: 240-integration-ace
     displayName: Integration - App Connect
     description: GitOps deployment of App Connect for Cloud pak for Integration
@@ -392,7 +385,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/240-integration-ace.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/240-integration-ace_v1.0.0/bom.yaml
   - name: 250-integration-eventstreams
     displayName: Integration - EventStreams
     description: GitOps deployment of EventStreams for Cloud pak for Integration
@@ -405,7 +398,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/250-integration-eventstreams.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/250-integration-eventstreams_v1.0.0/bom.yaml
   - name: 260-integration-mq-uniform-cluster
     displayName: Integration - MQ Uniform Cluster
     description: GitOps deployment of MQ Uniform Cluster for Cloud pak for Integration
@@ -418,7 +411,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/260-integration-mq-uniform-cluster.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/260-integration-mq-uniform-cluster_v1.0.0/bom.yaml
   - name: 280-integration-platform-multicloud
     displayName: Cloud Pak for Integration
     description: GitOps deployment of Cloud Pak for Integration and components
@@ -431,7 +424,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/integration/cp4i-2021-4-1/280-integration-platform-multicloud.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/280-integration-platform-multicloud_v1.0.0/bom.yaml
   - name: 400-mas-core-multicloud
     displayName: Maximo - Core
     description: GitOps deployment of Maximo Application Suite Core for OpenShift
@@ -480,3 +473,52 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms/software/maximo/415-mas-monitor.yaml
+  - name: 700-cp4s-multicloud
+    displayName: 700-cp4s-multicloud
+    description: Layer for 700-cp4s-multicloud
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/700-cp4s-multicloud_v1.0.0/bom.yaml
+  - name: 300-cloud-pak-for-data-foundation
+    displayName: 300-cloud-pak-for-data-foundation
+    description: Layer for 300-cloud-pak-for-data-foundation
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/300-cloud-pak-for-data-foundation_v1.0.0/bom.yaml
+  - name: 111-supplied-certificate
+    displayName: 111-supplied-certificate
+    description: Layer for 111-supplied-certificate
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/111-supplied-certificate_v1.0.0/bom.yaml
+  - name: 110-azure-acme-certificate
+    displayName: 110-azure-acme-certificate
+    description: Layer for 110-azure-acme-certificate
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/110-azure-acme-certificate_v1.0.0/bom.yaml
+  - name: 105-azure-vnet-openshift
+    displayName: 105-azure-vnet-openshift
+    description: Layer for 105-azure-vnet-openshift
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-vnet-openshift_v1.0.0/bom.yaml
+  - name: 105-azure-ocp-ipi
+    displayName: 105-azure-ocp-ipi
+    description: Layer for 105-azure-ocp-ipi
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-ocp-ipi_v1.0.0/bom.yaml
+  - name: 210-existing-storage
+    displayName: 210-existing-storage
+    description: Layer for 210-existing-storage
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/210-existing-storage_v1.0.0/bom.yaml
