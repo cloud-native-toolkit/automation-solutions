@@ -1,0 +1,23 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 405-mas-manage
+  labels:
+    type: software
+    code: '405'
+  annotations:
+    displayName: Maximo Application Suite - Manage Application
+    description: GitOps deployment of Maximo Manage application for OpenShift
+    deployment-type/gitops: "true"
+spec:
+  version: v1.0.0
+  modules:
+    - name: gitops-repo
+
+  # Maximo Application Suite - Manage
+    - name: gitops-mas-manage
+      variables:
+        - name: instanceid
+          value: masdemo
+        - name: workspace_id
+          value: demo
