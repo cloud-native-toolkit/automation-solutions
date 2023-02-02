@@ -442,7 +442,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms_old/software/maximo/400-mas-core-multicloud.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/400-mas-core-multicloud_v1.0.0/bom.yaml
   - name: 405-mas-manage
     displayName: Maximo - Manage Application
     description: GitOps deployment of Maximo Manage application for OpenShift
@@ -454,7 +454,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms_old/software/maximo/405-mas-manage.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/405-mas-manage_v1.0.0/bom.yaml
   - name: 410-mas-iot
     displayName: Maximo - IoT Application
     description: GitOps deployment of Maximo IoT application for OpenShift
@@ -466,7 +466,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms_old/software/maximo/410-mas-iot.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/410-mas-iot_v1.0.0/bom.yaml
   - name: 415-mas-monitor
     displayName: Maximo - Monitor Application
     description: GitOps deployment of Maximo Monitor application for OpenShift
@@ -478,7 +478,7 @@ boms:
     type: bom
     versions:
       - version: v1.0.0
-        metadataUrl: https://raw.githubusercontent.com/cloud-native-toolkit/automation-solutions/main/boms_old/software/maximo/415-mas-monitor.yaml
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/415-mas-monitor_v1.0.0/bom.yaml
   - name: 700-cp4s-multicloud
     displayName: 700-cp4s-multicloud
     description: Layer for 700-cp4s-multicloud
