@@ -25,6 +25,7 @@ esac
 case "$GENERATE_TARGET" in
   "all" | "software" | "s")
     iascable build -i ./160-ibm-zdev-openshift-dev-tools.yaml -o $GENERATE_DESTINATION -c https://modules.cloudnativetoolkit.dev/index.yaml
+    iascable build -i ./165-ibm-openshift-wazi-dev-tools.yaml -o $GENERATE_DESTINATION -c https://modules.cloudnativetoolkit.dev/index.yaml
   ;;
 esac
 
