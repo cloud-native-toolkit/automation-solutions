@@ -13,7 +13,7 @@ metadata:
     dependencies.cloudnativetoolkit.dev/provides_gitops: gitops_repo
     dependencies.cloudnativetoolkit.dev/needs_cluster: cluster
 spec:
-  version: v1.0.0
+  version: v1.0.1
   modules:
     # Login to existing OpenShift cluster
     - name: ocp-login

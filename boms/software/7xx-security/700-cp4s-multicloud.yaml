@@ -10,7 +10,7 @@ metadata:
     displayName: IBM Cloud Pak for Security
     description: Populates a GitOps repository with the components of IBM Cloud Pak for Security
 spec:
-  version: v1.0.1
+  version: v1.0.2
   modules:
     # Create the GitOps Repo
     - name: gitops-repo
