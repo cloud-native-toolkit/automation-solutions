@@ -8,6 +8,10 @@ metadata:
   annotations:
     displayName: OpenShift GitOps Bootstrap
     description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
+    dependencies.cloudnativetoolkit.dev/provides: gitops
+    dependencies.cloudnativetoolkit.dev/needs: cluster
+    dependencies.cloudnativetoolkit.dev/provides_gitops: gitops_repo
+    dependencies.cloudnativetoolkit.dev/needs_cluster: cluster
 spec:
   version: v1.0.0
   modules:

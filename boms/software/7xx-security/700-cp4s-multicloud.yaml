@@ -27,23 +27,27 @@ spec:
       variables:
         - name: name
           value: cp4s
+    - name: gitops-namespace
+      alias: operator-namespace
+      variables:
+        - name: name
+          value: openshift-operators
+    - name: gitops-namespace
+      alias: knative-serving-namespace
+      variables:
+        - name: name
+          value: knative-serving
 
     
     # Installs Serverless operator and Knative Serving
     - name: gitops-serverless-operator
       dependencies:
         - name: namespace
-          optional: true
-      variables:
-        - name: namespace
-          value: openshift-operators
+          ref: operator-namespace
     - name: gitops-knative-serving
       dependencies:
         - name: namespace
-          optional: true
-      variables:
-        - name: namespace
-          value: knative-serving
+          ref: knative-serving-namespace
 
     # Installs CP4S operator and instance
     - name: gitops-cp4s
@@ -59,3 +63,18 @@ spec:
           scope: global
         - name: roks_auth
           value: false
+        - name: gitops-cp4s_admin_user
+          alias: gitops_cp4s_admin_user
+          sensitive: true
+          scope: global
+
+  variables:
+    - name: gitops_repo_repo
+      value: gitops-cp4s
+    # - name: gitops_cp4s_admin_user
+    #   sensitive: true
+    - name: gitops-cp4s_admin_user
+      sensitive: true
+    - name: entitlement_key
+      sensitive: true
+    

@@ -25,13 +25,14 @@ spec:
     - name: gitops_repo_host
     - name: gitops_repo_username
     - name: gitops_repo_token
+    - name: gitops_repo_repo
+      value: gitops-cp4s
+    # - name: gitops-cp4s_admin_user
+    #   sensitive: true
     - name: entitlement_key
-      sensitive: true
-    - name: gitops-cp4s_admin_user
-      sensitive: true
-    - name: gitops-cp4s_admin_user    
       sensitive: true
     - name: cluster_login_token
       sensitive: true
     - name: server_url
+    - name: cluster_ingress_subdomain
     
