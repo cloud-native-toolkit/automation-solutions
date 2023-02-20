@@ -484,6 +484,8 @@ boms:
     description: Layer for 700-cp4s-multicloud
     type: bom
     versions:
+      - version: v1.0.1
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/700-cp4s-multicloud_v1.0.1/bom.yaml
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/700-cp4s-multicloud_v1.0.0/bom.yaml
   - name: 300-cloud-pak-for-data-foundation
