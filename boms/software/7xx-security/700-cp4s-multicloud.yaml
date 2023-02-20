@@ -10,7 +10,7 @@ metadata:
     displayName: IBM Cloud Pak for Security
     description: Populates a GitOps repository with the components of IBM Cloud Pak for Security
 spec:
-  version: v1.0.0
+  version: v1.0.1
   modules:
     # Create the GitOps Repo
     - name: gitops-repo
@@ -27,6 +27,23 @@ spec:
       variables:
         - name: name
           value: cp4s
+
+    
+    # Installs Serverless operator and Knative Serving
+    - name: gitops-serverless-operator
+      dependencies:
+        - name: namespace
+          optional: true
+      variables:
+        - name: namespace
+          value: openshift-operators
+    - name: gitops-knative-serving
+      dependencies:
+        - name: namespace
+          optional: true
+      variables:
+        - name: namespace
+          value: knative-serving
 
     # Installs CP4S operator and instance
     - name: gitops-cp4s

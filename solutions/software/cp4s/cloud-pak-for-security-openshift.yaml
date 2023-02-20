@@ -1,0 +1,37 @@
+apiVersion: cloudnativetoolkit.dev/v2
+kind: Solution
+metadata:
+  name: cloud-pak-for-security-openshift
+  labels:
+    type: infrastructure
+    platform: ibm
+    flavor: standard
+  annotations:
+    displayName: "Software: IBM Cloud Pak for Security"
+    description: Automation to deploy IBM Cloud Pak for Security on Top of RedHat OpenShift
+spec:
+  version: v1.0.1
+  stack: 
+    - name: 105-existing-openshift
+      layer: software
+      description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
+    - name:  200-openshift-gitops
+      layer: software
+      description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
+    - name: 700-cp4s-multicloud
+      layer: software
+      description: Deploy IBM Cloud Pak for Security and it's dependencies in an OpenShift cluster
+  variables:
+    - name: gitops_repo_host
+    - name: gitops_repo_username
+    - name: gitops_repo_token
+    - name: entitlement_key
+      sensitive: true
+    - name: gitops-cp4s_admin_user
+      sensitive: true
+    - name: gitops-cp4s_admin_user    
+      sensitive: true
+    - name: cluster_login_token
+      sensitive: true
+    - name: server_url
+    

@@ -1,0 +1,132 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 165-ibm-openshift-wazi-dev-tools
+  labels:
+    type: infrastructure
+    platform: ibm
+    code: '165'
+  annotations:
+    displayName: OpenShift Developer Tools and Wazi for Dev Spaces installation on an existing OpenShift cluster
+    description: Open-Source collection of assets for application development on OpenShift, including Wazi for Dev Spaces
+    vpn/required: "false"
+    deployment-type/gitops: "true"
+spec:
+  modules:
+    - name: ocp-login
+
+    # - name: namespace
+    #   alias: tools_namespace
+    #   default: true
+    #   variables:
+    #     - name: name
+    #       value: tools
+    - name: namespace
+      alias: openshift-gitops
+      variables:
+        - name: name
+          value: openshift-gitops
+      dependencies:
+        - id: namespace
+          ref: openshift-gitops
+
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+      variables:
+        - name: ca_cert
+          value: ""
+        - name: ca_cert_file
+          value: ""
+
+    # - name: dashboard
+    # - name: pactbroker
+    # - name: artifactory
+    # - name: sonarqube
+    # - name: tekton-resources
+    # - name: source-control
+
+    - name: gitops-repo
+
+    - name: argocd-bootstrap
+      variables:
+        - name: create_webhook
+          value: true
+
+    - name: gitops-namespace
+      alias: tools_namespace
+      default: true
+      version: v1.12.2
+      variables:
+        - name: name
+          value: tools
+
+    - name: gitops-namespace
+      alias: wazi_namespace
+      version: v1.12.2
+      variables:
+        - name: name
+          value: wazi-devspaces
+
+    - name: gitops-cluster-config
+      variables:
+        - name: banner_text
+          value: Z/OS Development
+      dependencies:
+        - id: namespace
+          ref: tools_namespace
+
+    # - name: gitops-artifactory
+    #   dependencies:
+    #     - id: namespace
+    #       ref: tools_namespace
+    # - name: gitops-dashboard
+    #   dependencies:
+    #     - id: namespace
+    #       ref: tools_namespace
+    # - name: gitops-pact-broker
+    #   dependencies:
+    #     - id: namespace
+    #       ref: tools_namespace
+    # - name: gitops-sonarqube
+    #   dependencies:
+    #     - id: namespace
+    #       ref: tools_namespace
+    - name: gitops-tekton-resources
+      dependencies:
+        - id: namespace
+          ref: tools_namespace
+#   - name: gitops-image-registry
+      # dependencies:
+      #   - id: namespace
+      #     ref: tools_namespace
+    - name: gitops-wazi-ds
+      dependencies:
+        - id: namespace
+          ref: wazi_namespace
+    - name: gitops-wazi-ds-op
+      dependencies:
+        - id: namespace
+          ref: wazi_namespace
+    
+  variables:
+    - name: zos_resource_group_name
+    - name: region
+    - name: ibmcloud_api_key
+    - name: name_prefix
+      alias: zos_name_prefix
+      required: true
+      scope: global
+    - name: registry_namespace
+      required: true
+    - name: tools_name
+      value: tools
+    - name: sealed-secret_name
+      value: sealed-secrets
