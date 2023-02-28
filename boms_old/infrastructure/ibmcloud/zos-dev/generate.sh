@@ -15,7 +15,6 @@ echo "GENERATE_DESTINATION: $GENERATE_DESTINATION"
 
 case "$GENERATE_TARGET" in
   "all" | "infra" | "infrastructure" | "i")
-    iascable build -i ./000-ibm-zdev-account-setup.yaml -o $GENERATE_DESTINATION
     iascable build -i ./100-ibm-zdev-shared-services.yaml -o $GENERATE_DESTINATION
     iascable build -i ./110-ibm-zdev-network-vpc.yaml -o $GENERATE_DESTINATION
     iascable build -i ./120-ibm-zdev-network-vpc-openshift.yaml -o $GENERATE_DESTINATION
