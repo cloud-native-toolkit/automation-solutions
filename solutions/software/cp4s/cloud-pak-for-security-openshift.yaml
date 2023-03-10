@@ -35,9 +35,8 @@ spec:
       sensitive: true
     - name: server_url
     - name: cluster_ingress_subdomain
-    - name: config_banner_text
-      value: Cloud Pak for Security
-      default: Cloud Pak for Security
     - name: gitops-cp4s_roks_auth
       description: Whether ROKS (RedHat OpenShift on IBM Cloud) authentication need to be enabled (true|false)
+    - name: gitops-cp4s_orchestration_automation_license  
+      description: Orchestration & Automation license
     
