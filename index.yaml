@@ -182,6 +182,8 @@ boms:
     type: bom
     cloudProvider: azure
     versions:
+      - version: v1.0.1
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-aro_v1.0.1/bom.yaml
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-aro_v1.0.0/bom.yaml
   - name: 101-azure-vnet-std
@@ -212,6 +214,8 @@ boms:
     type: bom
     cloudProvider: azure
     versions:
+      - version: v1.0.1
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-aro-std_v1.0.1/bom.yaml
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-aro-std_v1.0.0/bom.yaml
   - name: 105-aws-vpc-openshift
@@ -518,6 +522,8 @@ boms:
     description: Layer for 105-azure-vnet-openshift
     type: bom
     versions:
+      - version: v1.0.1
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-vnet-openshift_v1.0.1/bom.yaml
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-vnet-openshift_v1.0.0/bom.yaml
   - name: 105-azure-ocp-ipi
@@ -525,6 +531,8 @@ boms:
     description: Layer for 105-azure-ocp-ipi
     type: bom
     versions:
+      - version: v1.0.1
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-ocp-ipi_v1.0.1/bom.yaml
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/105-azure-ocp-ipi_v1.0.0/bom.yaml
   - name: 210-existing-storage
