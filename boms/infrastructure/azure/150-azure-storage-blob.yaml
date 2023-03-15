@@ -1,0 +1,19 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 150-azure-storage-blob
+  labels:
+    type: infrastructure
+    platform: azure
+    code: '150'
+  annotations:
+    displayName: Azure Storage Blob
+    description: Provision a storage blob on Azure
+    vpn/required: 'false'
+spec:
+  version: v1.0.0
+  modules:
+    - name: azure-resource-group
+      alias: blob_resource_group
+      default: true
+    - name: azure-storage-blob
