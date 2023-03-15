@@ -549,3 +549,10 @@ boms:
     versions:
       - version: v1.0.1
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/110-supplied-certificate_v1.0.1/bom.yaml
+  - name: 150-azure-storage-blob
+    displayName: 150-azure-storage-blob
+    description: Layer for 150-azure-storage-blob
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/150-azure-storage-blob_v1.0.0/bom.yaml
