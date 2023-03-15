@@ -9,8 +9,10 @@ metadata:
   annotations:
     displayName: Azure VNet OpenShift
     description: Azure VNet and Red Hat OpenShift (ARO) servers
+    dependencies.cloudnativetoolkit.dev/provides: cluster
+    dependencies.cloudnativetoolkit.dev/provides_cluster: azure-ocp-ipi
 spec:
-  version: v1.0.0
+  version: v1.0.1
   modules:
     - name: azure-resource-group
     - name: azure-vnet

@@ -10,8 +10,10 @@ metadata:
     displayName: Azure Red Hat OpenShift (ARO) Standard
     description: Azure ARO managed OpenShift for Standard Architecture
     vpn/required: 'true'
+    dependencies.cloudnativetoolkit.dev/provides: cluster
+    dependencies.cloudnativetoolkit.dev/provides_cluster: azure-aro
 spec:
-  version: v1.0.0
+  version: v1.0.1
   modules:
     - name: azure-resource-group
       alias: resource_group
