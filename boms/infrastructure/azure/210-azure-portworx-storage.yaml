@@ -11,7 +11,7 @@ metadata:
     displayName: Azure - Portworx Cluster Storage
     description: Installs Portworx into an OCP cluster on Azure
 spec:
-  version: v1.0.0
+  version: v1.1.0
   modules:
     - name: azure-portworx
       variables:
@@ -19,13 +19,17 @@ spec:
           scope: global
         - name: name_prefix
           scope: global
-        - name: client_id
+        - name: azure_client_id
+          alias: client_id
           scope: global
-        - name: client_secret
+        - name: azure_client_secret
+          alias: client_secret
           scope: global
-        - name: subscription_id
+        - name: azure_subscription_id
+          alias: subscription_id
           scope: global
-        - name: tenant_id
+        - name: azure_tenant_id
+          alias: tenant_id
           scope: global
         - name: portworx_spec_file
           scope: global
