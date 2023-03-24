@@ -461,6 +461,8 @@ boms:
     category: software
     type: bom
     versions:
+      - version: v2.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/405-mas-manage_v2.0.0/bom.yaml
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/405-mas-manage_v1.0.0/bom.yaml
   - name: 410-mas-iot
@@ -558,3 +560,10 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/150-azure-storage-blob_v1.0.0/bom.yaml
+  - name: 400-mas-core
+    displayName: 400-mas-core
+    description: Layer for 400-mas-core
+    type: bom
+    versions:
+      - version: v2.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/400-mas-core_v2.0.0/bom.yaml
