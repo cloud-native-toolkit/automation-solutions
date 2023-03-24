@@ -21,6 +21,12 @@ bom_details() {
   display_name=$(yq e '.metadata.annotation.displayName // ""' "${bom}")
   description=$(yq e '.metadata.annotation.description // ""' "${bom}")
   category=$(yq e '.metadata.labels.type // ""' "${bom}")
+  if [[ "${bom}" =~ ^solutions ]]; then
+    type="solution"
+  else
+    type="bom"
+  fi
+
   release_name="${name}_${version}"
 
   if [[ -z "${display_name}" ]]; then
@@ -30,7 +36,7 @@ bom_details() {
     description="Layer for ${name}"
   fi
 
-  RESULT=$(echo "${RESULT}" | jq --arg name "${name}" --arg file "${bom}" --arg version "${version}" --arg release "${release_name}" --arg displayName "${display_name}" --arg description "${description}" --arg category "${category}" '. += [{"name": $name, "version": $version, "release_name": $release, "display_name": $displayName, "description": $description, "category": $category, "file": $file}]')
+  RESULT=$(echo "${RESULT}" | jq --arg name "${name}" --arg file "${bom}" --arg version "${version}" --arg release "${release_name}" --arg displayName "${display_name}" --arg description "${description}" --arg category "${category}" --arg type "${type}" '. += [{"name": $name, "version": $version, "release_name": $release, "display_name": $displayName, "description": $description, "category": $category, "file": $file, "type": $type}]')
 }
 
 if [[ -n "${CHANGED_BOMS}" ]]; then

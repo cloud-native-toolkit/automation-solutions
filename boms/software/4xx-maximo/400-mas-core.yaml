@@ -1,0 +1,50 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 400-mas-core
+  labels:
+    type: software
+    code: '400'
+  annotations:
+    displayName: Maximo Application Suite Core
+    description: GitOps deployment of Maximo Application Suite Core for OpenShift
+    deployment-type/gitops: "true"
+spec:
+  version: v2.0.0
+  modules:
+    - name: ocp-login
+
+    - name: gitops-namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
+    - name: gitops-repo
+
+    # Storage Class Manager
+    - name: util-storage-class-manager
+      variables:
+        - name: rwx_storage_class
+          scope: global
+        - name: rwo_storage_class
+          scope: global
+        - name: file_storage_class
+          scope: global
+        - name: block_storage_class
+          scope: global
+
+    # Maximo Core
+    - name: gitops-mas-core
+      variables:
+        - name: license_key
+          important: true
+        - name: license_key_file
+          important: true
+
+    - name: util-mas-core-ready

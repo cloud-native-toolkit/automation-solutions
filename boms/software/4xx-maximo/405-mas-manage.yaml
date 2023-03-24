@@ -10,14 +10,9 @@ metadata:
     description: GitOps deployment of Maximo Manage application for OpenShift
     deployment-type/gitops: "true"
 spec:
-  version: v1.0.0
+  version: v2.0.0
   modules:
     - name: gitops-repo
-
-  # Maximo Application Suite - Manage
+    - name: util-mas-core-existing
+    # Maximo Application Suite - Manage
     - name: gitops-mas-manage
-      variables:
-        - name: instanceid
-          value: masdemo
-        - name: workspace_id
-          value: demo

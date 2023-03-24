@@ -26,6 +26,7 @@ while read -r release; do
   display_name=$(echo "${release}" | jq -r '.display_name')
   description=$(echo "${release}" | jq -r '.description')
   category=$(echo "${release}" | jq -r '.category')
+  type=$(echo "${release}" | jq -r '.type')
 
   release_url="${BASE_URL}/${release_name}/bom.yaml"
 
@@ -45,7 +46,7 @@ while read -r release; do
 
     INDEX_JSON=$(echo "${INDEX_JSON}" | jq --arg name "${name}" --argjson bom "${release_json}" '(.boms[] | select(.name == $name)) |= $bom')
   else
-    release_json=$(jq -n -c --arg name "${name}" --arg displayName "${display_name}" --arg description "${description}" --arg category "${category}" --argjson version "${version_json}" '{"name": $name, "displayName": $displayName, "description": $description, "type": "bom", "versions": [$version]}')
+    release_json=$(jq -n -c --arg name "${name}" --arg displayName "${display_name}" --arg description "${description}" --arg category "${category}" --arg type "$type" --argjson version "${version_json}" '{"name": $name, "displayName": $displayName, "description": $description, "type": $type, "versions": [$version]}')
 
     INDEX_JSON=$(echo "${INDEX_JSON}" | jq --arg name "${name}" --argjson bom "${release_json}" '.boms += [$bom]')
   fi

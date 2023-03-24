@@ -26,14 +26,16 @@ jobs:
           path: gh-pages
           ref: refs/heads/gh-pages
 
-      - name: Get changed files in the boms/ folder
+      - name: Get changed files in the boms/ and solutions/ folders
         id: changed-files
         uses: tj-actions/changed-files@v35
         with:
           path: main
-          files: boms/**
+          files: |
+            boms/**
+            solutions/**
 
-      - name: Run step if any file(s) in the boms folder change
+      - name: Run step if any file(s) in the boms/ or solutions/ folder change
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           echo "One or more files in the boms folder has changed."
