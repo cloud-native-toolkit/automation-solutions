@@ -1,0 +1,22 @@
+apiVersion: cloudnativetoolkit.dev/v2
+kind: Solution
+metadata:
+  name: maximo
+  annotations:
+    displayName: "Software: Maximo Application Suite"
+    description: Automation to deploy Maximo Application Suite on Red Hat OpenShift
+spec:
+  version: v1.0.0
+  stack:
+    - name: 105-existing-openshift
+      layer: software
+      description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
+    - name:  200-openshift-gitops
+      layer: software
+      description: Provisions OpenShift GitOps (ArgoCD) into an existing cluster and bootstraps it to a gitops repository
+    - name: 400-mas-core
+      layer: software
+      description: Install MAS Core
+    - name: 405-mas-manage
+      layer: software
+      description: Install MAS Core
