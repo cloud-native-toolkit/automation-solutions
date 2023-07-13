@@ -1,0 +1,31 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 201-dev-tools
+  labels:
+    type: software
+    code: '201'
+  annotations:
+    displayName: OpenShift development tools
+    description: Provisions development tools in a cluster via gitops
+    deployment-type/gitops: "true"
+    vpn/required: "true"
+spec:
+  modules:
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    - name: gitops-namespace
+      alias: tools_namespace
+      default: true
+      variables:
+        - name: name
+          value: tools
+
+    - name: gitops-artifactory
+    - name: gitops-dashboard
+    - name: gitops-pact-broker
+    - name: gitops-sonarqube
+    - name: gitops-tekton
+    - name: gitops-tekton-resources
+    - name: gitops-swagger-editor

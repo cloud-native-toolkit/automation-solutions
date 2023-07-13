@@ -1,0 +1,52 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 200-gitops-starter-openshift
+  labels:
+    type: software
+    code: '200'
+  annotations:
+    displayName: Gitops Starter
+    description: Provisions ArgoCD into an existing OpenShift cluster and bootstraps it to a gitops repository
+    dependencies.cloudnativetoolkit.dev/provides: gitops
+    dependencies.cloudnativetoolkit.dev/needs: cluster
+    dependencies.cloudnativetoolkit.dev/provides_gitops: gitops_repo
+    dependencies.cloudnativetoolkit.dev/needs_cluster: cluster
+spec:
+  version: v1.0.0
+  modules:
+    # Login to existing OpenShift cluster
+    - name: ocp-login
+
+    - name: namespace
+      alias: gitea_namespace
+      variables:
+        - name: name
+          value: gitea
+
+    - name: gitea
+      dependencies:
+        - id: namespace
+          ref: gitea_namespace
+
+    # Create the GitOps Repo
+    - name: gitops-repo
+
+    # Install OpenShift GitOps and Bootstrap GitOps (aka. ArgoCD)
+    - name: gitops-starter
+      variables:
+        - name: create_webhook
+          value: true
+
+    - name: gitops-namespace
+      alias: toolkit_namespace
+      default: true
+      version: v1.12.2
+      variables:
+        - name: name
+          value: toolkit
+
+    - name: gitops-cluster-config
+      alias: config
+    - name: gitops-console-link-job
+    # - name: gitops-buildah-unprivileged Needed only for IBM Cloud
