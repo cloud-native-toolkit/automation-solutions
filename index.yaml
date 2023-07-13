@@ -567,3 +567,17 @@ boms:
     versions:
       - version: v2.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/400-mas-core_v2.0.0/bom.yaml
+  - name: 200-gitops-starter-openshift
+    displayName: 200-gitops-starter-openshift
+    description: Layer for 200-gitops-starter-openshift
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/200-gitops-starter-openshift_v1.0.0/bom.yaml
+  - name: 201-dev-tools
+    displayName: 201-dev-tools
+    description: Layer for 201-dev-tools
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/201-dev-tools_v1.0.0/bom.yaml
