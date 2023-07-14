@@ -581,3 +581,10 @@ boms:
     versions:
       - version: v1.0.0
         metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/201-dev-tools_v1.0.0/bom.yaml
+  - name: devtools-openshift
+    displayName: devtools-openshift
+    description: Layer for devtools-openshift
+    type: bom
+    versions:
+      - version: v1.0.0
+        metadataUrl: https://github.com/cloud-native-toolkit/automation-solutions/releases/download/devtools-openshift_v1.0.0/bom.yaml
